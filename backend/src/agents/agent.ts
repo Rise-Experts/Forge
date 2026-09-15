@@ -226,8 +226,16 @@ export type CreateAgentConfig = {
    * and this is that seam.
    */
   readonly shadow?: ShadowRecorder;
-  /** Test/advanced seam: override how a manifest resolves to a model (e.g. a mock model). */
-  readonly resolveModel?: (manifest: AgentManifest, context: ExecutionContext) => ResolvedModelInfo;
+  /**
+   * Test/advanced seam: override how a manifest resolves to a model (e.g. a mock model).
+   *
+   * May return a promise — see `DefaultEngineDeps.resolveModel`. A host resolving a tenant's own
+   * provider has to read it from somewhere, and that is I/O.
+   */
+  readonly resolveModel?: (
+    manifest: AgentManifest,
+    context: ExecutionContext,
+  ) => ResolvedModelInfo | Promise<ResolvedModelInfo>;
   /** Test/advanced seam: supply the engine directly instead of building the default one. */
   readonly engine?: AgentEngine;
   readonly now?: () => number;

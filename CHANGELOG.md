@@ -22,6 +22,16 @@
 
 ## Unreleased
 
+### Added
+
+- **agents**: `resolveModel` may return a promise, so a host can resolve a tenant's model from a store ([#279](https://github.com/Rise-Experts/retinue/issues/279)).
+
+  The hook has always taken an `ExecutionContext`, which is what makes per-tenant model resolution expressible at all — but it was called synchronously, so that resolution could not involve I/O. A tenant's provider config lives in a database or a secrets store in every real deployment, so the parameter was passed and could not be acted on.
+
+  ShareFlow hit it head-on ([social_share#462](https://github.com/Rise-Experts/social_share/issues/462)): a workspace that had configured its own provider was served the deployment's model on every conversational turn, silently, with the cost landing on the platform's account. It worked around the routing with a lazily-resolving model that does the lookup inside the AI SDK's own async middleware — but `modelId`, `definition` and `price` are all read off the object the hook returned, before anyone knows which provider will serve the turn. Measured in production: a turn served by `qwen3.8-max` reported `modelId: "gemini-2.5-flash"`. Awaiting fixes the whole record rather than the routing alone.
+
+  **Additive.** `await` on a non-promise yields the value, so every existing synchronous resolver keeps working with no change — asserted by a test rather than assumed. A rejecting resolver propagates with its message intact rather than falling back to another model, which is the silent-fallback failure this exists to end.
+
 ### Changed — BREAKING
 
 - **tools**: `CredentialResolver.resolve` returns a typed `Credential`, not a `string` ([#260](https://github.com/Rise-Experts/retinue/issues/260)). A bare string still works in `createStaticCredentialResolver` and still means a bearer token, so a single-tenant host changes nothing; a host with its own resolver wraps its return in `bearer(...)`. Migration in `docs/19-versioning.md`. **This is a `0.3.0`** — at 0.x the minor is the breaking increment.
