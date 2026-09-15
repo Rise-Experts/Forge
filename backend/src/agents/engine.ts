@@ -86,7 +86,30 @@ export type ResolvedModelInfo = {
 export type DefaultEngineDeps = {
   /** Load the manifest the run executes (by agent id + version), so history is never rewritten. */
   loadManifest: (input: { agentId: string; version: number; context: ExecutionContext }) => Promise<AgentManifest>;
-  resolveModel: (manifest: AgentManifest, context: ExecutionContext) => ResolvedModelInfo;
+  /**
+   * The model this turn runs on, decided from the manifest **and the context**.
+   *
+   * May return a promise, and that is not a convenience — it is what makes the `context` parameter
+   * usable for the thing it exists for. A host serving several tenants keeps each tenant's provider
+   * and key in a database or a secrets store, so resolving per tenant means I/O; declared
+   * synchronously, the parameter was passed and could not be acted on.
+   *
+   * ShareFlow hit this directly: a workspace configuring its own provider was served the deployment's
+   * model on every conversational turn, silently, with the cost landing on the platform's account
+   * (Rise-Experts/social_share#462). It worked around it by returning a lazy model that does the
+   * lookup inside the AI SDK's own async middleware — which works, but leaves `modelId`, `definition`
+   * and `price` resolved before anyone knows which provider will serve the turn, so the usage ledger
+   * labels a tenant's tokens with the deployment's model id.
+   *
+   * Awaiting here fixes the whole record rather than the routing alone.
+   *
+   * **Additive.** Every existing synchronous resolver keeps working unchanged: `await` on a
+   * non-promise yields the value.
+   */
+  resolveModel: (
+    manifest: AgentManifest,
+    context: ExecutionContext,
+  ) => ResolvedModelInfo | Promise<ResolvedModelInfo>;
   /** Conversation history as neutral turn messages, oldest first. */
   loadHistory: (context: ExecutionContext, run: Run) => Promise<readonly TurnMessage[]>;
   /** The tools the model may call this turn (already permission-filtered / guarded on execute). */
@@ -272,7 +295,7 @@ export const createDefaultEngine = (deps: DefaultEngineDeps): AgentEngine => {
        * definition — not the caller — decides what this agent may reach.
        */
       const context: ExecutionContext = { ...hostContext, agentToolPolicy: manifest.toolPolicy };
-      const resolved = deps.resolveModel(manifest, context);
+      const resolved = await deps.resolveModel(manifest, context);
       /**
        * A structured agent needs a model that can do it — task #243 AC-3.
        *
