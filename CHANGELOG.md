@@ -20,7 +20,7 @@
 
   And a bug that only a real server found: the path carries **no space after the comma**. In libpq's option syntax a space separates options, so `-c search_path=retinue, public` arrives as `search_path` = `retinue,` plus a stray `public`, and Postgres refuses the connection: `invalid value for parameter "search_path": "retinue,"`. Every unit test passed with the spaced form.
 
-## Unreleased
+## agentkit 0.3.3
 
 ### Added
 
@@ -31,6 +31,8 @@
   ShareFlow hit it head-on ([social_share#462](https://github.com/Rise-Experts/social_share/issues/462)): a workspace that had configured its own provider was served the deployment's model on every conversational turn, silently, with the cost landing on the platform's account. It worked around the routing with a lazily-resolving model that does the lookup inside the AI SDK's own async middleware — but `modelId`, `definition` and `price` are all read off the object the hook returned, before anyone knows which provider will serve the turn. Measured in production: a turn served by `qwen3.8-max` reported `modelId: "gemini-2.5-flash"`. Awaiting fixes the whole record rather than the routing alone.
 
   **Additive.** `await` on a non-promise yields the value, so every existing synchronous resolver keeps working with no change — asserted by a test rather than assumed. A rejecting resolver propagates with its message intact rather than falling back to another model, which is the silent-fallback failure this exists to end.
+
+## Unreleased
 
 ### Changed — BREAKING
 
