@@ -4,6 +4,18 @@ sidebar_position: 2
 
 # Agents
 
+An agent is an AI-powered program that receives input, builds model context, can use tools, and returns a result.
+
+```mermaid
+flowchart TD
+  A[Agent] --> M[Model policy]
+  A --> I[Instructions]
+  A --> T[Authorized tools]
+  A --> C[Context providers]
+  A --> G[Guardrails]
+  A --> L[Execution limits]
+```
+
 ## What is it?
 
 An **agent** is a declarative, versioned manifest — instructions, a model policy, and which

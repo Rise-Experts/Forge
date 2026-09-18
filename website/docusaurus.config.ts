@@ -16,8 +16,8 @@ const config: Config = {
    * in the file for why five dots become three at 16px.
    */
   favicon: "img/favicon.svg",
-  onBrokenLinks: "warn",
-  onBrokenMarkdownLinks: "warn",
+  onBrokenLinks: "throw",
+  onBrokenMarkdownLinks: "throw",
 
   // Parse .md as CommonMark (not MDX) so spec/API syntax like `{tenantId}` and `<T>` is literal.
   markdown: { format: "md", mermaid: true },
@@ -97,8 +97,10 @@ const config: Config = {
       logo: { alt: "Retinue", src: "img/retinue-mark.svg", width: 28, height: 28 },
       items: [
         { type: "docSidebar", sidebarId: "docs", position: "left", label: "Docs" },
+        { to: "/docs/examples/overview", label: "Examples", position: "left" },
+        { to: "/docs/integrations/overview", label: "Integrations", position: "left" },
         { to: "/api/", label: "API", position: "left" },
-        { to: "/specifications/", label: "Specs", position: "left" },
+        { to: "/specifications/", label: "Advanced", position: "left" },
         { href: "https://github.com/Rise-Experts/retinue", label: "GitHub", position: "right" },
       ],
     },

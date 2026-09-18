@@ -4,6 +4,18 @@ sidebar_position: 6
 
 # Human-in-the-Loop
 
+```mermaid
+flowchart TD
+  A[Agent requests action] --> P[Policy evaluates tool]
+  P --> Q{Approval required?}
+  Q -->|No| E[Execute]
+  Q -->|Yes| H[Pause run]
+  H --> D[Human approve or deny]
+  D --> R[Resume or return denial]
+```
+
+An approval authorizes a classified action; a question collects information the agent cannot safely guess. Both are durable interaction records in server mode. In embedded mode a gated call reports the required interaction to the model; a server run persists its waiting state and resumes from the stored tool input after a decision.
+
 ## What is it?
 
 Two durable interaction types that pause a run for a human: **questions** (resolve ambiguity)

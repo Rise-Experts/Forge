@@ -162,10 +162,28 @@
   height: 1.75rem;
 }
 
+.navbar {
+  box-shadow: 0 1px 0 rgba(35, 75, 126, 0.14);
+}
+
+.navbar__inner {
+  min-height: 3.5rem;
+}
+
 .navbar__title {
   font-family: var(--retinue-display);
   font-weight: 600;
   letter-spacing: -0.01em;
+}
+
+.navbar__item {
+  font-size: 0.9rem;
+}
+
+.navbar__link:focus-visible,
+.navbar__toggle:focus-visible {
+  outline: 3px solid var(--retinue-sky);
+  outline-offset: 2px;
 }
 
 /* A callout's left edge is the accent, which is the one place the blue does structural work. */
@@ -178,4 +196,10 @@
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+@media (max-width: 996px) {
+  .navbar__inner { min-height: 3.25rem; }
+  .navbar__toggle { min-height: 2.75rem; min-width: 2.75rem; }
+  .navbar__brand { min-height: 2.75rem; }
 }

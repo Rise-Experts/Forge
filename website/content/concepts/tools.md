@@ -4,6 +4,21 @@ sidebar_position: 3
 
 # Tools
 
+Tools let an agent safely reach beyond its model: read data, calculate, retrieve knowledge, or perform an approved action.
+
+```mermaid
+flowchart TD
+  U[User request] --> A[Agent chooses a tool]
+  A --> D[Tool discovery]
+  D --> Z[Authorization]
+  Z --> G{Approval required?}
+  G -->|No| E[Execute]
+  G -->|Yes| H[Human decision]
+  H --> E
+  E --> R[Tool result]
+  R --> A
+```
+
 ## What is it?
 
 A **tool** is a capability the agent can call during a run — read data, draft content, publish a

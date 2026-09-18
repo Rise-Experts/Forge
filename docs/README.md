@@ -1,4 +1,6 @@
-# Reusable AI Platform Specifications
+# Retinue implementation specifications
+
+> Most application developers should start with the [Retinue developer guides](/docs/overview). These documents preserve the implementation decisions, trade-offs, and acceptance criteria behind the platform.
 
 Status: proposed  
 First consumer: ShareFlow  
@@ -40,7 +42,7 @@ This directory defines the extraction and migration of a reusable AI platform in
 4. [Durable execution, streaming and HITL](04-durable-runtime-and-hitl.md)
 5. [RAG, attachments, vision and documents](05-knowledge-and-documents.md)
 6. [GraphQL and frontend packages](06-graphql-and-frontend.md)
-7. ShareFlow integration — **moved.** The specification is Chorus's product design, not the platform's, and this repository's `docs/` tree is published. It lives in the `social_integgration` repository as `docs/retinue-integration-spec.md`.
+7. ShareFlow integration — **moved.** The specification is Chorus's product design, not the platform's, and this repository's `docs/` tree is published. It lives in the `social-integration` repository as `docs/retinue-integration-spec.md`.
 8. [Migration and delivery plan](08-migration-plan.md)
 9. [Testing, security and release criteria](09-quality-and-release.md)
 10. [Outbound MCP integration](10-mcp-integration.md)
@@ -61,6 +63,9 @@ This directory defines the extraction and migration of a reusable AI platform in
 25. [The integration page template](25-doc-page-template.md)
 26. [Retrieval quality, measured](26-retrieval-quality.md)
 27. [The Open Knowledge Format, read against our document model](27-open-knowledge-format.md)
+28. [Prompt caching](28-prompt-caching.md)
+29. [GraphRAG quality, measured](29-graphrag-quality.md)
+30. [Browser isolation](30-browser-isolation.md)
 
 ## Extraction
 

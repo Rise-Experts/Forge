@@ -4,6 +4,20 @@ sidebar_position: 7
 
 # Retrieval (RAG)
 
+Knowledge is Retinue's indexed, authorized source material. Unlike memory, it is not a remembered user fact; it is retrieved because it is relevant to the current request.
+
+```mermaid
+flowchart TD
+  D[Documents and attachments] --> I[Storage / index]
+  I --> R[Authorized retrieval]
+  R --> C[Relevant context]
+  C --> A[Agent]
+```
+
+External document text is untrusted data, not instruction. Retrieval applies authorization before search, preserves source/version/location provenance, and can produce citation-ready results. The public knowledge surface includes documents, files, attachments, retrieval, artifacts, and exports; composition is intentionally host-specific, so use the [knowledge API](/api/) and [knowledge specification](/specifications/knowledge-and-documents) for ingestion wiring.
+
+Next: [Memory](memory), [Sessions](sessions), and [Tools](tools).
+
 ## What is it?
 
 Permission-aware retrieval over your knowledge — documents, files, past sources — that returns

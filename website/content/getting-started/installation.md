@@ -4,6 +4,8 @@ sidebar_position: 1
 
 # Installation
 
+Retinue is the product. `@retinue/agentkit` is its primary TypeScript SDK and runtime package.
+
 ## What you need
 
 - **Node.js 20+**
@@ -15,8 +17,8 @@ sidebar_position: 1
 Retinue ships as two packages:
 
 ```bash
-# backend: contracts, runtime, engine, tools, adapters, embedded agent facade
-npm install @retinue/agentkit
+# Primary SDK/runtime package. Install one model-provider peer for the embedded quickstart.
+npm install @retinue/agentkit @ai-sdk/anthropic
 
 # headless React client (optional, for a UI) — React is a peer dependency
 npm install @retinue/react react

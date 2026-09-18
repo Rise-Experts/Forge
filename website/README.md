@@ -1,7 +1,7 @@
 # Retinue documentation site
 
 Docusaurus site that renders **everything we build**:
-- the narrative specs (`../docs/01–15` + `../docs/extraction`) — auto sidebar, mermaid, versioning-ready;
+- the narrative specs (`../docs/01–30` + `../docs/extraction`) — auto sidebar, mermaid, versioning-ready;
 - the **API reference** auto-generated from the `@retinue/*` TypeScript types (TypeDoc → `/api`);
 - `llms.txt` + `llms-full.txt` for AI editors and a docs MCP server.
 
@@ -31,15 +31,15 @@ can consume these directly. A docs **MCP server** can serve the same corpus:
 
 ## Deployment (Cloudflare Workers Static Assets → docs.retinue.riseexperts.de)
 
-> The host name, the Cloudflare project id and `url` in `docusaurus.config.ts` still say `agentkit`.
-> That is deliberate: they are live DNS and a live project, and renaming them is a cutover with a
-> redirect to arrange, not a find-and-replace. Tracked separately from the package rename (#192).
+The checked-in configuration targets the `retinue-docs` Worker at
+`https://docs.retinue.riseexperts.de`. Keep the Worker name, the configured URL, and the custom domain in
+both `wrangler.jsonc` files aligned: a changed Worker name creates a new Worker rather than renaming the old one.
 
 Deployed via **Cloudflare's Git build** (Workers Builds) using `wrangler.jsonc` — no API-token
 secret needed, Cloudflare builds from the connected repo on each push. One-time setup — **these
 steps need your Cloudflare/DNS access; the config is already in the repo:**
 
-1. In the Cloudflare project (Workers & Pages → your `agentkit-docs` project) → **Settings →
+1. In the Cloudflare project (Workers & Pages → your `retinue-docs` project) → **Settings →
    Build**, set — these work from the **repo root**, so the "Root directory" setting no longer
    matters (a root `wrangler.jsonc` and `website/wrangler.jsonc` both exist):
    - **Root directory:** leave as repo root (default).
@@ -54,16 +54,12 @@ steps need your Cloudflare/DNS access; the config is already in the repo:**
    certificate, and a custom domain is what provisions one for it. Without that the host serves over plain HTTP
    and fails the TLS handshake.
    - If `riseexperts.de` DNS is **on Cloudflare**, the record is created automatically.
-   - Otherwise add a DNS **CNAME**: `docs.agentkit` → `<worker>.workers.dev` (as shown in the
+   - Otherwise add a DNS **CNAME**: `docs.retinue` → `<worker>.workers.dev` (as shown in the
      Custom domains dialog).
 
 `wrangler.jsonc` declares `assets.directory: ./build`, so `wrangler deploy` uploads the
 Docusaurus output as static assets (no Worker script). After setup, pushing docs changes builds
 and publishes automatically.
-
-> Note: the earlier deploy failed because the build ran at the **repo root** (executing the
-> monorepo `tsc -b` + `wrangler deploy` with no project). Setting **Root directory = `website`**
-> plus this `wrangler.jsonc` fixes both.
 
 ## Known follow-up
 - AI search widget (kapa/Inkeep/Algolia AskAI) — wire in `themeConfig`, keys via env at deploy.
@@ -78,7 +74,7 @@ This site is public, and TypeDoc published `shareflow`'s whole exported surface 
 404 URLs in the sitemap, every function and type with the docstrings attached. Those docstrings are where the
 integration's reasoning lives: ShareFlow's table names, its schema quirks, which platform refuses what. None
 of it is a credential and all of it is Chorus's product design, so it is documented in the
-`social_integgration` repository instead.
+`social-integration` repository instead.
 
 The rule this follows: **this site documents the platform, not its consumers.** A second consumer added to
 `entryPoints` would publish that consumer's internals the same way, and would do it silently — nothing about

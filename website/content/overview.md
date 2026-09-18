@@ -3,29 +3,35 @@ slug: overview
 sidebar_position: 1
 ---
 
-# Overview
+# Welcome to Retinue
 
-**Retinue** is a reusable, provider-neutral AI agent platform for TypeScript. It gives an
-application everything it needs to run AI agents in production — durable execution, safe tools,
-layered memory, human-in-the-loop approvals, and permission-aware retrieval — without tying the
-application to any single model provider or framework.
+Build, run, and operate durable agent platforms in TypeScript.
 
-## Why Retinue
+Retinue is a provider-neutral SDK for applications that need more than a one-off model call. Define
+agents and flows, attach typed tools and context, then run them through an embedded library or a
+durable server runtime.
 
-Most agent frameworks are easy to demo and hard to run. Retinue is built for the parts that
-actually bite in production:
+## Choose the right primitive
 
-- **Provider neutrality** — one model registry over OpenAI, Anthropic, Google, Mistral, Azure,
-  Bedrock. Switch a model without changing agent or tool code.
-- **Durability** — runs are queued, checkpointed, and recoverable; they survive page refreshes
-  and worker restarts, retry transient failures the way the Anthropic SDK does, and never
-  double-fire an external write.
-- **Layered memory under a budget** — session, user, and tenant memory, assembled into each
-  prompt within the selected model's token budget, with compaction instead of silent truncation.
-- **Safety** — tools are authorization-filtered before discovery and re-checked at execution;
-  external actions pause for approval.
-- **Reusability** — ports-and-adapters throughout, a headless React client, and two runtime
-  profiles (embedded library or hosted server).
+| Primitive | Use it when | Retinue handles |
+|---|---|---|
+| **Agent** | One model-driven program can own the task | Context assembly, model calls, tool execution, session state, memory, and guardrails |
+| **Flow** | The work needs fixed steps, recovery, or explicit approvals | Queuing, checkpoints, retries, resumable streaming, and idempotent external writes |
+| **Tool** | An agent needs a capability outside the model | Typed inputs, authorization, validation, effect classification, and approval policy |
+
+Start with an agent. Add a tool when it needs to act or retrieve information. Use a flow when the
+process needs repeatable, durable control.
+
+## What you can add
+
+| Capability | What it adds |
+|---|---|
+| **Memory and sessions** | Conversation history plus user and tenant facts, assembled within a context budget |
+| **Knowledge and retrieval** | Permission-aware search with exact source citations |
+| **Human-in-the-loop** | A durable approval gate before an external action executes |
+| **Guardrails** | Input, context, and output controls for model-facing data |
+| **Integrations** | Optional tool packages for GitHub, Slack, search, and other external services |
+| **Operations** | Worker processes, queues, persistence adapters, tracing, usage, and cost accounting |
 
 ## Find your way by what you are trying to do
 
@@ -52,9 +58,10 @@ Nobody arrives at documentation wanting section four. Start from the question:
 | Section | For |
 |---|---|
 | **Getting Started** | Install → first agent → first tool → first flow. Every sample on these pages is typechecked against the published package on every build |
-| **Core Concepts** | How each subsystem works, each linking down into its specification |
+| **Build** | Agent manifests, tools, and the practical guides for composing them |
+| **Context & Knowledge** | Memory, sessions, and retrieval |
+| **Safety & Operations** | Durable execution, approval gates, guardrails, frontend integration, and deployment configuration |
 | **Integrations** | The shipped toolkits, all on one page template |
-| **Guides** | Task-focused walkthroughs |
 | **Examples** | Copy-paste starting points |
 | **[API Reference](/api/)** | Generated from the TypeScript types |
 | **[Specifications](/specifications/)** | The internal design specs — decisions, reasoning, and rejected alternatives |

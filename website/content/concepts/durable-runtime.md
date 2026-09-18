@@ -4,6 +4,16 @@ sidebar_position: 8
 
 # Durable runtime
 
+```mermaid
+flowchart LR
+  A[Run created] --> Q[Queued]
+  Q --> W[Worker claims run]
+  W --> C[Checkpoint and emit events]
+  C --> P{Paused or complete?}
+  P -->|Paused| Q
+  P -->|Complete| D[Durable outcome]
+```
+
 ## What is it?
 
 The machinery that turns a request into a **durable run**: a worker claims the run, streams the

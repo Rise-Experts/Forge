@@ -125,8 +125,11 @@ const walk = (path, out = []) => {
     return out;
   }
   if (stats.isFile()) {
-    const skipped = SKIP_FILES.has(path) || path.startsWith(SKIP_PREFIX);
-    if (EXTENSIONS.some((extension) => path.endsWith(extension)) && !skipped) out.push(path);
+    // `join` uses the platform separator. Keep the policy paths POSIX-shaped so the
+    // check behaves identically on Windows and in CI's Linux runner.
+    const normalizedPath = path.replaceAll("\\", "/");
+    const skipped = SKIP_FILES.has(normalizedPath) || normalizedPath.startsWith(SKIP_PREFIX);
+    if (EXTENSIONS.some((extension) => path.endsWith(extension)) && !skipped) out.push(normalizedPath);
     return out;
   }
   for (const entry of readdirSync(path)) {
