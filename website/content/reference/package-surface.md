@@ -168,7 +168,7 @@ where the combination nobody thought about is the one a customer picks first.
 
 ## Tools
 
-Fifteen first-party tools, at `@retinue/agentkit/tools`. **Wiring is the toggle** — a tool exists when its
+Twenty standard tools, at `@retinue/agentkit/tools`, plus separately-created audio factories. **Wiring is the toggle** — a tool exists when its
 dependency was supplied and not otherwise, because a separate `enable` flag beside a `sqlQuery` function is how a
 deployment ends up with a tool that is enabled and unwired:
 

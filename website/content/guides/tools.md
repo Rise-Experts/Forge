@@ -2,9 +2,9 @@
 sidebar_position: 4
 ---
 
-# Tools that ship with the kit
+# Built-in tools
 
-Retinue ships twenty first-party tools, so a useful agent can be built on day one without writing one.
+`createStandardToolProvider` can expose **20 standard tools**. It exposes only tools whose dependencies are wired; four pure utilities are available without extra infrastructure. Two additional audio factories (`createTranscribeTool` and `createSpeechGenerateTool`) are exported separately because they need a transcription or speech provider.
 
 ## Tools
 
@@ -20,11 +20,22 @@ Retinue ships twenty first-party tools, so a useful agent can be built on day on
 | `sql_query` | `read` | One `SELECT`, against a read-only connection |
 | `sql_schema` | `read` | The tables the model may query |
 | `search_knowledge` | `read` | Indexed passages, with citations |
-| `read_attachment`, `list_attachments`, `read_document` | `read` | Files, through the entitlement check |
+| `read_attachment`, `list_attachments`, `read_document` | `read` | Files, through the entitlement check; `list_attachments` also needs a conversation |
 | `now`, `calculate` | `read` | The clock and the arithmetic a model does not have |
 | `fs_read`, `fs_list`, `fs_search` | `read` | Files under a configured root. Absolute paths, `..` and symlinks out of the root are all refused |
 | `fs_write` | `internal-write` | A *different* root from the reads, so it cannot edit the material it cites |
 | `shell_exec` | `destructive` | A command in a sandbox: no network, read-only apart from `/scratch`, memory-capped, timed out. Always needs approval |
+
+## Tool availability
+
+| Group | Available when |
+|---|---|
+| `parse_csv`, `query_json`, `now`, `calculate` | Always, unless excluded |
+| HTTP and web fetch tools | `http` is configured; `web_search` also needs `search` |
+| SQL and knowledge tools | Their read-only SQL or retrieval dependency is configured |
+| File tools | `files`, `documents`, or a scoped filesystem is configured; `list_attachments` also needs `context.conversationId` |
+| `shell_exec` | A sandbox and shell capability are both configured |
+| Audio factories | You explicitly create them with a media provider and authorized file I/O |
 
 ## Wire it up
 
@@ -48,7 +59,7 @@ switched on and wired to nothing — and that failure is silent, because an unus
 
 The four pure tools — `parse_csv`, `query_json`, `now`, `calculate` — need nothing and are always present. Pass
 `exclude` to drop one; an unrecognised name throws rather than being ignored, so a typo cannot leave a tool on
-while you believe it is off.
+while you believe it is off. `list_attachments` is resolved for each call because it is conversation-scoped; it is absent for an automation with no conversation.
 
 Configure no search provider and there is no `web_search` **at all**, rather than one that always answers "not
 configured". A tool that can only refuse costs the model a turn to discover that.
@@ -123,3 +134,9 @@ deployment types `allowUnsafeLocalExecution: true` in so many words.
 
 `sql_query` is read-only and not configurable otherwise. A writable SQL tool is a different classification, a
 different approval policy and a different blast radius; it is not a flag on this one.
+
+## Next
+
+- Write a custom capability → **[Tools](../concepts/tools)**
+- Keep a larger catalogue usable → **[Tool discovery & production safety](../build/tool-discovery)**
+- Add vendor-backed capabilities → **[Integrations](../integrations/overview)**

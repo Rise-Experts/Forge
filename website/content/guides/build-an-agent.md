@@ -14,13 +14,16 @@ is applied for you. The effect classification drives the approval policy.
 
 ```ts
 import { defineTool, toolProvider } from "@retinue/agentkit/tools";
-import { z } from "zod";
 
 const getWeather = defineTool({
   name: "get_weather",
   description: "Look up the current weather for a city.",
   effect: "read",                                   // read → no approval needed
-  inputSchema: z.object({ city: z.string() }),
+  inputSchema: {
+    type: "object",
+    properties: { city: { type: "string" } },
+    required: ["city"],
+  },
   execute: async ({ city }, ctx) => {
     // wrap your existing service; ctx carries the tenant + principal
     return weatherService.current(ctx.tenantId, city);
@@ -35,7 +38,11 @@ const publishPost = defineTool({
   name: "publish_post",
   description: "Publish a saved draft to a connected channel.",
   effect: "external-write",                         // → approvalPolicy "always", idempotency required
-  inputSchema: z.object({ draftId: z.string(), channel: z.string() }),
+  inputSchema: {
+    type: "object",
+    properties: { draftId: { type: "string" }, channel: { type: "string" } },
+    required: ["draftId", "channel"],
+  },
   execute: ({ draftId, channel }, ctx) => publishingService.publish(ctx.tenantId, draftId, channel),
 });
 ```

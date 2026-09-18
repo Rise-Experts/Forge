@@ -29,6 +29,7 @@ const sidebars: SidebarsConfig = {
         "concepts/tools",
         "guides/build-an-agent",
         "guides/tools",
+        "build/tool-discovery",
         "build/models",
         "build/flows",
       ],

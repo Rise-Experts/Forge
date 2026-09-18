@@ -4,14 +4,17 @@ sidebar_position: 3
 
 # Tools
 
-Tools let an agent safely reach beyond its model: read data, calculate, retrieve knowledge, or perform an approved action.
+A tool is a typed capability an agent can call to read data or take an action beyond the model.
+
+## Why tools exist
+
+Models can explain what to do, but they cannot safely inspect your inventory, query an internal service, or send a message. A Retinue tool is the boundary around that operation: it describes the inputs the model may supply and classifies the action before it executes.
 
 ```mermaid
 flowchart TD
-  U[User request] --> A[Agent chooses a tool]
-  A --> D[Tool discovery]
-  D --> Z[Authorization]
-  Z --> G{Approval required?}
+  U[User request] --> A[Agent selects a tool]
+  A --> Z[Authorization]
+  Z --> G{Approval needed?}
   G -->|No| E[Execute]
   G -->|Yes| H[Human decision]
   H --> E
@@ -19,109 +22,92 @@ flowchart TD
   R --> A
 ```
 
-## What is it?
+## Your first custom tool
 
-A **tool** is a capability the agent can call during a run — read data, draft content, publish a
-post. Each tool declares an input/output schema, an **effect** classification, an approval
-policy, and an idempotency requirement.
+Use `defineTool` for an operation that reads data. Give it a descriptive name, a useful model-facing description, and an input schema. Schemas are optional in the public helper, but strongly recommended: without one, the model has no reliable argument contract.
 
-## Why would I use it?
+```ts
+import { createAgent } from "@retinue/agentkit/providers";
+import { defineTool } from "@retinue/agentkit/tools";
 
-Tools are how the model *does* things safely. Retinue filters them by permission before the
-model even sees them, re-checks authorization at execution, and gates dangerous ones behind
-approval — so a model can't act beyond what the caller is allowed to do.
+const inventory = new Map([["SKU-1", { name: "Blue mug", inStock: 14 }]]);
 
-## Effects
+const checkStock = defineTool({
+  name: "check_stock",
+  label: "Check stock",
+  description: "Look up stock by SKU.",
+  category: "inventory",
+  effect: "read",
+  inputSchema: {
+    type: "object",
+    properties: { sku: { type: "string" } },
+    required: ["sku"],
+  },
+  execute: async (input: { sku: string }) => inventory.get(input.sku) ?? { error: "Unknown SKU" },
+});
 
-| Effect | Meaning | Approval |
+const agent = createAgent({
+  manifest: {
+    id: "stock-agent",
+    name: "Stock agent",
+    instructions: "Use the inventory tool before answering stock questions.",
+    modelPolicy: { role: "smart" },
+  },
+  tools: [{ id: "inventory", listTools: async () => [checkStock] }],
+});
+```
+
+`ToolProvider` is the interface between an agent and one or more tools. The inline provider above is appropriate for a fixed example; use `toolProvider("inventory", [checkStock])` for a fixed set, or implement `listTools(context)` when available tools depend on the tenant or caller.
+
+This example is compile-checked in [`website/examples/agent-with-tool.ts`](https://github.com/Rise-Experts/retinue/blob/main/website/examples/agent-with-tool.ts).
+
+## Effects, approval, and idempotency
+
+An effect states what the tool can change. Retinue uses it to apply safety rules before the tool function runs.
+
+| Effect | Meaning | Default approval behavior |
 |---|---|---|
-| `read` | no side effect | no |
-| `internal-write` | changes your own data | policy |
-| `external-write` | publishes / sends externally | yes |
-| `destructive` | deletes / irreversible | yes |
+| `read` | Returns data without changing state | `never` |
+| `internal-write` | Changes data owned by this deployment | `never`; a tool may explicitly request `policy` |
+| `external-write` | Sends, publishes, or changes an external system | `always` |
+| `destructive` | Deletes or irreversibly changes data | `always` |
 
-## Lazy, permission-filtered discovery
+For an external write, use `confirms()`. It fixes the effect to `external-write`, requires approval, and requires an idempotency key together. Use `destroys()` for an irreversible action.
 
-The runtime builds a **compact, permission-filtered catalog**. Only commonly-needed tools are
-preloaded; the rest are discovered on demand via meta-tools — so only task-relevant schemas
-enter the context window.
+```ts
+import { confirms } from "@retinue/agentkit/tools";
 
+const sendMessage = confirms({
+  name: "send_message",
+  description: "Send an approved message to a customer.",
+  inputSchema: { type: "object", properties: { recipient: { type: "string" }, text: { type: "string" } }, required: ["recipient", "text"] },
+  execute: async ({ recipient, text }: { recipient: string; text: string }) => ({ queuedFor: recipient, text }),
+});
 ```
-learn_tools · find_tools · execute_tool · load_skill · ask_questions · request_approval · read_tool_output
-```
 
-Execution **re-authorizes and re-validates** even for a tool that was discoverable earlier. An
-unauthorized tool is absent from discovery and rejected if called directly.
+In embedded mode, an unapproved action returns an approval-required result. In server mode, the run can pause durably until a person approves or denies the stored action. See [Human-in-the-Loop](human-in-the-loop) for the decision and resume lifecycle.
 
-## Bounding what stays resident
+## What runs at execution time
 
-Compact entries still cost something: about 35 tokens each, on every turn, before a word of the conversation.
-Two hundred tools is roughly 7,000 tokens of tool list. Three controls exist for that, and all three are off by
-default.
+In the normal agent runtime, tools are filtered before discovery and checked again when called. Tool input is validated before execution. External and destructive effects need idempotency protection, so a retry returns the original result rather than repeating the side effect.
 
-**A catalogue budget.** `catalogBudget: { maxTokens }` caps the resident list. What does not fit is dropped from
-the tail, and **never quietly**: a `catalog.truncated` run event names every dropped tool, the budget that bound,
-and whether the model can still reach them. A shortened tool list is otherwise invisible — the model is not told
-a tool was withheld, so it never calls it, and the transcript reads exactly like a run where it chose not to.
+Tools can also return a normal result envelope: `{ ok: true, data }` on success, or `{ ok: false, error }` when the operation cannot run. Throw from a `defineTool` callback when the underlying service fails; Retinue converts it to that safe error shape.
 
-**`find_tools`.** Search over the catalogue by describing a need, so a dropped tool is deferred rather than
-removed. It reuses the retrieval stack — the same rank fusion, the same relevance floor — and is filtered by the
-same authorization as discovery, because a search that surfaced tools you may not use would be an enumeration
-oracle. Wire it with `createToolSearch()`; pass an `EmbeddingProvider` for hybrid search, or leave it keyword-only.
+## Choose the right starting point
 
-**Per-tenant toolsets.** `toolsets` answers a question authorization does not: *does this tenant want this
-category at all?* Applied before authorization filtering, so a switched-off category is absent from discovery,
-from search, and from execution. Without it a catalogue is only ever as small as its largest customer.
+| Need | Start with |
+|---|---|
+| Wrap one function your application owns | `defineTool` and a `ToolProvider` |
+| Make a write safe by default | `confirms()` or `destroys()` |
+| Add maintained vendor capabilities | An [integration package](../integrations/overview) |
+| Connect a tenant-owned external tool server | [MCP](../mcp/overview) |
+| Use Retinue's supplied utilities | [Built-in tools](../guides/tools) |
 
-A truncated list needs `execute_tool` to be useful, which is why it appears alongside `find_tools`: the tool the
-model just found is by definition not in its own list. `execute_tool` unwraps to the ordinary call path, so
-authorization, the tenant's toolset, the approval gate and the idempotency key all apply exactly as they would to
-a direct call.
+## Next
 
-The same budget applies to the **skill catalogue**, where the notice goes into the prompt itself — a context
-provider has no run event stream, and telling the model during the turn is what lets it say "there may be a
-skill for this" instead of reporting that none exists.
-
-## Running commands, and why it takes two switches
-
-`shell_exec` is the only tool whose blast radius is not described by its schema, and its trigger is natural
-language — including language the model merely *read*, in a document or an issue body. Without isolation it is a
-remote code execution endpoint reachable by anyone who can get text in front of the agent.
-
-So it needs **both** a `Sandbox` wired and the `shell` capability declared. Everywhere else in Retinue wiring is
-the toggle; this is the one place a second switch earns its keep, because "somebody wired a sandbox for a test and
-forgot" must not silently mean the agent can run commands on a machine. Declaring the capability without a sandbox
-is refused at construction — a boot failure, not a tool that quietly declines.
-
-The container adapter runs one throwaway container per command: no network at all, a read-only filesystem apart
-from a `/scratch` tmpfs, memory and swap capped together, all capabilities dropped, not root, no TTY, a wall-clock
-timeout, output capped with the truncation reported, and the exit code in the envelope rather than inferred from
-the output. `createLocalSandbox` provides the timeout and the output cap and **none** of the isolation, which is
-why it throws unless a deployment writes `allowUnsafeLocalExecution: true`.
-
-Gating is by **effect**: `shell_exec` is `destructive`, so the approval gate always fires. It is tempting to
-inspect the command instead — refuse `rm -rf`, allow `ls` — and that is a losing game. `find . -delete`, `dd`,
-`python -c`, a base64 pipeline: any list of dangerous shapes is a list somebody gets around, and worse, it feels
-like protection. A classification cannot be evaded by rephrasing.
-
-## Result envelope
-
-Every tool returns a shared success/error envelope; errors carry a stable code, retryability,
-and safe details. Large results are compacted and may be **spilled to blob storage** with an
-authorized reference (read back with `read_tool_output`).
-
-## Bridging existing services
-
-Tools **wrap** your existing services and functions rather than reimplementing them — a thin,
-authorization + approval + idempotency envelope over the deterministic operation.
-
-Next: **[Memory](memory)**.
-
-## Where this is specified
-
-This page is the shape of the thing. The specification is where the decisions and their reasons live — read it
-when you need to know *why* something behaves the way it does, or what was considered and rejected.
-
-- [Intelligence runtime → Tool registry](/specifications/intelligence-runtime)
-- [The tool catalogue](/specifications/tool-catalogue)
-- [Selection at scale, measured](/specifications/tool-selection-at-scale)
+- Build a read and an approval-gated action → **[Your first tool](../getting-started/first-tool)**
+- Browse supplied utilities and their wiring → **[Built-in tools](../guides/tools)**
+- Scale discovery safely for large tool sets → **[Tool discovery & production safety](../build/tool-discovery)**
+- Understand approval decisions → **[Human-in-the-Loop](human-in-the-loop)**
+- Exact types and helpers → **[Tools API reference](/api/)**
+- Design rationale → **[Tool catalogue specification](/specifications/tool-catalogue)**
