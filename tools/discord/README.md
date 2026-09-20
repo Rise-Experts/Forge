@@ -1,19 +1,19 @@
-# @retinue/tools-discord
+# @forge/tools-discord
 
-Discord tools for a [Retinue](https://github.com/Rise-Experts/retinue) agent: read channels and history, send
+Discord tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: read channels and history, send
 messages, react and open threads.
 
 ```bash
-npm i @retinue/tools-discord
+npm i @forge/tools-discord
 ```
 
-Requires `@retinue/agentkit` as a peer.
+Requires `@forge/agentkit` as a peer.
 
 ## Use it
 
 ```ts
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { createDiscordToolkit } from "@retinue/tools-discord";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { createDiscordToolkit } from "@forge/tools-discord";
 
 const toolkit = createDiscordToolkit({
   credentialRef: "discord",
@@ -41,6 +41,6 @@ agent relaying a user's text is one character away from a mass ping. Sends go ou
 
 Messages are counted in code points, so 2000 emoji is a valid message.
 
-Full documentation: <https://docs.retinue.riseexperts.de/integrations/discord>
+Full documentation: <https://docs.forge.riseexperts.de/integrations/discord>
 
 MIT.

@@ -1,5 +1,5 @@
 /**
- * `@retinue/agentkit/knowledge` — indexed material, documents, files and artifacts.
+ * `@forge/agentkit/knowledge` — indexed material, documents, files and artifacts.
  *
  * Retrieval, chunking and embeddings; the extraction pipeline; attachments and their read tools; artifacts and
  * the export formats. One subpath because a deployment that has any of these has all of them: an attachment

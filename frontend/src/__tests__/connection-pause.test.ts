@@ -7,7 +7,7 @@
  */
 import { describe, expect, it } from "vitest";
 import { EMPTY_RUN_VIEW, applyRunEvent, projectRunEvents } from "../reducers.js";
-import type { RunEvent } from "@retinue/agentkit";
+import type { RunEvent } from "@forge/agentkit";
 
 const event = (over: Partial<RunEvent> & { type: RunEvent["type"] }, sequence: number): RunEvent =>
   ({ runId: "r1", sequence, occurredAt: "2026-08-28T00:00:00.000Z", ...over }) as RunEvent;

@@ -12,7 +12,7 @@
  * racing on DDL. The data is safe; the process is not, and the error names nothing an operator can act on.
  *
  * Both callers therefore take a **session advisory lock** on a single checked-out connection before applying:
- * `retinue migrate` since #252, and `auto` mode at startup since #266. The callers serialise instead of racing.
+ * `forge migrate` since #252, and `auto` mode at startup since #266. The callers serialise instead of racing.
  *
  * ## How the lock reaches a manager written against `SqlExecutor` — #266, AC-2
  *
@@ -51,9 +51,9 @@ export type SchemaMode = "auto" | "plan" | "off";
  *
  * Arbitrary, and it has to be: Postgres advisory locks are a flat 64-bit namespace with no registry, so the
  * only protection against collision is picking something nobody else would. Derived from the ASCII of
- * "retinue" so it is reproducible rather than a magic number somebody will tidy up.
+ * "forge" so it is reproducible rather than a magic number somebody will tidy up.
  */
-export const MIGRATION_LOCK = 0x72_65_74_69_6e_75; // "retinu"
+export const MIGRATION_LOCK = 0x66_6f_72_67_65; // "forge"
 
 export type SchemaChange = {
   readonly id: string;
@@ -151,7 +151,7 @@ export const provisionSchema = async (
 
   if (mode === "plan") {
     /**
-     * Read-only, and takes **no lock** — the same decision `retinue migrate --dry-run` makes.
+     * Read-only, and takes **no lock** — the same decision `forge migrate --dry-run` makes.
      *
      * `plan()` and `currentVersion()` are documented as side-effect free; only `apply()` creates the ledger.
      * Taking a lock here would serialise every booting worker behind a read that changes nothing, and a dry

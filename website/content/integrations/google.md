@@ -8,7 +8,7 @@ Gmail and Calendar: search and read mail, draft, reply and send; read calendars,
 events.
 
 ```bash
-npm i @retinue/tools-google
+npm i @forge/tools-google
 ```
 
 ## Tools
@@ -77,10 +77,10 @@ lost by a tool that meant to add something.
 ## Wire it up
 
 ```ts
-import { createAgent } from "@retinue/agentkit/providers";
-import { bearer, refreshable, withRefreshingCredentials } from "@retinue/agentkit/tools";
-import type { CredentialRefresher, CredentialResolver } from "@retinue/agentkit/tools";
-import { createGoogleToolkit } from "@retinue/tools-google";
+import { createAgent } from "@forge/agentkit/providers";
+import { bearer, refreshable, withRefreshingCredentials } from "@forge/agentkit/tools";
+import type { CredentialRefresher, CredentialResolver } from "@forge/agentkit/tools";
+import { createGoogleToolkit } from "@forge/tools-google";
 
 // Your own: reads the stored connection for this tenant.
 declare const connectionResolver: CredentialResolver;

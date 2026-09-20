@@ -7,10 +7,10 @@
 # no `server/` to copy. Four things are built: `backend` (runtime + host),
 # `frontend` (view models the reference app imports), `tools/*` (the integration toolkits the
 # reference app registers) and `examples` (the reference app the host loads through
-# RETINUE_APP_MODULE).
+# FORGE_APP_MODULE).
 #
 # `tools/` arrived with #214 and this file did not learn about it until CI failed: the example app
-# imports `@retinue/tools-github` and friends, so without them `tsc -b examples` cannot resolve its
+# imports `@forge/tools-github` and friends, so without them `tsc -b examples` cannot resolve its
 # project references and the runtime stage cannot resolve the imports. `scripts/check-image.mjs`
 # now fails locally on a workspace this file does not carry, because the image job is one of the
 # three workflow steps `ci:local` deliberately does not run. The app layer is not decoration — the
@@ -67,7 +67,7 @@ RUN npx tsc -b backend tools/azure tools/email tools/google tools/scrape tools/c
 RUN node examples/scripts/build-composer.mjs
 # Derived from the built output, never a list typed into a file — see the script's header. Both entry
 # points, because the image runs one and loads the other: `cli.js` is the CMD and `examples/dist` is
-# what RETINUE_APP_MODULE hands the host.
+# what FORGE_APP_MODULE hands the host.
 COPY scripts/collect-runtime-imports.mjs ./scripts/
 RUN node scripts/collect-runtime-imports.mjs examples/dist/index.js backend/dist/server/cli.js > runtime-imports.json
 
@@ -145,6 +145,6 @@ RUN node scripts/check-runtime-imports.mjs runtime-imports.json
 # Non-root: nothing here needs to write to the filesystem.
 USER node
 EXPOSE 4000
-ENV RETINUE_APP_MODULE=file:///app/examples/dist/index.js
+ENV FORGE_APP_MODULE=file:///app/examples/dist/index.js
 # Defaults to the API host. Override the command for the worker; see the README.
 CMD ["node", "backend/dist/server/cli.js"]

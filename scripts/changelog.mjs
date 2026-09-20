@@ -27,7 +27,7 @@ const arg = (name) => {
 
 const git = (args) => execFileSync("git", args, { encoding: "utf8" }).trim();
 
-const REPO = "https://github.com/Rise-Experts/retinue";
+const REPO = "https://github.com/Rise-Experts/Forge";
 
 /**
  * Conventional-commit types, in the order a reader cares about them.

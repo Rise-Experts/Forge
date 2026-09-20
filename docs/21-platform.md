@@ -120,7 +120,7 @@ runs, and an audit record of every resolution.
 Must not: put a token anywhere a flow definition, a tool input, a trace or a log can reach. The resolution
 happens at the point of use, against a reference.
 
-#### Amendment: the runtime half of connections moved into the package — REQ-063 ([#259](https://github.com/Rise-Experts/retinue/issues/259))
+#### Amendment: the runtime half of connections moved into the package — REQ-063 ([#259](https://github.com/Rise-Experts/forge/issues/259))
 
 The paragraph above assigns all of this to the platform. That is now split, and the reason is a fact that was not
 true when it was written: **the package ships eight toolkits and none of them is usable by a second tenant.**
@@ -146,7 +146,7 @@ already forbids.
 work — not a softer version of it. Three of them shaped the design directly:
 
 - *"encryption at rest with a key the application database cannot decrypt on its own"* is why the recommendation
-  in [#261](https://github.com/Rise-Experts/retinue/issues/261) is a `SecretCipher` seam encrypting in the
+  in [#261](https://github.com/Rise-Experts/forge/issues/261) is a `SecretCipher` seam encrypting in the
   application, with Supabase Vault as one implementation of it rather than the foundation. A `pgcrypto` design
   keyed from a column in the same database fails this sentence, and a Vault-only design fails it for every
   deployment not on Supabase.
@@ -154,7 +154,7 @@ work — not a softer version of it. Three of them shaped the design directly:
   a run holding a resolved credential in a local scope has already passed the store. It is an acceptance
   criterion, not an implementation detail.
 - *"an audit record of every resolution"* means the resolver is an audited call site, which is a change to
-  `CredentialResolver` and therefore belongs with [#260](https://github.com/Rise-Experts/retinue/issues/260)'s
+  `CredentialResolver` and therefore belongs with [#260](https://github.com/Rise-Experts/forge/issues/260)'s
   breaking change rather than after it.
 
 ### Choosing a cipher, measured rather than reasoned about — #268
@@ -223,7 +223,7 @@ One capability was added that this section did not anticipate: a run that needs 
 **pauses and asks**, returning a login URL the way an approval gate returns a decision request, and resuming
 when consent completes. That is the runtime's HITL machinery rather than a platform feature, which is a second
 reason the flow has to live in the package — see
-[#264](https://github.com/Rise-Experts/retinue/issues/264).
+[#264](https://github.com/Rise-Experts/forge/issues/264).
 
 ### 3. Triggers
 

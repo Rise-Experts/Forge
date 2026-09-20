@@ -31,8 +31,8 @@ import {
   type ToolProvider,
   type ToolkitAuth,
   type VendorTransport,
-} from "@retinue/agentkit/tools";
-import { AgentPlatformError, type ExecutionContext } from "@retinue/agentkit";
+} from "@forge/agentkit/tools";
+import { AgentPlatformError, type ExecutionContext } from "@forge/agentkit";
 
 const CATEGORY = "project";
 

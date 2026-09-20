@@ -1,7 +1,7 @@
 {
-  "name": "@retinue/tools-x",
+  "name": "@forge/tools-x",
   "version": "0.3.0",
-  "description": "X (Twitter) tools for a Retinue agent: search and read posts, publish and delete \u2014 gated, idempotent, and honest about access tiers.",
+  "description": "X (Twitter) tools for a Forge agent: search and read posts, publish and delete \u2014 gated, idempotent, and honest about access tiers.",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -27,10 +27,10 @@
     "prepublishOnly": "node ../../scripts/publish-guard.mjs"
   },
   "peerDependencies": {
-    "@retinue/agentkit": "^0.3.0"
+    "@forge/agentkit": "^0.3.0"
   },
   "devDependencies": {
-    "@retinue/agentkit": "*",
+    "@forge/agentkit": "*",
     "@types/node": "^20",
     "typescript": "^5",
     "vitest": "^4.1.9"
@@ -42,11 +42,11 @@
   "author": "Rise Experts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rise-Experts/retinue.git",
+    "url": "git+https://github.com/Rise-Experts/Forge.git",
     "directory": "tools/x"
   },
-  "homepage": "https://github.com/Rise-Experts/retinue#readme",
+  "homepage": "https://github.com/Rise-Experts/Forge#readme",
   "bugs": {
-    "url": "https://github.com/Rise-Experts/retinue/issues"
+    "url": "https://github.com/Rise-Experts/Forge/issues"
   }
 }

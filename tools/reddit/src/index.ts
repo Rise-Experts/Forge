@@ -32,8 +32,8 @@ import {
   type ToolProvider,
   type ToolkitAuth,
   type VendorTransport,
-} from "@retinue/agentkit/tools";
-import { AgentPlatformError } from "@retinue/agentkit";
+} from "@forge/agentkit/tools";
+import { AgentPlatformError } from "@forge/agentkit";
 
 const API = "https://oauth.reddit.com";
 const DEFAULT_LIMIT = 25;
@@ -77,7 +77,7 @@ export const userAgentString = (parts: RedditToolkitConfig["userAgent"]): string
     }
   }
   const contact = parts.contact.startsWith("/u/") || parts.contact.includes("@") ? parts.contact : `/u/${parts.contact}`;
-  return `retinue:${parts.appId}:${parts.version} (by ${contact})`;
+  return `forge:${parts.appId}:${parts.version} (by ${contact})`;
 };
 
 type Comment = { author: string; body: string; score: number; at: number; replies: Comment[] };

@@ -1,13 +1,13 @@
-# @retinue/tools-browser
+# @forge/tools-browser
 
-Drive a real browser for a [Retinue](https://github.com/Rise-Experts/retinue) agent, when a page will not yield
+Drive a real browser for a [Forge](https://github.com/Rise-Experts/Forge) agent, when a page will not yield
 to a fetch.
 
 ```bash
-npm i @retinue/tools-browser
+npm i @forge/tools-browser
 ```
 
-**The escalation, not the default.** [`@retinue/tools-scrape`](https://www.npmjs.com/package/@retinue/tools-scrape)
+**The escalation, not the default.** [`@forge/tools-scrape`](https://www.npmjs.com/package/@forge/tools-scrape)
 handles most pages for the cost of one request; this costs a process, memory and seconds. Every tool
 description says so, and a `find_tools` test asserts that a query about reading a page ranks `web_scrape` above
 anything here — because a browser is the more capable-*sounding* tool and a model will otherwise reach for it
@@ -16,7 +16,7 @@ first.
 ## Usage
 
 ```ts
-import { createBrowserToolkit, type BrowserDriver } from "@retinue/tools-browser";
+import { createBrowserToolkit, type BrowserDriver } from "@forge/tools-browser";
 
 // Yours: a Playwright/CDP process, or a hosted service. There is no default, deliberately.
 declare const driver: BrowserDriver;
@@ -37,7 +37,7 @@ browser.
   refuses `input[type=password]` whatever the text is.
 - **Hard session caps** on lifetime, memory and concurrency — and teardown kills the process **group**, because
   a browser is a tree and killing the launcher leaves the renderers running.
-- **The same SSRF checks as `tools-scrape`**, from `@retinue/agentkit/tools`, re-run on the URL the page
+- **The same SSRF checks as `tools-scrape`**, from `@forge/agentkit/tools`, re-run on the URL the page
   actually landed on so a self-redirect cannot reach internal network space.
 - **Rendered text is untrusted content**, fenced exactly as a scraped page is.
 

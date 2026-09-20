@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # Memory
 
-Memory is information Retinue can retrieve for a principal beyond the current conversation. It is distinct from conversation history and from document retrieval.
+Memory is information Forge can retrieve for a principal beyond the current conversation. It is distinct from conversation history and from document retrieval.
 
 ```mermaid
 flowchart TD
@@ -32,8 +32,8 @@ Conversation history only follows one conversation. Principal memory lets an app
 `createPrincipalMemoryProvider` is a context provider. Wire it with a `PrincipalMemoryStore`; the in-memory store is suitable for a demo, while PostgreSQL/Supabase-backed stores are required for persistence across processes.
 
 ```ts
-import { createPrincipalMemoryProvider } from "@retinue/agentkit/context";
-import { createMemoryPrincipalMemoryStore } from "@retinue/agentkit/persistence";
+import { createPrincipalMemoryProvider } from "@forge/agentkit/context";
+import { createMemoryPrincipalMemoryStore } from "@forge/agentkit/persistence";
 
 const store = createMemoryPrincipalMemoryStore();
 const memory = createPrincipalMemoryProvider({ store, maxEntries: 8 });
@@ -45,7 +45,7 @@ Next: [Sessions and threads](sessions), [Knowledge and retrieval](retrieval), [M
 
 ## What is it?
 
-Memory is what the agent knows beyond the current message. Retinue layers it by **scope and
+Memory is what the agent knows beyond the current message. Forge layers it by **scope and
 lifetime**, and assembles the relevant pieces into each prompt **under the model's token budget**.
 
 | Scope | Keyed by | Lifetime |
@@ -58,7 +58,7 @@ lifetime**, and assembles the relevant pieces into each prompt **under the model
 
 So the assistant remembers what matters — the current thread, facts about the user, and org
 knowledge — **without** blowing the context window. The naive "re-send the last N turns" approach
-bloats prompts and fails on long threads; Retinue budgets and compacts instead.
+bloats prompts and fails on long threads; Forge budgets and compacts instead.
 
 ## Session memory
 
@@ -86,7 +86,7 @@ Org-wide knowledge via **[retrieval / RAG](retrieval)** (permission-scoped, cite
 
 ## The budget
 
-Each turn, Retinue computes a budget from the **selected model's** context limit, fills it by
+Each turn, Forge computes a budget from the **selected model's** context limit, fills it by
 priority (base policy, session state, recent turns, tool continuity are protected), prunes old
 reasoning/tool detail first, **compacts** older history into a summary rather than dropping it,
 and **fails loudly** if critical instructions can't fit — never silent truncation.

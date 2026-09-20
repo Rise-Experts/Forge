@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Quickstart: build your first agent
 
-In about five minutes, you will run an agent locally using Retinue's **embedded** mode. It needs no
+In about five minutes, you will run an agent locally using Forge's **embedded** mode. It needs no
 database, queue, or server. `createAgent` wires the reference in-memory adapters, model registry,
 tool registry, and default engine for you.
 
@@ -16,10 +16,10 @@ tool registry, and default engine for you.
 ## 2. Install
 
 ```bash
-npm install @retinue/agentkit @ai-sdk/anthropic
+npm install @forge/agentkit @ai-sdk/anthropic
 ```
 
-`@ai-sdk/anthropic` is an optional peer dependency because Retinue supports more than one provider. The default embedded catalog uses Anthropic models.
+`@ai-sdk/anthropic` is an optional peer dependency because Forge supports more than one provider. The default embedded catalog uses Anthropic models.
 
 ## 3. Configure your model credential
 
@@ -36,7 +36,7 @@ $env:ANTHROPIC_API_KEY="your-api-key"
 ## 4. Create `agent.ts`
 
 ```ts
-import { createAgent } from "@retinue/agentkit/providers";
+import { createAgent } from "@forge/agentkit/providers";
 
 const agent = createAgent({
   manifest: {
@@ -72,7 +72,7 @@ You should see a one-line launch post. The exact wording varies because a model 
 
 | Part | What it does |
 |---|---|
-| **Model** | Retinue resolves the `smart` role to a configured Anthropic model. |
+| **Model** | Forge resolves the `smart` role to a configured Anthropic model. |
 | **Instructions** | The stable behavior you give the agent. |
 | **Conversation** | `conversationId` groups messages and lets the next run load earlier turns. |
 | **Run** | One durable execution of the agent for a message. |
@@ -84,7 +84,7 @@ You should see a one-line launch post. The exact wording varies because a model 
 await agent.run({ conversationId: "conv-1", message: "Make it more playful." });
 ```
 
-Because the conversation carries its own history, you don't re-send prior context — Retinue loads the
+Because the conversation carries its own history, you don't re-send prior context — Forge loads the
 conversation's messages and assembles the prompt under the model's token budget for you. State
 persists across turns on the same `conversationId`.
 

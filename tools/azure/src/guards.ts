@@ -15,7 +15,7 @@
  * eventually is.
  */
 
-import { AgentPlatformError } from "@retinue/agentkit";
+import { AgentPlatformError } from "@forge/agentkit";
 
 import {
   assertApiVersion,

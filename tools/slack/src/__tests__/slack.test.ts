@@ -6,9 +6,9 @@
  * describe block, and it is the mistake this integration exists to not make.
  */
 import { describe, expect, it, vi } from "vitest";
-import type { ConversationId } from "@retinue/agentkit";
-import { bearer, createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { asId, type ExecutionContext } from "@retinue/agentkit";
+import type { ConversationId } from "@forge/agentkit";
+import { bearer, createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { asId, type ExecutionContext } from "@forge/agentkit";
 import { createSlackToolkit, SLACK_TOOL_NAMES } from "../index.js";
 
 const context: ExecutionContext = {

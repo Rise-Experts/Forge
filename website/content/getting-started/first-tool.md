@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Your first tool
 
-An agent that cannot do anything is a chat box. A **tool** is how it acts — and in Retinue a tool is a thin
+An agent that cannot do anything is a chat box. A **tool** is how it acts — and in Forge a tool is a thin
 envelope over a function you already have, with authorization, human approval and idempotency wrapped around it
 rather than written into it.
 
@@ -14,7 +14,7 @@ The difference between them is a single field, and that field is what decides wh
 ## 1. Declare a read
 
 ```ts
-import { defineTool } from "@retinue/agentkit/tools";
+import { defineTool } from "@forge/agentkit/tools";
 
 const inventory = new Map([
   ["SKU-1", { name: "Blue mug", inStock: 14 }],
@@ -51,7 +51,7 @@ like the platform dropping your call, and it is one of the more expensive aftern
 ## 2. Declare a write
 
 ```ts
-import { confirms } from "@retinue/agentkit/tools";
+import { confirms } from "@forge/agentkit/tools";
 
 const reorder = confirms({
   name: "reorder_stock",
@@ -78,7 +78,7 @@ Tools reach an agent through a **provider**: anything with an `id` and a `listTo
 context, so which tools exist can depend on who is asking.
 
 ```ts
-import { createAgent } from "@retinue/agentkit/providers";
+import { createAgent } from "@forge/agentkit/providers";
 
 const agent = createAgent({
   manifest: {

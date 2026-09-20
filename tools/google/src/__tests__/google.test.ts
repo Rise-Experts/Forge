@@ -9,11 +9,11 @@
  * - **AC-1** an expired token. It works for an hour, then looks intermittent.
  */
 import { readFileSync } from "node:fs";
-import type { ConversationId } from "@retinue/agentkit";
+import type { ConversationId } from "@forge/agentkit";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it, vi } from "vitest";
-import { bearer, refreshable, withRefreshingCredentials, type CredentialResolver } from "@retinue/agentkit/tools";
-import { asId, type ExecutionContext } from "@retinue/agentkit";
+import { bearer, refreshable, withRefreshingCredentials, type CredentialResolver } from "@forge/agentkit/tools";
+import { asId, type ExecutionContext } from "@forge/agentkit";
 
 import {
   buildMessage,

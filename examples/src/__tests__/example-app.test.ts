@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { ROLE_TOOL_NAMES, exampleRegistry } from "../index.js";
-import type { ExecutionContext } from "@retinue/agentkit";
-import type { SqlExecutor } from "@retinue/agentkit/adapters/postgres";
+import type { ExecutionContext } from "@forge/agentkit";
+import type { SqlExecutor } from "@forge/agentkit/adapters/postgres";
 import { DevAuthNotEnabled, createDevAuthenticate, PRINCIPAL_HEADER, ROLES_HEADER, TENANT_HEADER } from "../auth.js";
 import { ModelNotConfigured, resolveExampleModel, definitionFor, DEFAULT_MODEL_ID } from "../model.js";
 import { MAX_MEMORY_ENTRIES, NoteNotFound, createExampleStore, createExampleTools } from "../tools.js";
@@ -9,16 +9,16 @@ import { exampleAgentManifest, exampleContextProviders } from "../agent.js";
 import { questionSpecsFrom } from "../questions.js";
 import { buildWorkerContext } from "../worker-context.js";
 import { ASSIGNED_SKILLS, EXAMPLE_SKILLS, renderSkillCatalogue } from "../skills.js";
-import { SKILL_LIMITS } from "@retinue/agentkit/context";
-import { classifyMcpTool, hashToolList, mcpToolName } from "@retinue/agentkit/mcp";
+import { SKILL_LIMITS } from "@forge/agentkit/context";
+import { classifyMcpTool, hashToolList, mcpToolName } from "@forge/agentkit/mcp";
 import { DOCS_MCP_EFFECTS, DOCS_MCP_SERVER_ID, DOCS_MCP_TOOLS, createDocsMcpProvider, docsMcpConnection } from "../mcp.js";
-import { createMcpToolProvider } from "@retinue/agentkit/mcp";
+import { createMcpToolProvider } from "@forge/agentkit/mcp";
 import { createInProcessBus, createMemoryBackend } from "../memory-app.js";
-import { STANDARD_TOOL_CATEGORIES, createStandardToolProvider } from "@retinue/agentkit/tools";
+import { STANDARD_TOOL_CATEGORIES, createStandardToolProvider } from "@forge/agentkit/tools";
 import { asExampleBackend } from "../memory-composition.js";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { resolveCapabilities } from "@retinue/agentkit";
+import { resolveCapabilities } from "@forge/agentkit";
 import { exampleCapabilities } from "../index.js";
 import { exampleProviders } from "../providers.js";
 import { COMPOSER_COMMANDS, commandQueryAt, filterCommands } from "../composer/commands.js";
@@ -49,12 +49,12 @@ describe("dev auth — AC-6", () => {
     // At construction, not per request: a misconfigured example should fail at boot with one clear message
     // rather than return 401 to every caller and leave someone guessing.
     expect(() => createDevAuthenticate({})).toThrow(DevAuthNotEnabled);
-    expect(() => createDevAuthenticate({ RETINUE_EXAMPLE_DEV_AUTH: "true" })).toThrow(DevAuthNotEnabled);
-    expect(() => createDevAuthenticate({ RETINUE_EXAMPLE_DEV_AUTH: "1" })).not.toThrow();
+    expect(() => createDevAuthenticate({ FORGE_EXAMPLE_DEV_AUTH: "true" })).toThrow(DevAuthNotEnabled);
+    expect(() => createDevAuthenticate({ FORGE_EXAMPLE_DEV_AUTH: "1" })).not.toThrow();
   });
 
   it("rejects a request with no tenant or no principal", async () => {
-    const authenticate = createDevAuthenticate({ RETINUE_EXAMPLE_DEV_AUTH: "1" });
+    const authenticate = createDevAuthenticate({ FORGE_EXAMPLE_DEV_AUTH: "1" });
     // No fallback tenant. A default would mean an unauthenticated request landing in *somebody's* data, which is
     // the one failure tenant isolation exists to prevent.
     expect(await authenticate(request())).toBeNull();
@@ -64,7 +64,7 @@ describe("dev auth — AC-6", () => {
   });
 
   it("builds a context through the platform's own validator", async () => {
-    const authenticate = createDevAuthenticate({ RETINUE_EXAMPLE_DEV_AUTH: "1" });
+    const authenticate = createDevAuthenticate({ FORGE_EXAMPLE_DEV_AUTH: "1" });
     const context = await authenticate(
       request({ [TENANT_HEADER]: "t1", [PRINCIPAL_HEADER]: "p1", [ROLES_HEADER]: "editor, viewer" }),
     );
@@ -81,15 +81,15 @@ describe("model configuration", () => {
   });
 
   it("defaults the model id but not the key", () => {
-    const resolved = resolveExampleModel({ RETINUE_MODEL_API_KEY: "sk-test" });
+    const resolved = resolveExampleModel({ FORGE_MODEL_API_KEY: "sk-test" });
     expect(resolved.modelId).toBe(DEFAULT_MODEL_ID);
     expect(resolved.endpoint).toBe("https://api.openai.com/v1");
   });
 
   it("switches to the openai-compatible provider when a base URL is given", () => {
     const resolved = resolveExampleModel({
-      RETINUE_MODEL_API_KEY: "sk-test",
-      RETINUE_MODEL_BASE_URL: "http://127.0.0.1:8888/v1",
+      FORGE_MODEL_API_KEY: "sk-test",
+      FORGE_MODEL_BASE_URL: "http://127.0.0.1:8888/v1",
     });
     // The dedicated OpenAI provider assumes endpoints a local server may not implement, and the failure is a 404
     // on a path nobody chose.
@@ -599,7 +599,7 @@ describe("the MCP bridge", () => {
 /**
  * `fetch_url` now comes from the kit — REQ-039 (#188).
  *
- * This app used to carry its own fetcher and its own egress policy. Both are gone: `@retinue/agentkit/tools`
+ * This app used to carry its own fetcher and its own egress policy. Both are gone: `@forge/agentkit/tools`
  * ships the tool, and the client's refusals are tested exhaustively where they live
  * (`backend/src/toolkit/__tests__/http.test.ts` — twenty-two cases including every SSRF shape).
  *

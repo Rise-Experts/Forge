@@ -1,5 +1,5 @@
 {
-  "//": "TypeDoc-only config. Resolves @retinue/* imports from SOURCE (not built dist) via paths,",
+  "//": "TypeDoc-only config. Resolves @forge/* imports from SOURCE (not built dist) via paths,",
   "//2": "so the API reference generates without pre-building the workspace \u2014 works in CI, Cloudflare and locally.",
   "//3": "types: node, because the runtime uses `process` and node: builtins. This was [] and worked only because",
   "//4": "a dependency's .d.ts pulled node types in transitively; moving pg out of dependencies (#196) broke that",
@@ -22,55 +22,106 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@retinue/agentkit": [
+      "@forge/agentkit": [
         "../backend/src/index.ts"
       ],
-      "@retinue/agentkit/runtime": [
+      "@forge/agentkit/runtime": [
         "../backend/src/entries/runtime.ts"
       ],
-      "@retinue/agentkit/tools": [
+      "@forge/agentkit/tools": [
         "../backend/src/entries/tools.ts"
       ],
-      "@retinue/agentkit/persistence": [
+      "@forge/agentkit/persistence": [
         "../backend/src/entries/persistence.ts"
       ],
-      "@retinue/agentkit/context": [
+      "@forge/agentkit/context": [
         "../backend/src/entries/context.ts"
       ],
-      "@retinue/agentkit/knowledge": [
+      "@forge/agentkit/knowledge": [
         "../backend/src/entries/knowledge.ts"
       ],
-      "@retinue/agentkit/hitl": [
+      "@forge/agentkit/hitl": [
         "../backend/src/entries/hitl.ts"
       ],
-      "@retinue/agentkit/usage": [
+      "@forge/agentkit/usage": [
         "../backend/src/entries/usage.ts"
       ],
-      "@retinue/agentkit/mcp": [
+      "@forge/agentkit/mcp": [
         "../backend/src/entries/mcp.ts"
       ],
-      "@retinue/agentkit/observability": [
+      "@forge/agentkit/observability": [
         "../backend/src/entries/observability.ts"
       ],
-      "@retinue/agentkit/server": [
+      "@forge/agentkit/server": [
         "../backend/src/entries/server.ts"
       ],
-      "@retinue/agentkit/providers": [
+      "@forge/agentkit/providers": [
         "../backend/src/entries/providers.ts"
       ],
-      "@retinue/agentkit/adapters/postgres": [
+      "@forge/agentkit/adapters/postgres": [
         "../backend/src/entries/adapters-postgres.ts"
       ],
-      "@retinue/agentkit/adapters/redis": [
+      "@forge/agentkit/adapters/redis": [
         "../backend/src/entries/adapters-redis.ts"
       ],
-      "@retinue/agentkit/adapters/bullmq": [
+      "@forge/agentkit/adapters/bullmq": [
         "../backend/src/entries/adapters-bullmq.ts"
       ],
-      "@retinue/agentkit/adapters/otel": [
+      "@forge/agentkit/adapters/otel": [
         "../backend/src/entries/adapters-otel.ts"
       ],
-      "@retinue/react": [
+      "@forge/react": [
+        "../frontend/src/index.ts"
+      ],
+      "@forge/agentkit": [
+        "../backend/src/index.ts"
+      ],
+      "@forge/agentkit/runtime": [
+        "../backend/src/entries/runtime.ts"
+      ],
+      "@forge/agentkit/tools": [
+        "../backend/src/entries/tools.ts"
+      ],
+      "@forge/agentkit/persistence": [
+        "../backend/src/entries/persistence.ts"
+      ],
+      "@forge/agentkit/context": [
+        "../backend/src/entries/context.ts"
+      ],
+      "@forge/agentkit/knowledge": [
+        "../backend/src/entries/knowledge.ts"
+      ],
+      "@forge/agentkit/hitl": [
+        "../backend/src/entries/hitl.ts"
+      ],
+      "@forge/agentkit/usage": [
+        "../backend/src/entries/usage.ts"
+      ],
+      "@forge/agentkit/mcp": [
+        "../backend/src/entries/mcp.ts"
+      ],
+      "@forge/agentkit/observability": [
+        "../backend/src/entries/observability.ts"
+      ],
+      "@forge/agentkit/server": [
+        "../backend/src/entries/server.ts"
+      ],
+      "@forge/agentkit/providers": [
+        "../backend/src/entries/providers.ts"
+      ],
+      "@forge/agentkit/adapters/postgres": [
+        "../backend/src/entries/adapters-postgres.ts"
+      ],
+      "@forge/agentkit/adapters/redis": [
+        "../backend/src/entries/adapters-redis.ts"
+      ],
+      "@forge/agentkit/adapters/bullmq": [
+        "../backend/src/entries/adapters-bullmq.ts"
+      ],
+      "@forge/agentkit/adapters/otel": [
+        "../backend/src/entries/adapters-otel.ts"
+      ],
+      "@forge/react": [
         "../frontend/src/index.ts"
       ]
     },

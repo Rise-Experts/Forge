@@ -1,6 +1,6 @@
 # The whole stack, for a first deployment — task #254.
 #
-#   RETINUE_MODEL_API_KEY=sk-… docker compose up
+#   FORGE_MODEL_API_KEY=sk-… docker compose up
 #
 # A `Dockerfile` existed and nothing brought its dependencies up with it, so a consumer's first act was to
 # assemble Postgres, Redis, a migration step, an API host and a worker themselves — before seeing the thing work
@@ -31,10 +31,10 @@
 # ## Nothing here is a secret
 #
 # The database password is `postgres` because this database is reachable only from this compose network and
-# holds nothing. `RETINUE_MODEL_API_KEY` has **no default** and is not written down: it comes from the
-# environment, and starting without one produces `retinue doctor`'s named failure rather than a crash.
+# holds nothing. `FORGE_MODEL_API_KEY` has **no default** and is not written down: it comes from the
+# environment, and starting without one produces `forge doctor`'s named failure rather than a crash.
 
-name: retinue
+name: forge
 
 services:
   postgres:
@@ -43,15 +43,15 @@ services:
     image: pgvector/pgvector:pg16
     environment:
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: retinue
+      POSTGRES_DB: forge
     ports: ["55440:5432"]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d retinue"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d forge"]
       interval: 5s
       timeout: 3s
       retries: 20
     # A named volume, so `docker compose down` keeps the data and `down -v` is the deliberate reset.
-    volumes: ["retinue-pg:/var/lib/postgresql/data"]
+    volumes: ["forge-pg:/var/lib/postgresql/data"]
 
   redis:
     image: redis:7-alpine
@@ -71,8 +71,8 @@ services:
     build: .
     command: ["node", "backend/dist/server/bin.js", "migrate"]
     environment:
-      RETINUE_DATABASE_URL: postgres://postgres:postgres@postgres:5432/retinue
-      RETINUE_REDIS_URL: redis://redis:6379
+      FORGE_DATABASE_URL: postgres://postgres:postgres@postgres:5432/forge
+      FORGE_REDIS_URL: redis://redis:6379
     depends_on:
       postgres: { condition: service_healthy }
     restart: "no"
@@ -82,15 +82,15 @@ services:
     # The reference application: the page, `/composer.js`, and `/api/message`. This is the one to open.
     command: ["node", "examples/scripts/run-app.mjs"]
     environment:
-      RETINUE_DATABASE_URL: postgres://postgres:postgres@postgres:5432/retinue
-      RETINUE_REDIS_URL: redis://redis:6379
-      RETINUE_MODEL_API_KEY: ${RETINUE_MODEL_API_KEY:?set RETINUE_MODEL_API_KEY, e.g. in a .env file beside this one}
-      RETINUE_MODEL_ID: ${RETINUE_MODEL_ID:-gpt-4o}
-      RETINUE_MODEL_BASE_URL: ${RETINUE_MODEL_BASE_URL:-}
-      RETINUE_EXAMPLE_DEV_AUTH: "1"
-      # `run-app.mjs` defaults this to `agentkit_example` and sets it as the search_path. The migrate service
+      FORGE_DATABASE_URL: postgres://postgres:postgres@postgres:5432/forge
+      FORGE_REDIS_URL: redis://redis:6379
+      FORGE_MODEL_API_KEY: ${FORGE_MODEL_API_KEY:?set FORGE_MODEL_API_KEY, e.g. in a .env file beside this one}
+      FORGE_MODEL_ID: ${FORGE_MODEL_ID:-gpt-4o}
+      FORGE_MODEL_BASE_URL: ${FORGE_MODEL_BASE_URL:-}
+      FORGE_EXAMPLE_DEV_AUTH: "1"
+      # `run-app.mjs` defaults this to `forge_example` and sets it as the search_path. The migrate service
       # above provisions `public`, so the app is pointed at `public` here rather than migrating a second schema.
-      RETINUE_EXAMPLE_SCHEMA: public
+      FORGE_EXAMPLE_SCHEMA: public
       PORT: "4000"
     ports: ["4010:4000"]
     depends_on:
@@ -109,18 +109,18 @@ services:
     build: .
     command: ["node", "backend/dist/server/bin.js", "serve"]
     environment:
-      RETINUE_DATABASE_URL: postgres://postgres:postgres@postgres:5432/retinue
-      RETINUE_REDIS_URL: redis://redis:6379
+      FORGE_DATABASE_URL: postgres://postgres:postgres@postgres:5432/forge
+      FORGE_REDIS_URL: redis://redis:6379
       # No default, deliberately. Absent, `doctor` names it and the host refuses to answer usefully — which is
       # a better first experience than a stack that starts and then fails on the first message.
-      RETINUE_MODEL_API_KEY: ${RETINUE_MODEL_API_KEY:?set RETINUE_MODEL_API_KEY, e.g. in a .env file beside this one}
-      RETINUE_MODEL_ID: ${RETINUE_MODEL_ID:-gpt-4o}
-      RETINUE_MODEL_BASE_URL: ${RETINUE_MODEL_BASE_URL:-}
+      FORGE_MODEL_API_KEY: ${FORGE_MODEL_API_KEY:?set FORGE_MODEL_API_KEY, e.g. in a .env file beside this one}
+      FORGE_MODEL_ID: ${FORGE_MODEL_ID:-gpt-4o}
+      FORGE_MODEL_BASE_URL: ${FORGE_MODEL_BASE_URL:-}
       # Dev auth: the reference app trusts headers for identity. Fine on a laptop, and the reason this file is
       # not a deployment — see the docs.
       # Exactly `1`: the example refuses any other value, deliberately, so nobody reaches header-based
       # "authentication" by setting something that looks truthy.
-      RETINUE_EXAMPLE_DEV_AUTH: "1"
+      FORGE_EXAMPLE_DEV_AUTH: "1"
       PORT: "4000"
     ports: ["4011:4000"]
     depends_on:
@@ -139,15 +139,15 @@ services:
     build: .
     command: ["node", "backend/dist/server/bin.js", "worker"]
     environment:
-      RETINUE_DATABASE_URL: postgres://postgres:postgres@postgres:5432/retinue
-      RETINUE_REDIS_URL: redis://redis:6379
-      RETINUE_MODEL_API_KEY: ${RETINUE_MODEL_API_KEY:?set RETINUE_MODEL_API_KEY, e.g. in a .env file beside this one}
-      RETINUE_MODEL_ID: ${RETINUE_MODEL_ID:-gpt-4o}
-      RETINUE_MODEL_BASE_URL: ${RETINUE_MODEL_BASE_URL:-}
+      FORGE_DATABASE_URL: postgres://postgres:postgres@postgres:5432/forge
+      FORGE_REDIS_URL: redis://redis:6379
+      FORGE_MODEL_API_KEY: ${FORGE_MODEL_API_KEY:?set FORGE_MODEL_API_KEY, e.g. in a .env file beside this one}
+      FORGE_MODEL_ID: ${FORGE_MODEL_ID:-gpt-4o}
+      FORGE_MODEL_BASE_URL: ${FORGE_MODEL_BASE_URL:-}
     depends_on:
       postgres: { condition: service_healthy }
       redis: { condition: service_healthy }
       migrate: { condition: service_completed_successfully }
 
 volumes:
-  retinue-pg:
+  forge-pg:

@@ -6,17 +6,17 @@ sidebar_position: 9
 
 ## What is it?
 
-`@retinue/react` is **headless** client state — no product styling, no transport assumptions. It
+`@forge/react` is **headless** client state — no product styling, no transport assumptions. It
 turns the backend's stable events into render-ready state, and localizes everything. React is a peer
 dependency; the same framework-free reducers back React Native.
 
 ## Hooks
 
-Wrap your app in `RetinueProvider` with a client that implements the transport-agnostic
-`RetinueClient` (GraphQL, SSE, or a test double), then use the hooks:
+Wrap your app in `ForgeProvider` with a client that implements the transport-agnostic
+`ForgeClient` (GraphQL, SSE, or a test double), then use the hooks:
 
 ```tsx
-import { RetinueProvider, useRunSubscription, useSendMessage } from "@retinue/react";
+import { ForgeProvider, useRunSubscription, useSendMessage } from "@forge/react";
 
 function Chat({ conversationId, runId }: { conversationId: string; runId: string }) {
   const { parts, status, retry, connected } = useRunSubscription({ runId, conversationId });

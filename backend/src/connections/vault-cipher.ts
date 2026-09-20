@@ -113,7 +113,7 @@ const tokensMatch = (a: string, b: string): boolean => {
 };
 
 export const createSupabaseVaultCipher = (options: VaultCipherOptions): SecretCipher => {
-  const prefix = options.namePrefix ?? "retinue";
+  const prefix = options.namePrefix ?? "forge";
   const newToken = options.randomToken ?? (() => randomBytes(TOKEN_BYTES).toString("base64"));
 
   return {

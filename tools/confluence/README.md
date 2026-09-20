@@ -1,17 +1,17 @@
-# @retinue/tools-confluence
+# @forge/tools-confluence
 
-Confluence Cloud tools for a [Retinue](https://github.com/Rise-Experts/retinue) agent: CQL search, read pages as
+Confluence Cloud tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: CQL search, read pages as
 markdown, and write them back — without overwriting an edit the agent never saw.
 
 ```bash
-npm i @retinue/tools-confluence
+npm i @forge/tools-confluence
 ```
 
 ## Use it
 
 ```ts
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { createConfluenceToolkit } from "@retinue/tools-confluence";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { createConfluenceToolkit } from "@forge/tools-confluence";
 
 // Basic, not bearer: Atlassian takes an account email and an API token.
 const resolver = createStaticCredentialResolver({
@@ -34,7 +34,7 @@ Pass `confluence` in an agent's `tools`. The credential is resolved **per call**
 without a restart, and nothing here reads the environment itself.
 
 Confluence and Jira share one credential and one site host, so
-[`@retinue/tools-jira`](https://www.npmjs.com/package/@retinue/tools-jira) wires up alongside this at no extra
+[`@forge/tools-jira`](https://www.npmjs.com/package/@forge/tools-jira) wires up alongside this at no extra
 cost.
 
 ## Tools
@@ -83,13 +83,13 @@ verbatim.
 ## Requirements
 
 - Node 20+
-- `@retinue/agentkit` as a peer dependency
+- `@forge/agentkit` as a peer dependency
 - An Atlassian account email and an API token from
   [id.atlassian.com](https://id.atlassian.com/manage-profile/security/api-tokens). An API token has **no
   scopes** — it carries exactly the permissions of the account that created it, so use a dedicated account
   rather than a person's.
 
 Full documentation, including space-permission notes and what is deliberately not built:
-[docs.retinue.riseexperts.de](https://docs.retinue.riseexperts.de/integrations/confluence).
+[docs.forge.riseexperts.de](https://docs.forge.riseexperts.de/integrations/confluence).
 
 MIT

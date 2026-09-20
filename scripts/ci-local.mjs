@@ -81,7 +81,7 @@ const NPM_COMMAND = /npm (?:--prefix \S+ run [a-z:-]+|run [a-z:-]+|test|ci|insta
 
 const read = (path) => {
   try {
-    return readFileSync(path, "utf8");
+    return readFileSync(path, "utf8").replace(/\r\n/g, "\n");
   } catch (error) {
     console.error(`✗ cannot read ${path}: ${error.message}`);
     console.error("  a definition that cannot be read cannot be compared, and treating that as agreement is the");
@@ -151,7 +151,7 @@ const forkSafety = () => {
   for (const path of [WORKFLOW, ".github/workflows/release.yml"]) {
     let source;
     try {
-      source = readFileSync(path, "utf8");
+      source = readFileSync(path, "utf8").replace(/\r\n/g, "\n");
     } catch {
       continue; // A workflow that does not exist cannot be unsafe; the command check reports a missing WORKFLOW.
     }
@@ -220,7 +220,7 @@ const steps = [...STEPS];
 if (process.argv.includes("--with-image")) {
   // Off by default: the image build is minutes on a runner and a few minutes here, and it only changes when the
   // Dockerfile or a manifest does.
-  steps.push(["docker image", "docker build -t retinue:local ."]);
+  steps.push(["docker image", "docker build -t forge:local ."]);
 }
 
 const results = [];

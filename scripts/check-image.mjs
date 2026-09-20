@@ -25,7 +25,7 @@ import { fileURLToPath } from "node:url";
 const DOCKERFILE = "Dockerfile";
 const APP = "examples/package.json";
 
-/** Workspace directories a manifest depends on, by reading `@retinue/*` deps against the root's workspace list. */
+/** Workspace directories a manifest depends on, by reading `@forge/*` deps against the root's workspace list. */
 export const workspaceDependenciesOf = (manifest, workspaceDirs) => {
   const names = [...Object.keys(manifest.dependencies ?? {}), ...Object.keys(manifest.peerDependencies ?? {})];
   const byName = new Map(workspaceDirs.map(({ dir, name }) => [name, dir]));

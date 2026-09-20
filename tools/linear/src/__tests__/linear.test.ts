@@ -5,11 +5,11 @@
  * A client that checks only the status reports failure as success.
  */
 import { readFileSync } from "node:fs";
-import type { ConversationId } from "@retinue/agentkit";
+import type { ConversationId } from "@forge/agentkit";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it, vi } from "vitest";
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { asId, type ExecutionContext } from "@retinue/agentkit";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { asId, type ExecutionContext } from "@forge/agentkit";
 
 import { createLinearToolkit, LINEAR_AUTH, LINEAR_TOOL_NAMES, parseIdentifier } from "../index.js";
 

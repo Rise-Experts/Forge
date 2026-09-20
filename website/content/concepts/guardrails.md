@@ -4,7 +4,7 @@ sidebar_position: 10
 
 # Guardrails
 
-A guardrail is a check the runtime runs for you, on the way in and on the way out. Retinue ships the seam and
+A guardrail is a check the runtime runs for you, on the way in and on the way out. Forge ships the seam and
 you supply the policy — because what counts as unacceptable input is a property of your deployment, not of an
 agent framework.
 
@@ -27,7 +27,7 @@ Guardrails are for *inspection*: PII, moderation, topic restriction, an output s
 ## The contract
 
 ```ts
-import type { Guardrail } from "@retinue/agentkit/guardrails";
+import type { Guardrail } from "@forge/agentkit/guardrails";
 ```
 
 Two hooks, both optional. Implement whichever you need:
@@ -44,8 +44,8 @@ A guardrail that refuses a turn containing something shaped like a payment card,
 tool arguments:
 
 ```ts
-import { createAgent } from "@retinue/agentkit/providers";
-import type { Guardrail } from "@retinue/agentkit/guardrails";
+import { createAgent } from "@forge/agentkit/providers";
+import type { Guardrail } from "@forge/agentkit/guardrails";
 
 const luhn = (digits: string): boolean => {
   let sum = 0;
@@ -93,7 +93,7 @@ on.
 ### PII — offline, checksummed, consistent
 
 ```ts
-import { createPiiGuardrail } from "@retinue/agentkit/guardrails";
+import { createPiiGuardrail } from "@forge/agentkit/guardrails";
 
 const pii = createPiiGuardrail({
   // Everything by default: email, phone, card_number, iban, ssn, ip_address
@@ -127,7 +127,7 @@ version of the phone pattern scored 78.6% precision and would have fired on invo
 ### Moderation — an adapter, and off unless you declare it
 
 ```ts
-import { createModerationGuardrail } from "@retinue/agentkit/guardrails";
+import { createModerationGuardrail } from "@forge/agentkit/guardrails";
 
 const moderation = createModerationGuardrail({
   classify: async (text) => {
@@ -178,4 +178,4 @@ changes its mind about history makes a conversation impossible to continue.
 document; this page and the source comments are the specification for now. The surrounding threat model — untrusted
 content, prompt injection, what the platform already refuses — is in
 [Security review](/specifications/security-review), and the requirement itself is
-[REQ-046](https://github.com/Rise-Experts/retinue/issues/205).
+[REQ-046](https://github.com/Rise-Experts/forge/issues/205).

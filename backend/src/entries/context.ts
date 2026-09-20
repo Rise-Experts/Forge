@@ -1,5 +1,5 @@
 /**
- * `@retinue/agentkit/context` — what goes into the prompt, and what comes back out of it.
+ * `@forge/agentkit/context` — what goes into the prompt, and what comes back out of it.
  *
  * Assembly and budgeting, skills, per-principal memory, and citations. Grouped because they are one decision
  * from the host's side: everything here competes for the same window.

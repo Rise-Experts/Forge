@@ -49,7 +49,7 @@ import type { IncomingMessage } from "node:http";
  * be able to. Several sites answer a *missing* User-Agent with a 429 that is not a rate limit, so sending
  * nothing is not an option either.
  */
-export const DEFAULT_USER_AGENT = "RetinueBot/1.0 (+https://retinue.dev/integrations/scrape)";
+export const DEFAULT_USER_AGENT = "ForgeBot/1.0 (+https://forge.riseexperts.de/integrations/scrape)";
 
 /** Why an address or host was refused. `null` means it is acceptable. */
 export type Refusal = string | null;

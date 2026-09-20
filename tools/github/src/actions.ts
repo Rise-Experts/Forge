@@ -13,7 +13,7 @@
  *   because reading the logs is the whole task after a red build.
  */
 
-import { confirms, defineTool, type Tool } from "@retinue/agentkit/tools";
+import { confirms, defineTool, type Tool } from "@forge/agentkit/tools";
 
 import { DEFAULT_PER_PAGE, type Json, type Transport } from "./transport.js";
 

@@ -32,7 +32,7 @@ export type {
   TextPart,
   ToolCallPart,
   ToolResultPart,
-} from "@retinue/agentkit";
+} from "@forge/agentkit";
 
 /** Local echo state for an optimistic send, before the server confirms it. */
 export type OptimisticState = "pending" | "confirmed" | "failed";

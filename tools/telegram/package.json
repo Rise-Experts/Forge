@@ -1,7 +1,7 @@
 {
-  "name": "@retinue/tools-telegram",
+  "name": "@forge/tools-telegram",
   "version": "0.3.0",
-  "description": "Telegram Bot API tools for a Retinue agent: send, edit, pin and delete messages \u2014 gated, idempotent, and paced to the per-chat limit.",
+  "description": "Telegram Bot API tools for a Forge agent: send, edit, pin and delete messages \u2014 gated, idempotent, and paced to the per-chat limit.",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -27,10 +27,10 @@
     "prepublishOnly": "node ../../scripts/publish-guard.mjs"
   },
   "peerDependencies": {
-    "@retinue/agentkit": "^0.3.0"
+    "@forge/agentkit": "^0.3.0"
   },
   "devDependencies": {
-    "@retinue/agentkit": "*",
+    "@forge/agentkit": "*",
     "@types/node": "^20",
     "typescript": "^5",
     "vitest": "^4.1.9"
@@ -42,11 +42,11 @@
   "author": "Rise Experts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rise-Experts/retinue.git",
+    "url": "git+https://github.com/Rise-Experts/Forge.git",
     "directory": "tools/telegram"
   },
-  "homepage": "https://github.com/Rise-Experts/retinue#readme",
+  "homepage": "https://github.com/Rise-Experts/Forge#readme",
   "bugs": {
-    "url": "https://github.com/Rise-Experts/retinue/issues"
+    "url": "https://github.com/Rise-Experts/Forge/issues"
   }
 }

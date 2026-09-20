@@ -19,7 +19,7 @@
  * conversation, and a run that approved `mcp__x__publish` should not silently end up calling something else.
  */
 
-import { createMcpToolProvider, hashToolList, mcpToolName } from "@retinue/agentkit/mcp";
+import { createMcpToolProvider, hashToolList, mcpToolName } from "@forge/agentkit/mcp";
 import type {
   ExecutionContext,
   McpClient,
@@ -27,7 +27,7 @@ import type {
   McpServerConnection,
   McpToolProvider,
   TenantId,
-} from "@retinue/agentkit";
+} from "@forge/agentkit";
 
 /**
  * The documentation server this example connects to.

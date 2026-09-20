@@ -98,8 +98,8 @@ describe("credentials are referenced, not held — AC-5", () => {
   it("is not environment-backed, deliberately", () => {
     // A host that wants env vars passes them in and can be seen doing so. A resolver with a silent
     // `process.env` fallback is the thing this module exists to prevent, because it works for exactly one tenant.
-    process.env.RETINUE_TEST_SECRET_XYZ = "leaked";
+    process.env.FORGE_TEST_SECRET_XYZ = "leaked";
     const resolver = createStaticCredentialResolver({});
-    return expect(resolver.resolve({ ref: "RETINUE_TEST_SECRET_XYZ", context })).rejects.toBeDefined();
+    return expect(resolver.resolve({ ref: "FORGE_TEST_SECRET_XYZ", context })).rejects.toBeDefined();
   });
 });

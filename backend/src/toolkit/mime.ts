@@ -120,10 +120,10 @@ const foldedBase64 = (value: string): string => {
 export const boundaryFor = (parts: readonly string[]): string => {
   const digest = createHash("sha256").update(parts.join(" "), "utf8").digest("hex");
   for (let attempt = 0; attempt < 8; attempt += 1) {
-    const candidate = `=_retinue_${digest.slice(attempt * 4, attempt * 4 + 32)}`;
+    const candidate = `=_forge_${digest.slice(attempt * 4, attempt * 4 + 32)}`;
     if (!parts.some((part) => part.includes(candidate))) return candidate;
   }
-  return `=_retinue_${digest}`;
+  return `=_forge_${digest}`;
 };
 
 const renderPart = (headers: readonly string[], content: string): string =>

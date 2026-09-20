@@ -1,5 +1,5 @@
 {
-  "name": "@retinue/tools-scrape",
+  "name": "@forge/tools-scrape",
   "version": "0.3.0",
   "description": "Read the pages an agent finds: web_scrape, web_scrape_batch and web_crawl, behind one provider-swappable contract with SSRF closed at connect time.",
   "license": "MIT",
@@ -27,10 +27,10 @@
     "prepublishOnly": "node ../../scripts/publish-guard.mjs"
   },
   "peerDependencies": {
-    "@retinue/agentkit": "^0.3.0"
+    "@forge/agentkit": "^0.3.0"
   },
   "devDependencies": {
-    "@retinue/agentkit": "*",
+    "@forge/agentkit": "*",
     "@types/node": "^20",
     "typescript": "^5",
     "vitest": "^4.1.9"
@@ -42,11 +42,11 @@
   "author": "Rise Experts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rise-Experts/retinue.git",
+    "url": "git+https://github.com/Rise-Experts/Forge.git",
     "directory": "tools/scrape"
   },
-  "homepage": "https://github.com/Rise-Experts/retinue#readme",
+  "homepage": "https://github.com/Rise-Experts/Forge#readme",
   "bugs": {
-    "url": "https://github.com/Rise-Experts/retinue/issues"
+    "url": "https://github.com/Rise-Experts/Forge/issues"
   }
 }

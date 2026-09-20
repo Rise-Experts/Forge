@@ -186,7 +186,8 @@ const GATED = new Set(["external-write", "destructive"]);
  * is a floor failure — while `tools-github`, which has no public-broadcast surface at all, says so once.
  */
 export const scopeOf = (file) => {
-  const parts = file.split("/");
+  const normalized = file.replaceAll("\\", "/");
+  const parts = normalized.split("/");
   if (parts[0] === "tools" && parts[1] !== undefined) return `tools-${parts[1]}`;
   if (parts[0] === "backend") return "agentkit";
   return parts[0] ?? "unknown";

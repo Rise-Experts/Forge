@@ -19,7 +19,7 @@
  * is exactly this, and it is the reason the field exists rather than a boolean per tool.
  */
 
-import type { ExecutionContext } from "@retinue/agentkit";
+import type { ExecutionContext } from "@forge/agentkit";
 
 export type SendRequest = {
   /** The composed RFC 5322 message. Identical bytes to what a preview shows. */

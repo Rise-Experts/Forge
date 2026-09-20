@@ -7,7 +7,7 @@
  * A runnable server rather than a snippet, so "verified against a real MCP client" is something anybody can
  * repeat. Add it to Claude Code with:
  *
- *   claude mcp add retinue -- node <abs path>/examples/scripts/mcp-server.mjs
+ *   claude mcp add forge -- node <abs path>/examples/scripts/mcp-server.mjs
  *
  * ## Identity comes from the environment, because stdio has nowhere else to put it
  *
@@ -23,20 +23,20 @@
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
-import { registerRetinueTools } from "@retinue/agentkit/mcp-server";
-import { asId } from "@retinue/agentkit";
+import { registerForgeTools } from "@forge/agentkit/mcp-server";
+import { asId } from "@forge/agentkit";
 import { createMemoryBackend } from "../dist/memory-app.js";
 import { exampleRegistry } from "../dist/index.js";
 import { asExampleBackend } from "../dist/memory-composition.js";
 
-const tenantId = process.env.RETINUE_MCP_TENANT ?? "mcp-demo";
-const principalId = process.env.RETINUE_MCP_PRINCIPAL ?? "mcp-user";
+const tenantId = process.env.FORGE_MCP_TENANT ?? process.env.FORGE_MCP_TENANT ?? "mcp-demo";
+const principalId = process.env.FORGE_MCP_PRINCIPAL ?? process.env.FORGE_MCP_PRINCIPAL ?? "mcp-user";
 
 const context = {
   tenantId: asId(tenantId),
   principalId: asId(principalId),
   // The roles decide what `listAuthorized` returns, so this is the whole authorization story for this session.
-  roleIds: (process.env.RETINUE_MCP_ROLES ?? "editor").split(",").map((r) => asId(r.trim())),
+  roleIds: (process.env.FORGE_MCP_ROLES ?? process.env.FORGE_MCP_ROLES ?? "editor").split(",").map((r) => asId(r.trim())),
   locale: "en",
   timezone: "UTC",
   requestId: asId(`mcp-${process.pid}`),
@@ -45,11 +45,11 @@ const context = {
 const registry = exampleRegistry(asExampleBackend(createMemoryBackend()));
 
 const server = new Server(
-  { name: "retinue", version: "0.2.0" },
+  { name: "forge", version: "0.2.0" },
   { capabilities: { tools: {} } },
 );
 
-registerRetinueTools(
+registerForgeTools(
   server,
   { listTools: ListToolsRequestSchema, callTool: CallToolRequestSchema },
   { registry, context },

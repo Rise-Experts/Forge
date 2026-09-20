@@ -1,9 +1,9 @@
-# @retinue/tools-google
+# @forge/tools-google
 
-Gmail and Calendar tools for a [Retinue](https://github.com/Rise-Experts/retinue) agent.
+Gmail and Calendar tools for a [Forge](https://github.com/Rise-Experts/Forge) agent.
 
 ```bash
-npm i @retinue/tools-google
+npm i @forge/tools-google
 ```
 
 ## Before anything else: this needs a refreshing resolver
@@ -12,9 +12,9 @@ A Google access token lives for **one hour**. Wrap your resolver in `withRefresh
 works until lunch and then fails in a way that looks intermittent.
 
 ```ts
-import { withRefreshingCredentials } from "@retinue/agentkit/tools";
-import type { CredentialRefresher, CredentialResolver } from "@retinue/agentkit/tools";
-import { createGoogleToolkit } from "@retinue/tools-google";
+import { withRefreshingCredentials } from "@forge/agentkit/tools";
+import type { CredentialRefresher, CredentialResolver } from "@forge/agentkit/tools";
+import { createGoogleToolkit } from "@forge/tools-google";
 
 declare const yourResolver: CredentialResolver;
 declare const yourRefresher: CredentialRefresher;
@@ -55,11 +55,11 @@ a message to eight people and the other is not.
 
 ## Requirements
 
-- Node 20+, `@retinue/agentkit` as a peer dependency
+- Node 20+, `@forge/agentkit` as a peer dependency
 - A Google Cloud OAuth app. **Gmail's scopes are *restricted***, which means the app must pass Google's
   verification — a security assessment taking weeks — before anyone outside your test users can consent.
   Calendar's are merely *sensitive*: verification, no assessment. `GOOGLE_SCOPES` exports which is which.
 
-Full documentation: [docs.retinue.riseexperts.de](https://docs.retinue.riseexperts.de/integrations/google).
+Full documentation: [docs.forge.riseexperts.de](https://docs.forge.riseexperts.de/integrations/google).
 
 MIT

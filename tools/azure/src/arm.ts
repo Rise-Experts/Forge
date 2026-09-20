@@ -7,7 +7,7 @@
  * Limits section of the integration page, which states that as a decision rather than apologising for a gap.
  */
 
-import { confirms, defineTool, destroys, type Tool } from "@retinue/agentkit/tools";
+import { confirms, defineTool, destroys, type Tool } from "@forge/agentkit/tools";
 
 import { checkedApiVersion, checkedGroup, checkedId, checkedSubscription, refuse } from "./guards.js";
 import { CONTAINER_CONTRIBUTOR, READER, TAG_CONTRIBUTOR, VM_CONTRIBUTOR, WEBSITE_CONTRIBUTOR } from "./roles.js";

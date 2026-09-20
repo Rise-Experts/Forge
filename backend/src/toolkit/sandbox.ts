@@ -31,6 +31,7 @@
  */
 
 import { spawn } from "node:child_process";
+import { existsSync } from "node:fs";
 import { AgentPlatformError } from "../core/errors.js";
 
 /** Bytes of stdout and of stderr returned. Beyond this the output is truncated and says so. */
@@ -139,7 +140,13 @@ const boundedSpawn = async (
      */
     const killGroup = () => {
       try {
-        if (child.pid !== undefined) process.kill(-child.pid, "SIGKILL");
+        if (child.pid !== undefined) {
+          if (process.platform === "win32") {
+            child.kill("SIGKILL");
+          } else {
+            process.kill(-child.pid, "SIGKILL");
+          }
+        }
       } catch {
         child.kill("SIGKILL");
       }
@@ -302,10 +309,18 @@ export const createLocalSandbox = (config: LocalSandboxConfig): Sandbox => {
       retryable: false,
     });
   }
+  const defaultShell =
+    process.platform === "win32"
+      ? existsSync("C:\\Program Files\\Git\\bin\\sh.exe")
+        ? "C:\\Program Files\\Git\\bin\\sh.exe"
+        : existsSync("C:\\Program Files (x86)\\Git\\bin\\sh.exe")
+          ? "C:\\Program Files (x86)\\Git\\bin\\sh.exe"
+          : "sh"
+      : "sh";
   return {
     id: "local:unsafe",
     async run(request) {
-      return boundedSpawn(config.shell ?? "sh", ["-c", request.command], {
+      return boundedSpawn(config.shell ?? defaultShell, ["-c", request.command], {
         timeoutMs: request.timeoutMs ?? config.timeoutMs ?? DEFAULT_TIMEOUT_MS,
       });
     },

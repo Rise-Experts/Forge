@@ -1,19 +1,19 @@
-# @retinue/tools-reddit
+# @forge/tools-reddit
 
-Reddit tools for a [Retinue](https://github.com/Rise-Experts/retinue) agent: search, read bounded comment
+Reddit tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: search, read bounded comment
 trees, submit and comment.
 
 ```bash
-npm i @retinue/tools-reddit
+npm i @forge/tools-reddit
 ```
 
-Requires `@retinue/agentkit` as a peer.
+Requires `@forge/agentkit` as a peer.
 
 ## Use it
 
 ```ts
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { createRedditToolkit } from "@retinue/tools-reddit";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { createRedditToolkit } from "@forge/tools-reddit";
 
 const toolkit = createRedditToolkit({
   credentialRef: "reddit",
@@ -47,6 +47,6 @@ when a `more` placeholder means Reddit withheld a branch.
 Token refresh belongs to the resolver, not this package: a module-level cache would be shared by every tenant
 in the process.
 
-Full documentation: <https://docs.retinue.riseexperts.de/integrations/reddit>
+Full documentation: <https://docs.forge.riseexperts.de/integrations/reddit>
 
 MIT.

@@ -7,11 +7,11 @@
  * happen.
  */
 import { readFileSync } from "node:fs";
-import type { ConversationId } from "@retinue/agentkit";
+import type { ConversationId } from "@forge/agentkit";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it, vi } from "vitest";
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { asId, type ExecutionContext } from "@retinue/agentkit";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { asId, type ExecutionContext } from "@forge/agentkit";
 
 import { classifyRateLimit, createXToolkit, MAX_POST_LENGTH, postLength, X_AUTH, X_TOOL_NAMES } from "../index.js";
 

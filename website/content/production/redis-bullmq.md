@@ -13,6 +13,6 @@ flowchart TD
   R --> P[(PostgreSQL)]
 ```
 
-Configure `RETINUE_REDIS_URL`. Redis being unavailable prevents queue-based work from being dispatched; it is not a substitute for the database. BullMQ provides job delivery while Retinue's run claim, checkpoint, and idempotency contracts protect durable execution.
+Configure `FORGE_REDIS_URL`. Redis being unavailable prevents queue-based work from being dispatched; it is not a substitute for the database. BullMQ provides job delivery while Forge's run claim, checkpoint, and idempotency contracts protect durable execution.
 
 Next: [Workers](workers), [PostgreSQL](postgres), and [durable runtime](../concepts/durable-runtime).

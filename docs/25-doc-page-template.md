@@ -1,7 +1,7 @@
 # The Integration Page Template
 
-Status: specified and enforced, 27 Aug 2026 · REQ-048 ([#207](https://github.com/Rise-Experts/retinue/issues/207)),
-task [#217](https://github.com/Rise-Experts/retinue/issues/217)
+Status: specified and enforced, 27 Aug 2026 · REQ-048 ([#207](https://github.com/Rise-Experts/forge/issues/207)),
+task [#217](https://github.com/Rise-Experts/forge/issues/217)
 Enforced by: `npm run check:template` (`scripts/check-doc-template.mjs`)
 
 ## Why a template at all

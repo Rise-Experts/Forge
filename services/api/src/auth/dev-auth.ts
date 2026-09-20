@@ -5,20 +5,24 @@
  * claim to be anyone. It exists because a service you cannot start is a service nobody evaluates, and the honest
  * way to ship that is a thing that says what it is and refuses to run unless someone acknowledges it.
  *
- * `RETINUE_DEV_AUTH=1` is the acknowledgement, and it is checked at **construction** rather than per request: a
+ * `FORGE_DEV_AUTH=1` is the acknowledgement, and it is checked at **construction** rather than per request: a
  * misconfigured service then fails at boot with one clear message, instead of returning 401 to every caller and
  * leaving somebody to guess why.
  */
 
 import { randomUUID } from "node:crypto";
-import { asId } from "@retinue/agentkit";
-import type { Authenticate } from "@retinue/agentkit/server";
-import type { ExecutionContext } from "@retinue/agentkit";
+import { asId } from "@forge/agentkit";
+import type { Authenticate } from "@forge/agentkit/server";
+import type { ExecutionContext } from "@forge/agentkit";
 
-export const DEV_AUTH_VARIABLE = "RETINUE_DEV_AUTH";
-export const TENANT_HEADER = "x-retinue-tenant";
-export const PRINCIPAL_HEADER = "x-retinue-principal";
-export const ROLES_HEADER = "x-retinue-roles";
+export const DEV_AUTH_VARIABLE = "FORGE_DEV_AUTH";
+export const RETINUE_DEV_AUTH_VARIABLE = "RETINUE_DEV_AUTH";
+export const TENANT_HEADER = "x-forge-tenant";
+export const RETINUE_TENANT_HEADER = "x-retinue-tenant";
+export const PRINCIPAL_HEADER = "x-forge-principal";
+export const RETINUE_PRINCIPAL_HEADER = "x-retinue-principal";
+export const ROLES_HEADER = "x-forge-roles";
+export const RETINUE_ROLES_HEADER = "x-retinue-roles";
 
 export class DevAuthNotEnabled extends Error {
   constructor() {
@@ -34,16 +38,17 @@ export class DevAuthNotEnabled extends Error {
 export const createDevAuthenticate = (
   env: Readonly<Record<string, string | undefined>> = process.env,
 ): Authenticate => {
-  if (env[DEV_AUTH_VARIABLE] !== "1") throw new DevAuthNotEnabled();
+  if (env[DEV_AUTH_VARIABLE] !== "1" && env[RETINUE_DEV_AUTH_VARIABLE] !== "1") throw new DevAuthNotEnabled();
 
   return (request: Request): ExecutionContext | null => {
-    const tenantId = request.headers.get(TENANT_HEADER)?.trim();
-    const principalId = request.headers.get(PRINCIPAL_HEADER)?.trim();
+    const tenantId = (request.headers.get(TENANT_HEADER) ?? request.headers.get(RETINUE_TENANT_HEADER))?.trim();
+    const principalId = (request.headers.get(PRINCIPAL_HEADER) ?? request.headers.get(RETINUE_PRINCIPAL_HEADER))?.trim();
     // Both, or nothing. A request with a tenant and no principal is not partially authenticated; it is
     // unauthenticated, and treating it as the former is how a principal-scoped store ends up keyed on undefined.
     if (!tenantId || !principalId) return null;
 
-    const roleIds = (request.headers.get(ROLES_HEADER) ?? "")
+    const rawRoles = request.headers.get(ROLES_HEADER) ?? request.headers.get(RETINUE_ROLES_HEADER) ?? "";
+    const roleIds = rawRoles
       .split(",")
       .map((role) => role.trim())
       .filter(Boolean);

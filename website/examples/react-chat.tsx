@@ -1,11 +1,11 @@
-import { RetinueProvider, useRunSubscription, useSendMessage } from "@retinue/react";
-import type { RetinueClient } from "@retinue/react";
+import { ForgeProvider, useRunSubscription, useSendMessage } from "@forge/react";
+import type { ForgeClient } from "@forge/react";
 
-export function Chat({ client }: { client: RetinueClient }) {
+export function Chat({ client }: { client: ForgeClient }) {
   return (
-    <RetinueProvider client={client}>
+    <ForgeProvider client={client}>
       <Conversation />
-    </RetinueProvider>
+    </ForgeProvider>
   );
 }
 

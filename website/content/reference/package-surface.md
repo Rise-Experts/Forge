@@ -9,7 +9,7 @@ primitives — moved here from the package README, which is a front door rather 
 
 Nothing here is a promise on its own: what is covered by semver is the package root's exports and the
 documented subpaths, and that is stated in
-[Versioning, API surface and deprecation](https://github.com/Rise-Experts/retinue/blob/main/docs/19-versioning.md).
+[Versioning, API surface and deprecation](https://github.com/Rise-Experts/forge/blob/main/docs/19-versioning.md).
 
 ## Modules
 
@@ -66,9 +66,9 @@ documented subpaths, and that is stated in
 ## Scripts
 
 ```bash
-npm run typecheck -w @retinue/agentkit
-npm test -w @retinue/agentkit
-npm run build -w @retinue/agentkit
+npm run typecheck -w @forge/agentkit
+npm test -w @forge/agentkit
+npm run build -w @forge/agentkit
 ```
 
 From the repository root, the checks that gate a change:
@@ -91,7 +91,7 @@ The root is the **semver boundary**: what is exported from it is API, and what i
 broken. So it is **five values** — it was 392 (#199).
 
 ```ts
-import { createRuntime, resolveCapabilities, defineAgent, asId, AgentPlatformError } from "@retinue/agentkit";
+import { createRuntime, resolveCapabilities, defineAgent, asId, AgentPlatformError } from "@forge/agentkit";
 ```
 
 Every **type** is still exported from the root, by `export type *`, which emits no import. That is what makes the
@@ -103,11 +103,11 @@ package, because `./runtime` and `./tools` need them, and they stay `dependencie
 who installs this will use at least one subpath and should not have to install two more things to do it.
 
 ```ts
-import { createDefaultEngine } from "@retinue/agentkit/runtime";
-import { defineTool, createStandardToolProvider } from "@retinue/agentkit/tools";  // no peer: uses global fetch
-import { createMemoryRunStore } from "@retinue/agentkit/persistence";              // no peer at all
-import { createPostgresRunStore } from "@retinue/agentkit/adapters/postgres";      // peer: pg
-import { typeDefs, createResolvers } from "@retinue/agentkit/server";              // peer: graphql, graphql-yoga
+import { createDefaultEngine } from "@forge/agentkit/runtime";
+import { defineTool, createStandardToolProvider } from "@forge/agentkit/tools";  // no peer: uses global fetch
+import { createMemoryRunStore } from "@forge/agentkit/persistence";              // no peer at all
+import { createPostgresRunStore } from "@forge/agentkit/adapters/postgres";      // peer: pg
+import { typeDefs, createResolvers } from "@forge/agentkit/server";              // peer: graphql, graphql-yoga
 ```
 
 `src/entries/README.md` lists them all, including why there is no `./testing` yet.
@@ -168,7 +168,7 @@ where the combination nobody thought about is the one a customer picks first.
 
 ## Tools
 
-Twenty standard tools, at `@retinue/agentkit/tools`, plus separately-created audio factories. **Wiring is the toggle** — a tool exists when its
+Twenty standard tools, at `@forge/agentkit/tools`, plus separately-created audio factories. **Wiring is the toggle** — a tool exists when its
 dependency was supplied and not otherwise, because a separate `enable` flag beside a `sqlQuery` function is how a
 deployment ends up with a tool that is enabled and unwired:
 
@@ -197,15 +197,15 @@ an `authorization` or `cookie` header supplied by a caller rather than forwardin
 
 ## Flows and teams
 
-`@retinue/agentkit/flows` — REQ-038 ([#187](https://github.com/Rise-Experts/retinue/issues/187)) and REQ-037
-([#186](https://github.com/Rise-Experts/retinue/issues/186)).
+`@forge/agentkit/flows` — REQ-038 ([#187](https://github.com/Rise-Experts/forge/issues/187)) and REQ-037
+([#186](https://github.com/Rise-Experts/forge/issues/186)).
 
 **A team is a kind of flow step, and a team compiles to a flow.** Both issues say they share design, and they are
 right: a flow's step and a team's member turn are the same idea, and modelling them separately produces two
 overlapping notions of "a step" to keep in agreement forever.
 
 ```ts
-import { compileTeam, createFlowRunner } from "@retinue/agentkit/flows";
+import { compileTeam, createFlowRunner } from "@forge/agentkit/flows";
 ```
 
 ### The interpreter is a pure function
@@ -283,7 +283,7 @@ Three decisions inside that, each with an appealing wrong answer:
 only place a request could live was a `Message` — and a message requires a conversation. So the run shape said "no
 conversation needed" while the storage said its input still needed one.
 
-`npm run flow -w @retinue/example-app` drives all of it against Postgres: a flow straight through, one parked for
+`npm run flow -w @forge/example-app` drives all of it against Postgres: a flow straight through, one parked for
 a person, a reload from storage by something that never held it, the version pin against a published v2, a team
 whose members become child runs with shrinking ceilings, a lost notification recovered by the poll, and a failing
 member routed into its step's policy.

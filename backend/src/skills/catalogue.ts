@@ -23,7 +23,7 @@
  * The specific core modules, **not** `core/index.js`.
  *
  * The barrel re-exports `core/validation.ts`, which imports `zod`. Importing it from here put zod into the
- * dependency graph of `@retinue/agentkit/persistence` — a subpath whose whole claim is that it reaches nothing
+ * dependency graph of `@forge/agentkit/persistence` — a subpath whose whole claim is that it reaches nothing
  * outside the standard library, so a test or a prototype needs no install beyond the package. Caught by
  * `root-import-weight.test.ts`, which walks the graph transitively; a barrel import is how that guarantee gets
  * lost, and it is invisible in review.

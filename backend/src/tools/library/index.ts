@@ -238,7 +238,7 @@ export const createStandardToolProvider = (config: StandardToolsConfig): ToolPro
     .map(([, build]) => build());
 
   return {
-    id: config.providerId ?? "retinue.standard-tools",
+    id: config.providerId ?? "forge.standard-tools",
     async listTools(context: ExecutionContext) {
       // `list_attachments` is the one tool that cannot be built once: it is scoped to a conversation, and a
       // headless automation has no conversation to scope it to. Resolved per call, from the context, which is

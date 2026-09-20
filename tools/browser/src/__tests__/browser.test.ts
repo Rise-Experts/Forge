@@ -11,13 +11,13 @@
  *   grandchild, and asserts the grandchild is gone.
  */
 import { mkdtempSync, readFileSync, existsSync } from "node:fs";
-import type { ConversationId } from "@retinue/agentkit";
+import type { ConversationId } from "@forge/agentkit";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it, vi } from "vitest";
-import { asId, type ExecutionContext } from "@retinue/agentkit";
-import { createToolSearch } from "@retinue/agentkit/tools";
-import { createScrapeToolkit } from "@retinue/tools-scrape";
+import { asId, type ExecutionContext } from "@forge/agentkit";
+import { createToolSearch } from "@forge/agentkit/tools";
+import { createScrapeToolkit } from "@forge/tools-scrape";
 
 import {
   BROWSER_EFFECTS,
@@ -407,7 +407,7 @@ describe("session caps — AC-5", () => {
      * The grandchild writes its own pid where this test can find it, and the assertion is that signalling it
      * afterwards raises `ESRCH`.
      */
-    const dir = mkdtempSync(join(tmpdir(), "retinue-orphan-"));
+    const dir = mkdtempSync(join(tmpdir(), "forge-orphan-"));
     const pidFile = join(dir, "grandchild.pid");
     const child = `
       const { spawn } = require("node:child_process");

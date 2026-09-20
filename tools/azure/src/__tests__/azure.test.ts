@@ -14,7 +14,7 @@
  * - **AC-6** Azure's two meanings for 403 get different platform codes.
  */
 import { describe, expect, it, vi } from "vitest";
-import type { ConversationId } from "@retinue/agentkit";
+import { asId, type ConversationId, type ExecutionContext } from "@forge/agentkit";
 import {
   bearer,
   refreshable,
@@ -22,9 +22,10 @@ import {
   type CredentialRefresher,
   type CredentialResolver,
   type RefreshableCredential,
-} from "@retinue/agentkit/tools";
-import { asId, type ExecutionContext } from "@retinue/agentkit";
+} from "@forge/agentkit/tools";
 import { readFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import {
   AZURE_GATED,
@@ -382,7 +383,7 @@ describe("the credential refreshes across an expiry — AC-1", () => {
 
 describe("nothing here reads the environment or an ambient login — AC-7", () => {
   it("the package source mentions no ambient credential source", () => {
-    const dir = new URL("../", import.meta.url).pathname;
+    const dir = fileURLToPath(new URL("../", import.meta.url));
     const files = readdirSync(dir).filter((name) => name.endsWith(".ts"));
     expect(files.length).toBeGreaterThan(4);
     /**
@@ -405,7 +406,7 @@ describe("nothing here reads the environment or an ambient login — AC-7", () =
       "~/.azure",
     ];
     for (const name of files) {
-      const source = readFileSync(`${dir}${name}`, "utf8");
+      const source = readFileSync(join(dir, name), "utf8");
       for (const needle of forbidden) {
         expect(source, `${name} mentions ${needle}`).not.toContain(needle);
       }

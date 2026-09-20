@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Installation
 
-Retinue is the product. `@retinue/agentkit` is its primary TypeScript SDK and runtime package.
+Forge is the product. `@forge/agentkit` is its primary TypeScript SDK and runtime package.
 
 ## What you need
 
@@ -14,19 +14,19 @@ Retinue is the product. `@retinue/agentkit` is its primary TypeScript SDK and ru
 
 ## Install
 
-Retinue ships as two packages:
+Forge ships as two packages:
 
 ```bash
 # Primary SDK/runtime package. Install one model-provider peer for the embedded quickstart.
-npm install @retinue/agentkit @ai-sdk/anthropic
+npm install @forge/agentkit @ai-sdk/anthropic
 
 # headless React client (optional, for a UI) — React is a peer dependency
-npm install @retinue/react react
+npm install @forge/react react
 ```
 
-`@retinue/agentkit` bundles everything server-side: the durable runtime, the default AI-SDK engine,
+`@forge/agentkit` bundles everything server-side: the durable runtime, the default AI-SDK engine,
 the tool registry, the model registry and the reference in-memory adapters. Swap in the Postgres /
-Supabase adapters for production. `@retinue/react` is transport-agnostic headless state — hooks,
+Supabase adapters for production. `@forge/react` is transport-agnostic headless state — hooks,
 reducers, localization — plus an optional UI component set.
 
 ## The whole stack, with Docker
@@ -35,7 +35,7 @@ For the server profile, `compose.yaml` in the repository brings up Postgres (wit
 step and the API host and worker:
 
 ```bash
-RETINUE_MODEL_API_KEY=sk-… docker compose up
+FORGE_MODEL_API_KEY=sk-… docker compose up
 ```
 
 Three things about it are deliberate:
@@ -46,14 +46,14 @@ Three things about it are deliberate:
 - **Migrations are a service**, not a note in the README. `api` and `worker` wait for it to complete
   successfully, so a stack that comes up has a schema. "Remember to migrate" is a step people forget exactly
   once and then debug for an hour.
-- **`RETINUE_MODEL_API_KEY` has no default and is not written down.** Starting without it fails with a message
+- **`FORGE_MODEL_API_KEY` has no default and is not written down.** Starting without it fails with a message
   naming the variable, rather than a stack that starts and dies on the first message.
 
 `docker compose down` keeps the data; `down -v` is the deliberate reset.
 
 ## Two profiles
 
-Retinue runs the same core in two shapes — pick per app:
+Forge runs the same core in two shapes — pick per app:
 
 | Profile | Use for | Adds |
 |---|---|---|
@@ -66,5 +66,5 @@ first agent, then **[Configuration](configuration)** for the server profile.
 ## Verify
 
 ```bash
-node -e "import('@retinue/agentkit').then(() => console.log('retinue ready'))"
+node -e "import('@forge/agentkit').then(() => console.log('forge ready'))"
 ```

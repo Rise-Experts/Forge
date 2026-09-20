@@ -8,7 +8,7 @@ For pages that will not yield to a fetch. **Try [web scraping](./scrape) first**
 the cost of one request, where this costs a process, memory and seconds.
 
 ```bash
-npm i @retinue/tools-browser
+npm i @forge/tools-browser
 ```
 
 ## Tools
@@ -31,7 +31,7 @@ sending money. `internal-write` is the honest label: *this changed something, an
 ## Wire it up
 
 ```ts
-import { createBrowserToolkit, type BrowserDriver } from "@retinue/tools-browser";
+import { createBrowserToolkit, type BrowserDriver } from "@forge/tools-browser";
 
 // Yours: a Playwright/CDP process, or a hosted service. There is deliberately no default — see Limits.
 declare const driver: BrowserDriver;

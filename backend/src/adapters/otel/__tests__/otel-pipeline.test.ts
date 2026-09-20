@@ -172,17 +172,17 @@ describe("the real OTel pipeline", () => {
     const telemetry = createOtelTelemetry({
       tracerProvider: tracing.provider,
       meterProvider: metrics.provider,
-      scopeName: "@retinue/agentkit",
+      scopeName: "@forge/agentkit",
       scopeVersion: "0.0.0",
     });
     telemetry.tracer.startSpan("x").end();
     createRunMetrics(telemetry.meter).runsTotal.record(1, { outcome: "completed" });
 
-    expect(tracing.exporter.getFinishedSpans()[0]?.instrumentationScope.name).toBe("@retinue/agentkit");
+    expect(tracing.exporter.getFinishedSpans()[0]?.instrumentationScope.name).toBe("@forge/agentkit");
     const collected = await metrics.collect();
     // Without a scope, a customer's collector cannot tell our metrics from their application's, and neither can
     // a bill.
-    expect(collected.flatMap((b) => b.scopeMetrics.map((s) => s.scope.name))).toContain("@retinue/agentkit");
+    expect(collected.flatMap((b) => b.scopeMetrics.map((s) => s.scope.name))).toContain("@forge/agentkit");
 
     await tracing.shutdown();
     await metrics.shutdown();

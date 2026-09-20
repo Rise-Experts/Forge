@@ -83,7 +83,7 @@
  */
 
 import { execFileSync, spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, renameSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -101,7 +101,7 @@ const ROOT = resolve(import.meta.dirname, "..");
  */
 export const PACKAGES = [
   {
-    name: "@retinue/agentkit",
+    name: "@forge/agentkit",
     dir: "backend",
     deep: [
       "dist/index.js",
@@ -117,103 +117,103 @@ export const PACKAGES = [
     ],
   },
   {
-    name: "@retinue/react",
+    name: "@forge/react",
     dir: "frontend",
     deep: ["dist/index.js", "dist/hooks/hooks.js", "src/client.ts", "hooks", "ui"],
   },
   {
-    name: "@retinue/tools-github",
+    name: "@forge/tools-github",
     dir: "tools/github",
     deep: ["dist/index.js", "src/index.ts", "tools", "internal"],
   },
   {
-    name: "@retinue/tools-slack",
+    name: "@forge/tools-slack",
     dir: "tools/slack",
     deep: ["dist/index.js", "src/index.ts", "tools", "internal"],
   },
   {
-    name: "@retinue/tools-search",
+    name: "@forge/tools-search",
     dir: "tools/search",
     deep: ["dist/index.js", "src/index.ts", "providers", "internal"],
   },
   {
-    name: "@retinue/tools-discord",
+    name: "@forge/tools-discord",
     dir: "tools/discord",
     deep: ["dist/index.js", "src/index.ts", "channels", "internal"],
   },
   {
-    name: "@retinue/tools-telegram",
+    name: "@forge/tools-telegram",
     dir: "tools/telegram",
     deep: ["dist/index.js", "src/index.ts", "pacer", "internal"],
   },
   {
-    name: "@retinue/tools-jira",
+    name: "@forge/tools-jira",
     dir: "tools/jira",
     // `adf` is the module a consumer would most plausibly reach for — the converter is genuinely useful on its
     // own — which is exactly why it must not resolve as a subpath. It is re-exported from the root instead.
     deep: ["dist/index.js", "src/index.ts", "adf", "internal"],
   },
   {
-    name: "@retinue/tools-confluence",
+    name: "@forge/tools-confluence",
     dir: "tools/confluence",
     deep: ["dist/index.js", "src/index.ts", "storage", "internal"],
   },
   {
-    name: "@retinue/tools-linear",
+    name: "@forge/tools-linear",
     dir: "tools/linear",
     deep: ["dist/index.js", "src/index.ts", "graphql", "internal"],
   },
   {
-    name: "@retinue/tools-meta",
+    name: "@forge/tools-meta",
     dir: "tools/meta",
     deep: ["dist/index.js", "src/index.ts", "whatsapp", "internal"],
   },
   {
-    name: "@retinue/tools-x",
+    name: "@forge/tools-x",
     dir: "tools/x",
     deep: ["dist/index.js", "src/index.ts", "posts", "internal"],
   },
   {
-    name: "@retinue/tools-reddit",
+    name: "@forge/tools-reddit",
     dir: "tools/reddit",
     deep: ["dist/index.js", "src/index.ts", "comments", "internal"],
   },
   {
-    name: "@retinue/tools-google",
+    name: "@forge/tools-google",
     dir: "tools/google",
     // `mime` is the module a consumer would most plausibly reach for — building an RFC 5322 message is useful
     // on its own — which is exactly why it must not resolve. It is re-exported from the root.
     deep: ["dist/index.js", "src/index.ts", "mime", "gmail"],
   },
   {
-    name: "@retinue/tools-notion",
+    name: "@forge/tools-notion",
     dir: "tools/notion",
     // `blocks` is the module a consumer would most plausibly reach for, which is why it must not resolve.
     deep: ["dist/index.js", "src/index.ts", "blocks", "internal"],
   },
   {
-    name: "@retinue/tools-scrape",
+    name: "@forge/tools-scrape",
     dir: "tools/scrape",
     // `ssrf` is the module a consumer would most plausibly reach for — a hardened fetch is useful on its own —
     // which is exactly why it must not resolve. It is re-exported from the root.
     deep: ["dist/index.js", "src/index.ts", "ssrf", "html"],
   },
   {
-    name: "@retinue/tools-email",
+    name: "@forge/tools-email",
     dir: "tools/email",
     // `smtp` is the module a consumer would most plausibly reach for — a minimal SMTP client is useful on its
     // own — which is exactly why it must not resolve. It is re-exported from the root.
     deep: ["dist/index.js", "src/index.ts", "smtp", "providers"],
   },
   {
-    name: "@retinue/tools-browser",
+    name: "@forge/tools-browser",
     dir: "tools/browser",
     // `supervisor` is the module a consumer would most plausibly reach for — a process-group killer is useful
     // on its own — which is exactly why it must not resolve. It is re-exported from the root.
     deep: ["dist/index.js", "src/index.ts", "supervisor", "refs"],
   },
   {
-    name: "@retinue/tools-azure",
+    name: "@forge/tools-azure",
     dir: "tools/azure",
     // `resource-id` is the module a consumer would most plausibly reach for — parsing an ARM id is useful on
     // its own — which is exactly why it must not resolve. It is re-exported from the root.
@@ -287,7 +287,7 @@ export const unresolvedLinks = (targets, paths) => {
  * teaches an API that does not exist. A block that cannot compile standalone does not belong in a README.
  */
 export const codeBlocks = (markdown) =>
-  [...markdown.matchAll(/```(ts|tsx)\n([\s\S]*?)```/g)].map((m) => ({ lang: m[1], code: m[2] }));
+  [...markdown.matchAll(/```(ts|tsx)\r?\n([\s\S]*?)```/g)].map((m) => ({ lang: m[1], code: m[2] }));
 
 /**
  * Whether a deep import was stopped *by the boundary*.
@@ -348,8 +348,12 @@ const die = (message) => {
   process.exit(2);
 };
 
-const run = (command, args, options = {}) =>
-  execFileSync(command, args, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"], ...options });
+const run = (command, args, options = {}) => {
+  const isNpm = command === "npm" || command === "npm.cmd";
+  const cmd = process.platform === "win32" && isNpm ? "npm.cmd" : command;
+  const shell = process.platform === "win32" && isNpm ? true : (options.shell ?? false);
+  return execFileSync(cmd, args, { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"], ...options, shell });
+};
 
 /**
  * Everything below runs only when this file is the entry point.
@@ -360,19 +364,19 @@ const run = (command, args, options = {}) =>
  * time inside the check written to find it.
  */
 const main = () => {
-  const work = mkdtempSync(join(tmpdir(), "retinue-consumer-"));
+  const work = mkdtempSync(join(tmpdir(), "forge-consumer-"));
   const keep = process.argv.includes("--keep");
   const published = process.argv.includes("--published");
   /**
-   * The one package to check, when a caller names it. Accepts the workspace name (`@retinue/tools-slack`) or the
+   * The one package to check, when a caller names it. Accepts the workspace name (`@forge/tools-slack`) or the
    * short form (`tools-slack`), because the release workflow has the first and a person typing it has the second.
    */
   const onlyAt = process.argv.indexOf("--only");
   const only = onlyAt === -1 ? null : process.argv[onlyAt + 1];
   if (onlyAt !== -1 && (only === undefined || only.startsWith("--"))) {
-    die("--only needs a package name, for example --only @retinue/tools-slack");
+    die("--only needs a package name, for example --only @forge/tools-slack");
   }
-  const selected = only === null ? PACKAGES : PACKAGES.filter((shipped) => shipped.name === only || shipped.name === `@retinue/${only}`);
+  const selected = only === null ? PACKAGES : PACKAGES.filter((shipped) => shipped.name === only || shipped.name === `@forge/${only}`);
   if (only !== null && selected.length === 0) {
     die(
       `--only ${only} matches none of the shipping packages: ${PACKAGES.map((shipped) => shipped.name).join(", ")}`,
@@ -390,13 +394,19 @@ const main = () => {
     // ── one consumer, both packages: a directory whose only knowledge of them is `node_modules` ───────────────
     const consumer = join(work, "consumer");
     const modules = join(consumer, "node_modules");
-    mkdirSync(join(modules, "@retinue"), { recursive: true });
+    mkdirSync(join(modules, "@forge"), { recursive: true });
 
-    // Everything except `@retinue`: the workspace's own links would put `backend/src` back within reach and undo
+    // Everything except `@forge` and legacy `@retinue`: the workspace's own links would put `backend/src` back within reach and undo
     // the only thing being tested here.
     for (const entry of readdirSync(join(ROOT, "node_modules"))) {
-      if (entry === "@retinue") continue;
-      symlinkSync(join(ROOT, "node_modules", entry), join(modules, entry));
+      if (entry === "@forge" || entry === "@retinue") continue;
+      const src = join(ROOT, "node_modules", entry);
+      const dst = join(modules, entry);
+      try {
+        symlinkSync(src, dst, process.platform === "win32" ? "junction" : "dir");
+      } catch {
+        cpSync(src, dst, { recursive: true });
+      }
     }
     writeFileSync(
       join(consumer, "package.json"),
@@ -558,7 +568,7 @@ const main = () => {
         );
       }
 
-      const entries = run("tar", ["-tzf", packed]).trim().split("\n");
+      const entries = run("tar", ["-tzf", packed]).trim().split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
       const forbidden = forbiddenTarballEntries(entries);
       if (forbidden.length > 0) {
         fail(
@@ -579,14 +589,18 @@ const main = () => {
       }
 
       // ── the artifact, installed ────────────────────────────────────────────────────────────────────────────
-      const [, shortName] = shipped.name.split("/");
-      run("tar", ["-xzf", packed, "-C", join(modules, "@retinue")]);
-      run("mv", [join(modules, "@retinue", "package"), join(modules, "@retinue", shortName)]);
+      const [scope, shortName] = shipped.name.split("/");
+      mkdirSync(join(modules, scope), { recursive: true });
+      run("tar", ["-xzf", packed, "-C", join(modules, scope)]);
+      const extractedPkg = join(modules, scope, "package");
+      const targetDir = join(modules, scope, shortName);
+      if (existsSync(targetDir)) rmSync(targetDir, { recursive: true, force: true });
+      renameSync(extractedPkg, targetDir);
 
       /**
        * Installed for everyone, asserted for the one named — see `--only`.
        *
-       * The install cannot be narrowed: `@retinue/tools-slack` imports `@retinue/agentkit`, so a consumer holding
+       * The install cannot be narrowed: `@forge/tools-slack` imports `@forge/agentkit`, so a consumer holding
        * only the toolkit cannot load it at all, and the check would report a boundary failure that is really a
        * missing peer. So the scratch consumer always gets every package — which is what a real consumer has — and
        * `--only` narrows what is *checked*.
@@ -660,7 +674,7 @@ const main = () => {
         writeFileSync(
           specPath,
           [
-            `import { conversationStoreConformance } from "@retinue/agentkit/testing";`,
+            `import { conversationStoreConformance } from "@forge/agentkit/testing";`,
             `/** Leaks across tenants: the exact shape of the #91 defect. */`,
             `const leaky = () => {`,
             `  const rows = new Map<string, any>();`,
@@ -691,8 +705,8 @@ const main = () => {
         writeFileSync(
           positivePath,
           [
-            `import { conversationStoreConformance } from "@retinue/agentkit/testing";`,
-            `import { createMemoryConversationStore } from "@retinue/agentkit/persistence";`,
+            `import { conversationStoreConformance } from "@forge/agentkit/testing";`,
+            `import { createMemoryConversationStore } from "@forge/agentkit/persistence";`,
             `conversationStoreConformance(() => createMemoryConversationStore());`,
           ].join("\n"),
         );
@@ -701,7 +715,7 @@ const main = () => {
         if (!existsSync(vitestBin)) {
           fail(
             "vitest is not reachable from the scratch consumer, so the conformance negative test cannot run",
-            "it is an optional peer of @retinue/agentkit and a devDependency of this workspace; the symlink\n" +
+            "it is an optional peer of @forge/agentkit and a devDependency of this workspace; the symlink\n" +
               "step should have provided it",
           );
         } else {
@@ -747,10 +761,10 @@ const main = () => {
        * A `bin` is the same shape — a path into `dist` that `files` may not ship, or an entry that throws on a
        * command needing no configuration.
        */
-      const bin = shipped.manifest?.bin ?? JSON.parse(readFileSync(join(modules, "@retinue", shortName, "package.json"), "utf8")).bin;
+      const bin = shipped.manifest?.bin ?? JSON.parse(readFileSync(join(modules, scope, shortName, "package.json"), "utf8")).bin;
       if (bin !== undefined) {
         for (const [name, relative] of Object.entries(typeof bin === "string" ? { [shortName]: bin } : bin)) {
-          const target = join(modules, "@retinue", shortName, relative);
+          const target = join(modules, scope, shortName, relative);
           if (!existsSync(target)) {
             fail(
               `${shipped.name} declares bin "${name}" → ${relative}, which the tarball does not contain`,
@@ -772,7 +786,7 @@ const main = () => {
       }
 
       // ── 7: the README a consumer actually reads ───────────────────────────────────────────────────────────
-      const readmePath = join(modules, "@retinue", shortName, "README.md");
+      const readmePath = join(modules, scope, shortName, "README.md");
       if (existsSync(readmePath)) {
         const readme = readFileSync(readmePath, "utf8");
         const stripped = entries.map((path) => path.replace(/^package\//, "")).filter(Boolean);

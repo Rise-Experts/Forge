@@ -1,6 +1,6 @@
 # Tool Catalogue
 
-Status: specification · REQ-047 ([#206](https://github.com/Rise-Experts/retinue/issues/206)), task [#213](https://github.com/Rise-Experts/retinue/issues/213)
+Status: specification · REQ-047 ([#206](https://github.com/Rise-Experts/forge/issues/206)), task [#213](https://github.com/Rise-Experts/forge/issues/213)
 Written **before** the tools, so classification is a decision rather than something discovered at review.
 
 Every tool this package intends to ship, with the six things that have to be decided about each one. The
@@ -33,7 +33,7 @@ with `never` | `policy` | `always`. Anything `external-write` or `destructive` c
 `requiresIdempotencyKey: true`, so a retry returns the first result instead of firing the side effect twice.
 Deciding "is this dangerous" by matching on a tool's name is a losing game; declaring an effect is not.
 
-**Packaging.** First-party primitives that need no vendor SDK ship in `@retinue/agentkit`. Everything else is a
+**Packaging.** First-party primitives that need no vendor SDK ship in `@forge/agentkit`. Everything else is a
 sibling package, so a vendor API change is not a runtime release and the runtime's dependency-free root
 survives.
 
@@ -50,7 +50,7 @@ proposed, because a hundred tools in one bucket is one bad default away from bei
 `crm` · `productivity` · `media` · `finance` · `cloud` · `meta`
 
 `publishing` was split out of `communication` by
-[#228](https://github.com/Rise-Experts/retinue/issues/228) — see the decision below. A tenant switching off
+[#228](https://github.com/Rise-Experts/forge/issues/228) — see the decision below. A tenant switching off
 `publishing` keeps directed messaging and loses public broadcasting, which is a distinction `communication`
 could not express.
 
@@ -194,7 +194,7 @@ safeguard: **a package that contributes any row to the publishing table above ca
 | `tools-linear/*` | `tools-linear` | No public-broadcast surface. A Linear workspace is licensed seat-by-seat, so an issue or comment reaches colleagues and no strangers |
 | `tools-notion/*` | `tools-notion` | Same, and narrower still: this integration reaches only the pages somebody explicitly connected it to. A Notion page *can* be published to the web, which is finding 2 — but that is a property of the page, set by a person, and not of the tool |
 | `tools-google/*` | `tools-google` | Nothing here broadcasts. Mail and calendar writes are **directed** — a message goes to addresses the caller named, an invitation to attendees it listed — which is the same reasoning as the WhatsApp sends below; a large distribution list is still a list of recipients, not a place strangers find things. `drive_share_file` is the one that gives pause, and it is *granting access to a named audience*, not posting: `anyone` has to be typed, and the file is still only reachable by someone given the link. Eleven outward writes, one reason |
-| `tools-github/*` | `tools-github` | **44**, all built · `github_list_issues`, `github_create_issue`, `github_comment`, `github_merge_pull_request`, `github_search_issues`, `github_get_issue`, `github_update_issue`, `github_close_issue`, `github_reopen_issue`, `github_list_pull_requests`, `github_get_pull_request`, `github_search_pull_requests`, `github_create_pull_request`, `github_update_pull_request`, `github_review_pull_request`, `github_close_pull_request`, `github_search_code`, `github_get_file`, `github_list_directory`, `github_list_commits`, `github_get_commit`, `github_list_branches`, `github_list_tags`, `github_create_branch`, `github_write_file`, `github_delete_file`, `github_list_projects`, `github_get_project`, `github_create_project`, `github_add_project_item`, `github_set_project_field`, `github_remove_project_item`, `github_list_releases`, `github_get_release`, `github_create_release`, `github_list_workflow_runs`, `github_get_workflow_run`, `github_get_workflow_run_logs`, `github_rerun_workflow`, `github_dispatch_workflow`, `github_list_labels`, `github_add_labels`, `github_remove_label`, `github_list_milestones`. `destroys`: `github_merge_pull_request`, `github_delete_file`, `github_remove_project_item`. `include`/`exclude` at construction, because 44 entries is ~1,540 resident tokens and #210 measured a run-time budget costing 19–23 points of selection accuracy | project | [#214](https://github.com/Rise-Experts/retinue/issues/214), [#223](https://github.com/Rise-Experts/retinue/issues/223) |
+| `tools-github/*` | `tools-github` | **44**, all built · `github_list_issues`, `github_create_issue`, `github_comment`, `github_merge_pull_request`, `github_search_issues`, `github_get_issue`, `github_update_issue`, `github_close_issue`, `github_reopen_issue`, `github_list_pull_requests`, `github_get_pull_request`, `github_search_pull_requests`, `github_create_pull_request`, `github_update_pull_request`, `github_review_pull_request`, `github_close_pull_request`, `github_search_code`, `github_get_file`, `github_list_directory`, `github_list_commits`, `github_get_commit`, `github_list_branches`, `github_list_tags`, `github_create_branch`, `github_write_file`, `github_delete_file`, `github_list_projects`, `github_get_project`, `github_create_project`, `github_add_project_item`, `github_set_project_field`, `github_remove_project_item`, `github_list_releases`, `github_get_release`, `github_create_release`, `github_list_workflow_runs`, `github_get_workflow_run`, `github_get_workflow_run_logs`, `github_rerun_workflow`, `github_dispatch_workflow`, `github_list_labels`, `github_add_labels`, `github_remove_label`, `github_list_milestones`. `destroys`: `github_merge_pull_request`, `github_delete_file`, `github_remove_project_item`. `include`/`exclude` at construction, because 44 entries is ~1,540 resident tokens and #210 measured a run-time budget costing 19–23 points of selection accuracy | project | [#214](https://github.com/Rise-Experts/forge/issues/214), [#223](https://github.com/Rise-Experts/forge/issues/223) |
 | `azure_tag_resource` | `tools-azure` | Sets metadata on a resource in the operator's own subscription. Reaches no third party at all, let alone the public — it is on this list because `external-write` is the honest effect for a change ARM records in the activity log, not because anything leaves the tenant |
 | `azure_restart_resource` | `tools-azure` | Restarts a resource in the operator's own subscription. Destructive to availability, visible to nobody outside it. Named individually rather than wildcarded: this package has two outward writes and a third would be a decision worth forcing back through this table |
 | `email_send` | `tools-email` | Mail to addresses the caller named, from the operator's own verified domain. Directed, not broadcast — the same reasoning as the WhatsApp sends above, and the recipient cap of twenty combined is what keeps it that way: a tool that could address a hundred people would be a publishing surface whatever it was called |
@@ -209,7 +209,7 @@ Planned, and listed here so the reasoning survives the packages being written:
 
 ---
 
-## Wave 1 — no third-party auth · `@retinue/agentkit`
+## Wave 1 — no third-party auth · `@forge/agentkit`
 
 Extensions of what exists. Nothing here needs a vendor account, so nothing here is blocked on anything.
 
@@ -229,7 +229,7 @@ Extensions of what exists. Nothing here needs a vendor account, so nothing here 
 | `list_attachments` | files | `read` | `never` | no | **built** |
 | `now` | general | `read` | `never` | no | **built** |
 | `calculate` | general | `read` | `never` | no | **built** |
-| `web_search` | web | `read` | `policy` | no | **built**; real providers ship in `@retinue/tools-search` (#214) |
+| `web_search` | web | `read` | `policy` | no | **built**; real providers ship in `@forge/tools-search` (#214) |
 | `fs_read` | files | `read` | `never` | no | **built** (#215). Path-scoped; an absolute path, a `..` escape and a symlink out of the root are all refused, and the refusal does not depend on whether the target exists |
 | `fs_list` | files | `read` | `never` | no | **built** (#215) |
 | `fs_search` | files | `read` | `never` | no | **built** (#215). Literal-text search, bounded in files and matches, reporting when a ceiling stopped it |
@@ -240,7 +240,7 @@ Extensions of what exists. Nothing here needs a vendor account, so nothing here 
 | `think` | general | `read` | `never` | no | A scratchpad that structures reasoning without a side effect |
 | `sql_write` | data | `internal-write` | `always` | yes | Deliberately separate from `sql_query`; a read tool that can write is a read tool nobody can reason about |
 
-## Meta — the machinery · `@retinue/agentkit`
+## Meta — the machinery · `@forge/agentkit`
 
 Not domain tools; the mechanism the rest of the catalogue depends on. Listed because the check below covers every
 registered tool, and a tool absent from this file is a tool nobody classified.
@@ -281,9 +281,9 @@ tool.
 Each is a `credentialRef`. Every write is `external-write` or `destructive`, gated and idempotent, because these
 reach systems other people depend on. Auth is per vendor and **both modes are supported where the vendor supports
 both** — a token pasted in, or an OAuth flow the package performs
-([REQ-063, #259](https://github.com/Rise-Experts/retinue/issues/259)).
+([REQ-063, #259](https://github.com/Rise-Experts/forge/issues/259)).
 
-Names are vendor-prefixed throughout. That is not cosmetic: [#210](https://github.com/Rise-Experts/retinue/issues/210)
+Names are vendor-prefixed throughout. That is not cosmetic: [#210](https://github.com/Rise-Experts/forge/issues/210)
 measured that a plausible resident near-duplicate beats searching for the right tool, and a deployment wiring two
 trackers has two of everything. `jira_create_issue` and `linear_create_issue` are distinguishable; `create_issue`
 twice is not.
@@ -295,22 +295,22 @@ the package will export, not an estimate.
 
 | Package | Tools | Category | Issue |
 |---|---|---|---|
-| `tools-github` | `github_add_labels`, `github_add_project_item`, `github_close_issue`, `github_close_pull_request`, `github_create_branch`, `github_create_file`, `github_create_project`, `github_create_pull_request`, `github_create_release`, `github_delete_file`, `github_dispatch_workflow`, `github_get_commit`, `github_get_issue`, `github_get_project`, `github_get_pull_request`, `github_get_release`, `github_get_workflow_run`, `github_get_workflow_run_logs`, `github_list_branches`, `github_list_commits`, `github_list_directory`, `github_list_labels`, `github_list_milestones`, `github_list_projects`, `github_list_pull_requests`, `github_list_releases`, `github_list_tags`, `github_list_workflow_runs`, `github_remove_label`, `github_remove_project_item`, `github_reopen_issue`, `github_rerun_workflow`, `github_review_pull_request`, `github_search_issues`, `github_search_pull_requests`, `github_set_project_field`, `github_update_file`, `github_update_issue`, `github_update_pull_request`, `github_write_file` · **built:** `github_search_code`, `github_get_file`, `github_list_issues`, `github_create_issue`, `github_comment`, `github_merge_pull_request` | project | [#223](https://github.com/Rise-Experts/retinue/issues/223) |
-| `tools-slack` | **4**, all built · `slack_list_channels`, `slack_read_history`, `slack_post_message`, `slack_reply_in_thread`. Slack answers `200` with `ok: false`, so the envelope is read and not the status. `upload_file` deferred: multipart to a second host | communication | [#214](https://github.com/Rise-Experts/retinue/issues/214) |
-| `tools-jira` | **8**, all built · `jira_search_issues`, `jira_get_issue`, `jira_list_projects`, `jira_list_transitions`, `jira_create_issue`, `jira_update_issue`, `jira_transition_issue`, `jira_comment`. A transition takes an **id**, never a status name — the two vocabularies overlap and a wrong guess *succeeds*. ADF ↔ markdown both ways, degrading unknown nodes to text | project | [#225](https://github.com/Rise-Experts/retinue/issues/225) |
-| `tools-confluence` | **6**, all built · `confluence_search`, `confluence_get_page`, `confluence_list_spaces`, `confluence_create_page`, `confluence_update_page`, `confluence_comment`. An update **requires the version read**, so it cannot overwrite an edit it never saw. Storage format ↔ markdown | knowledge | [#225](https://github.com/Rise-Experts/retinue/issues/225) |
-| `tools-linear` | **7**, all built · `linear_search_issues`, `linear_get_issue`, `linear_list_teams`, `linear_list_states`, `linear_create_issue`, `linear_update_issue`, `linear_comment`. GraphQL, so the **envelope is read** — a 200 with `errors` is a failure. No transition tool: a Linear state is a field, unlike Jira's workflow | project | [#226](https://github.com/Rise-Experts/retinue/issues/226) |
-| `tools-notion` | **7**, all built · `notion_search`, `notion_get_page`, `notion_query_database`, `notion_create_page`, `notion_update_page`, `notion_append_blocks`, `notion_comment`. Property names are validated against the database schema **before** the write, because Notion accepts an unknown one and reports success. Block-tree reads are bounded and say which limit stopped them | knowledge | [#226](https://github.com/Rise-Experts/retinue/issues/226) |
-| `tools-meta` | **10**, all built · `whatsapp_list_templates`, `whatsapp_send_template`, `whatsapp_send_message`, `whatsapp_send_media`, `whatsapp_mark_read` (`internal-write`, ungated), `instagram_get_account`, `instagram_list_media`, `instagram_get_media`, `instagram_publish_media`, `instagram_reply_comment`. The 24-hour service window is checked **locally** and the two Instagram writes are `publishing`; the WhatsApp sends are `communication`, because a message to one recipient is not a broadcast | communication · publishing | [#229](https://github.com/Rise-Experts/retinue/issues/229) |
-| `tools-x` | **6**, all built · `x_search_posts`, `x_get_post`, `x_get_user`, `x_list_user_posts`, `x_post`, `x_delete_post` (`destroys`). X's **24-hour cap is not retryable** and its 15-minute burst limit is — both arrive as `429`, and conflating them makes a run back off until tomorrow. Reads report which archive window the access tier could see | communication · publishing | [#230](https://github.com/Rise-Experts/retinue/issues/230) |
-| `tools-reddit` | **6**, all built · `reddit_search`, `reddit_get_post`, `reddit_list_subreddit`, `reddit_get_user`, `reddit_submit_post`, `reddit_comment`. The `User-Agent` is **required, not defaulted** — Reddit answers a missing one with a `429` that is not a rate limit. Comment trees are depth- and count-bounded, and a `more` placeholder counts as truncation | communication · publishing | [#230](https://github.com/Rise-Experts/retinue/issues/230) |
-| `tools-discord` | **7**, all built · `discord_list_channels`, `discord_read_messages`, `discord_get_message`, `discord_send_message`, `discord_reply_message`, `discord_add_reaction` (`internal-write`, ungated), `discord_create_thread`. An **uninvited bot** is told apart from a bad token, and sends cannot `@everyone` | communication | [#231](https://github.com/Rise-Experts/retinue/issues/231) |
-| `tools-telegram` | **6**, all built · `telegram_get_chat`, `telegram_send_message`, `telegram_send_media`, `telegram_edit_message`, `telegram_delete_message` (`destroys`), `telegram_pin_message`. Sends are **paced per chat by construction**, not retried into the limit; pinning is silent by default | communication | [#231](https://github.com/Rise-Experts/retinue/issues/231) |
-| `tools-google` | **28 built**, the whole of Workspace · Gmail: `gmail_search_messages`, `gmail_get_message`, `gmail_get_thread`, `gmail_list_labels`, `gmail_send_message`, `gmail_reply_message`, `gmail_create_draft`, `gmail_modify_labels` · Calendar: `calendar_list_events`, `calendar_get_event`, `calendar_find_free_time`, `calendar_create_event`, `calendar_update_event`, `calendar_delete_event` (`destroys`) · Drive: `drive_search_files`, `drive_get_file`, `drive_create_folder`, `drive_upload_file`, `drive_move_file`, `drive_share_file` · Docs: `docs_get_document`, `docs_create_document`, `docs_append_text` · Sheets: `sheets_list_sheets`, `sheets_get_values`, `sheets_append_rows`, `sheets_add_sheet`, `sheets_update_values` (**`destroys`** — the one write in this catalogue that destroys data no delete tool touched, with no recovery path a tool can reach). `gmail_create_draft` is deliberately ungated and `drive_share_file` has no default audience. Gmail's scopes and `drive.readonly` are Google-**restricted**; every Drive write uses the narrow `drive.file` | productivity | [#234](https://github.com/Rise-Experts/retinue/issues/234), [#235](https://github.com/Rise-Experts/retinue/issues/235) |
-| `tools-azure` | **9, all built** · Reads: `azure_list_subscriptions`, `azure_list_resource_groups`, `azure_list_resources`, `azure_get_resource`, `azure_query_logs`, `azure_get_metrics`, `azure_list_activity_log` — all satisfied by one `Reader` assignment · Writes: `azure_tag_resource` (`confirms`, merges so untouched tags survive) and `azure_restart_resource` (**`destroys`**, and it refuses any resource type outside a three-entry allowlist). **No create, delete, scale, deploy or role assignment** — the one package in this sprint where a wrong gated write costs an environment rather than an apology, so provisioning is declined and Terraform is the better tool for it. A 403 is split into `forbidden` (missing RBAC role, named with the denied action) and `unauthorized` (dead credential), because Azure returns the same status for both and the remedies are opposite. `azure_query_logs` refuses an unbounded or over-wide time span rather than clamping it | cloud | [#236](https://github.com/Rise-Experts/retinue/issues/236) |
-| `tools-scrape` | **3, all built** · `web_scrape` and `web_scrape_batch` (`policy`), `web_crawl` (**`always`** — a crawl is a load somebody else pays for). One contract, three providers: a direct fetch with local HTML-to-markdown, plus Firecrawl and Jina Reader. The substance is not the scraping — it is **SSRF closed at connect time** (a private literal, a public name resolving privately, and a redirect to either; the validated address is pinned as the connection's `lookup`, so there is no second resolution to poison) and **page text fenced as untrusted**. A crawl is bounded by pages, depth, bytes *and* wall clock, reports which bound stopped it, and honours `robots.txt` with longest-match semantics | web | [#238](https://github.com/Rise-Experts/retinue/issues/238) |
-| `tools-browser` | **6, all built** · `browser_navigate` (`read`, **`always`**), `browser_read`, `browser_screenshot` (`read`) · `browser_click`, `browser_type`, `browser_close` (`internal-write`). The escalation, never the default — descriptions name `web_scrape` first and a `find_tools` test asserts a query about reading a page ranks it above anything here. Interactions take an **element reference from a read the model just did**, never coordinates, and an interaction invalidates the snapshot it came from, so a stale reference is refused rather than clicking something else. No credential argument exists and `browser_type` refuses password fields. Sessions have hard lifetime, memory and concurrency caps, and teardown kills the process **group**. The isolation argument — what #216's `Sandbox` gave, what a process needing network cannot have, and what replaces it — is in [docs/30](30-browser-isolation.md), including the residual gap it does not close | web | [#239](https://github.com/Rise-Experts/retinue/issues/239) |
-| `tools-email` | **4, all built** · `email_send` (`confirms`), `email_compose_preview`, `email_get_status`, `email_list_sent`. The least recoverable action in the catalogue — a sent message cannot be recalled and, unlike a post, cannot be deleted either — so the preview is **byte-identical** to the send: one compose function, no `Date` and no `Message-ID` (either would differ between the two calls) and a boundary hashed from the content. Two providers, SMTP and an HTTP API, both transmitting the *same composed MIME* so the rehearsal is of the message that actually goes. A 4xx is retryable and a 5xx is not, and a rejection is never reported as a send. Twenty recipients across to+cc+bcc **combined** — lists and campaigns are declined. `Bcc` shows in the preview and is stripped before SMTP transmission | communication | [#241](https://github.com/Rise-Experts/retinue/issues/241) |
+| `tools-github` | `github_add_labels`, `github_add_project_item`, `github_close_issue`, `github_close_pull_request`, `github_create_branch`, `github_create_file`, `github_create_project`, `github_create_pull_request`, `github_create_release`, `github_delete_file`, `github_dispatch_workflow`, `github_get_commit`, `github_get_issue`, `github_get_project`, `github_get_pull_request`, `github_get_release`, `github_get_workflow_run`, `github_get_workflow_run_logs`, `github_list_branches`, `github_list_commits`, `github_list_directory`, `github_list_labels`, `github_list_milestones`, `github_list_projects`, `github_list_pull_requests`, `github_list_releases`, `github_list_tags`, `github_list_workflow_runs`, `github_remove_label`, `github_remove_project_item`, `github_reopen_issue`, `github_rerun_workflow`, `github_review_pull_request`, `github_search_issues`, `github_search_pull_requests`, `github_set_project_field`, `github_update_file`, `github_update_issue`, `github_update_pull_request`, `github_write_file` · **built:** `github_search_code`, `github_get_file`, `github_list_issues`, `github_create_issue`, `github_comment`, `github_merge_pull_request` | project | [#223](https://github.com/Rise-Experts/forge/issues/223) |
+| `tools-slack` | **4**, all built · `slack_list_channels`, `slack_read_history`, `slack_post_message`, `slack_reply_in_thread`. Slack answers `200` with `ok: false`, so the envelope is read and not the status. `upload_file` deferred: multipart to a second host | communication | [#214](https://github.com/Rise-Experts/forge/issues/214) |
+| `tools-jira` | **8**, all built · `jira_search_issues`, `jira_get_issue`, `jira_list_projects`, `jira_list_transitions`, `jira_create_issue`, `jira_update_issue`, `jira_transition_issue`, `jira_comment`. A transition takes an **id**, never a status name — the two vocabularies overlap and a wrong guess *succeeds*. ADF ↔ markdown both ways, degrading unknown nodes to text | project | [#225](https://github.com/Rise-Experts/forge/issues/225) |
+| `tools-confluence` | **6**, all built · `confluence_search`, `confluence_get_page`, `confluence_list_spaces`, `confluence_create_page`, `confluence_update_page`, `confluence_comment`. An update **requires the version read**, so it cannot overwrite an edit it never saw. Storage format ↔ markdown | knowledge | [#225](https://github.com/Rise-Experts/forge/issues/225) |
+| `tools-linear` | **7**, all built · `linear_search_issues`, `linear_get_issue`, `linear_list_teams`, `linear_list_states`, `linear_create_issue`, `linear_update_issue`, `linear_comment`. GraphQL, so the **envelope is read** — a 200 with `errors` is a failure. No transition tool: a Linear state is a field, unlike Jira's workflow | project | [#226](https://github.com/Rise-Experts/forge/issues/226) |
+| `tools-notion` | **7**, all built · `notion_search`, `notion_get_page`, `notion_query_database`, `notion_create_page`, `notion_update_page`, `notion_append_blocks`, `notion_comment`. Property names are validated against the database schema **before** the write, because Notion accepts an unknown one and reports success. Block-tree reads are bounded and say which limit stopped them | knowledge | [#226](https://github.com/Rise-Experts/forge/issues/226) |
+| `tools-meta` | **10**, all built · `whatsapp_list_templates`, `whatsapp_send_template`, `whatsapp_send_message`, `whatsapp_send_media`, `whatsapp_mark_read` (`internal-write`, ungated), `instagram_get_account`, `instagram_list_media`, `instagram_get_media`, `instagram_publish_media`, `instagram_reply_comment`. The 24-hour service window is checked **locally** and the two Instagram writes are `publishing`; the WhatsApp sends are `communication`, because a message to one recipient is not a broadcast | communication · publishing | [#229](https://github.com/Rise-Experts/forge/issues/229) |
+| `tools-x` | **6**, all built · `x_search_posts`, `x_get_post`, `x_get_user`, `x_list_user_posts`, `x_post`, `x_delete_post` (`destroys`). X's **24-hour cap is not retryable** and its 15-minute burst limit is — both arrive as `429`, and conflating them makes a run back off until tomorrow. Reads report which archive window the access tier could see | communication · publishing | [#230](https://github.com/Rise-Experts/forge/issues/230) |
+| `tools-reddit` | **6**, all built · `reddit_search`, `reddit_get_post`, `reddit_list_subreddit`, `reddit_get_user`, `reddit_submit_post`, `reddit_comment`. The `User-Agent` is **required, not defaulted** — Reddit answers a missing one with a `429` that is not a rate limit. Comment trees are depth- and count-bounded, and a `more` placeholder counts as truncation | communication · publishing | [#230](https://github.com/Rise-Experts/forge/issues/230) |
+| `tools-discord` | **7**, all built · `discord_list_channels`, `discord_read_messages`, `discord_get_message`, `discord_send_message`, `discord_reply_message`, `discord_add_reaction` (`internal-write`, ungated), `discord_create_thread`. An **uninvited bot** is told apart from a bad token, and sends cannot `@everyone` | communication | [#231](https://github.com/Rise-Experts/forge/issues/231) |
+| `tools-telegram` | **6**, all built · `telegram_get_chat`, `telegram_send_message`, `telegram_send_media`, `telegram_edit_message`, `telegram_delete_message` (`destroys`), `telegram_pin_message`. Sends are **paced per chat by construction**, not retried into the limit; pinning is silent by default | communication | [#231](https://github.com/Rise-Experts/forge/issues/231) |
+| `tools-google` | **28 built**, the whole of Workspace · Gmail: `gmail_search_messages`, `gmail_get_message`, `gmail_get_thread`, `gmail_list_labels`, `gmail_send_message`, `gmail_reply_message`, `gmail_create_draft`, `gmail_modify_labels` · Calendar: `calendar_list_events`, `calendar_get_event`, `calendar_find_free_time`, `calendar_create_event`, `calendar_update_event`, `calendar_delete_event` (`destroys`) · Drive: `drive_search_files`, `drive_get_file`, `drive_create_folder`, `drive_upload_file`, `drive_move_file`, `drive_share_file` · Docs: `docs_get_document`, `docs_create_document`, `docs_append_text` · Sheets: `sheets_list_sheets`, `sheets_get_values`, `sheets_append_rows`, `sheets_add_sheet`, `sheets_update_values` (**`destroys`** — the one write in this catalogue that destroys data no delete tool touched, with no recovery path a tool can reach). `gmail_create_draft` is deliberately ungated and `drive_share_file` has no default audience. Gmail's scopes and `drive.readonly` are Google-**restricted**; every Drive write uses the narrow `drive.file` | productivity | [#234](https://github.com/Rise-Experts/forge/issues/234), [#235](https://github.com/Rise-Experts/forge/issues/235) |
+| `tools-azure` | **9, all built** · Reads: `azure_list_subscriptions`, `azure_list_resource_groups`, `azure_list_resources`, `azure_get_resource`, `azure_query_logs`, `azure_get_metrics`, `azure_list_activity_log` — all satisfied by one `Reader` assignment · Writes: `azure_tag_resource` (`confirms`, merges so untouched tags survive) and `azure_restart_resource` (**`destroys`**, and it refuses any resource type outside a three-entry allowlist). **No create, delete, scale, deploy or role assignment** — the one package in this sprint where a wrong gated write costs an environment rather than an apology, so provisioning is declined and Terraform is the better tool for it. A 403 is split into `forbidden` (missing RBAC role, named with the denied action) and `unauthorized` (dead credential), because Azure returns the same status for both and the remedies are opposite. `azure_query_logs` refuses an unbounded or over-wide time span rather than clamping it | cloud | [#236](https://github.com/Rise-Experts/forge/issues/236) |
+| `tools-scrape` | **3, all built** · `web_scrape` and `web_scrape_batch` (`policy`), `web_crawl` (**`always`** — a crawl is a load somebody else pays for). One contract, three providers: a direct fetch with local HTML-to-markdown, plus Firecrawl and Jina Reader. The substance is not the scraping — it is **SSRF closed at connect time** (a private literal, a public name resolving privately, and a redirect to either; the validated address is pinned as the connection's `lookup`, so there is no second resolution to poison) and **page text fenced as untrusted**. A crawl is bounded by pages, depth, bytes *and* wall clock, reports which bound stopped it, and honours `robots.txt` with longest-match semantics | web | [#238](https://github.com/Rise-Experts/forge/issues/238) |
+| `tools-browser` | **6, all built** · `browser_navigate` (`read`, **`always`**), `browser_read`, `browser_screenshot` (`read`) · `browser_click`, `browser_type`, `browser_close` (`internal-write`). The escalation, never the default — descriptions name `web_scrape` first and a `find_tools` test asserts a query about reading a page ranks it above anything here. Interactions take an **element reference from a read the model just did**, never coordinates, and an interaction invalidates the snapshot it came from, so a stale reference is refused rather than clicking something else. No credential argument exists and `browser_type` refuses password fields. Sessions have hard lifetime, memory and concurrency caps, and teardown kills the process **group**. The isolation argument — what #216's `Sandbox` gave, what a process needing network cannot have, and what replaces it — is in [docs/30](30-browser-isolation.md), including the residual gap it does not close | web | [#239](https://github.com/Rise-Experts/forge/issues/239) |
+| `tools-email` | **4, all built** · `email_send` (`confirms`), `email_compose_preview`, `email_get_status`, `email_list_sent`. The least recoverable action in the catalogue — a sent message cannot be recalled and, unlike a post, cannot be deleted either — so the preview is **byte-identical** to the send: one compose function, no `Date` and no `Message-ID` (either would differ between the two calls) and a boundary hashed from the content. Two providers, SMTP and an HTTP API, both transmitting the *same composed MIME* so the rehearsal is of the message that actually goes. A 4xx is retryable and a 5xx is not, and a rejection is never reported as a send. Twenty recipients across to+cc+bcc **combined** — lists and campaigns are declined. `Bcc` shows in the preview and is stripped before SMTP transmission | communication | [#241](https://github.com/Rise-Experts/forge/issues/241) |
 
 **161 tools specified across 16 packages**, of which 111 are built — every one named above, so
 `npm run check:catalogue` counts 213 catalogued tools and the gap to the total below is exactly the sketched
@@ -339,7 +339,7 @@ implement differently.
 | `tools-shopify` | crm | Product list, order list, product update | ~6 |
 | `tools-meetings` | productivity | Zoom, Webex, Cal.com behind one scheduling contract | ~5 |
 | `tools-aws` | cloud | Read-first like `tools-azure`: S3 read/write, Lambda invoke, CloudWatch query | ~8 |
-| `tools-research` | knowledge | Wikipedia, arXiv, PubMed, Hacker News. A composition over `web_search` and `web_scrape`, so it waits for both — see [#237](https://github.com/Rise-Experts/retinue/issues/237) | ~3 |
+| `tools-research` | knowledge | Wikipedia, arXiv, PubMed, Hacker News. A composition over `web_search` and `web_scrape`, so it waits for both — see [#237](https://github.com/Rise-Experts/forge/issues/237) | ~3 |
 | `tools-finance` | finance | `stock_quote`, `stock_fundamentals` | 2 |
 | `tools-weather` | general | `weather_forecast` | 1 |
 | `tools-maps` | general | `place_search` | 1 |
@@ -350,8 +350,8 @@ implement differently.
 ### Auth model per package
 
 Both modes where the vendor offers both. This table is what
-[#260](https://github.com/Rise-Experts/retinue/issues/260)'s per-toolkit declaration encodes, and what decides
-whether an unconnected tool can pause a run for consent ([#264](https://github.com/Rise-Experts/retinue/issues/264))
+[#260](https://github.com/Rise-Experts/forge/issues/260)'s per-toolkit declaration encodes, and what decides
+whether an unconnected tool can pause a run for consent ([#264](https://github.com/Rise-Experts/forge/issues/264))
 or must simply fail.
 
 | Auth | Packages |
@@ -364,7 +364,7 @@ or must simply fail.
 Two of the OAuth-required ones need a **tenant's own app** rather than the deployment's, and it is not a
 preference: Meta's app review is per app and a shared app's approved use case may not cover a customer's, and X's
 access tier is per app so a customer paying for a higher tier gains nothing from a shared one. That is why
-[#263](https://github.com/Rise-Experts/retinue/issues/263) exists.
+[#263](https://github.com/Rise-Experts/forge/issues/263) exists.
 
 ## Deferred, with the reason
 
@@ -438,8 +438,8 @@ provider has no event stream.
 
 ## Built so far
 
-**37** tools across four packages: 27 in `@retinue/agentkit`, 6 in `@retinue/tools-github`, 4 in
-`@retinue/tools-slack`, and 0 in `@retinue/tools-search` — which ships four providers for a contract that already
+**37** tools across four packages: 27 in `@forge/agentkit`, 6 in `@forge/tools-github`, 4 in
+`@forge/tools-slack`, and 0 in `@forge/tools-search` — which ships four providers for a contract that already
 exists. `npm run check:catalogue` reads every one of those packages, so a toolkit landing with an unclassified
 tool is a failing build; it also requires each `tools/*` package to export its own `*_TOOL_NAMES` and
 cross-checks that array's length against the declarations in the file, because a constant that has drifted from
@@ -454,7 +454,7 @@ The full inventory, which is the answer to "what tools do we need":
 
 | | Tools | Built |
 |---|---|---|
-| **Wave 1** — no third-party auth, in `@retinue/agentkit` | 24 | 20 |
+| **Wave 1** — no third-party auth, in `@forge/agentkit` | 24 | 20 |
 | **Meta** — the machinery | 7 | 7 |
 | **Wave 2** — API key only, sibling packages | 12 | 0 |
 | **Wave 3, specified** — 16 packages with a per-tool contract | 163 | 10 |
@@ -462,14 +462,14 @@ The full inventory, which is the answer to "what tools do we need":
 | **Total** | **~272** | **37** |
 
 Wave 2 counts **12**, not the 13 contracts its own table lists: `web_search` is a wave 1 tool and is counted
-there. `@retinue/tools-search` ships four providers for it and exports no tool of its own — which is the
+there. `@forge/tools-search` ships four providers for it and exports no tool of its own — which is the
 one-contract rule applied to itself, and the reason the built column reads 0 for a package that is finished.
 
 That is more than double the **~120** this document estimated before wave 3 was specified per tool, and the
 increase is almost entirely `tools-github` (6 → 44) and `tools-google` (5 surfaces → 28 tools). Both grew for the
 same reason: "search issues, create issue, comment" describes a *demo*, and what people actually do on GitHub is
 review pull requests, manage labels and milestones, and work with releases and workflows
-([#222](https://github.com/Rise-Experts/retinue/issues/222) exists because that gap was pointed out).
+([#222](https://github.com/Rise-Experts/forge/issues/222) exists because that gap was pointed out).
 
 At the measured ~35 tokens per catalog entry, 272 tools is **~9,500 tokens** resident if a deployment loaded them
 all — and no deployment should. Two measured findings decide what to do about that, and they point the same way:
@@ -485,7 +485,7 @@ carries ~90 tools, not 272. That is the number to design against.
 
 The remaining cost of a large catalogue is tokens, not accuracy — 12.5× at 200 tools — and the fix for that is
 prompt caching, which does not exist yet
-([REQ-058, #246](https://github.com/Rise-Experts/retinue/issues/246)). The catalogue and system prompt are
+([REQ-058, #246](https://github.com/Rise-Experts/forge/issues/246)). The catalogue and system prompt are
 byte-identical across every turn of a conversation, which is exactly the input caching exists for.
 
 

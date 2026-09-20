@@ -1,10 +1,10 @@
-# @retinue/tools-jira
+# @forge/tools-jira
 
-Jira Cloud tools for a [Retinue](https://github.com/Rise-Experts/retinue) agent: JQL search, read and edit
+Jira Cloud tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: JQL search, read and edit
 issues, move them along their workflow, and comment.
 
 ```bash
-npm i @retinue/tools-jira
+npm i @forge/tools-jira
 ```
 
 Descriptions and comments are **markdown in both directions**. Jira's own format is a JSON document tree (ADF),
@@ -13,8 +13,8 @@ and you never see it.
 ## Use it
 
 ```ts
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { createJiraToolkit } from "@retinue/tools-jira";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { createJiraToolkit } from "@forge/tools-jira";
 
 // Basic, not bearer: Atlassian takes an account email and an API token.
 const resolver = createStaticCredentialResolver({
@@ -36,7 +36,7 @@ Pass `jira` in an agent's `tools`. The credential is resolved **per call**, so a
 without a restart, and nothing here reads the environment itself.
 
 Jira and Confluence share one credential and one site host, so
-[`@retinue/tools-confluence`](https://www.npmjs.com/package/@retinue/tools-confluence) wires up alongside this
+[`@forge/tools-confluence`](https://www.npmjs.com/package/@forge/tools-confluence) wires up alongside this
 at no extra cost.
 
 ## Tools
@@ -77,13 +77,13 @@ nobody asked for while reporting success. One extra call cannot be wrong.
 ## Requirements
 
 - Node 20+
-- `@retinue/agentkit` as a peer dependency
+- `@forge/agentkit` as a peer dependency
 - An Atlassian account email and an API token from
   [id.atlassian.com](https://id.atlassian.com/manage-profile/security/api-tokens). An API token has **no
   scopes** — it carries exactly the permissions of the account that created it, so use a dedicated account
   rather than a person's.
 
 Full documentation, including per-permission requirements and what is deliberately not built:
-[docs.retinue.riseexperts.de](https://docs.retinue.riseexperts.de/integrations/jira).
+[docs.forge.riseexperts.de](https://docs.forge.riseexperts.de/integrations/jira).
 
 MIT

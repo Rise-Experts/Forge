@@ -8,7 +8,7 @@ Search with JQL, read and edit issues, move them along their workflow, and comme
 are markdown in both directions — Jira's own format is a JSON document tree, and you never see it.
 
 ```bash
-npm i @retinue/tools-jira
+npm i @forge/tools-jira
 ```
 
 Jira and Confluence share one credential and one site host, so a deployment that wires this also wires
@@ -30,9 +30,9 @@ Jira and Confluence share one credential and one site host, so a deployment that
 ## Wire it up
 
 ```ts
-import { createAgent } from "@retinue/agentkit/providers";
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { createJiraToolkit } from "@retinue/tools-jira";
+import { createAgent } from "@forge/agentkit/providers";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { createJiraToolkit } from "@forge/tools-jira";
 
 // Basic, not bearer: Atlassian takes an account email and an API token.
 const resolver = createStaticCredentialResolver({

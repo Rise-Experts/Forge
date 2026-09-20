@@ -18,22 +18,22 @@
 
 :root {
   /* Palette — brand/tokens.json */
-  --retinue-navy: #234b7e;
-  --retinue-blue: #4f81bd;
-  --retinue-sky: #7aa6d8;
-  --retinue-ink: #111a24;
-  --retinue-paper: #ffffff;
-  --retinue-slate: #5b6b7d;
-  --retinue-wash: #f4f7fb;
-  --retinue-dusk-ink: #e6edf5;
-  --retinue-dusk-wash: #1b2733;
+  --forge-navy: #234b7e;
+  --forge-blue: #4f81bd;
+  --forge-sky: #7aa6d8;
+  --forge-ink: #111a24;
+  --forge-paper: #ffffff;
+  --forge-slate: #5b6b7d;
+  --forge-wash: #f4f7fb;
+  --forge-dusk-ink: #e6edf5;
+  --forge-dusk-wash: #1b2733;
 
   /* Type — a serif for display, the system sans for body, and a real fallback at every step */
-  --retinue-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
-  --retinue-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --retinue-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --forge-display: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --forge-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --forge-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
-  --ifm-color-primary: var(--retinue-navy);
+  --ifm-color-primary: var(--forge-navy);
   --ifm-color-primary-dark: #1f4471;
   --ifm-color-primary-darker: #1d4069;
   --ifm-color-primary-darkest: #183557;
@@ -41,17 +41,17 @@
   --ifm-color-primary-lighter: #295693;
   --ifm-color-primary-lightest: #2e60a4;
 
-  --ifm-background-color: var(--retinue-paper);
-  --ifm-font-color-base: var(--retinue-ink);
-  --ifm-heading-color: var(--retinue-navy);
-  --ifm-font-family-base: var(--retinue-body);
-  --ifm-heading-font-family: var(--retinue-display);
-  --ifm-font-family-monospace: var(--retinue-mono);
+  --ifm-background-color: var(--forge-paper);
+  --ifm-font-color-base: var(--forge-ink);
+  --ifm-heading-color: var(--forge-navy);
+  --ifm-font-family-base: var(--forge-body);
+  --ifm-heading-font-family: var(--forge-display);
+  --ifm-font-family-monospace: var(--forge-mono);
   --ifm-code-font-size: 92%;
-  --ifm-code-background: var(--retinue-wash);
-  --ifm-table-stripe-background: var(--retinue-wash);
-  --ifm-blockquote-color: var(--retinue-slate);
-  --ifm-blockquote-border-color: var(--retinue-blue);
+  --ifm-code-background: var(--forge-wash);
+  --ifm-table-stripe-background: var(--forge-wash);
+  --ifm-blockquote-color: var(--forge-slate);
+  --ifm-blockquote-border-color: var(--forge-blue);
   --ifm-toc-border-color: #dfe7f1;
 
   /* Running text near 68 characters. The default in a wide window is nearly twice that. */
@@ -59,7 +59,7 @@
 }
 
 [data-theme="dark"] {
-  --ifm-color-primary: var(--retinue-sky);
+  --ifm-color-primary: var(--forge-sky);
   --ifm-color-primary-dark: #5f93cf;
   --ifm-color-primary-darker: #5289ca;
   --ifm-color-primary-darkest: #3a6fb0;
@@ -67,12 +67,12 @@
   --ifm-color-primary-lighter: #a2c2e5;
   --ifm-color-primary-lightest: #c9dcf0;
 
-  --ifm-background-color: var(--retinue-ink);
-  --ifm-background-surface-color: var(--retinue-dusk-wash);
-  --ifm-font-color-base: var(--retinue-dusk-ink);
-  --ifm-heading-color: var(--retinue-sky);
-  --ifm-code-background: var(--retinue-dusk-wash);
-  --ifm-table-stripe-background: var(--retinue-dusk-wash);
+  --ifm-background-color: var(--forge-ink);
+  --ifm-background-surface-color: var(--forge-dusk-wash);
+  --ifm-font-color-base: var(--forge-dusk-ink);
+  --ifm-heading-color: var(--forge-sky);
+  --ifm-code-background: var(--forge-dusk-wash);
+  --ifm-table-stripe-background: var(--forge-dusk-wash);
   --ifm-blockquote-color: #a9b8c8;
   --ifm-toc-border-color: #27364a;
 }
@@ -88,7 +88,7 @@
 .markdown h2,
 .markdown h3,
 .markdown h4 {
-  font-family: var(--retinue-display);
+  font-family: var(--forge-display);
   text-wrap: balance;
   letter-spacing: -0.005em;
 }
@@ -130,21 +130,21 @@
 }
 
 .markdown table thead tr {
-  background: var(--retinue-wash);
+  background: var(--forge-wash);
   border-bottom: 2px solid var(--ifm-toc-border-color);
 }
 
 [data-theme="dark"] .markdown table thead tr {
-  background: var(--retinue-dusk-wash);
+  background: var(--forge-dusk-wash);
 }
 
 .markdown table th {
-  font-family: var(--retinue-body);
+  font-family: var(--forge-body);
   font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.03em;
   text-transform: uppercase;
-  color: var(--retinue-slate);
+  color: var(--forge-slate);
 }
 
 [data-theme="dark"] .markdown table th {
@@ -166,12 +166,29 @@
   box-shadow: 0 1px 0 rgba(35, 75, 126, 0.14);
 }
 
+[data-theme="dark"] .navbar {
+  background: rgba(17, 26, 36, 0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(122, 166, 216, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="dark"] .navbar__link {
+  color: var(--forge-dusk-ink);
+  transition: color 0.15s ease;
+}
+
+[data-theme="dark"] .navbar__link:hover,
+[data-theme="dark"] .navbar__link--active {
+  color: var(--forge-sky);
+}
+
 .navbar__inner {
   min-height: 3.5rem;
 }
 
 .navbar__title {
-  font-family: var(--retinue-display);
+  font-family: var(--forge-display);
   font-weight: 600;
   letter-spacing: -0.01em;
 }
@@ -182,13 +199,13 @@
 
 .navbar__link:focus-visible,
 .navbar__toggle:focus-visible {
-  outline: 3px solid var(--retinue-sky);
+  outline: 3px solid var(--forge-sky);
   outline-offset: 2px;
 }
 
 /* A callout's left edge is the accent, which is the one place the blue does structural work. */
 .alert {
-  border-left: 3px solid var(--retinue-blue);
+  border-left: 3px solid var(--forge-blue);
 }
 
 @media (prefers-reduced-motion: reduce) {

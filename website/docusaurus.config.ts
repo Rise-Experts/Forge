@@ -2,12 +2,12 @@ import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
 const config: Config = {
-  title: "Retinue",
+  title: "Forge",
   tagline: "A reusable, provider-neutral AI agent platform",
-  url: "https://docs.retinue.riseexperts.de",
+  url: "https://docs.forge.riseexperts.de",
   baseUrl: "/",
   organizationName: "Rise-Experts",
-  projectName: "retinue",
+  projectName: "Forge",
   /**
    * The mark in the browser tab — REQ-049 (#208), task #218.
    *
@@ -64,7 +64,7 @@ const config: Config = {
           path: "content",
           routeBasePath: "docs",
           sidebarPath: "./sidebars.ts",
-          editUrl: "https://github.com/Rise-Experts/retinue/tree/main/website/content/",
+          editUrl: "https://github.com/Rise-Experts/Forge/tree/main/website/content/",
         },
         blog: false,
         theme: { customCss: "./src/css/custom.css" },
@@ -81,7 +81,7 @@ const config: Config = {
      * rasteriser on the machine that produced it is macOS-only and a build step that works on one developer's
      * machine is a build step that breaks CI.
      */
-    image: "img/og-retinue.png",
+    image: "img/og-forge.png",
     metadata: [
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#234b7e" },
@@ -92,16 +92,16 @@ const config: Config = {
       disableSwitch: false,
     },
     navbar: {
-      title: "Retinue",
+      title: "Forge",
       // The mark, at a size where its open sweep is still legible — see brand/tokens.json's `usage.mark`.
-      logo: { alt: "Retinue", src: "img/retinue-mark.svg", width: 28, height: 28 },
+      logo: { alt: "Forge", src: "img/forge-mark.svg", width: 28, height: 28 },
       items: [
         { type: "docSidebar", sidebarId: "docs", position: "left", label: "Docs" },
         { to: "/docs/examples/overview", label: "Examples", position: "left" },
         { to: "/docs/integrations/overview", label: "Integrations", position: "left" },
         { to: "/api/", label: "API", position: "left" },
         { to: "/specifications/", label: "Advanced", position: "left" },
-        { href: "https://github.com/Rise-Experts/retinue", label: "GitHub", position: "right" },
+        { href: "https://github.com/Rise-Experts/Forge", label: "GitHub", position: "right" },
       ],
     },
     footer: {
@@ -119,11 +119,11 @@ const config: Config = {
           title: "More",
           items: [
             { label: "Specifications", to: "/specifications/" },
-            { label: "GitHub", href: "https://github.com/Rise-Experts/retinue" },
+            { label: "GitHub", href: "https://github.com/Rise-Experts/Forge" },
           ],
         },
       ],
-      copyright: "© Rise Experts — Retinue",
+      copyright: "© Rise Experts — Forge",
     },
   } satisfies Preset.ThemeConfig,
 };

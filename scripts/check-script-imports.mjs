@@ -163,7 +163,7 @@ for (const [dir, entries] of byDirectory) {
      * By position, not by specifier.
      *
      * `entries.find((e) => e.spec === result.spec)` looked right and named the wrong file: three scripts in one
-     * directory each importing `@retinue/agentkit` produced three findings all attributed to whichever came
+     * directory each importing `@forge/agentkit` produced three findings all attributed to whichever came
      * first. A check whose message points at the wrong file costs more than one that says nothing, because the
      * reader opens that file and finds it fine. The probe preserves order, so the index is the answer.
      */

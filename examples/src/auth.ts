@@ -1,27 +1,31 @@
 /**
  * The example's `authenticate` — #155, AC-6.
  *
- * `RetinueApp.authenticate` has no default on purpose: the server refuses to start without one, because a
+ * `ForgeApp.authenticate` has no default on purpose: the server refuses to start without one, because a
  * permissive fallback would serve an open API to anyone who forgot to set it. An *example* is the most dangerous
  * place to undermine that, since example code is what people copy.
  *
  * So this reads tenant and principal from request headers — which is exactly what you must not do in production
- * — and **refuses to run unless `RETINUE_EXAMPLE_DEV_AUTH=1` is set explicitly**. The opt-in is the whole
+ * — and **refuses to run unless `FORGE_EXAMPLE_DEV_AUTH=1` is set explicitly**. The opt-in is the whole
  * point: nobody reaches this code path by accident, and the failure is a startup error naming the variable
  * rather than an open API nobody notices.
  */
 
-import { asId } from "@retinue/agentkit";
-import { parseExecutionContext } from "@retinue/agentkit/runtime";
-import type { ExecutionContext } from "@retinue/agentkit";
-import type { Authenticate } from "@retinue/agentkit/server";
+import { asId } from "@forge/agentkit";
+import { parseExecutionContext } from "@forge/agentkit/runtime";
+import type { ExecutionContext } from "@forge/agentkit";
+import type { Authenticate } from "@forge/agentkit/server";
 
-export const DEV_AUTH_VARIABLE = "RETINUE_EXAMPLE_DEV_AUTH";
+export const DEV_AUTH_VARIABLE = "FORGE_EXAMPLE_DEV_AUTH";
+export const FORGE_DEV_AUTH_VARIABLE = "FORGE_EXAMPLE_DEV_AUTH";
 
 /** Headers the dev authenticator reads. Named so the README and the code cannot drift. */
-export const TENANT_HEADER = "x-agentkit-tenant";
-export const PRINCIPAL_HEADER = "x-agentkit-principal";
-export const ROLES_HEADER = "x-agentkit-roles";
+export const TENANT_HEADER = "x-forge-tenant";
+export const FORGE_TENANT_HEADER = "x-forge-tenant";
+export const PRINCIPAL_HEADER = "x-forge-principal";
+export const FORGE_PRINCIPAL_HEADER = "x-forge-principal";
+export const ROLES_HEADER = "x-forge-roles";
+export const FORGE_ROLES_HEADER = "x-forge-roles";
 
 export class DevAuthNotEnabled extends Error {
   constructor() {
@@ -43,16 +47,27 @@ export class DevAuthNotEnabled extends Error {
 export const createDevAuthenticate = (
   env: Readonly<Record<string, string | undefined>> = process.env,
 ): Authenticate => {
-  if (env[DEV_AUTH_VARIABLE] !== "1") throw new DevAuthNotEnabled();
+  if (env[DEV_AUTH_VARIABLE] !== "1" && env[FORGE_DEV_AUTH_VARIABLE] !== "1") throw new DevAuthNotEnabled();
 
   return (request: Request): ExecutionContext | null => {
-    const tenantId = request.headers.get(TENANT_HEADER)?.trim();
-    const principalId = request.headers.get(PRINCIPAL_HEADER)?.trim();
+    const tenantId = (
+      request.headers.get(FORGE_TENANT_HEADER) ??
+      request.headers.get(TENANT_HEADER)
+    )?.trim();
+    const principalId = (
+      request.headers.get(FORGE_PRINCIPAL_HEADER) ??
+      request.headers.get(PRINCIPAL_HEADER)
+    )?.trim();
     // No fallback tenant. A default here would mean an unauthenticated request silently landing in *somebody's*
     // data, which is the one failure tenant isolation exists to prevent — so a missing header is a rejection.
     if (tenantId === undefined || tenantId === "" || principalId === undefined || principalId === "") return null;
 
-    const roleIds = (request.headers.get(ROLES_HEADER) ?? "")
+    const rawRoles = (
+      request.headers.get(FORGE_ROLES_HEADER) ??
+      request.headers.get(ROLES_HEADER) ??
+      ""
+    );
+    const roleIds = rawRoles
       .split(",")
       .map((r) => r.trim())
       .filter((r) => r !== "");
@@ -87,5 +102,5 @@ export const createDevAuthenticate = (
 export const assertDevAuthEnabled = (
   env: Readonly<Record<string, string | undefined>> = process.env,
 ): void => {
-  if (env[DEV_AUTH_VARIABLE] !== "1") throw new DevAuthNotEnabled();
+  if (env[DEV_AUTH_VARIABLE] !== "1" && env[FORGE_DEV_AUTH_VARIABLE] !== "1") throw new DevAuthNotEnabled();
 };

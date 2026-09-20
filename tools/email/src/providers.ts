@@ -7,9 +7,9 @@
  * asking the resolver inside `send` rather than at construction.
  */
 
-import { credentialMissing, type Credential, type CredentialRef, type CredentialResolver } from "@retinue/agentkit/tools";
-import { stripBcc } from "@retinue/agentkit/tools";
-import { AgentPlatformError } from "@retinue/agentkit";
+import { credentialMissing, type Credential, type CredentialRef, type CredentialResolver } from "@forge/agentkit/tools";
+import { stripBcc } from "@forge/agentkit/tools";
+import { AgentPlatformError } from "@forge/agentkit";
 
 import { smtpSend, SmtpError, type SmtpConfig, type SmtpDialer } from "./smtp.js";
 import type { DeliveryStatus, EmailProvider, SendResult, SentMessage } from "./provider.js";

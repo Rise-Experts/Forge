@@ -1,27 +1,27 @@
 ---
 title: Frontend
-description: Build a Retinue UI with the headless @retinue/react package.
+description: Build a Forge UI with the headless @forge/react package.
 ---
 
 # Frontend
 
-`@retinue/react` is a headless React package for turning Retinue transport events into render-ready state. It does not impose a visual design or require one transport implementation.
+`@forge/react` is a headless React package for turning Forge transport events into render-ready state. It does not impose a visual design or require one transport implementation.
 
 ```mermaid
 flowchart TD
-  R[Retinue server] --> T[GraphQL or SSE client]
-  T --> H[@retinue/react]
+  R[Forge server] --> T[GraphQL or SSE client]
+  T --> H[@forge/react]
   H --> U[Your UI]
 ```
 
-Wrap your UI in `RetinueProvider`, then use hooks such as `useRunSubscription`, `useConversation`, `useSendMessage`, `usePendingInteraction`, `useAnswerQuestion`, and `useDecideApproval`. The subscription reducer folds ordered run events into parts and can resume from a sequence cursor. Localization helpers map stable status and error codes to your catalog.
+Wrap your UI in `ForgeProvider`, then use hooks such as `useRunSubscription`, `useConversation`, `useSendMessage`, `usePendingInteraction`, `useAnswerQuestion`, and `useDecideApproval`. The subscription reducer folds ordered run events into parts and can resume from a sequence cursor. Localization helpers map stable status and error codes to your catalog.
 
 ```tsx
-import { RetinueProvider, useRunSubscription, useSendMessage } from "@retinue/react";
-import type { RetinueClient } from "@retinue/react";
+import { ForgeProvider, useRunSubscription, useSendMessage } from "@forge/react";
+import type { ForgeClient } from "@forge/react";
 
-function Chat({ client }: { client: RetinueClient }) {
-  return <RetinueProvider client={client}><Thread /></RetinueProvider>;
+function Chat({ client }: { client: ForgeClient }) {
+  return <ForgeProvider client={client}><Thread /></ForgeProvider>;
 }
 function Thread() {
   const { parts } = useRunSubscription({ runId: "run-1", conversationId: "conversation-1" });

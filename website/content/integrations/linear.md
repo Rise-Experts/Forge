@@ -8,7 +8,7 @@ Search, read and edit issues, and move them between workflow states. Description
 both directions — Linear stores them that way, so nothing is converted.
 
 ```bash
-npm i @retinue/tools-linear
+npm i @forge/tools-linear
 ```
 
 ## Tools
@@ -26,9 +26,9 @@ npm i @retinue/tools-linear
 ## Wire it up
 
 ```ts
-import { createAgent } from "@retinue/agentkit/providers";
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { createLinearToolkit } from "@retinue/tools-linear";
+import { createAgent } from "@forge/agentkit/providers";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { createLinearToolkit } from "@forge/tools-linear";
 
 // A Linear personal API key goes in `Authorization` **without** a `Bearer` prefix.
 const resolver = createStaticCredentialResolver({

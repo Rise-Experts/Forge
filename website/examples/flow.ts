@@ -1,5 +1,5 @@
-import { asId } from "@retinue/agentkit";
-import type { AgentId, FlowDefinition } from "@retinue/agentkit";
+import { asId } from "@forge/agentkit";
+import type { AgentId, FlowDefinition } from "@forge/agentkit";
 
 export const outreachFlow: FlowDefinition = {
   id: "lead-outreach",

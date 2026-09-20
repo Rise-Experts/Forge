@@ -8,7 +8,7 @@ Search, read bounded comment trees, submit and comment. Read-heavy in practice, 
 caveat this page states plainly.
 
 ```bash
-npm i @retinue/tools-reddit
+npm i @forge/tools-reddit
 ```
 
 ## Tools
@@ -27,9 +27,9 @@ Both writes are category `publishing`.
 ## Wire it up
 
 ```ts
-import { createAgent } from "@retinue/agentkit/providers";
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { createRedditToolkit } from "@retinue/tools-reddit";
+import { createAgent } from "@forge/agentkit/providers";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { createRedditToolkit } from "@forge/tools-reddit";
 
 const agent = createAgent({
   manifest: {
@@ -67,7 +67,7 @@ would be invisible until an audit asked whose account posted. The resolver is ca
 refreshing resolver is the whole mechanism.
 
 **The `User-Agent` is required and this package will not build without it.** Pass `appId`, `version` and
-`contact`; it becomes `retinue:<appId>:<version> (by /u/<contact>)`. A shared default would make every
+`contact`; it becomes `forge:<appId>:<version> (by /u/<contact>)`. A shared default would make every
 deployment of this package look like one client to Reddit's rate limiter, which is exactly what the requirement
 exists to prevent.
 

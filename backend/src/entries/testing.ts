@@ -1,5 +1,5 @@
 /**
- * `@retinue/agentkit/testing` — the conformance suite and the fakes — task #253.
+ * `@forge/agentkit/testing` — the conformance suite and the fakes — task #253.
  *
  * The README's headline claim is *"Replaceable everything — 31 ports, three adapter families, one conformance
  * suite held over all of them."* A consumer who took that invitation and wrote a fourth adapter family could not

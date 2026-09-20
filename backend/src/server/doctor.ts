@@ -1,5 +1,5 @@
 /**
- * `retinue doctor` — task #252 AC-4.
+ * `forge doctor` — task #252 AC-4.
  *
  * The one command here that is new rather than a wrapper, and the one that pays for itself: every failure it
  * names is otherwise a support conversation. A deployment that will not start currently produces one error, from
@@ -83,7 +83,7 @@ export type DoctorDeps = {
    *
    * Takes the whole connection setting rather than a URL, because `databaseSchema` changes the answer:
    * the schema probe counts applied migrations, and reading `public` when the deployment configured
-   * `retinue` reports "0 of 35 applied → run migrate" about a schema that is fully migrated. The
+   * `forge` reports "0 of 35 applied → run migrate" about a schema that is fully migrated. The
    * comment below already names that class of bug — a diagnostic sending an operator to fix the wrong
    * thing — and a URL-only signature is how this one would have got in.
    */
@@ -178,14 +178,14 @@ export const runChecks = async (deps: DoctorDeps = {}): Promise<readonly CheckRe
   }
 
   // 2. The app module, which `serve` and `worker` need and `migrate` does not.
-  const appModule = env["RETINUE_APP_MODULE"];
+  const appModule = env["FORGE_APP_MODULE"] ?? env["FORGE_APP_MODULE"];
   if (appModule === undefined || appModule.trim() === "") {
     results.push({
       name: "app module",
       ok: true,
       skipped: true,
-      detail: "RETINUE_APP_MODULE is unset — `migrate` and `doctor` work without it; `serve` and `worker` do not",
-      remedy: "Point RETINUE_APP_MODULE at a module default-exporting { authenticate, deps } before serving.",
+      detail: "FORGE_APP_MODULE is unset — `migrate` and `doctor` work without it; `serve` and `worker` do not",
+      remedy: "Point FORGE_APP_MODULE at a module default-exporting { authenticate, deps } before serving.",
     });
   } else {
     try {
@@ -215,14 +215,6 @@ export const runChecks = async (deps: DoctorDeps = {}): Promise<readonly CheckRe
     results.push({ name: "schema", ok: true, skipped: true, detail: "no driver supplied" });
   } else {
     let sql: Awaited<ReturnType<typeof connectPostgres>> | undefined;
-    /**
-     * Whether Postgres *answered*, which is not the same as whether a pool object exists.
-     *
-     * `new Pool()` does not connect, so `sql` is defined even when the database is unreachable — and keying the
-     * schema check on `sql !== undefined` reported "0 of 30 migrations applied → Run `retinue migrate`" against
-     * a database nobody could reach. That is a diagnostic sending an operator to fix the wrong thing, which is
-     * worse than reporting nothing.
-     */
     let reachable = false;
     try {
       sql = await withTimeout("postgres", connectPostgres(config));
@@ -234,7 +226,7 @@ export const runChecks = async (deps: DoctorDeps = {}): Promise<readonly CheckRe
         name: "postgres",
         ok: false,
         detail: failureDetail(config.databaseUrl, error),
-        remedy: "Check the database is running and RETINUE_DATABASE_URL points at it.",
+        remedy: "Check the database is running and FORGE_DATABASE_URL points at it.",
       });
     }
     if (reachable && sql !== undefined && deps.schemaVersions !== undefined) {
@@ -252,7 +244,7 @@ export const runChecks = async (deps: DoctorDeps = {}): Promise<readonly CheckRe
             : {
                 remedy:
                   current < target
-                    ? "Run `retinue migrate`."
+                    ? "Run `forge migrate`."
                     : "This database is ahead of this build. Deploy the matching version rather than migrating down.",
               }),
         });
@@ -261,7 +253,7 @@ export const runChecks = async (deps: DoctorDeps = {}): Promise<readonly CheckRe
           name: "schema",
           ok: false,
           detail: message(error),
-          remedy: "Run `retinue migrate --status` for detail.",
+          remedy: "Run `forge migrate --status` for detail.",
         });
       }
     } else if (reachable) {
@@ -291,11 +283,9 @@ export const runChecks = async (deps: DoctorDeps = {}): Promise<readonly CheckRe
         name: "redis",
         ok: false,
         detail: failureDetail(config.redisUrl, error),
-        remedy: "Check Redis is running and RETINUE_REDIS_URL points at it.",
+        remedy: "Check Redis is running and FORGE_REDIS_URL points at it.",
       });
     } finally {
-      // Always, including after a failure. Leaving a client open kept the socket handle alive and the command
-      // never exited — a diagnostic that reports correctly and then hangs is still a diagnostic that hangs.
       if (redis !== undefined) await redis.quit().catch(() => undefined);
     }
   }

@@ -24,8 +24,8 @@ import {
   type ToolkitAuth,
   type VendorFailure,
   type VendorTransport,
-} from "@retinue/agentkit/tools";
-import { AgentPlatformError } from "@retinue/agentkit";
+} from "@forge/agentkit/tools";
+import { AgentPlatformError } from "@forge/agentkit";
 
 const API = "https://discord.com/api/v10";
 const DEFAULT_LIMIT = 50;

@@ -1,5 +1,5 @@
 {
-  "name": "@retinue/tools-email",
+  "name": "@forge/tools-email",
   "version": "0.3.0",
   "description": "Send a deployment's own mail: one contract over SMTP and an HTTP API, with a preview that is byte-identical to the send.",
   "license": "MIT",
@@ -27,10 +27,10 @@
     "prepublishOnly": "node ../../scripts/publish-guard.mjs"
   },
   "peerDependencies": {
-    "@retinue/agentkit": "^0.3.0"
+    "@forge/agentkit": "^0.3.0"
   },
   "devDependencies": {
-    "@retinue/agentkit": "*",
+    "@forge/agentkit": "*",
     "@types/node": "^20",
     "typescript": "^5",
     "vitest": "^4.1.9"
@@ -42,11 +42,11 @@
   "author": "Rise Experts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rise-Experts/retinue.git",
+    "url": "git+https://github.com/Rise-Experts/Forge.git",
     "directory": "tools/email"
   },
-  "homepage": "https://github.com/Rise-Experts/retinue#readme",
+  "homepage": "https://github.com/Rise-Experts/Forge#readme",
   "bugs": {
-    "url": "https://github.com/Rise-Experts/retinue/issues"
+    "url": "https://github.com/Rise-Experts/Forge/issues"
   }
 }

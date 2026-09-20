@@ -3,17 +3,17 @@ slug: overview
 sidebar_position: 1
 ---
 
-# Welcome to Retinue
+# Welcome to Forge
 
 Build, run, and operate durable agent platforms in TypeScript.
 
-Retinue is a provider-neutral SDK for applications that need more than a one-off model call. Define
+Forge is a provider-neutral SDK for applications that need more than a one-off model call. Define
 agents and flows, attach typed tools and context, then run them through an embedded library or a
 durable server runtime.
 
 ## Choose the right primitive
 
-| Primitive | Use it when | Retinue handles |
+| Primitive | Use it when | Forge handles |
 |---|---|---|
 | **Agent** | One model-driven program can own the task | Context assembly, model calls, tool execution, session state, memory, and guardrails |
 | **Flow** | The work needs fixed steps, recovery, or explicit approvals | Queuing, checkpoints, retries, resumable streaming, and idempotent external writes |
@@ -67,6 +67,6 @@ Nobody arrives at documentation wanting section four. Start from the question:
 | **[Specifications](/specifications/)** | The internal design specs — decisions, reasoning, and rejected alternatives |
 
 :::note Status
-Retinue is under active development. Concept docs describe the settled design; code examples
+Forge is under active development. Concept docs describe the settled design; code examples
 show the intended public API as it comes online.
 :::

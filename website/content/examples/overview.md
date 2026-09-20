@@ -1,11 +1,11 @@
 ---
 title: Examples and cookbook
-description: Start from verified Retinue examples grouped by capability.
+description: Start from verified Forge examples grouped by capability.
 ---
 
 # Examples and cookbook
 
-The reference application in `examples/` is the most complete runnable Retinue implementation. It demonstrates the same application in an in-memory path and a PostgreSQL/Redis path, including streaming, memory, approvals, flows, structured output, and MCP.
+The reference application in `examples/` is the most complete runnable Forge implementation. It demonstrates the same application in an in-memory path and a PostgreSQL/Redis path, including streaming, memory, approvals, flows, structured output, and MCP.
 
 | Start with | What it demonstrates |
 |---|---|
@@ -14,4 +14,4 @@ The reference application in `examples/` is the most complete runnable Retinue i
 | [Your first tool](../getting-started/first-tool) | A typed custom tool and approval-gated write |
 | [Your first flow](../getting-started/first-flow) | A versioned flow and durable checkpoint |
 
-The runnable scripts are documented in the repository [examples README](https://github.com/Rise-Experts/retinue/tree/main/examples).
+The runnable scripts are documented in the repository [examples README](https://github.com/Rise-Experts/forge/tree/main/examples).

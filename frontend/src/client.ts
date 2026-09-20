@@ -1,17 +1,17 @@
 /**
  * Transport-agnostic client contract — `docs/06`. The headless hooks depend only on this interface,
  * never on a concrete transport, so the same hooks run over GraphQL, SSE, or a test double. A host
- * provides an implementation (e.g. a GraphQL client) through `RetinueProvider`.
+ * provides an implementation (e.g. a GraphQL client) through `ForgeProvider`.
  */
 
-import type { ApprovalDecision } from "@retinue/agentkit";
+import type { ApprovalDecision } from "@forge/agentkit";
 import type { ConversationSummary, ContextInspection, Message, RunEvent } from "./types/index.js";
 
 export type { ApprovalDecision };
 
 export type Paged<T> = { readonly items: readonly T[]; readonly nextCursor?: string };
 
-export interface RetinueClient {
+export interface ForgeClient {
   listConversations(input: { includeArchived?: boolean; cursor?: string }): Promise<Paged<ConversationSummary>>;
   listMessages(input: { conversationId: string; cursor?: string }): Promise<Paged<Message>>;
   sendMessage(input: { conversationId: string; text: string }): Promise<{ runId: string }>;
@@ -25,3 +25,6 @@ export interface RetinueClient {
   /** The context inspection for a conversation/run — what shaped the prompt (Context panel, #39). */
   getConversationContext?(input: { conversationId: string; runId?: string }): Promise<ContextInspection>;
 }
+
+/** @deprecated Use ForgeClient */
+export type RetinueClient = ForgeClient;

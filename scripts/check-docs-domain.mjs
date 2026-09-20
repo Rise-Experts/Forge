@@ -2,7 +2,7 @@
 /**
  * The documentation site is on the hostname it says it is — REQ-035 (#184), SPEC #203.
  *
- * The site now claims `docs.retinue.riseexperts.de`; it was `docs.agentkit.riseexperts.de` until #203. Moving it
+ * The site now claims `docs.forge.riseexperts.de`; it was `docs.agentkit.riseexperts.de` until #203. Moving it
  * is a cutover with a live site on the other end — a DNS record, a custom domain, a 301, and only then a rebuild
  * — and the parts that need the Cloudflare account cannot be done from this repository at all. So what this
  * repository owns is the *verification*: the difference between a promise and a gate is that one of them can be
@@ -81,7 +81,7 @@ export const wranglerName = (source) => {
  * Only `custom_domain: true` entries count, and the distinction is the whole point. A plain route matches
  * traffic for a hostname that must already resolve and already have a certificate; a custom domain *creates*
  * the DNS record and provisions an Advanced Certificate for the exact hostname. For a second-level subdomain
- * like `docs.retinue.riseexperts.de` — which Cloudflare's universal certificate does not cover — a route leaves
+ * like `docs.forge.riseexperts.de` — which Cloudflare's universal certificate does not cover — a route leaves
  * the site answering over plain HTTP and failing the TLS handshake. That is not a hypothetical: it is what the
  * hostname did for several hours on 27 Aug 2026.
  */

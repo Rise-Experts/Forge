@@ -42,7 +42,7 @@ sidebar_position: 4
 One provider, and what you supply decides which tools exist:
 
 ```ts
-import { createStandardToolProvider } from "@retinue/agentkit/tools";
+import { createStandardToolProvider } from "@forge/agentkit/tools";
 
 const tools = createStandardToolProvider({
   deps: { authorization, idempotency, approvals },

@@ -40,7 +40,7 @@ Three answers, in order of how much they matter.
 ### 1. It must not reach the internal network
 
 This is the same SSRF problem `tools-scrape` has, and it uses the **same implementation** — `refuseUrl` and
-`resolvePublicly` from `@retinue/agentkit/tools`, which is why they live there rather than in either toolkit.
+`resolvePublicly` from `@forge/agentkit/tools`, which is why they live there rather than in either toolkit.
 A second copy is how one of them ends up missing the IPv6-mapped forms of the metadata address.
 
 A browser adds one vector a fetch does not have: **the page can move itself.** `location.replace`, a meta

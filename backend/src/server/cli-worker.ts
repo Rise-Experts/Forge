@@ -1,43 +1,33 @@
 /**
  * Runnable worker command (#110 AC-5).
  *
- * Same contract as the API host: `RETINUE_APP_MODULE` supplies the wiring. The worker additionally
+ * Same contract as the API host: `FORGE_APP_MODULE` supplies the wiring. The worker additionally
  * needs an agent engine, which no generic entrypoint can invent — so the app module provides it, and
  * the command refuses to start without one rather than running a worker that consumes jobs it cannot
  * execute.
  */
 import { boot } from "./boot.js";
-import { APP_MODULE_VARIABLE, type RetinueApp } from "./cli.js";
-import { loadConfig, type RetinueConfig } from "./config.js";
+import { readEnv } from "../core/env.js";
+import { APP_MODULE_VARIABLE, type ForgeApp } from "./cli.js";
+import { loadConfig, type ForgeConfig } from "./config.js";
 import type { AgentEngine, PricingResolver, ResolverDeps } from "../index.js";
 import type { SqlExecutor } from "../entries/adapters-postgres.js";
 
-export type RetinueWorkerApp = RetinueApp & {
-  readonly engine: (input: { readonly config: RetinueConfig; readonly sql: SqlExecutor }) => AgentEngine;
+export type ForgeWorkerApp = ForgeApp & {
+  readonly engine: (input: { readonly config: ForgeConfig; readonly sql: SqlExecutor }) => AgentEngine;
   readonly buildContext: Parameters<typeof import("../runtime/worker.js").createDurableWorker>[0]["buildContext"];
   /**
    * Called when a run reaches a terminal state — #202.
-   *
-   * On the *worker* app rather than the host's, because only the worker settles runs. Optional and general: a
-   * parent flow waiting on a child run is why it exists, but an audit trail or an outbound webhook would wire the
-   * same hook. Nothing may **depend** on delivery — see `DurableWorkerDeps.onRunSettled`.
    */
   readonly onRunSettled?: (input: {
-    readonly config: RetinueConfig;
+    readonly config: ForgeConfig;
     readonly sql: SqlExecutor;
   }) => Parameters<typeof import("../runtime/worker.js").createDurableWorker>[0]["onRunSettled"];
-  /**
-   * What a model costs — #166.
-   *
-   * Optional, and its absence costs **cost** and not usage: tokens are recorded either way, because how many
-   * tokens a run consumed is a fact whether or not anyone knows the price. Dropping the record for want of a
-   * price would lose the fact to protect a figure.
-   *
-   * Supplied by the app rather than built here because only the app knows its model catalogue. See
-   * `createRegistryPricingResolver` for the usual one-liner over a `ModelRegistry`.
-   */
   readonly pricing?: PricingResolver;
 };
+
+/** @deprecated Use ForgeWorkerApp */
+export type RetinueWorkerApp = ForgeWorkerApp;
 
 export const runWorker = async (
   env: Readonly<Record<string, string | undefined>> = process.env,
@@ -45,14 +35,14 @@ export const runWorker = async (
   // Same ordering as the API host: configuration problems are reported before the app module is
   // even looked for.
   loadConfig(env);
-  const specifier = env[APP_MODULE_VARIABLE];
+  const specifier = readEnv(env, "APP_MODULE");
   if (specifier === undefined || specifier.trim() === "") {
     throw new Error(
       `${APP_MODULE_VARIABLE} is required: it must point at a module default-exporting ` +
         `{ authenticate, deps, engine, buildContext }.`,
     );
   }
-  const app = ((await import(specifier)) as { default?: RetinueWorkerApp }).default;
+  const app = ((await import(specifier)) as { default?: ForgeWorkerApp }).default;
   if (app === undefined || typeof app.engine !== "function") {
     throw new Error(`${specifier} must default-export an \`engine\` for the worker command`);
   }
@@ -62,7 +52,7 @@ export const runWorker = async (
     connect: async (loaded) => {
       const { openPostgres } = await import("./pool.js");
       // Through the shared pool for the schema, which matters most here: the worker is the process whose
-      // writes nobody watches, so a worker in `public` while the host is in `retinue` is a split brain
+      // writes nobody watches, so a worker in `public` while the host is in `forge` is a split brain
       // that shows up as runs that vanish rather than as an error.
       const { sql } = await openPostgres(loaded);
       return { sql };

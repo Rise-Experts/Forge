@@ -28,17 +28,17 @@ import {
  * `redis:7-alpine` rather than pulling `alpine`: the tests must not need a network, since one of them proves the
  * sandbox has none.
  */
-const IMAGE = process.env["RETINUE_SANDBOX_IMAGE"] ?? "redis:7-alpine";
+const IMAGE = process.env["FORGE_SANDBOX_IMAGE"] ?? process.env["RETINUE_SANDBOX_IMAGE"] ?? "redis:7-alpine";
 
 /**
  * Whether Docker can actually run that image here.
  *
  * Checked once, and the *reason* matters: when this is false the live tests below are reported as skipped by
- * vitest — visible in the run, not silently absent. `RETINUE_SANDBOX_SKIP=1` is the escape hatch for a machine
+ * vitest — visible in the run, not silently absent. `FORGE_SANDBOX_SKIP=1` is the escape hatch for a machine
  * without Docker, and it has to be set on purpose.
  */
 const dockerUsable = (): boolean => {
-  if (process.env["RETINUE_SANDBOX_SKIP"] === "1") return false;
+  if ((process.env["FORGE_SANDBOX_SKIP"] ?? process.env["RETINUE_SANDBOX_SKIP"]) === "1") return false;
   try {
     execFileSync("docker", ["image", "inspect", IMAGE], { stdio: "ignore" });
     return true;

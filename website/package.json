@@ -1,5 +1,5 @@
 {
-  "name": "@retinue/website",
+  "name": "@forge/website",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -34,7 +34,7 @@
   "author": "Rise Experts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rise-Experts/retinue.git",
+    "url": "git+https://github.com/Rise-Experts/Forge.git",
     "directory": "website"
   },
   "license": "UNLICENSED"

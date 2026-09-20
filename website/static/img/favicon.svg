@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Retinue">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Forge">
   <!--
     The mark, adjusted for a 16px tab — task #218.
 
     Not the brand mark scaled down. At favicon size the five attendant dots merge into the centre and it reads as
     a blob, so this keeps three of them and enlarges everything: the *shape* of an attended centre survives, which
-    is what a reader recognises in a tab strip. The full mark is brand/retinue-mark.svg.
+    is what a reader recognises in a tab strip. The full mark is brand/forge-mark.svg.
   -->
   <rect width="64" height="64" rx="14" fill="#234b7e" />
   <circle cx="30" cy="34" r="11" fill="#ffffff" />

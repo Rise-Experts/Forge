@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Client package surface
 
-`@retinue/react` is the headless client: state, reducers and hooks, with no product styling and no
+`@forge/react` is the headless client: state, reducers and hooks, with no product styling and no
 transport assumptions. The host supplies the transport by implementing one interface.
 
 Moved here from the package README, which is a front door rather than a reference.
@@ -13,9 +13,9 @@ Moved here from the package README, which is a front door rather than a referenc
 
 | Module | Contains |
 |---|---|
-| `types` | Re-exports the wire contract from `@retinue/agentkit`, plus client-only view state. Type-only, erased at build time. |
+| `types` | Re-exports the wire contract from `@forge/agentkit`, plus client-only view state. Type-only, erased at build time. |
 | `event-buffer` | **Implemented.** Orders and de-duplicates run events across a reconnect. |
-| `hooks` | **Implemented** — all ten: `useRetinueClient`, `useConversations`, `useConversation`, `useRunSubscription`, `usePendingInteraction`, `useSendMessage`, `useAnswerQuestion`, `useDecideApproval`, `useCancelRun`, `useSessionContext`. |
+| `hooks` | **Implemented** — all ten: `useForgeClient`, `useConversations`, `useConversation`, `useRunSubscription`, `usePendingInteraction`, `useSendMessage`, `useAnswerQuestion`, `useDecideApproval`, `useCancelRun`, `useSessionContext`. |
 | `client` | The transport port the hooks take. An interface, so the host supplies fetch, SSE or WebSocket and this package assumes none of them. |
 | `reducers` | Run events folded into renderable parts. Pure functions, so the ordering guarantees are testable without a DOM. |
 | `context-inspector` | What the window holds and what is left of it — the view behind the composer's context meter. |
@@ -36,15 +36,15 @@ without a DOM. `ui/` renders them.
 
 ## Why the backend dependency is type-only
 
-Every import from `@retinue/agentkit` is an `import type`, so nothing survives
+Every import from `@forge/agentkit` is an `import type`, so nothing survives
 compilation. The client owns no copy of the wire contract, and the two halves cannot
 drift. TypeScript project references build the backend's declarations first.
 
 ## Scripts
 
 ```bash
-npm test -w @retinue/react
-npm run build -w @retinue/react   # builds @retinue/agentkit first
+npm test -w @forge/react
+npm run build -w @forge/react   # builds @forge/agentkit first
 ```
 
 ## Not yet here
@@ -55,6 +55,6 @@ reverse, and is deliberately not a mobile dependency.
 
 ## What "headless" costs and buys
 
-The package assumes no fetch, no SSE and no WebSocket — `RetinueClient` is an interface the host implements.
+The package assumes no fetch, no SSE and no WebSocket — `ForgeClient` is an interface the host implements.
 That is why the same hooks drive a DOM renderer and a native one, and why the reducers are pure functions whose
 event-ordering guarantees are testable without a browser.

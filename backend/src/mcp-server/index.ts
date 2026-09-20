@@ -3,7 +3,7 @@
  *
  * `backend/src/mcp/` is the **outbound** direction: a tenant registers their MCP server and this platform
  * consumes it. Its own header says so, and points at an inbound server that lives in the *old Chorus
- * repository* — not in this package. So `@retinue/agentkit` could consume an MCP server and could not be one,
+ * repository* — not in this package. So `@forge/agentkit` could consume an MCP server and could not be one,
  * and a deployment's tools were unreachable from Claude Code, Claude Desktop, Cursor and every other MCP client.
  *
  * Nothing here re-implements a capability. The registry already does authorization, the tenant's toolset, the
@@ -186,7 +186,7 @@ export const toMcpResult = (
  * imports `@modelcontextprotocol/sdk`, builds a `Server`, and hands it here. That also leaves the host in
  * charge of the transport, which is where the authentication story differs between stdio and HTTP.
  */
-export const registerRetinueTools = (
+export const registerForgeTools = (
   server: McpServerLike,
   schemas: { readonly listTools: unknown; readonly callTool: unknown },
   deps: McpToolServerDeps,
@@ -244,3 +244,6 @@ export const registerRetinueTools = (
     }
   });
 };
+
+/** @deprecated Use registerForgeTools instead */
+export const registerRetinueTools = registerForgeTools;

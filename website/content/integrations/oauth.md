@@ -4,7 +4,7 @@ title: OAuth connections
 
 # Connecting a tenant to a provider
 
-`@retinue/agentkit/connections` carries an OAuth 2.0 authorization-code flow with PKCE, a store for the
+`@forge/agentkit/connections` carries an OAuth 2.0 authorization-code flow with PKCE, a store for the
 resulting credentials, and the cipher that protects them. A deployment mounts it rather than implementing it —
 which matters beyond convenience: this is the piece where a mistake is *exploitable* rather than merely broken.
 
@@ -29,7 +29,7 @@ import {
   createMemoryOAuthAttemptStore,
   createOAuthConnectionService,
   createOAuthFlow,
-} from "@retinue/agentkit/connections";
+} from "@forge/agentkit/connections";
 
 export const github = (store: never) => {
   const config = {
@@ -42,7 +42,7 @@ export const github = (store: never) => {
     redirectUris: ["https://app.example.com/oauth/github/callback"],
   };
   const cipher = createAesGcmCipher({
-    keys: [{ id: "k1", key: Buffer.from(process.env.RETINUE_SECRET_KEY ?? "", "base64") }],
+    keys: [{ id: "k1", key: Buffer.from(process.env.FORGE_SECRET_KEY ?? "", "base64") }],
   });
   return {
     flow: createOAuthFlow({ config, attempts: createMemoryOAuthAttemptStore() }),
@@ -67,7 +67,7 @@ nothing actionable. A connection whose provider disclosed no scopes returns no g
 refusal, and treating it as one would block working connections.
 
 The key that seals stored credentials must be one **the application database cannot decrypt on its own**. See
-[the cipher's own notes](https://github.com/Rise-Experts/retinue/blob/main/backend/src/connections/cipher.ts) for
+[the cipher's own notes](https://github.com/Rise-Experts/forge/blob/main/backend/src/connections/cipher.ts) for
 why `pgcrypto` keyed from a column does not satisfy that, and why Supabase Vault is one implementation of the
 seam rather than its foundation.
 
@@ -108,7 +108,7 @@ than the deployment's. For three providers this is the difference between workin
 | **Google Workspace** | An enterprise whose security team will not approve a third-party app in their tenant has no other route. |
 
 ```ts
-import { registerTenantOAuthApp, resolveOAuthClient, configForTenant } from "@retinue/agentkit/connections";
+import { registerTenantOAuthApp, resolveOAuthClient, configForTenant } from "@forge/agentkit/connections";
 ```
 
 Register once per tenant per provider, then resolve before each flow. `resolveOAuthClient` reports
@@ -138,7 +138,7 @@ message saying so, rather than being silently swapped.
 part that is the same everywhere and dangerous to get wrong.
 
 **No refresh.** A credential that expires is *reported* as expired rather than silently renewed — refresh is
-tracked separately ([#233](https://github.com/Rise-Experts/retinue/issues/233)), and reporting is the honest
+tracked separately ([#233](https://github.com/Rise-Experts/forge/issues/233)), and reporting is the honest
 interim: "expired" is a message an operator can act on, where a vendor 401 says the token is invalid and sends
 them to rotate something that was never wrong.
 
@@ -147,4 +147,4 @@ tenant-facing connection needs; the implicit flow is deprecated and will not be 
 
 **Not yet run against a live provider.** The flow is unit-tested down to the exact bytes of the token request,
 and no OAuth application has been registered with a real provider from this repository — so
-[#262](https://github.com/Rise-Experts/retinue/issues/262) AC-10 is outstanding rather than met.
+[#262](https://github.com/Rise-Experts/forge/issues/262) AC-10 is outstanding rather than met.

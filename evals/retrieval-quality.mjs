@@ -31,14 +31,14 @@
  *   node evals/retrieval-quality.mjs --offline           # a smoke run; measures no semantics at all
  *   node evals/retrieval-quality.mjs --chunk 800x1600    # a different chunking, to answer AC-6 with a number
  *
- * Needs RETINUE_MODEL_API_KEY unless `--offline`. Embeddings cost about a cent for the whole corpus; the
+ * Needs FORGE_MODEL_API_KEY unless `--offline`. Embeddings cost about a cent for the whole corpus; the
  * `navigate` arm costs one chat call per query.
  */
 
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { createMemoryKnowledgeBackend, createMemoryGraphStore } from "@retinue/agentkit/persistence";
+import { createMemoryKnowledgeBackend, createMemoryGraphStore } from "@forge/agentkit/persistence";
 import {
   createCommunityBuilder,
   createGraphGlobalSearch,
@@ -51,9 +51,9 @@ import {
   createNavigator,
   createOpenAiEmbeddings,
   createRetriever,
-} from "@retinue/agentkit/knowledge";
-import { chunkDocument } from "@retinue/agentkit/knowledge";
-import { asId } from "@retinue/agentkit";
+} from "@forge/agentkit/knowledge";
+import { chunkDocument } from "@forge/agentkit/knowledge";
+import { asId } from "@forge/agentkit";
 
 const CASES = "evals/cases/retrieval.json";
 const OUT = "evals/retrieval-quality.json";
@@ -86,8 +86,8 @@ export const corpusFiles = (dirs = CORPUS_DIRS) => {
  * every number here a number about the harness.
  */
 const blocksOf = async (path) => {
-  const { parseMarkdown } = await import("@retinue/agentkit/knowledge");
-  const { DEFAULT_EXTRACTION_LIMITS } = await import("@retinue/agentkit/knowledge");
+  const { parseMarkdown } = await import("@forge/agentkit/knowledge");
+  const { DEFAULT_EXTRACTION_LIMITS } = await import("@forge/agentkit/knowledge");
   const parsed = parseMarkdown(new Uint8Array(readFileSync(path)), {
     ...DEFAULT_EXTRACTION_LIMITS,
     // The specs are long; the default text ceiling truncates the largest of them, and a truncated corpus makes
@@ -319,9 +319,9 @@ const arg = (flag, fallback) => {
 
 const main = async () => {
   const offline = process.argv.includes("--offline");
-  const apiKey = process.env.RETINUE_MODEL_API_KEY;
+  const apiKey = process.env.FORGE_MODEL_API_KEY;
   if (!offline && !apiKey) {
-    console.error("✗ RETINUE_MODEL_API_KEY is unset. Retrieval quality is a property of a real embedding model,");
+    console.error("✗ FORGE_MODEL_API_KEY is unset. Retrieval quality is a property of a real embedding model,");
     console.error("  and the offline embedder hashes words onto axes — it would measure the keyword arm twice.");
     console.error("  Pass --offline for a smoke run that deliberately writes no report.");
     return 2;
@@ -373,7 +373,7 @@ const main = async () => {
     ? offlineEmbedder()
     : createOpenAiEmbeddings({
         apiKey,
-        ...(process.env.RETINUE_EMBEDDING_MODEL === undefined ? {} : { modelId: process.env.RETINUE_EMBEDDING_MODEL }),
+        ...(process.env.FORGE_EMBEDDING_MODEL === undefined ? {} : { modelId: process.env.FORGE_EMBEDDING_MODEL }),
       });
 
   // ── the corpus ────────────────────────────────────────────────────────────────────────────────────────────
@@ -697,7 +697,7 @@ const main = async () => {
         catalogue: { list: async () => outlines },
         chooser: openAiChooser({
           apiKey,
-          modelId: process.env.RETINUE_MODEL_ID ?? "gpt-4o",
+          modelId: process.env.FORGE_MODEL_ID ?? "gpt-4o",
           usage: chooserUsage,
         }),
       });

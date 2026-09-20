@@ -6,7 +6,7 @@
  * second customer means a second token for the same tool. That is the case a `credentialRef` exists for, and it
  * is why this is the package that proves the seam rather than the one that merely uses it.
  *
- * Everything structural here is deliberately identical to `@retinue/tools-github`: a `ToolProvider`, credentials
+ * Everything structural here is deliberately identical to `@forge/tools-github`: a `ToolProvider`, credentials
  * resolved per call, `confirms` on every write, egress through the platform's client, and pagination that admits
  * when it stopped. If the second toolkit needed a different shape, the pattern would be wrong — and that would
  * have been the finding.
@@ -23,8 +23,8 @@ import {
   type HttpOutcome,
   type Tool,
   type ToolProvider,
-} from "@retinue/agentkit/tools";
-import { AgentPlatformError, type ExecutionContext } from "@retinue/agentkit";
+} from "@forge/agentkit/tools";
+import { AgentPlatformError, type ExecutionContext } from "@forge/agentkit";
 
 export type SlackToolkitConfig = {
   /** A bot token, per workspace. Resolved per call — see the module comment. */

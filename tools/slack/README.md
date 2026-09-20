@@ -1,25 +1,25 @@
-<img src="https://raw.githubusercontent.com/Rise-Experts/retinue/main/brand/retinue-mark.svg" alt="Retinue" width="72" />
+<img src="https://raw.githubusercontent.com/Rise-Experts/Forge/main/brand/forge-mark.svg" alt="Forge" width="72" />
 
-# @retinue/tools-slack
+# @forge/tools-slack
 
-[![npm](https://img.shields.io/npm/v/@retinue/tools-slack)](https://www.npmjs.com/package/@retinue/tools-slack)
-[![licence](https://img.shields.io/npm/l/@retinue/tools-slack)](https://github.com/Rise-Experts/retinue/blob/main/LICENSE)
+[![npm](https://img.shields.io/npm/v/@forge/tools-slack)](https://www.npmjs.com/package/@forge/tools-slack)
+[![licence](https://img.shields.io/npm/l/@forge/tools-slack)](https://github.com/Rise-Experts/Forge/blob/main/LICENSE)
 
-**Slack tools for a [Retinue](https://github.com/Rise-Experts/retinue) agent.** Read channels and history, post
+**Slack tools for a [Forge](https://github.com/Rise-Experts/Forge) agent.** Read channels and history, post
 messages and thread replies — with every write gated behind human approval and carrying an idempotency key.
 
 ## Install
 
 ```bash
-npm i @retinue/tools-slack
+npm i @forge/tools-slack
 ```
 
 ## Use
 
 ```ts
-import { createAgent } from "@retinue/agentkit/providers";
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { createSlackToolkit } from "@retinue/tools-slack";
+import { createAgent } from "@forge/agentkit/providers";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { createSlackToolkit } from "@forge/tools-slack";
 
 const agent = createAgent({
   manifest: { id: "helper", name: "Helper", instructions: "Answer in the thread you were asked in.", modelPolicy: { role: "smart" } },
@@ -63,7 +63,7 @@ saying "ignore your instructions" arrives as data.
 
 ## Licence
 
-MIT — see [LICENSE](https://github.com/Rise-Experts/retinue/blob/main/LICENSE).
+MIT — see [LICENSE](https://github.com/Rise-Experts/Forge/blob/main/LICENSE).
 
 Copyright (c) 2026 [Azeem Sarwar](https://github.com/azeem-sarwar) and
 [Rise Experts](https://github.com/Rise-Experts).

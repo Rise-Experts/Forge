@@ -1,5 +1,5 @@
 /**
- * `@retinue/agentkit/flows` — durable workflows, and teams as a kind of step.
+ * `@forge/agentkit/flows` — durable workflows, and teams as a kind of step.
  *
  * REQ-038 (#187) and REQ-037 (#186), which are one subpath because they are one mechanism: a team compiles to a
  * flow, so there is one interpreter, one durability story and one budget.

@@ -20,7 +20,7 @@ import {
   customDomains,
 } from "./check-docs-domain.mjs";
 
-const INTENDED = "https://docs.retinue.riseexperts.de";
+const INTENDED = "https://docs.forge.riseexperts.de";
 
 test("importing this module does not run the check", () => {
   // The same guard the consumer-boundary checker needed: without it, importing here ran the whole check and
@@ -29,10 +29,10 @@ test("importing this module does not run the check", () => {
 });
 
 test("the hostname comes from the config, trailing slash removed", () => {
-  assert.equal(configuredUrl('const config = {\n  title: "Retinue",\n  url: "https://x.example/",\n};'), "https://x.example");
+  assert.equal(configuredUrl('const config = {\n  title: "Forge",\n  url: "https://x.example/",\n};'), "https://x.example");
   assert.equal(configuredUrl('  url: "https://y.example",'), "https://y.example");
   // No url: the caller must exit 2 rather than pass, since there is then nothing to hold reality to.
-  assert.equal(configuredUrl('const config = { title: "Retinue" };'), null);
+  assert.equal(configuredUrl('const config = { title: "Forge" };'), null);
   // Not fooled by a `url:` belonging to something else further down the file.
   assert.equal(configuredUrl('  url: "https://real.example",\n  footer: { url: "https://other.example" },'), "https://real.example");
 });
@@ -55,7 +55,7 @@ test("a redirect to the root is refused, which is the failure that looks like su
 test("a redirect to the wrong host, and one with no location, are refused", () => {
   assert.match(
     redirectVerdict({ status: 301, location: "https://elsewhere.example/x/" }, { intended: INTENDED, path: "/x/" }),
-    /expected https:\/\/docs\.retinue\.riseexperts\.de\/x\//,
+    /expected https:\/\/docs\.forge\.riseexperts\.de\/x\//,
   );
   assert.match(redirectVerdict({ status: 301, location: null }, { intended: INTENDED, path: "/x/" }), /no location header/);
   assert.match(redirectVerdict({ status: 200, location: null }, { intended: INTENDED, path: "/x/" }), /not a redirect/);
@@ -81,7 +81,7 @@ test("origins on our own domain are found, so a stale canonical is visible", () 
   const html = `<link rel="canonical" href="${LEGACY_URL}/"><meta property="og:url" content="${INTENDED}/">`;
   assert.deepEqual([...originsIn(html)].sort(), [LEGACY_URL, INTENDED].sort());
   // A third-party absolute URL is not ours and must not be reported as a hostname problem.
-  assert.deepEqual([...originsIn('<a href="https://github.com/Rise-Experts/retinue">')], []);
+  assert.deepEqual([...originsIn('<a href="https://github.com/Rise-Experts/Forge">')], []);
 });
 
 test("the Worker name is read from a wrangler config, comments and all", () => {
@@ -101,7 +101,7 @@ test("only a custom domain counts as attaching the hostname", () => {
   /**
    * The distinction that cost an afternoon. A route matches traffic for a hostname that must already resolve and
    * already have a certificate; a custom domain *creates* the record and provisions an Advanced Certificate for
-   * the exact hostname. `docs.retinue.riseexperts.de` is a second-level subdomain, which the universal
+   * the exact hostname. `docs.forge.riseexperts.de` is a second-level subdomain, which the universal
    * certificate does not cover, so a route leaves the site answering over HTTP and failing TLS.
    */
   const withDomain = '{ "routes": [ { "pattern": "docs.example.com", "custom_domain": true } ] }';

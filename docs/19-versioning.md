@@ -1,6 +1,6 @@
 # Versioning, API surface and deprecation
 
-REQ-040 ([#189](https://github.com/Rise-Experts/retinue/issues/189)). What consumers may depend on, what they
+REQ-040 ([#189](https://github.com/Rise-Experts/forge/issues/189)). What consumers may depend on, what they
 will be told before it changes, and how long a removed thing keeps working.
 
 Written before the first publish, deliberately. After it, every mistake in here is permanent.
@@ -9,7 +9,7 @@ Written before the first publish, deliberately. After it, every mistake in here 
 
 **The package root's exports, and nothing else.**
 
-`@retinue/agentkit` exports **five values** from its root — `createRuntime`, `resolveCapabilities`,
+`@forge/agentkit` exports **five values** from its root — `createRuntime`, `resolveCapabilities`,
 `defineAgent`, `asId`, and `AgentPlatformError` with its guard — plus every type. Those, and the documented
 subpaths listed in `backend/src/entries/README.md`, are the API.
 
@@ -58,7 +58,7 @@ At 1.0 the normal rules apply: major for a removal, minor for an addition, patch
 
 | Version | Change | Migration |
 |---|---|---|
-| `0.3.0` (pending) | `CredentialResolver.resolve` returns a `Credential` instead of a `string` ([#260](https://github.com/Rise-Experts/retinue/issues/260)) | See below |
+| `0.3.0` (pending) | `CredentialResolver.resolve` returns a `Credential` instead of a `string` ([#260](https://github.com/Rise-Experts/forge/issues/260)) | See below |
 
 **`0.3.0` — a credential is a typed value.**
 
@@ -81,7 +81,7 @@ createStaticCredentialResolver({ github: process.env.GITHUB_TOKEN ?? "" });
 const resolver = { async resolve({ ref, context }) { return lookupToken(ref, context); } };
 
 // after
-import { bearer } from "@retinue/agentkit/tools";
+import { bearer } from "@forge/agentkit/tools";
 const resolver = { async resolve({ ref, context }) { return bearer(await lookupToken(ref, context)); } };
 ```
 
@@ -93,7 +93,7 @@ const token = await resolver.resolve({ ref, context });
 headers.authorization = `Bearer ${token}`;
 
 // after
-import { credentialHeader } from "@retinue/agentkit/tools";
+import { credentialHeader } from "@forge/agentkit/tools";
 const [name, value] = credentialHeader(await resolver.resolve({ ref, context }));
 headers[name.toLowerCase()] = value;
 ```
@@ -111,7 +111,7 @@ A removed export keeps working for **one minor version**, and the consumer is to
 2. **A `@deprecated` tag** with the replacement named, so an editor says so before the code is written.
 3. **A changelog entry** under `### Deprecated`, with the version that removes it.
 
-The rename in #192 is the shape: `RETINUE_*` variables fall back to their `AGENTKIT_*` spelling and warn once,
+The rename is the shape: `FORGE_*` variables fall back to their `FORGE_*` and `AGENTKIT_*` spellings and warn once,
 and the fallback goes in the next minor. An existing deployment keeps booting.
 
 **Two exceptions, stated so they are not surprises.** A deprecation cycle does not apply to a **security fix**
@@ -132,9 +132,7 @@ entry a reader does not believe can be checked in one click.
 Honest gaps rather than a plan presented as a state:
 
 - **Nothing is published yet**, but everything except the act of publishing is in place — see *Releasing*
-  below. The `retinue` npm organisation exists and is
-  ours (confirmed by an authenticated `npm org ls`, not by a 404 on the registry, which proves nothing: a scope
-  can be held by an org with nothing published), the licence is chosen, and both shipping packages are
+  below. The `@forge` npm scope exists, the licence is chosen, and both shipping packages are
   publishable with a guard in front of them. What remains is a **decision about repository visibility**, below.
 - **No provenance, and no published `next` tag.** Both need a registry and a CI publishing identity, which is
   #193. The *policy* for prereleases is below, because it is needed by a decision already taken (the platform
@@ -143,7 +141,7 @@ Honest gaps rather than a plan presented as a state:
 
 ## The licence
 
-**MIT**, for `@retinue/agentkit` and `@retinue/react`, held jointly by
+**MIT**, for `@forge/agentkit` and `@forge/react`, held jointly by
 [Azeem Sarwar](https://github.com/azeem-sarwar) and [Rise Experts](https://github.com/Rise-Experts).
 
 Chosen for the reason a runtime is licensed at all: installing it should need no conversation. MIT is the
@@ -188,7 +186,7 @@ agentkit@0.2.0-next.1   a prerelease, to `next`
 
 Per-package rather than one `v0.1.0`, because the versions are independent: a client-only fix must not bump the
 runtime, and a shared version teaches consumers that every release affects them. The first release is therefore
-two tags — the runtime first, since `@retinue/react` depends on `@retinue/agentkit@^0.1.0` and a client
+two tags — the runtime first, since `@forge/react` depends on `@forge/agentkit@^0.1.0` and a client
 published against an absent runtime is uninstallable.
 
 `.github/workflows/release.yml` does the rest: resolve the tag, run the whole gate, publish with provenance,
@@ -238,7 +236,7 @@ shortcut that dissolves the boundary — so `next` is not a convenience, it is w
 
 - **Version shape:** `0.2.0-next.3` — the version being worked towards, then `-next.<n>`. Not a date and not a
   commit hash: a consumer reading a lockfile should be able to tell which release a prerelease precedes.
-- **Tag:** published under `next`, never `latest`. `npm install @retinue/agentkit` must never resolve to a
+- **Tag:** published under `next`, never `latest`. `npm install @forge/agentkit` must never resolve to a
   prerelease, which is the one mistake in this area that reaches people who never opted in.
 - **Who may depend on one:** our own platform, pinned exactly (`0.2.0-next.3`, not `^`). A caret range over
   prereleases moves under you between installs.

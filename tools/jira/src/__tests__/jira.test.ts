@@ -6,11 +6,11 @@
  * total — lossy where it must be, never throwing (AC-5).
  */
 import { readFileSync } from "node:fs";
-import type { ConversationId } from "@retinue/agentkit";
+import type { ConversationId } from "@forge/agentkit";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it, vi } from "vitest";
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { asId, type ExecutionContext } from "@retinue/agentkit";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { asId, type ExecutionContext } from "@forge/agentkit";
 
 import { adfToMarkdown, createJiraToolkit, JIRA_AUTH, JIRA_TOOL_NAMES, markdownToAdf } from "../index.js";
 

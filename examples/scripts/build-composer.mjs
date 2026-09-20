@@ -16,7 +16,7 @@ const options = {
   bundle: true,
   // An IIFE with a `globalName`, which is esbuild's own mechanism for "expose the exports as a global".
   format: "iife",
-  globalName: "AgentkitComposer",
+  globalName: "ForgeComposer",
   target: "es2022",
   minify: true,
   sourcemap: true,

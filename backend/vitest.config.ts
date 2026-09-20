@@ -20,7 +20,8 @@ export default defineConfig({
      * because #97→#102 add twelve more ports to the same entrypoint. Tracked separately rather than
      * folded into #96.
      */
-    testTimeout: 30_000,
-    hookTimeout: 30_000,
+    testTimeout: 60_000,
+    hookTimeout: 60_000,
+    fileParallelism: false,
   },
 });

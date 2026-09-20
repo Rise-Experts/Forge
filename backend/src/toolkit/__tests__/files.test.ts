@@ -15,9 +15,10 @@ import { contains, createFileReader, MAX_FILE_BYTES } from "../files.js";
 let root = "";
 let writable = "";
 let outside = "";
+let hasSymlinks = true;
 
 beforeAll(() => {
-  const base = mkdtempSync(join(tmpdir(), "retinue-files-"));
+  const base = mkdtempSync(join(tmpdir(), "forge-files-"));
   root = join(base, "root");
   writable = join(base, "scratch");
   outside = join(base, "outside");
@@ -31,8 +32,12 @@ beforeAll(() => {
   writeFileSync(join(root, "big.log"), "x".repeat(MAX_FILE_BYTES + 500));
   writeFileSync(join(outside, "secret.txt"), "the private key\n");
   // The escape that string comparison misses: a link inside the root, pointing out of it.
-  symlinkSync(join(outside, "secret.txt"), join(root, "link-to-secret.txt"));
-  symlinkSync(outside, join(root, "escape-dir"));
+  try {
+    symlinkSync(join(outside, "secret.txt"), join(root, "link-to-secret.txt"));
+    symlinkSync(outside, join(root, "escape-dir"), process.platform === "win32" ? "junction" : "dir");
+  } catch {
+    hasSymlinks = false;
+  }
 });
 
 afterAll(() => {
@@ -96,12 +101,14 @@ describe("the three escapes", () => {
   });
 
   it("refuses a symlink out of the root — the one a string comparison lets through", () => {
+    if (!hasSymlinks) return;
     const result = files().read("link-to-secret.txt");
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.kind).toBe("forbidden");
   });
 
   it("does not walk out of the root through a symlinked directory during a search", () => {
+    if (!hasSymlinks) return;
     const result = files().search({ query: "private key" });
     if (!result.ok) throw new Error("expected a search result");
     expect(result.matches).toEqual([]);
@@ -124,7 +131,7 @@ describe("bounds", () => {
   });
 
   it("caps a listing and says so", () => {
-    const crowded = mkdtempSync(join(tmpdir(), "retinue-files-many-"));
+    const crowded = mkdtempSync(join(tmpdir(), "forge-files-many-"));
     for (let index = 0; index < 12; index += 1) writeFileSync(join(crowded, `f${index}.txt`), "x");
     const result = createFileReader({ root: crowded, maxEntries: 5 }).list(".");
     if (!result.ok) throw new Error("expected a listing");

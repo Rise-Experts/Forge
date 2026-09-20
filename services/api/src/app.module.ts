@@ -1,19 +1,19 @@
 /**
  * The application — REQ-044 (#201).
  *
- * Three modules and one controller. Everything the platform does arrives through `RetinueModule`; everything
+ * Three modules and one controller. Everything the platform does arrives through `ForgeModule`; everything
  * this service does is deciding *which* authenticator and *which* roles, which is the whole of what an
  * application is supposed to decide.
  */
 
 import { Module } from "@nestjs/common";
-import { RetinueModule } from "./retinue/retinue.module.js";
-import { RetinueGraphQLModule } from "./graphql/graphql.module.js";
+import { ForgeModule } from "./forge/forge.module.js";
+import { ForgeGraphQLModule } from "./graphql/graphql.module.js";
 import { HealthController } from "./health/health.controller.js";
 import { MessagesController } from "./messages/messages.controller.js";
 import { createDevAuthenticate } from "./auth/dev-auth.js";
-import { STANDARD_TOOL_NAMES } from "@retinue/agentkit/tools";
-import type { Authenticate } from "@retinue/agentkit/server";
+import { STANDARD_TOOL_NAMES } from "@forge/agentkit/tools";
+import type { Authenticate } from "@forge/agentkit/server";
 
 /**
  * Two roles, because one cannot demonstrate authorization at all.
@@ -36,7 +36,7 @@ export class AppModule {
     return {
       module: AppModule,
       imports: [
-        RetinueModule.forRoot({
+        ForgeModule.forRoot({
           // The service's own authenticator when it has one, and the dev one otherwise — which throws unless
           // somebody set the acknowledgement. There is no third branch where it starts and trusts everyone.
           authenticate: options.authenticate ?? createDevAuthenticate(),
@@ -62,7 +62,7 @@ export class AppModule {
             },
           ],
         }),
-        RetinueGraphQLModule,
+        ForgeGraphQLModule,
       ],
       controllers: [HealthController, MessagesController],
     };

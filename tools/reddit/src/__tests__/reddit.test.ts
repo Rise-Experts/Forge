@@ -7,11 +7,11 @@
  * - AC-5: a comment tree is unbounded, nested, and full of `more` placeholders that hide whole branches.
  */
 import { readFileSync } from "node:fs";
-import type { ConversationId } from "@retinue/agentkit";
+import type { ConversationId } from "@forge/agentkit";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it, vi } from "vitest";
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { asId, type ExecutionContext } from "@retinue/agentkit";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { asId, type ExecutionContext } from "@forge/agentkit";
 
 import {
   createRedditToolkit,
@@ -35,7 +35,7 @@ const context: ExecutionContext = {
 const jsonResponse = (body: unknown, status = 200): Response =>
   new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
 
-const AGENT = { appId: "retinue-example", version: "1.0.0", contact: "acme_bot" };
+const AGENT = { appId: "forge-example", version: "1.0.0", contact: "acme_bot" };
 
 const toolkit = (fetchImpl: typeof fetch, extra: Record<string, unknown> = {}) =>
   createRedditToolkit({
@@ -105,7 +105,7 @@ describe("the User-Agent is required, not defaulted — AC-4", () => {
       return jsonResponse({ data: { children: [] } });
     }) as unknown as typeof fetch;
     await run("reddit_search", fetchImpl, { query: "x" });
-    expect(seen?.get("user-agent")).toBe("retinue:retinue-example:1.0.0 (by /u/acme_bot)");
+    expect(seen?.get("user-agent")).toBe("forge:forge-example:1.0.0 (by /u/acme_bot)");
   });
 
   it("refuses to build without one, at construction rather than at first use", () => {
@@ -121,8 +121,8 @@ describe("the User-Agent is required, not defaulted — AC-4", () => {
   });
 
   it("accepts a contact that is already a /u/ or an email", () => {
-    expect(userAgentString({ appId: "a", version: "1", contact: "/u/ada" })).toBe("retinue:a:1 (by /u/ada)");
-    expect(userAgentString({ appId: "a", version: "1", contact: "ada@x.test" })).toBe("retinue:a:1 (by ada@x.test)");
+    expect(userAgentString({ appId: "a", version: "1", contact: "/u/ada" })).toBe("forge:a:1 (by /u/ada)");
+    expect(userAgentString({ appId: "a", version: "1", contact: "ada@x.test" })).toBe("forge:a:1 (by ada@x.test)");
   });
 
   it("says in a 429 that the User-Agent is not the cause, since it is set", async () => {
@@ -130,7 +130,7 @@ describe("the User-Agent is required, not defaulted — AC-4", () => {
     const fetchImpl = vi.fn(async () => jsonResponse({ message: "slow down" }, 429)) as unknown as typeof fetch;
     const result = (await run("reddit_search", fetchImpl, { query: "x" })) as { ok: false; error: { code: string; message: string } };
     expect(result.error.code).toBe("rate_limited");
-    expect(result.error.message).toContain("retinue:retinue-example");
+    expect(result.error.message).toContain("forge:forge-example");
   });
 });
 

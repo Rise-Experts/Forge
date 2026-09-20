@@ -1,7 +1,7 @@
 # Retrieval Quality, Measured
 
-Status: measured, 27 Aug 2026 · REQ-050 ([#209](https://github.com/Rise-Experts/retinue/issues/209)), task
-[#219](https://github.com/Rise-Experts/retinue/issues/219)
+Status: measured, 27 Aug 2026 · REQ-050 ([#209](https://github.com/Rise-Experts/forge/issues/209)), task
+[#219](https://github.com/Rise-Experts/forge/issues/219)
 Harness: `evals/retrieval-quality.mjs` · dataset: `evals/cases/retrieval.json` · raw output:
 `evals/retrieval-quality.json`
 
@@ -36,7 +36,7 @@ form a reader can check.
 | hybrid + exact-term reranker | 66.7% | 83.3% | 33.3% | 66.7% | 0.446 | 182 |
 | navigate (no vectors) | 66.7% | 77.8% | **44.4%** | 61.1% | **0.520** | 1,297 |
 
-Re-run after [#220](https://github.com/Rise-Experts/retinue/issues/220) stopped YAML front matter reaching the
+Re-run after [#220](https://github.com/Rise-Experts/forge/issues/220) stopped YAML front matter reaching the
 block stream as content — 18 fewer chunks, and no more chunk whose text is a `sidebar_position`. Every arm moved
 by **at most one case** (keyword +1, semantic −1, navigate +1), which is the noise floor stated below arriving
 as evidence rather than as a caveat.
@@ -164,6 +164,6 @@ node evals/retrieval-quality.mjs --chunk 800x1600         # a different chunking
 node evals/retrieval-quality.mjs --offline                # a smoke run; writes no report, by design
 ```
 
-Needs `RETINUE_MODEL_API_KEY`. The embeddings cost about two cents; the `navigate` arm costs about fifteen. It is
+Needs `FORGE_MODEL_API_KEY`. The embeddings cost about two cents; the `navigate` arm costs about fifteen. It is
 **not** in `ci:local`, for the same reason the tool-selection harness is not: a gate that spends money on every
 run is a gate somebody switches off.

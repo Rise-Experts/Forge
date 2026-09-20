@@ -180,21 +180,21 @@ describe("what is not exported cannot be imported", () => {
 
   it("refuses a deep import of an adapter internal", () => {
     // The file very much exists. What refuses it is the `exports` map.
-    const result = importInNode("@retinue/agentkit/dist/adapters/postgres/stores.js");
+    const result = importInNode("@forge/agentkit/dist/adapters/postgres/stores.js");
     expect(result.code).not.toBe(0);
     expect(result.output).toMatch(/ERR_PACKAGE_PATH_NOT_EXPORTED|not defined by "exports"/);
   });
 
   it("refuses a deep import of a source module", () => {
-    const result = importInNode("@retinue/agentkit/src/index.ts");
+    const result = importInNode("@forge/agentkit/src/index.ts");
     expect(result.code).not.toBe(0);
     expect(result.output).toMatch(/ERR_PACKAGE_PATH_NOT_EXPORTED|not defined by "exports"/);
   });
 
   it("allows the documented subpaths", () => {
     // The control. Without it the two tests above would pass against an `exports` map that refused everything.
-    expect(importInNode("@retinue/agentkit/tools").code).toBe(0);
-    expect(importInNode("@retinue/agentkit/persistence").code).toBe(0);
-    expect(importInNode("@retinue/agentkit").code).toBe(0);
+    expect(importInNode("@forge/agentkit/tools").code).toBe(0);
+    expect(importInNode("@forge/agentkit/persistence").code).toBe(0);
+    expect(importInNode("@forge/agentkit").code).toBe(0);
   });
 });

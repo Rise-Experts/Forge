@@ -45,7 +45,7 @@ export const EXEMPT = new Map([
       "already validated (`node:https` accepts a `lookup`; `fetch` has no equivalent, and without pinning there " +
       "is a second DNS resolution between the check and the socket — the rebinding window), and it must follow " +
       "redirects re-checking every hop, where `createHttpClient` refuses them outright. It does not build its " +
-      "own client: it uses `safeFetch` from @retinue/agentkit/tools, which is shared with tools-browser.",
+      "own client: it uses `safeFetch` from @forge/agentkit/tools, which is shared with tools-browser.",
   ],
   [
     "email",
@@ -58,7 +58,7 @@ export const EXEMPT = new Map([
     "browser",
     "Makes no HTTP requests of its own: a driver the operator supplies talks to the browser, and the browser " +
       "talks to the network. Its URL validation is the shared `refuseUrl`/`resolvePublicly` from " +
-      "@retinue/agentkit/tools — the same implementation tools-scrape uses, which is why it lives there.",
+      "@forge/agentkit/tools — the same implementation tools-scrape uses, which is why it lives there.",
   ],
 ]);
 
@@ -113,7 +113,7 @@ const main = () => {
     if (own) {
       problems.push(
         `tools/${name} builds its own HTTP client with createHttpClient. Use createVendorTransport from ` +
-          "@retinue/agentkit/tools — it resolves the credential per call, pins the header to the validated " +
+          "@forge/agentkit/tools — it resolves the credential per call, pins the header to the validated " +
           "host, treats an empty body as a success, and offers text() for non-JSON responses.",
       );
     } else if (!shared) {

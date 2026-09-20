@@ -14,9 +14,9 @@ Make an agent remember a user across conversations.
 ## Wire the memory store + provider
 
 ```ts
-import { createPrincipalMemoryProvider } from "@retinue/agentkit/context";
-import { createMemoryPrincipalMemoryStore } from "@retinue/agentkit/persistence";
-import { createAgent } from "@retinue/agentkit/providers";
+import { createPrincipalMemoryProvider } from "@forge/agentkit/context";
+import { createMemoryPrincipalMemoryStore } from "@forge/agentkit/persistence";
+import { createAgent } from "@forge/agentkit/providers";
 
 const memory = createMemoryPrincipalMemoryStore(); // swap for a Postgres adapter in production
 
@@ -32,7 +32,7 @@ An extraction step *proposes* candidate facts; `commitExtractedMemories` **valid
 them against existing entries before committing — raw model output is never stored directly.
 
 ```ts
-import { commitExtractedMemories } from "@retinue/agentkit/context";
+import { commitExtractedMemories } from "@forge/agentkit/context";
 
 await commitExtractedMemories(memory, {
   tenantId,

@@ -1,5 +1,5 @@
 {
-  "name": "@retinue/agentkit",
+  "name": "@forge/agentkit",
   "version": "0.3.3",
   "description": "A provider-neutral, durable AI agent runtime for TypeScript: agents, tools, approvals, context, knowledge and persistence behind ports.",
   "license": "MIT",
@@ -205,14 +205,15 @@
   "author": "Rise Experts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rise-Experts/retinue.git",
+    "url": "git+https://github.com/Rise-Experts/Forge.git",
     "directory": "backend"
   },
-  "homepage": "https://github.com/Rise-Experts/retinue#readme",
+  "homepage": "https://github.com/Rise-Experts/Forge#readme",
   "bugs": {
-    "url": "https://github.com/Rise-Experts/retinue/issues"
+    "url": "https://github.com/Rise-Experts/Forge/issues"
   },
   "bin": {
+    "forge": "./dist/server/bin.js",
     "retinue": "./dist/server/bin.js"
   }
 }

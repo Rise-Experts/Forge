@@ -8,7 +8,7 @@ Send, edit, pin and delete messages through the Bot API — paced to Telegram's 
 retrying into it.
 
 ```bash
-npm i @retinue/tools-telegram
+npm i @forge/tools-telegram
 ```
 
 ## Tools
@@ -28,9 +28,9 @@ would compete with it for the same updates, and Telegram delivers each one once.
 ## Wire it up
 
 ```ts
-import { createAgent } from "@retinue/agentkit/providers";
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { createTelegramToolkit } from "@retinue/tools-telegram";
+import { createAgent } from "@forge/agentkit/providers";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { createTelegramToolkit } from "@forge/tools-telegram";
 
 const agent = createAgent({
   manifest: {

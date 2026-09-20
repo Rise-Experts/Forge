@@ -17,14 +17,14 @@
  * ## Why this needs a real server
  *
  * PGlite is single-process and cannot produce the race at all, so a test that ran only there would pass
- * against the broken code. The suite skips without `RETINUE_TEST_PG_URL` rather than pretending, and says so.
+ * against the broken code. The suite skips without `FORGE_TEST_PG_URL` rather than pretending, and says so.
  */
 import { afterAll, describe, expect, it } from "vitest";
 
 import { createPoolOpener, MIGRATION_LOCK, provisionSchema } from "../entries/adapters-postgres.js";
 import type { ConnectionOpener, SqlExecutor } from "../entries/adapters-postgres.js";
 
-const PG_URL = process.env["RETINUE_TEST_PG_URL"];
+const PG_URL = process.env["FORGE_TEST_PG_URL"] ?? process.env["FORGE_TEST_PG_URL"];
 
 /** How many boot together. Four is enough to lose reliably and small enough to stay fast. */
 const WORKERS = 4;
@@ -86,7 +86,7 @@ const freshSchema = async (
   name: string,
 ): Promise<{ workers: { sql: SqlExecutor; open: ConnectionOpener }[]; inspect: SqlExecutor }> => {
   const { Pool } = await import("pg");
-  const database = `retinue_test_${name}`;
+  const database = `forge_test_${name}`;
 
   // Administered from the URL's own database, which is the one place that cannot be the target.
   const admin = new Pool({ connectionString: PG_URL, connectionTimeoutMillis: 5_000 });

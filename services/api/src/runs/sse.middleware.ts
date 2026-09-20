@@ -13,9 +13,9 @@
  */
 
 import { createServerAdapter } from "@whatwg-node/server";
-import { createRunEventSseRoute } from "@retinue/agentkit/server";
-import type { Authenticate } from "@retinue/agentkit/server";
-import type { ResolverDeps } from "@retinue/agentkit";
+import { createRunEventSseRoute } from "@forge/agentkit/server";
+import type { Authenticate } from "@forge/agentkit/server";
+import type { ResolverDeps } from "@forge/agentkit";
 
 export const SSE_PATH = "/runs/events";
 

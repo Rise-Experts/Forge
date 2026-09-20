@@ -1,9 +1,9 @@
 /**
  * Reference GraphQL host (#108).
  *
- * `@retinue/agentkit` ships the schema as SDL and a thin resolver map with **no server dependency**,
+ * `@forge/agentkit` ships the schema as SDL and a thin resolver map with **no server dependency**,
  * so a host can mount it on Yoga, Apollo or Mercurius. This is one such host, in its own workspace
- * precisely so the library keeps that property — AC-6 of #108 is that `@retinue/agentkit` gained no
+ * precisely so the library keeps that property — AC-6 of #108 is that `@forge/agentkit` gained no
  * GraphQL-server dependency, and putting Yoga inside it would have failed that outright.
  *
  * It is a *reference* host, not the sanctioned one. Nothing here is business logic: the resolver map
@@ -51,7 +51,7 @@ export type HostOptions = {
 /** Thrown when a request carries no usable identity. Surfaces as a GraphQL error, not a crash. */
 export const UNAUTHENTICATED = "UNAUTHENTICATED";
 
-export const createRetinueHost = (options: HostOptions) => {
+export const createForgeHost = (options: HostOptions) => {
   // Passed through untouched. AC-5 is "no business logic was added to the resolver layer", and the
   // strongest form of that is a host that adds no resolver of its own — asserted in the tests.
   const resolvers = createResolvers(options.deps);
@@ -168,4 +168,9 @@ export const createRetinueHost = (options: HostOptions) => {
   });
 };
 
-export type RetinueHost = ReturnType<typeof createRetinueHost>;
+/** @deprecated Use createForgeHost */
+export const createRetinueHost = createForgeHost;
+
+export type ForgeHost = ReturnType<typeof createForgeHost>;
+/** @deprecated Use ForgeHost */
+export type RetinueHost = ForgeHost;

@@ -1,5 +1,6 @@
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { renderAttachmentReference } from "../files/context.js";
 import { validateEndpoint } from "../mcp/index.js";
@@ -18,7 +19,7 @@ import type { FileMetadata } from "../persistence/index.js";
  * claimed full automation would be claiming something false, and the untrue part would be invisible.
  */
 
-const SRC = new URL("..", import.meta.url).pathname;
+const SRC = fileURLToPath(new URL("..", import.meta.url));
 
 /** Every shipped `.ts` file. Tests and the testing harness excluded: they legitimately do things the platform must not. */
 const sourceFiles = (dir = SRC): readonly string[] => {
@@ -65,7 +66,7 @@ describe("credentials — AC-1", () => {
     const exempt = new Set(CREDENTIAL_FIELD_EXEMPTIONS.map((e) => e.file));
     const offenders: string[] = [];
     for (const file of sourceFiles()) {
-      const rel = file.slice(SRC.length).replace(/^\/+/, "");
+      const rel = file.slice(SRC.length).replace(/^[\\\/]+/, "").replaceAll("\\", "/");
       // Exempted files are named in `CREDENTIAL_FIELD_EXEMPTIONS` with a written reason, rather than the scan
       // being narrowed. A narrower scan would also stop noticing the next real one — the same argument as
       // RLS_EXEMPT_TABLES.
@@ -80,7 +81,7 @@ describe("credentials — AC-1", () => {
   it("exempts only files that still exist, each with a written reason", () => {
     // An exemption for a deleted file is a hole nobody is watching; an exemption with no reason is
     // indistinguishable from a forgotten case.
-    const present = new Set(sourceFiles().map((f) => f.slice(SRC.length).replace(/^\/+/, "")));
+    const present = new Set(sourceFiles().map((f) => f.slice(SRC.length).replace(/^[\\\/]+/, "").replaceAll("\\", "/")));
     for (const { file, reason } of CREDENTIAL_FIELD_EXEMPTIONS) {
       expect(present.has(file), `${file} is exempted but does not exist`).toBe(true);
       expect(reason.length, `${file} needs a reason`).toBeGreaterThan(80);
@@ -173,7 +174,7 @@ describe("egress — AC-2", () => {
     ];
     const offenders: string[] = [];
     for (const file of sourceFiles()) {
-      const rel = file.slice(SRC.length).replace(/^\/+/, "");
+      const rel = file.slice(SRC.length).replace(/^[\\\/]+/, "").replaceAll("\\", "/");
       if (allowed.includes(rel)) continue;
       const source = codeOnly(readFileSync(file, "utf8"));
       /**

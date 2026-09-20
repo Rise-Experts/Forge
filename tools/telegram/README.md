@@ -1,19 +1,19 @@
-# @retinue/tools-telegram
+# @forge/tools-telegram
 
-Telegram Bot API tools for a [Retinue](https://github.com/Rise-Experts/retinue) agent: send, edit, pin and
+Telegram Bot API tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: send, edit, pin and
 delete messages.
 
 ```bash
-npm i @retinue/tools-telegram
+npm i @forge/tools-telegram
 ```
 
-Requires `@retinue/agentkit` as a peer.
+Requires `@forge/agentkit` as a peer.
 
 ## Use it
 
 ```ts
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { createTelegramToolkit } from "@retinue/tools-telegram";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { createTelegramToolkit } from "@forge/tools-telegram";
 
 const toolkit = createTelegramToolkit({
   credentialRef: "telegram",
@@ -42,6 +42,6 @@ told apart, with different remedies named. A bot also cannot message a user who 
 **Pinning is silent by default.** A pin notifies every member of a group, and a notification to a thousand
 people is not a side effect an agent should cause by omission.
 
-Full documentation: <https://docs.retinue.riseexperts.de/integrations/telegram>
+Full documentation: <https://docs.forge.riseexperts.de/integrations/telegram>
 
 MIT.

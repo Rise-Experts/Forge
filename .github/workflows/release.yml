@@ -112,7 +112,7 @@ jobs:
         # (AC-7) against the real thing rather than a tarball.
         #
         # `--only` scopes it to the package this tag released, and that is the fix for a real failure: the first
-        # toolkit release went red because `@retinue/agentkit@0.1.0` — published weeks earlier, before the
+        # toolkit release went red because `@forge/agentkit@0.1.0` — published weeks earlier, before the
         # `guardrails` subpath and the README rewrite — does not satisfy *today's* checkout. Both facts were true
         # and neither was about the release being verified. A release verifies what it just published; version
         # skew against other published packages is a different question, and a red build is a bad way to ask it.

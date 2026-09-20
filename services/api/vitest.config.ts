@@ -18,7 +18,7 @@ export default defineConfig({
     ...reporters("api-service"),
     // Inlined so vitest transforms them through one module graph. `dedupe` alone was not enough: the packages
     // that build scalars are pre-bundled dependencies, and a pre-bundled CJS copy is the second realm.
-    server: { deps: { inline: ["graphql", "graphql-yoga", "@graphql-tools/schema", "@retinue/agentkit"] } },
+    server: { deps: { inline: ["graphql", "graphql-yoga", "@graphql-tools/schema", "@forge/agentkit"] } },
     // Source only, never the compiled copy: running `dist` would test yesterday's build and pass.
     include: ["src/**/*.test.ts"],
     exclude: ["dist/**", "node_modules/**"],

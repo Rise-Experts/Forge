@@ -43,7 +43,7 @@ describe("a documentation page", () => {
   });
 
   it("keeps code blocks with their language", () => {
-    expect(result.markdown).toContain("```js\nflatMap(callbackFn)\nflatMap(callbackFn, thisArg)\n```");
+    expect(result.markdown.replace(/\r\n/g, "\n")).toContain("```js\nflatMap(callbackFn)\nflatMap(callbackFn, thisArg)\n```");
     // Inline code survives too, and is not escaped into oblivion.
     expect(result.markdown).toContain("`flatMap()`");
   });

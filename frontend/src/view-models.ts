@@ -1,5 +1,5 @@
 /**
- * `@retinue/react/view-models` — the pure parts, importable from a server — #267.
+ * `@forge/react/view-models` — the pure parts, importable from a server — #267.
  *
  * ## Why this subpath exists
  *
@@ -21,7 +21,7 @@
  * ## Why not fix the barrel instead
  *
  * Moving hooks out of the root export is the more correct change and it is a **breaking** one for every
- * consumer importing `useRun` and friends from `@retinue/react`. That belongs in a major, argued on its own,
+ * consumer importing `useRun` and friends from `@forge/react`. That belongs in a major, argued on its own,
  * not folded into a compose fix. This is additive: nothing that works today stops working.
  *
  * The barrel's comment has been corrected to say what is actually true.

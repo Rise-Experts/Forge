@@ -1,5 +1,5 @@
 /**
- * `@retinue/agentkit`
+ * `@forge/agentkit`
  *
  * The root is the **semver boundary** (REQ-040): what is exported here is API, and what is not exported here
  * cannot be broken. That is why there are five values on it rather than three hundred and ninety-two.

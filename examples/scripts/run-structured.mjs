@@ -19,19 +19,19 @@
  */
 
 import { createOpenAI } from "@ai-sdk/openai";
-import { streamModelTurn } from "@retinue/agentkit/runtime";
+import { streamModelTurn } from "@forge/agentkit/runtime";
 import { structuredAgentManifest, triageSchema } from "../dist/structured.js";
 
-const key = process.env.RETINUE_MODEL_API_KEY;
+const key = process.env.FORGE_MODEL_API_KEY;
 if (!key) {
-  console.error("RETINUE_MODEL_API_KEY is not set. Copy .env.example to .env and fill it in.");
+  console.error("FORGE_MODEL_API_KEY is not set. Copy .env.example to .env and fill it in.");
   process.exit(2);
 }
 
 const model = createOpenAI({
   apiKey: key,
-  ...(process.env.RETINUE_MODEL_BASE_URL ? { baseURL: process.env.RETINUE_MODEL_BASE_URL } : {}),
-})(process.env.RETINUE_MODEL_ID ?? "gpt-4o");
+  ...(process.env.FORGE_MODEL_BASE_URL ? { baseURL: process.env.FORGE_MODEL_BASE_URL } : {}),
+})(process.env.FORGE_MODEL_ID ?? "gpt-4o");
 
 const MESSAGES = [
   "The export button does nothing. Console shows a 500 from /api/export. Three of us are blocked, deadline is tomorrow.",

@@ -1,7 +1,7 @@
 /**
  * The example app module — #155.
  *
- * `RETINUE_APP_MODULE` must default-export `{ authenticate, deps, engine, buildContext }`, and until now no such
+ * `FORGE_APP_MODULE` must default-export `{ authenticate, deps, engine, buildContext }`, and until now no such
  * module existed anywhere: `node server/dist/cli.js` was a documented command with nothing to boot. This is that
  * module.
  *
@@ -17,27 +17,27 @@
  * - **Not a product UI.** The page is deliberately plain; see `public/index.html`.
  */
 
-import { asId, resolveCapabilities } from "@retinue/agentkit";
-import { budgetSkillCatalogue, truncationNotice } from "@retinue/agentkit/context";
-import { assemblePrompt, commitExtractedMemories, createCitationEmitter, createPrincipalMemoryProvider, createRunSkillTracker, createSkillResolver } from "@retinue/agentkit/context";
-import { createApprovalGate, createApprovalService, createAuthorizationPolicy, createQuestionService, createRunApprovals, questionPending } from "@retinue/agentkit/hitl";
-import { EMPTY_RUN_STREAM_STATE, computeModelCostMinorUnits, createDefaultEngine, parseExecutionContext, reduceRunEvent } from "@retinue/agentkit/runtime";
-import { createToolRegistry, createToolSearch, defineDelegatingTool } from "@retinue/agentkit/tools";
-import { createDockerSandbox } from "@retinue/agentkit/tools";
-import { createQuotaGuard, createStoredLimitResolver } from "@retinue/agentkit/usage";
-import { createBullMqJobDispatcher, createBullMqRunQueue } from "@retinue/agentkit/adapters/bullmq";
-import { createPostgresApprovalGrantStore, createPostgresIdempotencyStore, createPostgresInteractionStore, createPostgresPrincipalMemoryStore, createPostgresRunEventLog, createPostgresSkillStore, createPostgresRunStore, createPostgresSessionStateStore, createPostgresUsageLimitStore, createPostgresUsageRollupStore, createPostgresUsageStore, createPostgresConversationStore } from "@retinue/agentkit/adapters/postgres";
-import { createRedisLiveEventSource } from "@retinue/agentkit/adapters/redis";
-import type { ContextBudget, ContextInspection, QuestionSpec, AgentManifest, ExecutionContext, ModelTurnTool, ResolverDeps, Run, RunId, Tool, TurnMessage } from "@retinue/agentkit";
-import type { SqlExecutor, TransactionRunner } from "@retinue/agentkit/adapters/postgres";
+import { asId, resolveCapabilities } from "@forge/agentkit";
+import { budgetSkillCatalogue, truncationNotice } from "@forge/agentkit/context";
+import { assemblePrompt, commitExtractedMemories, createCitationEmitter, createPrincipalMemoryProvider, createRunSkillTracker, createSkillResolver } from "@forge/agentkit/context";
+import { createApprovalGate, createApprovalService, createAuthorizationPolicy, createQuestionService, createRunApprovals, questionPending } from "@forge/agentkit/hitl";
+import { EMPTY_RUN_STREAM_STATE, computeModelCostMinorUnits, createDefaultEngine, parseExecutionContext, reduceRunEvent } from "@forge/agentkit/runtime";
+import { createToolRegistry, createToolSearch, defineDelegatingTool } from "@forge/agentkit/tools";
+import { createDockerSandbox } from "@forge/agentkit/tools";
+import { createQuotaGuard, createStoredLimitResolver } from "@forge/agentkit/usage";
+import { createBullMqJobDispatcher, createBullMqRunQueue } from "@forge/agentkit/adapters/bullmq";
+import { createPostgresApprovalGrantStore, createPostgresIdempotencyStore, createPostgresInteractionStore, createPostgresPrincipalMemoryStore, createPostgresRunEventLog, createPostgresSkillStore, createPostgresRunStore, createPostgresSessionStateStore, createPostgresUsageLimitStore, createPostgresUsageRollupStore, createPostgresUsageStore, createPostgresConversationStore } from "@forge/agentkit/adapters/postgres";
+import { createRedisLiveEventSource } from "@forge/agentkit/adapters/redis";
+import type { ContextBudget, ContextInspection, QuestionSpec, AgentManifest, ExecutionContext, ModelTurnTool, ResolverDeps, Run, RunId, Tool, TurnMessage } from "@forge/agentkit";
+import type { SqlExecutor, TransactionRunner } from "@forge/agentkit/adapters/postgres";
 import { Redis } from "ioredis";
-import type { RetinueConfig } from "@retinue/agentkit/server";
+import type { ForgeConfig } from "@forge/agentkit/server";
 import { createDevAuthenticate } from "./auth.js";
-import type { Authenticate } from "@retinue/agentkit/server";
-import { STANDARD_TOOL_CATEGORIES, createStandardToolProvider } from "@retinue/agentkit/tools";
-import { createSpeechGenerateTool, createTranscribeTool } from "@retinue/agentkit/tools";
-import { createAttachmentResolver } from "@retinue/agentkit/knowledge";
-import { createFlowRunner } from "@retinue/agentkit/flows";
+import type { Authenticate } from "@forge/agentkit/server";
+import { STANDARD_TOOL_CATEGORIES, createStandardToolProvider } from "@forge/agentkit/tools";
+import { createSpeechGenerateTool, createTranscribeTool } from "@forge/agentkit/tools";
+import { createAttachmentResolver } from "@forge/agentkit/knowledge";
+import { createFlowRunner } from "@forge/agentkit/flows";
 import { EXAMPLE_FLOWS, createExampleFlowHandler } from "./flows.js";
 import { exampleToolkits, searchProviderFrom } from "./toolkits.js";
 import { audioProvidersFrom, audioToolDeps } from "./audio.js";
@@ -53,13 +53,13 @@ import { audioProvidersFrom, audioToolDeps } from "./audio.js";
  * invisible failure the mechanism exists to make visible.
  */
 export const exampleCatalogBudget = (): { readonly maxTokens: number } | undefined => {
-  const raw = process.env["RETINUE_CATALOG_BUDGET_TOKENS"];
+  const raw = process.env["FORGE_CATALOG_BUDGET_TOKENS"] ?? process.env["FORGE_CATALOG_BUDGET_TOKENS"];
   const parsed = raw === undefined ? Number.NaN : Number.parseInt(raw, 10);
   return Number.isFinite(parsed) && parsed > 0 ? { maxTokens: parsed } : undefined;
 };
 
 export const exampleToolset = (): { readonly disabledCategories: readonly string[] } | undefined => {
-  const raw = process.env["RETINUE_DISABLED_TOOL_CATEGORIES"];
+  const raw = process.env["FORGE_DISABLED_TOOL_CATEGORIES"] ?? process.env["FORGE_DISABLED_TOOL_CATEGORIES"];
   const categories = (raw ?? "").split(",").map((part) => part.trim()).filter((part) => part !== "");
   return categories.length === 0 ? undefined : { disabledCategories: categories };
 };
@@ -75,9 +75,9 @@ export const exampleToolset = (): { readonly disabledCategories: readonly string
  * the process's working tree.
  */
 export const exampleFilesystem = (): { readonly root: string; readonly writableRoot?: string } | undefined => {
-  const root = process.env["RETINUE_FILES_ROOT"];
+  const root = process.env["FORGE_FILES_ROOT"] ?? process.env["FORGE_FILES_ROOT"];
   if (root === undefined || root === "") return undefined;
-  const writableRoot = process.env["RETINUE_FILES_WRITABLE_ROOT"];
+  const writableRoot = process.env["FORGE_FILES_WRITABLE_ROOT"] ?? process.env["FORGE_FILES_WRITABLE_ROOT"];
   return writableRoot === undefined || writableRoot === "" ? { root } : { root, writableRoot };
 };
 
@@ -89,25 +89,25 @@ export const exampleFilesystem = (): { readonly root: string; readonly writableR
  * somebody copied from a colleague's `.env`.
  */
 export const exampleSandbox = () => {
-  const image = process.env["RETINUE_SANDBOX_IMAGE"];
+  const image = process.env["FORGE_SANDBOX_IMAGE"] ?? process.env["FORGE_SANDBOX_IMAGE"];
   if (image === undefined || image === "") return undefined;
   /**
    * The declaration gates the wiring, not the other way round.
    *
    * `resolveCapabilities` refuses a runtime that wired something it did not declare — a good rule, and it made
-   * "image set, `RETINUE_SHELL` unset" a boot failure, which is a hostile way to greet somebody who set one
+   * "image set, `FORGE_SHELL` unset" a boot failure, which is a hostile way to greet somebody who set one
    * variable. So the app follows its own declaration: no declaration, no sandbox, no tool. The other direction
-   * stays a boot failure, and that is the one that matters: `RETINUE_SHELL=1` with no image refuses to start
+   * stays a boot failure, and that is the one that matters: `FORGE_SHELL=1` with no image refuses to start
    * rather than serving an agent whose shell tool silently declines.
    */
   return exampleShellDeclared() ? createDockerSandbox({ image }) : undefined;
 };
 
 /** Whether this deployment declared the second of `shell_exec`'s two switches. */
-export const exampleShellDeclared = (): boolean => process.env["RETINUE_SHELL"] === "1";
+export const exampleShellDeclared = (): boolean => process.env["FORGE_SHELL"] === "1" || process.env["FORGE_SHELL"] === "1";
 
 export const exampleSkillCatalogBudget = (): { readonly maxTokens: number } | undefined => {
-  const raw = process.env["RETINUE_SKILL_CATALOGUE_BUDGET_TOKENS"];
+  const raw = process.env["FORGE_SKILL_CATALOGUE_BUDGET_TOKENS"] ?? process.env["FORGE_SKILL_CATALOGUE_BUDGET_TOKENS"];
   const parsed = raw === undefined ? Number.NaN : Number.parseInt(raw, 10);
   return Number.isFinite(parsed) && parsed > 0 ? { maxTokens: parsed } : undefined;
 };
@@ -570,7 +570,7 @@ export const exampleFlowRunner = (backend: ExampleBackend) => {
           },
         });
         await createBullMqJobDispatcher(
-          createBullMqRunQueue({ url: process.env["RETINUE_REDIS_URL"] ?? "" }),
+          createBullMqRunQueue({ url: process.env["FORGE_REDIS_URL"] ?? process.env["FORGE_REDIS_URL"] ?? "" }),
         ).enqueueRun({ tenantId: context.tenantId, runId });
         return String(runId);
       },
@@ -625,7 +625,7 @@ const exampleToolProviders = (backend: ExampleBackend) => [
      * wired an image for a test and forgot must not thereby have an agent that runs commands.
      */
     ...(exampleSandbox() === undefined ? {} : { sandbox: exampleSandbox() as never, shellEnabled: exampleShellDeclared }),
-    // A search provider from `@retinue/tools-search` when one is configured, and no `web_search` otherwise
+    // A search provider from `@forge/tools-search` when one is configured, and no `web_search` otherwise
     // (#214). Note that the toolkit contributes a *provider*, not a tool: five vendors are five values of one
     // parameter, so switching from Brave to Tavily changes an environment variable and nothing else.
     ...(searchProviderFrom(process.env) === undefined ? {} : { search: searchProviderFrom(process.env) }),
@@ -697,7 +697,7 @@ const skillTracker = (backend: ExampleBackend) => {
 const questionServiceFor = (backend: ExampleBackend) =>
   createQuestionService({
     interactions: backend.interactions,
-    dispatcher: createBullMqJobDispatcher(createBullMqRunQueue({ url: process.env["RETINUE_REDIS_URL"] ?? "" })),
+    dispatcher: createBullMqJobDispatcher(createBullMqRunQueue({ url: process.env["FORGE_REDIS_URL"] ?? process.env["FORGE_REDIS_URL"] ?? "" })),
     runs: backend.runs,
   });
 
@@ -1084,7 +1084,7 @@ const app = {
     resolve: (modelId: string) => (modelId === resolveExampleModel().modelId ? examplePricing() : null),
   },
 
-  deps({ config, sql, runner }: { config: RetinueConfig; sql: SqlExecutor; runner?: TransactionRunner }): ResolverDeps {
+  deps({ config, sql, runner }: { config: ForgeConfig; sql: SqlExecutor; runner?: TransactionRunner }): ResolverDeps {
     /**
      * The Postgres composition, assembled once — #155 AC-7.
      *
@@ -1203,7 +1203,7 @@ const app = {
     };
   },
 
-  engine({ sql }: { config: RetinueConfig; sql: SqlExecutor }) {
+  engine({ sql }: { config: ForgeConfig; sql: SqlExecutor }) {
     // The worker needs no realtime *source*, so it is absent rather than invented. It also gets no
     // `TransactionRunner`, which is why the backend's coordinator has to be the lazy one — see `stores.ts`.
     // The worker gets the policy too: it is the process that *reads* an attachment to put it in a turn, so
@@ -1227,7 +1227,7 @@ const app = {
    * every resume — a crash between the child completing and this firing loses the message, and a parent that only
    * woke on notifications would sit forever with nothing looking again.
    */
-  onRunSettled({ sql }: { readonly config: RetinueConfig; readonly sql: SqlExecutor }) {
+  onRunSettled({ sql }: { readonly config: ForgeConfig; readonly sql: SqlExecutor }) {
     const backend = postgresBackend(
       sql,
       { subscribe: () => { throw new Error("the settled-run listener does not subscribe"); } } as never,
@@ -1327,7 +1327,7 @@ export const composeEngine = (backend: ExampleBackend) => {
       approvals: createApprovalService({
         interactions,
         grants: backend.grants,
-        dispatcher: createBullMqJobDispatcher(createBullMqRunQueue({ url: process.env["RETINUE_REDIS_URL"] ?? "" })),
+        dispatcher: createBullMqJobDispatcher(createBullMqRunQueue({ url: process.env["FORGE_REDIS_URL"] ?? process.env["FORGE_REDIS_URL"] ?? "" })),
         runs: backend.runs,
       }) as never,
       tools: registry as never,
@@ -1454,7 +1454,7 @@ export const composeEngine = (backend: ExampleBackend) => {
           /**
            * ...and the kit's categories, which is the same lesson learned twice — REQ-039 (#188).
            *
-           * The list above said `["assistant", "mcp:…"]`, so the fifteen tools from `@retinue/agentkit/tools` —
+           * The list above said `["assistant", "mcp:…"]`, so the fifteen tools from `@forge/agentkit/tools` —
            * `web`, `data`, `general` — were registered, authorized, listed in the catalogue, and never handed to
            * the model. The only symptom was the assistant declining to fetch a URL it appeared to have a tool
            * for, which reads as a model problem and is not one.
@@ -1610,7 +1610,7 @@ const exampleSystemPrompt = async (
   mode: ConversationMode,
   backend: ExampleBackend,
 ): Promise<string> => {
-  const { gatherSections, renderContextBlock, makeNonce } = await import("@retinue/agentkit/context");
+  const { gatherSections, renderContextBlock, makeNonce } = await import("@forge/agentkit/context");
   const { randomBytes } = await import("node:crypto");
   /**
    * The notebook's provider, plus the **platform's** principal-memory provider.

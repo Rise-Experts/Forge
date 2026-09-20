@@ -101,7 +101,7 @@ test("declarations are counted at the call site, not by parsing names", () => {
 });
 
 test("an import of the helpers is not counted as a declaration", () => {
-  assert.equal(declarationCount('import { confirms, defineTool, destroys } from "@retinue/agentkit/tools";'), 0);
+  assert.equal(declarationCount('import { confirms, defineTool, destroys } from "@forge/agentkit/tools";'), 0);
 });
 
 test("a package declaring no tools counts zero, which is a claim and not a skip", () => {

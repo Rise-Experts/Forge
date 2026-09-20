@@ -12,7 +12,7 @@ import {
   type SqlExecutor,
 } from "../entries/adapters-postgres.js";
 import { createTransactionScope, type TransactionRunner } from "../adapters/postgres/transaction.js";
-import { loadConfig, type RetinueConfig, type Env } from "./config.js";
+import { loadConfig, type ForgeConfig, type Env } from "./config.js";
 
 export type StartupLog = {
   readonly event: string;
@@ -29,14 +29,14 @@ export type BootOptions = {
    * runner in the result; one that does not gets `undefined`, and anything needing a transaction refuses by name.
    */
   readonly connect: (
-    config: RetinueConfig,
+    config: ForgeConfig,
   ) => Promise<{ readonly sql: SqlExecutor; readonly open?: ConnectionOpener }>;
   readonly log?: (entry: StartupLog) => void;
   readonly version?: string;
 };
 
 export type BootResult = {
-  readonly config: RetinueConfig;
+  readonly config: ForgeConfig;
   /**
    * The executor an application should build its stores over.
    *

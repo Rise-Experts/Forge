@@ -23,8 +23,8 @@
  * create. That is a smaller capability and a much smaller consent, and it is the right default.
  */
 
-import { confirms, defineTool, type Tool } from "@retinue/agentkit/tools";
-import { AgentPlatformError } from "@retinue/agentkit";
+import { confirms, defineTool, type Tool } from "@forge/agentkit/tools";
+import { AgentPlatformError } from "@forge/agentkit";
 
 import type { GoogleTransport } from "./transport.js";
 

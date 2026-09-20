@@ -1,17 +1,17 @@
-# @retinue/tools-email
+# @forge/tools-email
 
-Send a [Retinue](https://github.com/Rise-Experts/retinue) deployment's **own** mail — from its own domain, with
+Send a [Forge](https://github.com/Rise-Experts/Forge) deployment's **own** mail — from its own domain, with
 no user grant. One contract over SMTP and an HTTP API.
 
 ```bash
-npm i @retinue/tools-email
+npm i @forge/tools-email
 ```
 
 ## Usage
 
 ```ts
-import { createEmailToolkit, smtpProvider } from "@retinue/tools-email";
-import type { CredentialResolver } from "@retinue/agentkit/tools";
+import { createEmailToolkit, smtpProvider } from "@forge/tools-email";
+import type { CredentialResolver } from "@forge/agentkit/tools";
 
 // Yours: resolves a `basic` credential — the SMTP username and password.
 declare const resolver: CredentialResolver;

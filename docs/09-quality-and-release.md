@@ -358,7 +358,7 @@ that passed would let a regression land once and then be compared against foreve
 
 ### The override is recorded or it does not exist
 
-`RETINUE_GATE_OVERRIDE_ACTOR` and `RETINUE_GATE_OVERRIDE_REASON`, both required and both trimmed. In CI they
+`FORGE_GATE_OVERRIDE_ACTOR` and `FORGE_GATE_OVERRIDE_REASON` (with legacy `FORGE_*` fallback), both required and both trimmed. In CI they
 come from a `workflow_dispatch` input, so the actor is `github.actor` — the person who clicked — and the reason is
 text they typed. Neither can be defaulted, which is the mechanism: an override suppliable by automation is an
 override nobody is accountable for.
@@ -403,7 +403,7 @@ dataset by construction and shrinks further as more expectations become structur
 The `release-gate` job runs on a `refs/tags/v*` push and on demand, not on every commit. A gate expensive enough
 to matter is one people disable if it fires on every push.
 
-`npm run build` now runs **before** `npm test` in CI, because the gate CLI imports the built `@retinue/agentkit`.
+`npm run build` now runs **before** `npm test` in CI, because the gate CLI imports the built `@forge/agentkit`.
 A stale dist is worse than a missing one — the tests then pass or fail against the previous build's logic — so the
 CLI test fails immediately with that message rather than as a resolution error.
 
@@ -526,7 +526,7 @@ aggregator.
 
 ### Vendor-neutral, proven rather than claimed
 
-`@retinue/agentkit` has **no runtime dependency on any OpenTelemetry package**. The adapter declares the OTel API
+`@forge/agentkit` has **no runtime dependency on any OpenTelemetry package**. The adapter declares the OTel API
 surface it needs as structural interfaces and the caller passes their own providers, so a customer already
 running the OTel SDK hands us what they have and a customer running something else implements four small
 interfaces.

@@ -10,14 +10,14 @@
  * timestamp — where a boolean would leave nothing at all.
  */
 
-import { asId } from "@retinue/agentkit";
+import { asId } from "@forge/agentkit";
 import type {
   ApprovalGrant,
   ApprovalGrantStore,
   ConversationId,
   SessionStateStore,
   TenantId,
-} from "@retinue/agentkit";
+} from "@forge/agentkit";
 import { AUTO_GRANT_CATEGORY, DEFAULT_MODE, isConversationMode, type ConversationMode } from "./modes.js";
 
 const MODE_KEY = "exampleMode";

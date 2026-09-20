@@ -7,7 +7,7 @@
  * wrong it gets a 422 it cannot interpret. One tool, which looks the `sha` up itself.
  */
 
-import { confirms, defineTool, destroys, type Tool } from "@retinue/agentkit/tools";
+import { confirms, defineTool, destroys, type Tool } from "@forge/agentkit/tools";
 
 import { DEFAULT_PER_PAGE, MAX_PER_PAGE, type Json, type Transport } from "./transport.js";
 

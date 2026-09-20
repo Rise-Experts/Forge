@@ -85,7 +85,7 @@ must decide and "nobody thought about it" is a compile error. Two values deliber
 caller to decide that *their* source is a bit trustworthy, and the interesting question has two answers — did
 someone the tenant trusts author this, or did they not.
 
-Making it required immediately found every consumer, which is the point. `@retinue/shareflow` has **ten**
+Making it required immediately found every consumer, which is the point. `@forge/shareflow` has **ten**
 context sections, and it already carried a provider called `shareflow.untrusted-content` — a policy *about*
 untrusted content, held as a convention because the port had nowhere to say it structurally. All ten are
 `platform`: the tenant's own configuration, their own drafts and past posts, and the platform's own policy text.
@@ -263,4 +263,4 @@ resolved per call, so a run that resolved one holds it for that call only.
 
 No OAuth application has been registered with a real provider from this repository, so the flow is verified by
 unit tests down to the exact bytes of the token request and **not** by a completed consent. That gap is
-[#262](https://github.com/Rise-Experts/retinue/issues/262) AC-10 and is recorded rather than closed.
+[#262](https://github.com/Rise-Experts/forge/issues/262) AC-10 and is recorded rather than closed.

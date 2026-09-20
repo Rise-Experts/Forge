@@ -1,19 +1,19 @@
-# @retinue/tools-linear
+# @forge/tools-linear
 
-Linear tools for a [Retinue](https://github.com/Rise-Experts/retinue) agent: search, read and edit issues, and
+Linear tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: search, read and edit issues, and
 move them between workflow states.
 
 ```bash
-npm i @retinue/tools-linear
+npm i @forge/tools-linear
 ```
 
-Requires `@retinue/agentkit` as a peer.
+Requires `@forge/agentkit` as a peer.
 
 ## Use it
 
 ```ts
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { createLinearToolkit } from "@retinue/tools-linear";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { createLinearToolkit } from "@forge/tools-linear";
 
 const toolkit = createLinearToolkit({
   credentialRef: "linear",
@@ -41,6 +41,6 @@ A name that does not match fails naming the ones that do.
 
 **Descriptions and comments are markdown natively**, so nothing is converted in either direction.
 
-Full documentation: <https://docs.retinue.riseexperts.de/integrations/linear>
+Full documentation: <https://docs.forge.riseexperts.de/integrations/linear>
 
 MIT.

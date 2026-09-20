@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Approvals & safety
 
-How Retinue keeps a model from doing something it shouldn't.
+How Forge keeps a model from doing something it shouldn't.
 
 ## The three lines of defense
 
@@ -15,7 +15,7 @@ How Retinue keeps a model from doing something it shouldn't.
 ## Approval decisions
 
 ```ts
-import { createApprovalService } from "@retinue/agentkit/hitl";
+import { createApprovalService } from "@forge/agentkit/hitl";
 
 const approvals = createApprovalService({ interactions, grants, dispatcher });
 

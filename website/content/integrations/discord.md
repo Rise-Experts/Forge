@@ -8,7 +8,7 @@ Read channels and history, send messages, react and open threads. Deliberately t
 [Slack](./slack.md) — both take their request path from the same shared transport.
 
 ```bash
-npm i @retinue/tools-discord
+npm i @forge/tools-discord
 ```
 
 ## Tools
@@ -26,9 +26,9 @@ npm i @retinue/tools-discord
 ## Wire it up
 
 ```ts
-import { createAgent } from "@retinue/agentkit/providers";
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { createDiscordToolkit } from "@retinue/tools-discord";
+import { createAgent } from "@forge/agentkit/providers";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { createDiscordToolkit } from "@forge/tools-discord";
 
 const agent = createAgent({
   manifest: {

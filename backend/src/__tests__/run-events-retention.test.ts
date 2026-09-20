@@ -20,7 +20,7 @@ const T1 = asId<TenantId>("ret-t1");
 const T2 = asId<TenantId>("ret-t2");
 const C1 = asId<ConversationId>("ret-c1");
 const AGENT = asId<AgentId>("ret-agent");
-const PG_URL = process.env["RETINUE_TEST_PG_URL"];
+const PG_URL = process.env["FORGE_TEST_PG_URL"] ?? process.env["FORGE_TEST_PG_URL"];
 
 const pglite = (db: PGlite): SqlExecutor => ({
   query<Row>(text: string, params?: readonly unknown[]): Promise<Row[]> {
@@ -355,7 +355,8 @@ describe("configuration — AC-7", () => {
 describe("the append-only port is unchanged — AC-8", () => {
   it("declares no delete, remove, prune or truncate on RunEventLog", async () => {
     const { readFileSync } = await import("node:fs");
-    const source = readFileSync(new URL("../core/events.ts", import.meta.url).pathname, "utf8");
+    const { fileURLToPath } = await import("node:url");
+    const source = readFileSync(fileURLToPath(new URL("../core/events.ts", import.meta.url)), "utf8");
     const start = source.indexOf("export interface RunEventLog");
     // To the line that is *only* a closing brace. `indexOf("}")` stops at the first `}` inside `append`'s inline
     // object type, so the slice ended mid-signature and the "members it does have" assertion failed against a
@@ -376,7 +377,7 @@ describe("the append-only port is unchanged — AC-8", () => {
 
 if (!PG_URL) {
   describe("retention against a real server", () => {
-    it("[skipped: RETINUE_TEST_PG_URL unset — EXPLAIN needs a planner with statistics, and the append race needs two connections]", () => {
+    it("[skipped: FORGE_TEST_PG_URL unset — EXPLAIN needs a planner with statistics, and the append race needs two connections]", () => {
       expect(PG_URL).toBeUndefined();
     });
   });

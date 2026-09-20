@@ -6,7 +6,7 @@
  * copies too many, and the one that drifts is the one nobody exercises — the worker, whose writes are
  * the ones that must land in the same schema as everything else.
  *
- * **What it adds over `new Pool`.** `RETINUE_DATABASE_SCHEMA` names the schema the platform's tables
+ * **What it adds over `new Pool`.** `FORGE_DATABASE_SCHEMA` names the schema the platform's tables
  * live in, and honouring it takes three things:
  *
  *  - `options: "-c search_path=…"`, a **startup parameter**, so every connection has it before it runs
@@ -62,10 +62,10 @@ export type PoolSettings = {
  */
 export const searchPathFor = (schema: string | undefined): string | undefined =>
   // **No space after the comma**, and that is not a style choice. This string is passed as libpq's
-  // `-c search_path=…`, where a space separates one option from the next: `-c search_path=retinue,
-  // public` reaches Postgres as `search_path` = `retinue,` and a stray `public`, and the server
-  // refuses it outright — `invalid value for parameter "search_path": "retinue,"`. Found by running
-  // `migrate` against a real database, not by reading the code. `SET search_path TO retinue,public` is
+  // `-c search_path=…`, where a space separates one option from the next: `-c search_path=forge,
+  // public` reaches Postgres as `search_path` = `forge,` and a stray `public`, and the server
+  // refuses it outright — `invalid value for parameter "search_path": "forge,"`. Found by running
+  // `migrate` against a real database, not by reading the code. `SET search_path TO forge,public` is
   // equally valid, so one representation serves both uses.
   schema === undefined || schema === "" ? undefined : `${schema},public`;
 
@@ -78,8 +78,8 @@ export const searchPathFor = (schema: string | undefined): string | undefined =>
  * would land in whatever schema comes first there. No error, no log line, and the symptom is two
  * projects quietly sharing a namespace.
  *
- * Compared as a set rather than as a string: Postgres echoes what it was given, and `retinue, public`
- * is the same path as `retinue,public` while being a different string.
+ * Compared as a set rather than as a string: Postgres echoes what it was given, and `forge, public`
+ * is the same path as `forge,public` while being a different string.
  */
 export const assertSearchPath = async (pool: Pool, expected: string): Promise<void> => {
   const normalise = (value: string) =>
@@ -94,7 +94,7 @@ export const assertSearchPath = async (pool: Pool, expected: string): Promise<vo
   if (!matches) {
     await pool.end().catch(() => undefined);
     throw new Error(
-      `RETINUE_DATABASE_SCHEMA asked for search_path "${expected}" but this connection reports ` +
+      `FORGE_DATABASE_SCHEMA asked for search_path "${expected}" but this connection reports ` +
         `"${rows.rows[0]?.search_path ?? "(nothing)"}". The connection options were not applied — a ` +
         `pooler in front of Postgres may be dropping them. Refusing to start, because every table this ` +
         `process creates would otherwise land in the wrong schema with no error.`,

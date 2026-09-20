@@ -20,10 +20,10 @@
  * cost the model a turn to discover and read like a broken integration.
  */
 
-import { openAiSpeech, openAiTranscription } from "@retinue/agentkit/runtime";
-import type { SpeechProvider, TranscriptionProvider } from "@retinue/agentkit/runtime";
-import type { ConversationId, ExecutionContext, FileId } from "@retinue/agentkit";
-import type { AudioToolDeps } from "@retinue/agentkit/tools";
+import { openAiSpeech, openAiTranscription } from "@forge/agentkit/runtime";
+import type { SpeechProvider, TranscriptionProvider } from "@forge/agentkit/runtime";
+import type { ConversationId, ExecutionContext, FileId } from "@forge/agentkit";
+import type { AudioToolDeps } from "@forge/agentkit/tools";
 
 /** The environment, narrowed to what this file reads. */
 export type AudioEnv = Readonly<Record<string, string | undefined>>;
@@ -38,21 +38,26 @@ export const audioProvidersFrom = (
   env: AudioEnv,
   fetchImpl?: typeof fetch,
 ): { transcription?: TranscriptionProvider; speech?: SpeechProvider } => {
-  const apiKey = env.RETINUE_AUDIO_API_KEY ?? env.RETINUE_MODEL_API_KEY;
+  const apiKey = env.FORGE_AUDIO_API_KEY ?? env.FORGE_AUDIO_API_KEY ?? env.FORGE_MODEL_API_KEY ?? env.FORGE_MODEL_API_KEY;
   if (apiKey === undefined || apiKey === "") return {};
   const wiring = fetchImpl === undefined ? {} : { fetchImpl };
+  const transcriptionModel = env.FORGE_TRANSCRIPTION_MODEL ?? env.FORGE_TRANSCRIPTION_MODEL;
+  const audioBaseUrl = env.FORGE_AUDIO_BASE_URL ?? env.FORGE_AUDIO_BASE_URL;
+  const speechModel = env.FORGE_SPEECH_MODEL ?? env.FORGE_SPEECH_MODEL;
+  const speechVoice = env.FORGE_SPEECH_VOICE ?? env.FORGE_SPEECH_VOICE;
+
   return {
     transcription: openAiTranscription({
       apiKey,
-      ...(env.RETINUE_TRANSCRIPTION_MODEL === undefined ? {} : { model: env.RETINUE_TRANSCRIPTION_MODEL }),
-      ...(env.RETINUE_AUDIO_BASE_URL === undefined ? {} : { baseUrl: env.RETINUE_AUDIO_BASE_URL }),
+      ...(transcriptionModel === undefined ? {} : { model: transcriptionModel }),
+      ...(audioBaseUrl === undefined ? {} : { baseUrl: audioBaseUrl }),
       ...wiring,
     }),
     speech: openAiSpeech({
       apiKey,
-      ...(env.RETINUE_SPEECH_MODEL === undefined ? {} : { model: env.RETINUE_SPEECH_MODEL }),
-      ...(env.RETINUE_SPEECH_VOICE === undefined ? {} : { voice: env.RETINUE_SPEECH_VOICE }),
-      ...(env.RETINUE_AUDIO_BASE_URL === undefined ? {} : { baseUrl: env.RETINUE_AUDIO_BASE_URL }),
+      ...(speechModel === undefined ? {} : { model: speechModel }),
+      ...(speechVoice === undefined ? {} : { voice: speechVoice }),
+      ...(audioBaseUrl === undefined ? {} : { baseUrl: audioBaseUrl }),
       ...wiring,
     }),
   };

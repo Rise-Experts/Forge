@@ -27,7 +27,7 @@
  * Both static and dynamic imports are collected. A dynamic one fails later than a static one -- on the
  * first turn that reaches it rather than at load -- which is worse, not better.
  *
- * A copy of this script lives in the retinue monorepo, which ships the platform this package consumes.
+ * A copy of this script lives in the forge monorepo, which ships the platform this package consumes.
  * They are deliberately identical; if you change one, change the other.
  *
  * Usage: `node scripts/collect-runtime-imports.mjs <entry.js> [entry.js ...] > imports.json`
@@ -43,7 +43,7 @@ import ts from "typescript";
 const BUILTINS = new Set([...builtinModules, ...builtinModules.map((m) => `node:${m}`)]);
 
 /** The scope whose packages the walk follows into. See `localPackages`. */
-const OWN_SCOPE = "@retinue";
+const OWN_SCOPE = "@forge";
 
 /**
  * Resolve a relative specifier the way Node does for a directory or an extensionless path.
@@ -62,14 +62,14 @@ export const resolveRelative = (fromFile, specifier) => {
 /**
  * Packages whose own sources the walk should follow, as `name -> directory`.
  *
- * Needed because the walk has to cross the package boundary. Stopping at `@retinue/agentkit` reached
+ * Needed because the walk has to cross the package boundary. Stopping at `@forge/agentkit` reached
  * 113 files and reported twelve specifiers, none of them `bullmq`, `ioredis` or a single `@ai-sdk/*` --
  * every one of those is imported *inside* the runtime, which is exactly where an app forgets to declare
  * them. A check that stops at the boundary is blind to the whole class it was written for.
  *
  * Two sources, because the same package is reached two ways. In a monorepo it is a sibling workspace
  * listed in the root manifest. Standing alone it is an ordinary dependency under `node_modules`, and a
- * version of this that only knew about workspaces refused to walk at all — every `@retinue/*` subpath
+ * version of this that only knew about workspaces refused to walk at all — every `@forge/*` subpath
  * came back as an unfollowable crossing.
  */
 export const localPackages = (readJson, listDir) => {
@@ -94,7 +94,7 @@ export const localPackages = (readJson, listDir) => {
    * not installed, so the verification step failed on a package that is *correctly* absent. A checker
    * firing on a correct tree is the false alarm that gets a check deleted rather than fixed.
    *
-   * The line is ownership. `@retinue/agentkit`'s optional peers are this deployment's problem, because
+   * The line is ownership. `@forge/agentkit`'s optional peers are this deployment's problem, because
    * this deployment is the application that has to declare them. What `pg` does inside itself is `pg`'s
    * problem, and it already handles it.
    */
@@ -109,7 +109,7 @@ export const localPackages = (readJson, listDir) => {
 /**
  * Where a workspace specifier's code lives, via that package's own `exports` map.
  *
- * The map is the authority, not a path convention: `@retinue/agentkit/hitl` is
+ * The map is the authority, not a path convention: `@forge/agentkit/hitl` is
  * `dist/entries/hitl.js`, which no amount of string surgery on the subpath would produce.
  */
 export const resolveLocal = (specifier, locals, readJson) => {
@@ -185,8 +185,8 @@ export const collect = (
       }
       if (BUILTINS.has(fileName)) continue;
 
-      // The full specifier is kept, not only the package name: `@retinue/agentkit/adapters/postgres`
-      // can be unresolvable while `@retinue/agentkit` resolves, and the exports map is where that
+      // The full specifier is kept, not only the package name: `@forge/agentkit/adapters/postgres`
+      // can be unresolvable while `@forge/agentkit` resolves, and the exports map is where that
       // happens. Checking the package alone would pass an image whose subpath imports all fail.
       const importers = specifiers.get(fileName) ?? new Set();
       importers.add(file);
@@ -198,12 +198,12 @@ export const collect = (
       if (local !== null) {
         crossed.add(fileName);
         queue.push(local);
-      } else if (fileName.startsWith("@retinue/")) {
+      } else if (fileName.startsWith("@forge/")) {
         /**
          * A sibling package the walk could not follow.
          *
          * Reported rather than skipped, because skipping is indistinguishable from success while
-         * being far worse: the whole point of crossing into `@retinue/agentkit` is that `bullmq`,
+         * being far worse: the whole point of crossing into `@forge/agentkit` is that `bullmq`,
          * `ioredis` and the six `@ai-sdk/*` providers are imported *inside* it. A walk that quietly
          * failed to cross returns twelve specifiers instead of twenty and reports "all resolvable".
          */

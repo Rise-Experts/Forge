@@ -36,8 +36,8 @@ import {
   type ToolkitAuth,
   type VendorFailure,
   type VendorTransport,
-} from "@retinue/agentkit/tools";
-import { AgentPlatformError } from "@retinue/agentkit";
+} from "@forge/agentkit/tools";
+import { AgentPlatformError } from "@forge/agentkit";
 
 const API = "https://api.telegram.org";
 

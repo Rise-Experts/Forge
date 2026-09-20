@@ -17,12 +17,12 @@
 import { readFileSync } from "node:fs";
 import { createServer } from "node:http";
 import { resolve } from "node:path";
-import { asId } from "@retinue/agentkit";
-import { createResolvers } from "@retinue/agentkit/server";
-import { ROLLUP_PERIODS, parseWindowKey } from "@retinue/agentkit/persistence";
-import { startOrEnqueueRun, turnText } from "@retinue/agentkit/runtime";
-import { bucketStartFor, createRollupJob } from "@retinue/agentkit/usage";
-import { createPostgresApprovalGrantStore, createPostgresConversationStore, createPostgresMessageStore, createPostgresSessionStateStore, createPostgresUsageLimitStore, createPostgresUsageRollupStore } from "@retinue/agentkit/adapters/postgres";
+import { asId } from "@forge/agentkit";
+import { createResolvers } from "@forge/agentkit/server";
+import { ROLLUP_PERIODS, parseWindowKey } from "@forge/agentkit/persistence";
+import { startOrEnqueueRun, turnText } from "@forge/agentkit/runtime";
+import { bucketStartFor, createRollupJob } from "@forge/agentkit/usage";
+import { createPostgresApprovalGrantStore, createPostgresConversationStore, createPostgresMessageStore, createPostgresSessionStateStore, createPostgresUsageLimitStore, createPostgresUsageRollupStore } from "@forge/agentkit/adapters/postgres";
 /**
  * From `/view-models`, not the root — #267.
  *
@@ -30,19 +30,19 @@ import { createPostgresApprovalGrantStore, createPostgresConversationStore, crea
  * pulled React into this server's module graph, and the Docker image — installed with `--omit=dev` — does not
  * have it. The reference app failed to start with `Cannot find package 'react'`.
  */
-import { citationViewModel, formatCost, formatTokens, shapeUsagePanel } from "@retinue/react/view-models";
+import { citationViewModel, formatCost, formatTokens, shapeUsagePanel } from "@forge/react/view-models";
 import { COMPACT_AT_FRACTION, compactConversation, createExampleSummarizer } from "./compaction.js";
 import { HISTORY_READ_LIMIT } from "./history.js";
 import { contextUsage } from "./context-usage.js";
 import { exampleProviders } from "./providers.js";
 import { resolveExampleModel } from "./model.js";
 import type { ConversationMode } from "./modes.js";
-import type { ContextProvider } from "@retinue/agentkit";
+import type { ContextProvider } from "@forge/agentkit";
 import type { ExampleStores } from "./stores.js";
-import type { ConversationId, ExecutionContext, FileId, PrincipalId, MessageId, MessagePartId, ResolverDeps, RunId, TenantId } from "@retinue/agentkit";
-import type { SqlExecutor } from "@retinue/agentkit/adapters/postgres";
-import type { FileService } from "@retinue/agentkit";
-import { createRetinueHost, type Authenticate } from "@retinue/agentkit/server";
+import type { ConversationId, ExecutionContext, FileId, PrincipalId, MessageId, MessagePartId, ResolverDeps, RunId, TenantId } from "@forge/agentkit";
+import type { SqlExecutor } from "@forge/agentkit/adapters/postgres";
+import type { FileService } from "@forge/agentkit";
+import { createForgeHost, type Authenticate } from "@forge/agentkit/server";
 import { conversationTurns } from "./history.js";
 import {
   CONVERSATION_MODES,
@@ -94,7 +94,7 @@ export type ExampleServerOptions = {
 const runIdFor = (messageId: string): RunId => asId<RunId>(`run-${messageId}`);
 
 export const startExampleServer = async (options: ExampleServerOptions) => {
-  const host = createRetinueHost({
+  const host = createForgeHost({
     deps: options.deps,
     authenticate: options.authenticate,
     // On, deliberately: this *is* a playground, and the reference host turns it off because it is not one.
@@ -122,7 +122,7 @@ export const startExampleServer = async (options: ExampleServerOptions) => {
   /**
    * The composer bundle — #179.
    *
-   * The one built asset on the page. Missing means `npm run build -w @retinue/example-app` has not run, and the
+   * The one built asset on the page. Missing means `npm run build -w @forge/example-app` has not run, and the
    * response says so **as JavaScript that reports it**: a 404 here would leave the page with a dead input and no
    * explanation, which is the failure mode this codebase keeps finding. Served from disk per request for the same
    * reason the page is — a stale bundle after an edit costs more than a file read.
@@ -139,7 +139,7 @@ export const startExampleServer = async (options: ExampleServerOptions) => {
       });
     } catch {
       const message =
-        "the composer bundle is missing — run `npm run build -w @retinue/example-app`. " +
+        "the composer bundle is missing — run `npm run build -w @forge/example-app`. " +
         `Looked in ${path}.`;
       return new Response(
         `console.error(${JSON.stringify(`agentkit: ${message}`)});\n` +
@@ -651,7 +651,7 @@ export const startExampleServer = async (options: ExampleServerOptions) => {
      * quiet period looks quiet; the quota fraction is capped at 1 because a bar wider than its track is a
      * rendering bug. A page that reimplemented any of that would be a second answer to the same question.
      *
-     * `@retinue/react` is a runtime dependency here for that reason. Its React components stay untouched —
+     * `@forge/react` is a runtime dependency here for that reason. Its React components stay untouched —
      * `shapeUsagePanel`, `formatCost` and `formatTokens` are react-free by design, and `./ui` is opt-in.
      */
     if (url.pathname === "/api/usage" && request.method === "GET") {

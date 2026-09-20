@@ -70,7 +70,7 @@ const slugOf = (body) => (/^---\n[\s\S]*?\n---\n/.exec(body)?.[0] ?? "").match(/
 const titleOf = (body, fallback) => (stripFrontMatter(body).match(/^#\s+(.+)$/m) ?? [, fallback])[1];
 
 const index = [
-  "# Retinue documentation",
+  "# Forge documentation",
   "",
   "> A reusable, provider-neutral AI agent platform for TypeScript: durable runs, classified tools, layered",
   "> memory, human-in-the-loop approvals and permission-aware retrieval.",

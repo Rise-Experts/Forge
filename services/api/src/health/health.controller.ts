@@ -18,13 +18,13 @@
 
 import { Controller, Get, Inject, Res } from "@nestjs/common";
 import type { Response } from "express";
-import { RETINUE_PROBES } from "../retinue/tokens.js";
+import { FORGE_PROBES } from "../forge/tokens.js";
 
 type Probe = { readonly name: string; check(): Promise<void> };
 
 @Controller()
 export class HealthController {
-  constructor(@Inject(RETINUE_PROBES) private readonly probes: readonly Probe[]) {}
+  constructor(@Inject(FORGE_PROBES) private readonly probes: readonly Probe[]) {}
 
   @Get("healthz")
   liveness(): { status: string } {

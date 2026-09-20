@@ -1,5 +1,5 @@
 {
-  "name": "@retinue/tools-browser",
+  "name": "@forge/tools-browser",
   "version": "0.3.0",
   "description": "Drive a real browser when a page will not yield to a fetch: navigate, read, click and type, under an isolation story written down rather than assumed.",
   "license": "MIT",
@@ -27,14 +27,14 @@
     "prepublishOnly": "node ../../scripts/publish-guard.mjs"
   },
   "peerDependencies": {
-    "@retinue/agentkit": "^0.3.0"
+    "@forge/agentkit": "^0.3.0"
   },
   "devDependencies": {
-    "@retinue/agentkit": "*",
+    "@forge/agentkit": "*",
     "@types/node": "^20",
     "typescript": "^5",
     "vitest": "^4.1.9",
-    "@retinue/tools-scrape": "*"
+    "@forge/tools-scrape": "*"
   },
   "engines": {
     "node": ">=20"
@@ -43,11 +43,11 @@
   "author": "Rise Experts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rise-Experts/retinue.git",
+    "url": "git+https://github.com/Rise-Experts/Forge.git",
     "directory": "tools/browser"
   },
-  "homepage": "https://github.com/Rise-Experts/retinue#readme",
+  "homepage": "https://github.com/Rise-Experts/Forge#readme",
   "bugs": {
-    "url": "https://github.com/Rise-Experts/retinue/issues"
+    "url": "https://github.com/Rise-Experts/Forge/issues"
   }
 }

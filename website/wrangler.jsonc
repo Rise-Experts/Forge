@@ -8,10 +8,10 @@
   // aimed at a Worker nobody serves from. The custom domain is duplicated for the same reason — whichever
   // config a deploy uses has to attach the same hostname. See the reasoning in ../wrangler.jsonc.
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "retinue-docs",
+  "name": "forge-docs",
   "routes": [
     {
-      "pattern": "docs.retinue.riseexperts.de",
+      "pattern": "docs.forge.riseexperts.de",
       "custom_domain": true
     }
   ],

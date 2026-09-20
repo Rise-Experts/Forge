@@ -19,7 +19,7 @@ import { createRedisRateLimitStore, rateLimitKey } from "../adapters/redis/rate-
 import { createRateLimitGuard, windowStartMs } from "../usage/rate-limit.js";
 import { rateLimitStoreConformance } from "../testing/conformance/rate-limit.js";
 
-const REDIS_URL = process.env["RETINUE_TEST_REDIS_URL"];
+const REDIS_URL = process.env["FORGE_TEST_REDIS_URL"] ?? process.env["FORGE_TEST_REDIS_URL"];
 
 /** Connections the conformance block opens, closed once at the end of the file. */
 const conformanceClosers: Array<() => Promise<void>> = [];
@@ -43,7 +43,7 @@ describe("rate limiting against a real Redis", () => {
   });
 
   if (REDIS_URL === undefined) {
-    it("[skipped: RETINUE_TEST_REDIS_URL unset — a per-process Map cannot show cross-process correctness or a TTL]", () => {
+    it("[skipped: FORGE_TEST_REDIS_URL unset — a per-process Map cannot show cross-process correctness or a TTL]", () => {
       expect(REDIS_URL).toBeUndefined();
     });
   } else {
@@ -150,11 +150,11 @@ describe("rate limiting against a real Redis", () => {
  * The port contract against the real adapter — AC-6.
  *
  * Outside the gated block above because the harness must be *registered* for the coverage guard to find it; when
- * `RETINUE_TEST_REDIS_URL` is unset it runs against a stub that satisfies the contract, so the suite still
+ * `FORGE_TEST_REDIS_URL` is unset it runs against a stub that satisfies the contract, so the suite still
  * passes on a machine with no Redis while the real run exercises the same clauses.
  */
 rateLimitStoreConformance(
-  REDIS_URL === undefined ? "redis (stubbed — RETINUE_TEST_REDIS_URL unset)" : "redis",
+  REDIS_URL === undefined ? "redis (stubbed — FORGE_TEST_REDIS_URL unset)" : "redis",
   async () => {
     if (REDIS_URL === undefined) {
       const counts = new Map<string, number>();

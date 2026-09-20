@@ -1,6 +1,6 @@
 # Brand
 
-<img src="https://raw.githubusercontent.com/Rise-Experts/retinue/main/brand/retinue-mark.svg" alt="Retinue" width="72" />
+<img src="https://raw.githubusercontent.com/Rise-Experts/forge/main/brand/forge-mark.svg" alt="Forge" width="72" />
 
 The palette, the type pairing and the usage rules live in **[`tokens.json`](tokens.json)**, with the reasoning for
 each choice on the token itself. This file explains the shape of that decision; the token file is the decision.
@@ -19,17 +19,17 @@ rather than inventing one.
 
 | File | What it is |
 |---|---|
-| `retinue-mark.svg` | The product mark — a principal and its retinue |
-| `retinue-lockup.svg` | The same with the wordmark, so the name can be judged *as* a logo |
-| `og-retinue.svg` | The social preview, 1200×630 inside a square canvas — see the note in the file |
-| `retinue-avatar.svg` / `.png` | The organisation avatar, 512², mark on its own navy ground. npm renders it on both light and dark chrome, so it is not transparent |
+| `forge-mark.svg` | The product mark — a principal and its forge |
+| `forge-lockup.svg` | The same with the wordmark, so the name can be judged *as* a logo |
+| `og-forge.svg` | The social preview, 1200×630 inside a square canvas — see the note in the file |
+| `forge-avatar.svg` / `.png` | The organisation avatar, 512², mark on its own navy ground. npm renders it on both light and dark chrome, so it is not transparent |
 | `rise-experts-mark.svg` | The organisation's mark, icon only |
 | `rise-experts-lockup.svg` | Mark plus wordmark, for a site header or a letterhead |
 | `steward-mark.svg` | An alternative candidate — custody rather than control |
 | `steward-lockup.svg` | As above |
 
 **The sweep is deliberately open.** A closed ring of dots is a loading spinner, and every multi-agent product
-already ships one; the gap makes it a retinue attending someone rather than a circle of nodes. It is also the
+already ships one; the gap makes it a forge attending someone rather than a circle of nodes. It is also the
 honest picture — a team is assembled around a person, not a topology. That gap is the mark's one distinguishing
 feature, which is why `usage.clearSpace` exists and why the social preview embeds the mark's real geometry rather
 than redrawing it. The first attempt at the preview moved the dots by hand and closed the sweep.
@@ -47,9 +47,9 @@ settled when the marks were drawn.
 
 **Two things need a human with an account**, and neither can be done from a repository:
 
-- The **GitHub social preview** is set through the repository's Settings page. `og-retinue.png` is the image;
+- The **GitHub social preview** is set through the repository's Settings page. `og-forge.png` is the image;
   the API has no field for it.
-- The **npm organisation avatar** is set on npmjs.com, and `retinue-avatar.png` is the file to upload. There is no
+- The **npm organisation avatar** is set on npmjs.com, and `forge-avatar.png` is the file to upload. There is no
   per-package icon — the avatar on a package page belongs to the organisation — which is why "an icon on the
   package" means the org avatar plus a mark in the README, by absolute URL, since a relative one is a 404 on
   npmjs.com.

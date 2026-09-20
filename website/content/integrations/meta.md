@@ -8,7 +8,7 @@ Send WhatsApp messages inside the rules Meta actually enforces, and read and pub
 because they are one API, one token and one app review.
 
 ```bash
-npm i @retinue/tools-meta
+npm i @forge/tools-meta
 ```
 
 ## Start here: Meta's app review is the blocker
@@ -65,9 +65,9 @@ its customer support. The reasoning is in `docs/23`'s #228 decision.
 ## Wire it up
 
 ```ts
-import { createAgent } from "@retinue/agentkit/providers";
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { createMetaToolkit } from "@retinue/tools-meta";
+import { createAgent } from "@forge/agentkit/providers";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { createMetaToolkit } from "@forge/tools-meta";
 
 const agent = createAgent({
   manifest: {

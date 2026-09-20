@@ -70,7 +70,7 @@ const manifestChecks = () => {
     for (const field of ["dependencies", "peerDependencies"]) {
       for (const [name, range] of Object.entries(manifest[field] ?? {})) {
         // `"*"` resolves only because these are workspaces. Published, it means "any version, forever".
-        if (name.startsWith("@retinue/") && range === "*") at(`${field}.${name} is "*" — pin a published range`);
+        if (name.startsWith("@forge/") && range === "*") at(`${field}.${name} is "*" — pin a published range`);
         // `workspace:` is a protocol npm does not even understand outside a workspace install, so a published
         // artefact carrying one is uninstallable rather than merely wrong (#193 AC-2). Checked separately from
         // `"*"` because they fail differently, and a check that lumps them together explains neither.
@@ -103,7 +103,7 @@ const manifestChecks = () => {
    * `docs/19-versioning.md`. This check states the reason so that whoever removes it has to have read why it was
    * there.
    *
-   * Both original reasons are now gone: the `retinue` npm organisation exists and is ours (#192 AC-1, confirmed
+   * Both original reasons are now gone: the `forge` npm organisation exists and is ours (#192 AC-1, confirmed
    * by an authenticated `npm org ls`, not by a 404 on the registry), and the licence is MIT (#184). What
    * is left is the publish itself — #193 — which is a pipeline, a provenance identity and a decision about when.
    * So the note names one reason rather than three, and if that reason is also gone, flipping this flag is a

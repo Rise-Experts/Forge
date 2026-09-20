@@ -46,23 +46,23 @@ test("only the exports map counts as having refused a deep import", () => {
 test("subpaths come from the manifest, and `.` becomes the bare specifier", () => {
   const subpaths = exportedSubpaths(
     { exports: { ".": {}, "./flows": {}, "./adapters/postgres": {}, "./package.json": "./package.json" } },
-    "@retinue/agentkit",
+    "@forge/agentkit",
   );
   assert.deepEqual(subpaths, [
-    "@retinue/agentkit",
-    "@retinue/agentkit/flows",
-    "@retinue/agentkit/adapters/postgres",
+    "@forge/agentkit",
+    "@forge/agentkit/flows",
+    "@forge/agentkit/adapters/postgres",
   ]);
 });
 
 test("`./package.json` is exported deliberately and is not treated as a module", () => {
-  assert.ok(!exportedSubpaths({ exports: { "./package.json": "./package.json" } }, "@retinue/agentkit").length);
+  assert.ok(!exportedSubpaths({ exports: { "./package.json": "./package.json" } }, "@forge/agentkit").length);
 });
 
 test("a manifest with no exports map yields the root, and the caller treats that as a finding", () => {
   // Not an empty list: a package with no map has one entry point *and no boundary*, and returning nothing here
   // would make the load checks vacuous on exactly the package that needs them most.
-  assert.deepEqual(exportedSubpaths({}, "@retinue/react"), ["@retinue/react"]);
+  assert.deepEqual(exportedSubpaths({}, "@forge/react"), ["@forge/react"]);
 });
 
 test("the three files every published package needs are checked, and absence is reported", () => {
@@ -122,31 +122,31 @@ test("ts and tsx blocks are extracted, other languages left alone", () => {
 });
 
 test("every shipping package is covered, and each deep list has both halves of the risk", () => {
-  // Both, because it checked only the runtime at first and `@retinue/react` was meanwhile shipping 32
+  // Both, because it checked only the runtime at first and `@forge/react` was meanwhile shipping 32
   // sourcemaps pointing at sources it did not contain. A check covering one of two published packages reads,
   // in a green pipeline, as covering both.
   // Exact, not "contains": an accidental addition should fail here and be looked at, and a toolkit added
   // without consumer-boundary coverage would otherwise ship unchecked. #214 added the third deliberately.
   assert.deepEqual(PACKAGES.map((shipped) => shipped.name), [
-    "@retinue/agentkit",
-    "@retinue/react",
-    "@retinue/tools-github",
-    "@retinue/tools-slack",
-    "@retinue/tools-search",
-    "@retinue/tools-discord",
-    "@retinue/tools-telegram",
-    "@retinue/tools-jira",
-    "@retinue/tools-confluence",
-    "@retinue/tools-linear",
-    "@retinue/tools-meta",
-    "@retinue/tools-x",
-    "@retinue/tools-reddit",
-    "@retinue/tools-google",
-    "@retinue/tools-notion",
-    "@retinue/tools-scrape",
-    "@retinue/tools-email",
-    "@retinue/tools-browser",
-    "@retinue/tools-azure",
+    "@forge/agentkit",
+    "@forge/react",
+    "@forge/tools-github",
+    "@forge/tools-slack",
+    "@forge/tools-search",
+    "@forge/tools-discord",
+    "@forge/tools-telegram",
+    "@forge/tools-jira",
+    "@forge/tools-confluence",
+    "@forge/tools-linear",
+    "@forge/tools-meta",
+    "@forge/tools-x",
+    "@forge/tools-reddit",
+    "@forge/tools-google",
+    "@forge/tools-notion",
+    "@forge/tools-scrape",
+    "@forge/tools-email",
+    "@forge/tools-browser",
+    "@forge/tools-azure",
   ]);
   for (const shipped of PACKAGES) {
     // A list of only-missing paths would pass against a package with no exports map at all, which is the state
@@ -161,7 +161,7 @@ test("--only narrows the assertions and not the install", async () => {
   /**
    * The distinction the flag exists for, and it is not cosmetic.
    *
-   * `@retinue/tools-slack` imports `@retinue/agentkit`, so a consumer holding only the toolkit cannot load it —
+   * `@forge/tools-slack` imports `@forge/agentkit`, so a consumer holding only the toolkit cannot load it —
    * a narrowed *install* would report a boundary failure that is really a missing peer. The scratch consumer
    * therefore always gets every package, which is what a real consumer has, and `--only` decides what is
    * checked. Asserted on the source, because the alternative is running the whole check twice in a unit test.
@@ -175,7 +175,7 @@ test("--only narrows the assertions and not the install", async () => {
 
 test("the release workflow scopes the post-publish check to the tag's package", async () => {
   /**
-   * The regression this closes: the first toolkit release went red because `@retinue/agentkit@0.1.0` — published
+   * The regression this closes: the first toolkit release went red because `@forge/agentkit@0.1.0` — published
    * before the `guardrails` subpath existed — does not satisfy today's checkout. Unscoped, that step is red for
    * every release until every published package is republished, which is the "can only ever be red" shape.
    */

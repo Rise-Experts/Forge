@@ -1,5 +1,5 @@
 /**
- * `retinue doctor` — REQ-060 (#251), task #252 AC-4 and AC-5.
+ * `forge doctor` — REQ-060 (#251), task #252 AC-4 and AC-5.
  *
  * The value is entirely in reporting *every* failure. A doctor that stops at the first problem sends the
  * operator round the loop once per problem, which is what starting the server already does — so it would add
@@ -11,8 +11,8 @@ import { describe, expect, it } from "vitest";
 import { CHECK_TIMEOUT_MS, describeUrl, report, runChecks, scrub, withTimeout } from "../doctor.js";
 
 const ENV = {
-  RETINUE_DATABASE_URL: "postgres://user:pw@db.internal:5432/app",
-  RETINUE_REDIS_URL: "redis://:secret@cache.internal:6379/0",
+  FORGE_DATABASE_URL: "postgres://user:pw@db.internal:5432/app",
+  FORGE_REDIS_URL: "redis://:secret@cache.internal:6379/0",
 };
 
 const workingPostgres = () => async () => ({
@@ -123,7 +123,7 @@ describe("every failure, not the first", () => {
 describe("a check that could not run is not a pass", () => {
   it("skips the schema check when Postgres is unreachable, rather than blaming migrations", async () => {
     // The bug this caught: `new Pool()` does not connect, so the pool object exists even when the database is
-    // unreachable. Keying the schema check on that reported "0 of 30 applied → Run `retinue migrate`" against a
+    // unreachable. Keying the schema check on that reported "0 of 30 applied → Run `forge migrate`" against a
     // database nobody could reach — sending an operator to fix the wrong thing.
     const results = await runChecks({
       env: ENV,
@@ -202,7 +202,7 @@ describe("an error derived from an unprintable value is also withheld", () => {
     // `getaddrinfo ENOTFOUND ss` — a fragment of the password, in a message no scrubber can recognise as one
     // because `ss` is not URL-shaped. So if the value cannot be printed, nothing derived from it can be.
     const results = await runChecks({
-      env: { RETINUE_DATABASE_URL: "postgres://u:p@ss/word@host:5432/db", RETINUE_REDIS_URL: "redis://c:6379/0" },
+      env: { FORGE_DATABASE_URL: "postgres://u:p@ss/word@host:5432/db", FORGE_REDIS_URL: "redis://c:6379/0" },
       connectPostgres: async () => {
         throw new Error("getaddrinfo ENOTFOUND ss");
       },
@@ -213,12 +213,12 @@ describe("an error derived from an unprintable value is also withheld", () => {
     expect(postgres?.detail).not.toContain("ENOTFOUND");
     expect(postgres?.detail).toMatch(/withheld/);
     // The remedy still names the variable, which is what the operator actually needs.
-    expect(postgres?.remedy).toContain("RETINUE_DATABASE_URL");
+    expect(postgres?.remedy).toContain("FORGE_DATABASE_URL");
   });
 
   it("still passes the driver's message through when the URL is safe", async () => {
     const results = await runChecks({
-      env: { RETINUE_DATABASE_URL: "postgres://user:pw@db:5432/app", RETINUE_REDIS_URL: "redis://c:6379/0" },
+      env: { FORGE_DATABASE_URL: "postgres://user:pw@db:5432/app", FORGE_REDIS_URL: "redis://c:6379/0" },
       connectPostgres: async () => {
         throw new Error("connect ECONNREFUSED");
       },

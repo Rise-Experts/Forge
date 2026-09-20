@@ -1,5 +1,5 @@
 /**
- * `@retinue/agentkit/tools` — everything about tools.
+ * `@forge/agentkit/tools` — everything about tools.
  *
  * Three things that used to be in three places:
  *

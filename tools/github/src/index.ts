@@ -4,7 +4,7 @@
  * The first sibling toolkit, and therefore the pattern the other twenty copy. Everything unusual here is a
  * decision about that pattern rather than about GitHub.
  *
- * ## Why this is not inside `@retinue/agentkit`
+ * ## Why this is not inside `@forge/agentkit`
  *
  * A vendor API change must not be a runtime release. GitHub deprecating an endpoint should bump this package
  * and nothing else — and the runtime's root, which reaches nothing third-party, stays that way. The runtime is
@@ -34,7 +34,7 @@
  * GitHub can do; a deployment ships the ten it uses.
  */
 
-import type { CredentialRef, CredentialResolver, Tool, ToolProvider, ToolkitAuth } from "@retinue/agentkit/tools";
+import type { CredentialRef, CredentialResolver, Tool, ToolProvider, ToolkitAuth } from "@forge/agentkit/tools";
 
 import { actionTools } from "./actions.js";
 import { codeTools } from "./code.js";

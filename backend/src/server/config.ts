@@ -1,7 +1,7 @@
 /**
  * Deployment configuration (#110).
  *
- * Lives here rather than in `@retinue/agentkit`, and that is deliberate: the library reads
+ * Lives here rather than in `@forge/agentkit`, and that is deliberate: the library reads
  * `process.env` **zero times**, so a host can configure it however it likes — from a file, a secret
  * manager, a test fixture. A library that reads the environment cannot be configured by its host, and
  * that property erodes one convenient `process.env.DATABASE_URL` at a time, so there is a test for it.
@@ -13,25 +13,22 @@
 import { readEnv } from "../core/env.js";
 import type { SchemaMode } from "../entries/adapters-postgres.js";
 
-export type RetinueConfig = {
+export type ForgeConfig = {
   readonly databaseUrl: string;
   readonly redisUrl: string;
   /** How the schema is provisioned at boot. `off` in production, so managed migrations stay in control. */
   readonly schemaMode: SchemaMode;
   /**
    * The Postgres schema the platform's own tables live in, or `undefined` for the connection's default.
-   *
-   * Exists because a deployment may be sharing a database with a product that owns `public` — which is
-   * exactly the ShareFlow case: its adapters qualify every one of their queries as `public.`, so with this
-   * set to `retinue` one pool serves both, platform tables in one schema and product tables in the other.
-   * Without it the platform's 35 migrations land in `public` alongside the product's, and the first name
-   * they share is a migration that fails or, worse, one that succeeds against the wrong table.
    */
   readonly databaseSchema?: string;
   readonly port: number;
   readonly workerConcurrency: number;
   readonly logLevel: "debug" | "info" | "warn" | "error";
 };
+
+/** @deprecated Use ForgeConfig */
+export type RetinueConfig = ForgeConfig;
 
 /** Thrown when configuration is unusable. Carries the variable names so the message is actionable. */
 export class ConfigurationError extends Error {
@@ -63,7 +60,7 @@ export type Env = Readonly<Record<string, string | undefined>>;
  * from one boot, not discover them across three deploys. That is what "fail fast with a precise
  * message" is actually worth.
  */
-export const loadConfig = (env: Env): RetinueConfig => {
+export const loadConfig = (env: Env): ForgeConfig => {
   const problems: string[] = [];
   const variables: string[] = [];
 
@@ -72,18 +69,8 @@ export const loadConfig = (env: Env): RetinueConfig => {
     variables.push(variable);
   };
 
-  /**
-   * The prefix is added here, not written at each call — #192.
-   *
-   * Every variable was `AGENTKIT_*` and is now `RETINUE_*`. `readEnv` accepts both and warns on the old one, so
-   * a deployment keeps working for one release while it is corrected. Adding the prefix in one place means a
-   * caller cannot accidentally name the legacy variable directly and skip the warning.
-   *
-   * Errors always name the **current** variable, because an error naming the deprecated one would teach the
-   * reader to set the wrong thing.
-   */
   const lookup = (suffix: string): string | undefined => readEnv(env, suffix);
-  const named = (suffix: string): string => `RETINUE_${suffix}`;
+  const named = (suffix: string): string => `FORGE_${suffix}`;
 
   const required = (suffix: string): string => {
     const variable = named(suffix);
@@ -163,7 +150,7 @@ export const loadConfig = (env: Env): RetinueConfig => {
     ...(databaseSchema === undefined ? {} : { databaseSchema }),
     port,
     workerConcurrency,
-    logLevel: rawLogLevel as RetinueConfig["logLevel"],
+    logLevel: rawLogLevel as ForgeConfig["logLevel"],
   };
 };
 
@@ -176,7 +163,7 @@ export const loadConfig = (env: Env): RetinueConfig => {
  * briefly stripped it — a regex over the file caught this constant along with the internal literals — and the
  * test that asserts the error names every missing variable is what found it.
  */
-export const REQUIRED_VARIABLES = ["RETINUE_DATABASE_URL", "RETINUE_REDIS_URL"] as const;
+export const REQUIRED_VARIABLES = ["FORGE_DATABASE_URL", "FORGE_REDIS_URL"] as const;
 export const OPTIONAL_VARIABLES = [
   "SCHEMA_MODE",
   "DATABASE_SCHEMA",

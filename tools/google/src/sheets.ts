@@ -27,8 +27,8 @@
  * is not.
  */
 
-import { confirms, defineTool, destroys, type Tool } from "@retinue/agentkit/tools";
-import { AgentPlatformError } from "@retinue/agentkit";
+import { confirms, defineTool, destroys, type Tool } from "@forge/agentkit/tools";
+import { AgentPlatformError } from "@forge/agentkit";
 
 import { InvalidRangeError, parseA1 } from "./a1.js";
 import type { GoogleTransport } from "./transport.js";

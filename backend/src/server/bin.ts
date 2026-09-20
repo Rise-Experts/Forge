@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * `retinue` — the executable, task #252.
+ * `forge` — the executable, task #252.
  *
  * `cli.ts` and `cli-worker.ts` have been here since #110 and the package had **no `bin`**, so a consumer had to
  * write an entrypoint before anything ran. Applying the schema was the sharpest case:
@@ -8,7 +8,7 @@
  *
  * ## What this does and does not invent
  *
- * It does not invent a deployment's wiring. `serve` and `worker` load `RETINUE_APP_MODULE` exactly as they did,
+ * It does not invent a deployment's wiring. `serve` and `worker` load `FORGE_APP_MODULE` exactly as they did,
  * and refuse to start without it — a permissive default would serve an open API to anyone who forgot to set it,
  * which is the rule `cli.ts` established and this keeps.
  *
@@ -21,13 +21,13 @@ import { runWorker } from "./cli-worker.js";
 import { loadConfig } from "./config.js";
 import { report, runChecks } from "./doctor.js";
 
-const USAGE = `retinue <command>
+const USAGE = `forge <command>
 
-  migrate            Apply pending migrations to RETINUE_DATABASE_URL.
+  migrate            Apply pending migrations to FORGE_DATABASE_URL.
     --status         Report applied and pending migrations; change nothing.
     --dry-run        Print the statements that would run; change nothing.
-  serve              Start the API host. Needs RETINUE_APP_MODULE.
-  worker             Start a run worker. Needs RETINUE_APP_MODULE.
+  serve              Start the API host. Needs FORGE_APP_MODULE.
+  worker             Start a run worker. Needs FORGE_APP_MODULE.
   doctor             Check configuration, database, schema and Redis. Reports every failure.
 
 Configuration comes from the environment; see .env.example.`;
@@ -61,7 +61,7 @@ const postgres = async (config: { readonly databaseUrl: string; readonly databas
  *
  * `migrate` is the command that owns provisioning, so the namespace it was told to provision into is
  * its job too — and the reason is worse than a missing-schema error. **Postgres does not error.**
- * `SET search_path TO retinue, public` succeeds when `retinue` does not exist: a missing entry is
+ * `SET search_path TO forge, public` succeeds when `forge` does not exist: a missing entry is
  * skipped, not rejected. `CREATE TABLE conversations` then lands in the first schema that *does*
  * exist, which is `public` — so all 34 platform migrations would silently be created alongside the
  * product's tables, reporting success the whole way. Verified against a real Postgres 17: the SET
@@ -71,7 +71,7 @@ const postgres = async (config: { readonly databaseUrl: string; readonly databas
  * than relying on a connection error that never comes.
  *
  * On its own connection with the **default** search path, which is the part that is easy to get wrong.
- * A connection configured for `retinue` cannot be the one that creates `retinue` — `openPostgres`
+ * A connection configured for `forge` cannot be the one that creates `forge` — `openPostgres`
  * destroys it during setup, before a statement of ours runs.
  *
  * `IF NOT EXISTS` and nothing else: no owner, no grants, no drop. Provisioning a namespace is additive;
@@ -130,7 +130,7 @@ export const ensureSchema = async (
     console.error(
       `schema: ${config.databaseSchema} does not exist. Postgres will not complain — it skips a missing ` +
         `entry in search_path — so tables would be created in the next schema on the path instead, ` +
-        `silently. Run \`retinue migrate\`, which creates it, or unset RETINUE_DATABASE_SCHEMA to use the ` +
+        `silently. Run \`forge migrate\`, which creates it, or unset FORGE_DATABASE_SCHEMA to use the ` +
         `connection's own schema deliberately.`,
     );
     return false;
@@ -174,7 +174,7 @@ const migrate = async (flags: ReadonlySet<string>, env = process.env): Promise<n
     /**
      * Applied under a session advisory lock, on **one** connection — AC-2.
      *
-     * Measured before this existed: two concurrent `retinue migrate` runs against one database left the ledger
+     * Measured before this existed: two concurrent `forge migrate` runs against one database left the ledger
      * correct (30 rows, 30 distinct) and **crashed one process** with
      * `duplicate key value violates unique constraint "pg_type_typname_nsp_index"` — Postgres's own type
      * catalogue, racing on DDL. The data was safe and the operator experience was not: running migrate from two
@@ -299,7 +299,7 @@ export const main = async (argv: readonly string[], env = process.env): Promise<
 const ONE_SHOT = new Set(["migrate", "doctor", "help", "--help", "-h"]);
 
 // Only when invoked as the binary, so importing this module for a test starts nothing.
-if (process.argv[1] !== undefined && /(^|\/)(retinue|bin\.js)$/.test(process.argv[1])) {
+if (process.argv[1] !== undefined && /(^|[/\\])(forge|forge|bin\.js)$/.test(process.argv[1])) {
   const command = process.argv[2];
   main(process.argv.slice(2))
     .then((code) => {

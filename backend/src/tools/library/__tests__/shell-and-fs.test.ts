@@ -153,7 +153,7 @@ describe("the classification is what gates it — AC-7", () => {
 });
 
 describe("the filesystem tools reach the model with the guarantees intact", () => {
-  const root = mkdtempSync(join(tmpdir(), "retinue-fs-tools-"));
+  const root = mkdtempSync(join(tmpdir(), "forge-fs-tools-"));
 
   it("appear only when a root is configured, and fs_write only with a writable one", async () => {
     const withoutRoot = (await provider().listTools(context)).map((t) => t.descriptor.name);
@@ -166,14 +166,14 @@ describe("the filesystem tools reach the model with the guarantees intact", () =
     expect(readsOnly).not.toContain("fs_write");
 
     const both = (
-      await provider({ filesystem: { root, writableRoot: mkdtempSync(join(tmpdir(), "retinue-fs-w-")) } }).listTools(context)
+      await provider({ filesystem: { root, writableRoot: mkdtempSync(join(tmpdir(), "forge-fs-w-")) } }).listTools(context)
     ).map((t) => t.descriptor.name);
     expect(both).toContain("fs_write");
   });
 
   it("classifies the reads as reads and the write as an internal write", async () => {
     const tools = await provider({
-      filesystem: { root, writableRoot: mkdtempSync(join(tmpdir(), "retinue-fs-w2-")) },
+      filesystem: { root, writableRoot: mkdtempSync(join(tmpdir(), "forge-fs-w2-")) },
     }).listTools(context);
     const byName = new Map(tools.map((t) => [t.descriptor.name, t.descriptor]));
     for (const name of ["fs_read", "fs_list", "fs_search"]) {

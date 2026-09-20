@@ -1,6 +1,6 @@
 ---
 title: Tool discovery & production safety
-description: Keep a large Retinue tool catalogue discoverable, authorized, and safe to execute.
+description: Keep a large Forge tool catalogue discoverable, authorized, and safe to execute.
 ---
 
 # Tool discovery & production safety
@@ -29,7 +29,7 @@ Authorization answers “may this caller use this tool?” A toolset answers “
 
 ## External and destructive effects
 
-`external-write` and `destructive` tools require approval and idempotency. If the approval gate or idempotency store is not wired, Retinue refuses the action instead of performing an unprotected side effect. Treat that refusal as a configuration error.
+`external-write` and `destructive` tools require approval and idempotency. If the approval gate or idempotency store is not wired, Forge refuses the action instead of performing an unprotected side effect. Treat that refusal as a configuration error.
 
 For shadow runs, external and destructive actions are suppressed and recorded rather than executed. Internal writes are not automatically suppressed; only use shadow mode when that distinction is acceptable for your workflow.
 

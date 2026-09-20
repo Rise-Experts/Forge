@@ -7,7 +7,7 @@
  * one of the fields `github_update_issue` takes.
  */
 
-import { confirms, defineTool, destroys, type Tool } from "@retinue/agentkit/tools";
+import { confirms, defineTool, destroys, type Tool } from "@forge/agentkit/tools";
 
 import { DEFAULT_PER_PAGE, MAX_PER_PAGE, type Json, type Transport } from "./transport.js";
 

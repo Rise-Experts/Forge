@@ -1,7 +1,7 @@
 {
-  "name": "@retinue/tools-search",
+  "name": "@forge/tools-search",
   "version": "0.3.0",
-  "description": "Web-search provider adapters for a Retinue agent: Brave, Tavily, Serper and SearXNG behind one contract.",
+  "description": "Web-search provider adapters for a Forge agent: Brave, Tavily, Serper and SearXNG behind one contract.",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -27,10 +27,10 @@
     "prepublishOnly": "node ../../scripts/publish-guard.mjs"
   },
   "peerDependencies": {
-    "@retinue/agentkit": "^0.3.0"
+    "@forge/agentkit": "^0.3.0"
   },
   "devDependencies": {
-    "@retinue/agentkit": "*",
+    "@forge/agentkit": "*",
     "@types/node": "^20",
     "typescript": "^5",
     "vitest": "^4.1.9"
@@ -42,11 +42,11 @@
   "author": "Rise Experts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rise-Experts/retinue.git",
+    "url": "git+https://github.com/Rise-Experts/Forge.git",
     "directory": "tools/search"
   },
-  "homepage": "https://github.com/Rise-Experts/retinue#readme",
+  "homepage": "https://github.com/Rise-Experts/Forge#readme",
   "bugs": {
-    "url": "https://github.com/Rise-Experts/retinue/issues"
+    "url": "https://github.com/Rise-Experts/Forge/issues"
   }
 }

@@ -8,7 +8,7 @@ Send a deployment's **own** mail, from its own domain, with no user grant at all
 [Google Workspace](./google), which sends as an end user after an OAuth consent.
 
 ```bash
-npm i @retinue/tools-email
+npm i @forge/tools-email
 ```
 
 ## Tools
@@ -27,8 +27,8 @@ is gated, carries an idempotency key, and has a rehearsal.
 ## Wire it up
 
 ```ts
-import { createEmailToolkit, smtpProvider } from "@retinue/tools-email";
-import type { CredentialResolver } from "@retinue/agentkit/tools";
+import { createEmailToolkit, smtpProvider } from "@forge/tools-email";
+import type { CredentialResolver } from "@forge/agentkit/tools";
 
 // Yours: resolves a `basic` credential — the SMTP username and password.
 declare const resolver: CredentialResolver;

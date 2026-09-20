@@ -7,16 +7,16 @@
  * no-op publisher) survived, both of which were "works in one shape, broken in the other".
  */
 
-import { asId } from "@retinue/agentkit";
-import { createQuotaGuard, createStoredLimitResolver } from "@retinue/agentkit/usage";
-import type { JobDispatcher, ResolverDeps, Run } from "@retinue/agentkit";
+import { asId } from "@forge/agentkit";
+import { createQuotaGuard, createStoredLimitResolver } from "@forge/agentkit/usage";
+import type { JobDispatcher, ResolverDeps, Run } from "@forge/agentkit";
 import { closeExampleMcp, composeEngine, exampleRegistry } from "./index.js";
 import { exampleProviders } from "./providers.js";
 import type { ExampleBackend } from "./stores.js";
 import type { MemoryBackend } from "./memory-app.js";
 import { buildWorkerContext } from "./worker-context.js";
 import { createDevAuthenticate } from "./auth.js";
-import { createApprovalService, createQuestionService } from "@retinue/agentkit/hitl";
+import { createApprovalService, createQuestionService } from "@forge/agentkit/hitl";
 
 /**
  * The memory backend, viewed as the ports the app expects.

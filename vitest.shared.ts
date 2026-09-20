@@ -13,7 +13,7 @@
  */
 
 /** Where JUnit XML goes, when anything asked for it. Set by CI; unset everywhere else. */
-export const JUNIT_DIR = "RETINUE_JUNIT_DIR";
+export const JUNIT_DIR = "FORGE_JUNIT_DIR";
 
 export const reporters = (workspace: string): { reporters: string[]; outputFile?: Record<string, string> } => {
   const dir = process.env[JUNIT_DIR];

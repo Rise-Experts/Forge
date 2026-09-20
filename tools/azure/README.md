@@ -1,17 +1,17 @@
-# @retinue/tools-azure
+# @forge/tools-azure
 
-Azure tools for a [Retinue](https://github.com/Rise-Experts/retinue) agent: read-first inspection of an Azure
+Azure tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: read-first inspection of an Azure
 estate, with two gated writes and no way to provision anything.
 
 ```bash
-npm i @retinue/tools-azure
+npm i @forge/tools-azure
 ```
 
 ## Why this one is read-first
 
 Everywhere else in this catalogue a gated write costs a person an approval click if it was wrong. Here it can
 cost a production environment. So there is no create, no delete, no scale, no deployment and no role
-assignment — see **Limits** on the [integration page](https://retinue.dev/integrations/azure), which states
+assignment — see **Limits** on the [integration page](https://forge.dev/integrations/azure), which states
 that as a decision rather than apologising for a gap.
 
 ## Tools
@@ -31,9 +31,9 @@ Two writes, both gated and both requiring an idempotency key:
 ## Usage
 
 ```ts
-import { withRefreshingCredentials } from "@retinue/agentkit/tools";
-import type { CredentialRefresher, CredentialResolver } from "@retinue/agentkit/tools";
-import { createAzureToolkit } from "@retinue/tools-azure";
+import { withRefreshingCredentials } from "@forge/agentkit/tools";
+import type { CredentialRefresher, CredentialResolver } from "@forge/agentkit/tools";
+import { createAzureToolkit } from "@forge/tools-azure";
 
 // Yours: reads the stored connection, and exchanges the sealed refresh token for a new ARM access token.
 declare const connectionResolver: CredentialResolver;

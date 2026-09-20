@@ -329,4 +329,4 @@ export const createResolvers = (deps: ResolverDeps) => {
   };
 };
 
-export type RetinueResolvers = ReturnType<typeof createResolvers>;
+export type ForgeResolvers = ReturnType<typeof createResolvers>;

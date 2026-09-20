@@ -1,13 +1,13 @@
-# @retinue/tools-meta
+# @forge/tools-meta
 
-WhatsApp Business and Instagram tools for a [Retinue](https://github.com/Rise-Experts/retinue) agent, over
+WhatsApp Business and Instagram tools for a [Forge](https://github.com/Rise-Experts/Forge) agent, over
 Meta's Graph API.
 
 ```bash
-npm i @retinue/tools-meta
+npm i @forge/tools-meta
 ```
 
-Requires `@retinue/agentkit` as a peer.
+Requires `@forge/agentkit` as a peer.
 
 ## Before the code: Meta's app review
 
@@ -18,8 +18,8 @@ Meta app that has passed review, and you need `whatsapp_business_messaging`, `in
 ## Use it
 
 ```ts
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { createMetaToolkit } from "@retinue/tools-meta";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { createMetaToolkit } from "@forge/tools-meta";
 
 const toolkit = createMetaToolkit({
   credentialRef: "meta",
@@ -48,6 +48,6 @@ Template parameter counts are validated against the template's real definition b
 own error names neither the count nor the template.
 
 Full documentation, including the permission list and what is deliberately not built:
-<https://docs.retinue.riseexperts.de/integrations/meta>
+<https://docs.forge.riseexperts.de/integrations/meta>
 
 MIT.

@@ -1,5 +1,5 @@
 {
-  "name": "@retinue/api-service",
+  "name": "@forge/api-service",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -11,7 +11,7 @@
     "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@retinue/agentkit": "^0.2.0",
+    "@forge/agentkit": "^0.3.0",
     "@nestjs/common": "^11.1.6",
     "@nestjs/core": "^11.1.6",
     "@nestjs/graphql": "^13.1.0",
@@ -40,7 +40,7 @@
   "author": "Rise Experts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rise-Experts/retinue.git",
+    "url": "git+https://github.com/Rise-Experts/Forge.git",
     "directory": "services/api"
   },
   "license": "MIT"

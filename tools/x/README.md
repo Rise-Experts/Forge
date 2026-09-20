@@ -1,19 +1,19 @@
-# @retinue/tools-x
+# @forge/tools-x
 
-X (Twitter) tools for a [Retinue](https://github.com/Rise-Experts/retinue) agent: search and read posts,
+X (Twitter) tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: search and read posts,
 publish and delete.
 
 ```bash
-npm i @retinue/tools-x
+npm i @forge/tools-x
 ```
 
-Requires `@retinue/agentkit` as a peer.
+Requires `@forge/agentkit` as a peer.
 
 ## Use it
 
 ```ts
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { createXToolkit } from "@retinue/tools-x";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { createXToolkit } from "@forge/tools-x";
 
 const toolkit = createXToolkit({
   credentialRef: "x",
@@ -41,6 +41,6 @@ permission.
 
 Posts are counted in code points, so 280 emoji is a valid post.
 
-Full documentation: <https://docs.retinue.riseexperts.de/integrations/x>
+Full documentation: <https://docs.forge.riseexperts.de/integrations/x>
 
 MIT.

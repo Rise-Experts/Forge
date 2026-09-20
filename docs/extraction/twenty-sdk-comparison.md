@@ -29,7 +29,7 @@ by events/UI — **not** AI agent tools.
 
 - **@agentkit tools wrap existing twenty-sdk logic-functions / platform services** — they do not
   reimplement connectors, publishing, media handling or storage. This matches the ShareFlow
-  integration spec (`social-integration: docs/retinue-integration-spec.md`): "existing publishing, connector and database services are reused
+  integration spec (`social-integration: docs/forge-integration-spec.md`): "existing publishing, connector and database services are reused
   behind tools."
 - **A tool is a thin, agent-facing envelope over a deterministic function**: it adds the
   permission filter (docs/11), the approval gate for external writes (docs/04), and the
@@ -75,7 +75,7 @@ A failed run is delivered as a `next` frame carrying **both** `data` and `errors
 protocol error frame. An error frame carries no `id:`, so a failed run would otherwise be unresumable
 and a reconnecting client would never learn the run had ended.
 
-`graphql-sse` is a **devDependency** of `@retinue/agentkit`, used only to validate the frames in tests.
+`graphql-sse` is a **devDependency** of `@forge/agentkit`, used only to validate the frames in tests.
 The adapter still writes plain text and takes no server dependency.
 
 The SPEC numbers above were stale: on `develop`, #27 is the usage hook and **#37** is the SSE adapter.

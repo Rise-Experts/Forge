@@ -1,5 +1,5 @@
 /**
- * `@retinue/agentkit/providers` — the model-provider factory, and the embedded facade that uses it.
+ * `@forge/agentkit/providers` — the model-provider factory, and the embedded facade that uses it.
  *
  * Its own entry because it statically imports six `@ai-sdk/*` packages, and those are **optional peers**: a
  * consumer who uses OpenAI should not have to install Anthropic, Azure, Google and Mistral to import the

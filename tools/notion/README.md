@@ -1,19 +1,19 @@
-# @retinue/tools-notion
+# @forge/tools-notion
 
-Notion tools for a [Retinue](https://github.com/Rise-Experts/retinue) agent: search, read pages as markdown,
+Notion tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: search, read pages as markdown,
 query databases, and write back.
 
 ```bash
-npm i @retinue/tools-notion
+npm i @forge/tools-notion
 ```
 
-Requires `@retinue/agentkit` as a peer.
+Requires `@forge/agentkit` as a peer.
 
 ## Use it
 
 ```ts
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { createNotionToolkit } from "@retinue/tools-notion";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { createNotionToolkit } from "@forge/tools-notion";
 
 const toolkit = createNotionToolkit({
   credentialRef: "notion",
@@ -40,6 +40,6 @@ reports success. So `notion_create_page` and `notion_update_page` fetch the data
 **A page is a block tree, not a document.** Reading one is bounded in depth, block count and size, and when it
 stops early it says which limit it hit.
 
-Full documentation: <https://docs.retinue.riseexperts.de/integrations/notion>
+Full documentation: <https://docs.forge.riseexperts.de/integrations/notion>
 
 MIT.

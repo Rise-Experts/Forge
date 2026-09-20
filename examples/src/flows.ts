@@ -11,10 +11,10 @@
  * exists" has to mean if it means anything.
  */
 
-import { asId } from "@retinue/agentkit";
-import { compileTeam } from "@retinue/agentkit/flows";
-import type { FlowDefinition, FlowEffectHandler, StepOutcome, TeamDefinition } from "@retinue/agentkit/flows";
-import type { AgentId, ExecutionContext, ToolRegistry } from "@retinue/agentkit";
+import { asId } from "@forge/agentkit";
+import { compileTeam } from "@forge/agentkit/flows";
+import type { FlowDefinition, FlowEffectHandler, StepOutcome, TeamDefinition } from "@forge/agentkit/flows";
+import type { AgentId, ExecutionContext, ToolRegistry } from "@forge/agentkit";
 
 /**
  * Triage a note, then act on it — the smallest flow that exercises every interesting step kind.

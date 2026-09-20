@@ -17,8 +17,8 @@
  * Done", it picks one. That is the difference between a tool that can be used and one that can be attempted.
  */
 
-import { confirms, defineTool, destroys, type Tool } from "@retinue/agentkit/tools";
-import type { ExecutionContext } from "@retinue/agentkit";
+import { confirms, defineTool, destroys, type Tool } from "@forge/agentkit/tools";
+import type { ExecutionContext } from "@forge/agentkit";
 
 import type { Json, Transport } from "./transport.js";
 

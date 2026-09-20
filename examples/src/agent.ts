@@ -15,9 +15,9 @@
  * can only show the bytes were enclosed.
  */
 
-import { estimateTokens } from "@retinue/agentkit/runtime";
-import { defineAgent } from "@retinue/agentkit";
-import type { AgentManifest, ContextProvider, ContextSection, ExecutionContext } from "@retinue/agentkit";
+import { estimateTokens } from "@forge/agentkit/runtime";
+import { defineAgent } from "@forge/agentkit";
+import type { AgentManifest, ContextProvider, ContextSection, ExecutionContext } from "@forge/agentkit";
 import type { ExampleStore } from "./tools.js";
 import { ASSIGNED_SKILLS } from "./skills.js";
 

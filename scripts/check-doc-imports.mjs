@@ -86,7 +86,7 @@ for (const [suffix, module] of SUBPATHS) {
  * Found by documenting `Guardrail`, which is type-only — a checker firing on correct documentation, which is how
  * a check gets loosened until it fires on nothing.
  */
-const IMPORT = /import\s*(type\s*)?\{([^}]*)\}\s*from\s*"@retinue\/agentkit([^"]*)"/g;
+const IMPORT = /import\s*(type\s*)?\{([^}]*)\}\s*from\s*"@(?:forge|forge)\/agentkit([^"]*)"/g;
 
 const violations = [];
 let checked = 0;
@@ -97,7 +97,7 @@ for (const file of files) {
     const typeOnlyStatement = match[1] !== undefined;
     const suffix = match[3];
     if (!exported.has(suffix)) {
-      violations.push(`${file}: "@retinue/agentkit${suffix}" is not a published subpath`);
+      violations.push(`${file}: "@forge/agentkit${suffix}" is not a published subpath`);
       continue;
     }
     const names = exported.get(suffix);
@@ -113,8 +113,8 @@ for (const file of files) {
       if (!names.has(name)) {
         const home = [...exported].find(([, set]) => set.has(name))?.[0];
         violations.push(
-          `${file}: ${name} is not exported by "@retinue/agentkit${suffix}"` +
-            (home === undefined ? "" : ` — it lives at "@retinue/agentkit${home}"`),
+          `${file}: ${name} is not exported by "@forge/agentkit${suffix}"` +
+            (home === undefined ? "" : ` — it lives at "@forge/agentkit${home}"`),
         );
       }
     }

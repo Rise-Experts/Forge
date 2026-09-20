@@ -1,4 +1,4 @@
-import { confirms } from "@retinue/agentkit/tools";
+import { confirms } from "@forge/agentkit/tools";
 
 // confirms() fixes effect, approval policy, and idempotency together.
 export const sendMessage = confirms({

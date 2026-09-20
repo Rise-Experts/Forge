@@ -2,14 +2,14 @@
  * Configuration — REQ-044 (#201).
  *
  * Read through the platform's own `loadConfig`, not from `process.env` here. Two readers of the same variables
- * is two sets of defaults and two spellings, and the platform's already handles the `RETINUE_*` → `AGENTKIT_*`
+ * is two sets of defaults and two spellings, and the platform's already handles the `FORGE_*` → `RETINUE_*` / `AGENTKIT_*`
  * deprecation path (#192) which this service would otherwise silently lack.
  */
 
-import { loadConfig } from "@retinue/agentkit/server";
-import type { RetinueConfig } from "@retinue/agentkit/server";
+import { loadConfig } from "@forge/agentkit/server";
+import type { ForgeConfig } from "@forge/agentkit/server";
 
-export type ServiceConfig = RetinueConfig & {
+export type ServiceConfig = ForgeConfig & {
   /**
    * The Postgres schema, folded into the connection string.
    *
@@ -22,7 +22,7 @@ export type ServiceConfig = RetinueConfig & {
 
 export const loadServiceConfig = (env: Readonly<Record<string, string | undefined>> = process.env): ServiceConfig => {
   const base = loadConfig(env);
-  const schema = env["RETINUE_SCHEMA"]?.trim();
+  const schema = (env["FORGE_SCHEMA"] ?? env["RETINUE_SCHEMA"])?.trim();
   if (schema === undefined || schema === "") return base;
 
   const url = new URL(base.databaseUrl);

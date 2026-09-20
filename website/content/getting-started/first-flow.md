@@ -14,9 +14,9 @@ next", that is an agent with tools — use [that](first-tool) instead.
 ## 1. Define the steps
 
 ```ts
-import type { FlowDefinition } from "@retinue/agentkit/flows";
-import { asId } from "@retinue/agentkit";
-import type { AgentId, ExecutionContext, PrincipalId, RequestId, RunId, TenantId } from "@retinue/agentkit";
+import type { FlowDefinition } from "@forge/agentkit/flows";
+import { asId } from "@forge/agentkit";
+import type { AgentId, ExecutionContext, PrincipalId, RequestId, RunId, TenantId } from "@forge/agentkit";
 
 const brief: FlowDefinition = {
   id: "launch-brief",
@@ -57,9 +57,9 @@ The runner owns the loop. You supply two stores and a **handler** — the handle
 "agent step" actually means in your deployment.
 
 ```ts
-import { createFlowRunner } from "@retinue/agentkit/flows";
-import { createMemoryFlowDefinitionStore, createMemoryFlowExecutionStore } from "@retinue/agentkit/persistence";
-import { createAgent } from "@retinue/agentkit/providers";
+import { createFlowRunner } from "@forge/agentkit/flows";
+import { createMemoryFlowDefinitionStore, createMemoryFlowExecutionStore } from "@forge/agentkit/persistence";
+import { createAgent } from "@forge/agentkit/providers";
 
 const writer = createAgent({
   manifest: {

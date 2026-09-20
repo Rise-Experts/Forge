@@ -1,5 +1,5 @@
-import { createAgent } from "@retinue/agentkit/providers";
-import { confirms, defineTool } from "@retinue/agentkit/tools";
+import { createAgent } from "@forge/agentkit/providers";
+import { confirms, defineTool } from "@forge/agentkit/tools";
 
 const inventory = new Map([["SKU-1", { name: "Blue mug", inStock: 14 }]]);
 

@@ -400,7 +400,7 @@ describe("the envelope performs no I/O of its own", () => {
      * The rule is path-based (`workspace === "backend" && dir starts with "tools"`), so a temp directory shaped
      * like one satisfies it exactly as the real tree does.
      */
-    const root = await mkdtemp(join(tmpdir(), "retinue-r7-"));
+    const root = await mkdtemp(join(tmpdir(), "forge-r7-"));
     const tools = join(root, "backend", "src", "tools");
     await mkdir(tools, { recursive: true });
     await writeFile(

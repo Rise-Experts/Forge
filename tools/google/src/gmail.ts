@@ -21,8 +21,8 @@
  * read, which covers the triage an agent is actually asked to do; a message can always be found again.
  */
 
-import { confirms, defineTool, type Tool } from "@retinue/agentkit/tools";
-import { AgentPlatformError } from "@retinue/agentkit";
+import { confirms, defineTool, type Tool } from "@forge/agentkit/tools";
+import { AgentPlatformError } from "@forge/agentkit";
 
 import { bodyOf, buildMessage, headerOf, toBase64Url, type OutgoingMessage } from "./mime.js";
 import type { GoogleTransport } from "./transport.js";

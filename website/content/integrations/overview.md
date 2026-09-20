@@ -5,13 +5,13 @@ sidebar_position: 1
 # Integrations
 
 An integration is a **sibling package**, not a folder inside the runtime. Each brings its own dependencies,
-ships on its own version, and is invisible to `@retinue/agentkit` — so a vendor changing an API is a patch to
+ships on its own version, and is invisible to `@forge/agentkit` — so a vendor changing an API is a patch to
 one small package rather than a release of the platform.
 
 Install what you use, and nothing else:
 
 ```bash
-npm i @retinue/tools-github @retinue/tools-slack
+npm i @forge/tools-github @forge/tools-slack
 ```
 
 ## Available today
@@ -22,48 +22,48 @@ npm i @retinue/tools-github @retinue/tools-slack
 
 | Package | Tools | Auth |
 |---|---|---|
-| [`@retinue/tools-github`](github) | 44 — code, issues, pull requests, reviews, actions, releases | Personal access token, or a GitHub App's installation token |
-| [`@retinue/tools-jira`](jira) | 8 — search, read, create, transition | Email + API token, with the site URL |
-| [`@retinue/tools-linear`](linear) | 7 — search, read, create, update, states | API key |
-| [`@retinue/tools-confluence`](confluence) | 6 — search, read, create, update with a version check | Shares Jira's credential |
-| [`@retinue/tools-notion`](notion) | 7 — search, pages, database queries | Integration token |
+| [`@forge/tools-github`](github) | 44 — code, issues, pull requests, reviews, actions, releases | Personal access token, or a GitHub App's installation token |
+| [`@forge/tools-jira`](jira) | 8 — search, read, create, transition | Email + API token, with the site URL |
+| [`@forge/tools-linear`](linear) | 7 — search, read, create, update, states | API key |
+| [`@forge/tools-confluence`](confluence) | 6 — search, read, create, update with a version check | Shares Jira's credential |
+| [`@forge/tools-notion`](notion) | 7 — search, pages, database queries | Integration token |
 
 ### Messaging
 
 | Package | Tools | Auth |
 |---|---|---|
-| [`@retinue/tools-slack`](slack) | 4 — channels, history, post, thread reply | Bot token (`xoxb-…`) |
-| [`@retinue/tools-discord`](discord) | 7 — channels, messages, reactions | Bot token |
-| [`@retinue/tools-telegram`](telegram) | 6 — updates, messages, media | Bot token |
-| [`@retinue/tools-meta`](meta) | 10 — WhatsApp templates and sends, Instagram media and publishing | Access token, plus the id of each surface |
+| [`@forge/tools-slack`](slack) | 4 — channels, history, post, thread reply | Bot token (`xoxb-…`) |
+| [`@forge/tools-discord`](discord) | 7 — channels, messages, reactions | Bot token |
+| [`@forge/tools-telegram`](telegram) | 6 — updates, messages, media | Bot token |
+| [`@forge/tools-meta`](meta) | 10 — WhatsApp templates and sends, Instagram media and publishing | Access token, plus the id of each surface |
 
 ### Public forums
 
 | Package | Tools | Auth |
 |---|---|---|
-| [`@retinue/tools-x`](x) | 6 — search, read, post, delete | Bearer token; the tier is stated, and reads report it |
-| [`@retinue/tools-reddit`](reddit) | 6 — search, read, comment | Access token, plus a contact for the user agent |
+| [`@forge/tools-x`](x) | 6 — search, read, post, delete | Bearer token; the tier is stated, and reads report it |
+| [`@forge/tools-reddit`](reddit) | 6 — search, read, comment | Access token, plus a contact for the user agent |
 
 ### Workspace and cloud
 
 | Package | Tools | Auth |
 |---|---|---|
-| [`@retinue/tools-google`](google) | 28 — Gmail, Calendar, Drive, Docs, Sheets | OAuth access token — **must be refreshable**; Google's expires in about an hour |
-| [`@retinue/tools-azure`](azure) | 9 — subscriptions, resources, logs, metrics, activity | OAuth access token, same expiry |
+| [`@forge/tools-google`](google) | 28 — Gmail, Calendar, Drive, Docs, Sheets | OAuth access token — **must be refreshable**; Google's expires in about an hour |
+| [`@forge/tools-azure`](azure) | 9 — subscriptions, resources, logs, metrics, activity | OAuth access token, same expiry |
 
 ### The web
 
 | Package | Tools | Auth |
 |---|---|---|
-| [`@retinue/tools-search`](web-search) | 0 — it supplies **providers** for `web_search` | Provider API key |
-| [`@retinue/tools-scrape`](scrape) | 3 — page, batch, crawl | None for the built-in provider; a key for a hosted one |
-| [`@retinue/tools-browser`](browser) | 6 — navigate, read, click, type, screenshot | None — but you supply the browser |
+| [`@forge/tools-search`](web-search) | 0 — it supplies **providers** for `web_search` | Provider API key |
+| [`@forge/tools-scrape`](scrape) | 3 — page, batch, crawl | None for the built-in provider; a key for a hosted one |
+| [`@forge/tools-browser`](browser) | 6 — navigate, read, click, type, screenshot | None — but you supply the browser |
 
 ### Mail
 
 | Package | Tools | Auth |
 |---|---|---|
-| [`@retinue/tools-email`](email) | 4 — send, preview, status, list | SMTP username and password, or an HTTP provider's key |
+| [`@forge/tools-email`](email) | 4 — send, preview, status, list | SMTP username and password, or an HTTP provider's key |
 
 Two of these carry a prerequisite no code can satisfy for you: `tools-email` needs **SPF, DKIM and DMARC** on
 the sending domain, and `tools-browser` needs a **browser you provide**. Both integration pages say so first,
@@ -78,8 +78,8 @@ These are what makes the set predictable rather than a directory of scripts. The
 host resolves it. No integration reads `process.env`, because a tool that did could only ever serve one tenant.
 
 ```ts
-import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
-import { createGitHubToolkit } from "@retinue/tools-github";
+import { createStaticCredentialResolver } from "@forge/agentkit/tools";
+import { createGitHubToolkit } from "@forge/tools-github";
 
 const github = createGitHubToolkit({
   credentialRef: "github",
@@ -120,7 +120,7 @@ model as data.
 An integration is a tool provider, so it goes where every other provider goes:
 
 ```ts
-import { createAgent } from "@retinue/agentkit/providers";
+import { createAgent } from "@forge/agentkit/providers";
 
 const agent = createAgent({
   manifest: {
@@ -141,7 +141,7 @@ filtering, the approval gate, idempotency keys and the audit trail.
 The shipped packages exist to prove one shape, and copying it is the intended path — the same five rules, the
 same `defineTool` / `confirms` / `destroys` helpers, the same HTTP client. See the
 [tools guide](../guides/tools) for the tool contract, and
-[`tools/github`](https://github.com/Rise-Experts/retinue/tree/main/tools/github) as the reference.
+[`tools/github`](https://github.com/Rise-Experts/forge/tree/main/tools/github) as the reference.
 
 Most of a vendor package is now `createVendorTransport`, which handles the parts that are silent when wrong:
 resolving the credential per call, pinning the auth header to one validated host, tolerating an empty body on a
@@ -153,7 +153,7 @@ URL and the fixed headers.
 and the type forbids overriding them — so a write cannot be declared as a read by accident:
 
 ```ts
-import { confirms, defineTool, destroys } from "@retinue/agentkit/tools";
+import { confirms, defineTool, destroys } from "@forge/agentkit/tools";
 
 const schema = { type: "object", properties: { id: { type: "string" } }, required: ["id"] };
 

@@ -36,9 +36,9 @@ in the code: the *suppressed write*, the *approval gate*, the *shadow run*, the 
 guard*, the *conformance matrix*, the *capability map*. Nobody else ships these, and a reader who learns them
 has learned something about this runtime rather than a synonym for something they knew.
 
-**What is still a product decision, and therefore not decided here:** the product name (currently *Retinue*,
-which the scope, repository, docs site and board all use), the platform product's name (REQ-041), and the CLI
-verb. Those are marketing, not engineering, and blocking a glossary on them would produce neither.
+**What is decided for the brand:** the product name (*Forge*, which the `@forge/*` scope,
+repository, docs site, and `forge` CLI all use), the platform product's name (REQ-041), and the CLI
+verb.
 
 **This decision has a deadline, which is the first publish.** Every term below is a public identifier or a
 documented word; changing one afterwards costs a major version and a migration guide (#189, #193). So the cheap

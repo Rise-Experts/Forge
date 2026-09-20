@@ -33,34 +33,34 @@ import { fileURLToPath } from "node:url";
 /**
  * The short name in a tag, and the workspace it means.
  *
- * Short names rather than the scoped package name, because `@retinue/agentkit@0.1.0` as a git tag has two `@`
+ * Short names rather than the scoped package name, because `@forge/agentkit@0.1.0` as a git tag has two `@`
  * and reads as a typo. Only these two ship: `shareflow` is our own integration and publishing it would publish a
  * customer's domain model, and `examples` is a demonstration whose dependencies are deliberately loose. The
  * `server` and `tools` packages #193 lists no longer exist — #196 merged the host into the runtime and the
  * first-party tools are the `./tools` subpath (#188), so the shipping set is two packages, not four.
  */
 export const RELEASABLE = {
-  agentkit: { workspace: "@retinue/agentkit", dir: "backend" },
-  react: { workspace: "@retinue/react", dir: "frontend" },
+  agentkit: { workspace: "@forge/agentkit", dir: "backend" },
+  react: { workspace: "@forge/react", dir: "frontend" },
   // Toolkits, versioned independently of the runtime — the whole reason they are separate packages is that a
   // vendor API change must not be a runtime release.
-  "tools-azure": { workspace: "@retinue/tools-azure", dir: "tools/azure" },
-  "tools-browser": { workspace: "@retinue/tools-browser", dir: "tools/browser" },
-  "tools-confluence": { workspace: "@retinue/tools-confluence", dir: "tools/confluence" },
-  "tools-discord": { workspace: "@retinue/tools-discord", dir: "tools/discord" },
-  "tools-email": { workspace: "@retinue/tools-email", dir: "tools/email" },
-  "tools-github": { workspace: "@retinue/tools-github", dir: "tools/github" },
-  "tools-google": { workspace: "@retinue/tools-google", dir: "tools/google" },
-  "tools-jira": { workspace: "@retinue/tools-jira", dir: "tools/jira" },
-  "tools-linear": { workspace: "@retinue/tools-linear", dir: "tools/linear" },
-  "tools-meta": { workspace: "@retinue/tools-meta", dir: "tools/meta" },
-  "tools-notion": { workspace: "@retinue/tools-notion", dir: "tools/notion" },
-  "tools-reddit": { workspace: "@retinue/tools-reddit", dir: "tools/reddit" },
-  "tools-scrape": { workspace: "@retinue/tools-scrape", dir: "tools/scrape" },
-  "tools-telegram": { workspace: "@retinue/tools-telegram", dir: "tools/telegram" },
-  "tools-x": { workspace: "@retinue/tools-x", dir: "tools/x" },
-  "tools-slack": { workspace: "@retinue/tools-slack", dir: "tools/slack" },
-  "tools-search": { workspace: "@retinue/tools-search", dir: "tools/search" },
+  "tools-azure": { workspace: "@forge/tools-azure", dir: "tools/azure" },
+  "tools-browser": { workspace: "@forge/tools-browser", dir: "tools/browser" },
+  "tools-confluence": { workspace: "@forge/tools-confluence", dir: "tools/confluence" },
+  "tools-discord": { workspace: "@forge/tools-discord", dir: "tools/discord" },
+  "tools-email": { workspace: "@forge/tools-email", dir: "tools/email" },
+  "tools-github": { workspace: "@forge/tools-github", dir: "tools/github" },
+  "tools-google": { workspace: "@forge/tools-google", dir: "tools/google" },
+  "tools-jira": { workspace: "@forge/tools-jira", dir: "tools/jira" },
+  "tools-linear": { workspace: "@forge/tools-linear", dir: "tools/linear" },
+  "tools-meta": { workspace: "@forge/tools-meta", dir: "tools/meta" },
+  "tools-notion": { workspace: "@forge/tools-notion", dir: "tools/notion" },
+  "tools-reddit": { workspace: "@forge/tools-reddit", dir: "tools/reddit" },
+  "tools-scrape": { workspace: "@forge/tools-scrape", dir: "tools/scrape" },
+  "tools-telegram": { workspace: "@forge/tools-telegram", dir: "tools/telegram" },
+  "tools-x": { workspace: "@forge/tools-x", dir: "tools/x" },
+  "tools-slack": { workspace: "@forge/tools-slack", dir: "tools/slack" },
+  "tools-search": { workspace: "@forge/tools-search", dir: "tools/search" },
 };
 
 const TAG = /^(?:refs\/tags\/)?([a-z][a-z0-9-]*)@(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)$/;

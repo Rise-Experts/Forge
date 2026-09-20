@@ -1,5 +1,5 @@
 /**
- * @retinue/react
+ * @forge/react
  *
  * Headless client state for the reusable AI platform. No product styling, no transport
  * assumptions — see `../docs/06-graphql-and-frontend.md`.
@@ -14,7 +14,7 @@ export type * from "./hooks/index.js";
  * The hooks, and they import React — so this barrel is **not** React-free, despite the note below.
  *
  * Corrected in #267 rather than left misleading: a server importing anything from this entry gets React in its
- * module graph, which is how the reference app failed to start in the Docker image. `@retinue/react/view-models`
+ * module graph, which is how the reference app failed to start in the Docker image. `@forge/react/view-models`
  * is the entry for a server; this one is for a browser.
  *
  * Moving these out of the root would be the more correct fix and a breaking change for every consumer of

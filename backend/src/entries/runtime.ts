@@ -1,5 +1,5 @@
 /**
- * `@retinue/agentkit/runtime` — the engine, agents, models and the run loop.
+ * `@forge/agentkit/runtime` — the engine, agents, models and the run loop.
  *
  * What a host reaches for once it has decided to compose something itself rather than take `createRuntime`'s
  * defaults: the default engine, the model catalogue, the retry policy, the run reducer.

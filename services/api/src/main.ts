@@ -11,11 +11,11 @@ import "reflect-metadata";
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module.js";
 import { createSseMiddleware, SSE_PATH } from "./runs/sse.middleware.js";
-import { RETINUE_AUTHENTICATE, RETINUE_RESOLVER_DEPS } from "./retinue/tokens.js";
-import { loadServiceConfig } from "./retinue/config.js";
+import { FORGE_AUTHENTICATE, FORGE_RESOLVER_DEPS } from "./forge/tokens.js";
+import { loadServiceConfig } from "./forge/config.js";
 import type { NestExpressApplication } from "@nestjs/platform-express";
-import type { Authenticate } from "@retinue/agentkit/server";
-import type { ResolverDeps } from "@retinue/agentkit";
+import type { Authenticate } from "@forge/agentkit/server";
+import type { ResolverDeps } from "@forge/agentkit";
 
 export const bootstrap = async (): Promise<NestExpressApplication> => {
   const config = loadServiceConfig();
@@ -27,8 +27,8 @@ export const bootstrap = async (): Promise<NestExpressApplication> => {
    * Deliberately *not* a Nest controller: see `sse.middleware.ts` — the platform owns the frame format, and a
    * second implementation of it is a second set of the bugs #109 and #111 fixed.
    */
-  const deps = app.get<ResolverDeps>(RETINUE_RESOLVER_DEPS);
-  const authenticate = app.get<Authenticate>(RETINUE_AUTHENTICATE);
+  const deps = app.get<ResolverDeps>(FORGE_RESOLVER_DEPS);
+  const authenticate = app.get<Authenticate>(FORGE_AUTHENTICATE);
   app.use(SSE_PATH, createSseMiddleware({ deps, authenticate }));
 
   app.enableShutdownHooks();
@@ -43,14 +43,14 @@ if (invokedDirectly) {
   const app = await bootstrap();
   const url = await app.getUrl();
   console.log(`
-  Retinue — Nest.js API service
+  Forge — Nest.js API service
     graphql   ${url}/graphql
     sse       ${url}${SSE_PATH}
     probes    ${url}/healthz · ${url}/readyz
 
   Headers (dev auth reads them — this is not authentication):
-    x-retinue-tenant: demo
-    x-retinue-principal: you
-    x-retinue-roles: operator
+    x-forge-tenant: demo
+    x-forge-principal: you
+    x-forge-roles: operator
 `);
 }
