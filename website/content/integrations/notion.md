@@ -8,7 +8,7 @@ Search, read pages as markdown, query databases, and write back — with propert
 because Notion would otherwise accept a typo and report success.
 
 ```bash
-npm i @forge/tools-notion
+npm i @retinue/tools-notion
 ```
 
 ## Tools
@@ -28,9 +28,9 @@ Classified `knowledge`, so a tenant switching off `project` keeps its notes.
 ## Wire it up
 
 ```ts
-import { createAgent } from "@forge/agentkit/providers";
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { createNotionToolkit } from "@forge/tools-notion";
+import { createAgent } from "@retinue/agentkit/providers";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { createNotionToolkit } from "@retinue/tools-notion";
 
 const resolver = createStaticCredentialResolver({ notion: process.env.NOTION_TOKEN ?? "" });
 

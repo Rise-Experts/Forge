@@ -16,7 +16,7 @@ tool registry, and default engine for you.
 ## 2. Install
 
 ```bash
-npm install @forge/agentkit @ai-sdk/anthropic
+npm install @retinue/agentkit @ai-sdk/anthropic
 ```
 
 `@ai-sdk/anthropic` is an optional peer dependency because Forge supports more than one provider. The default embedded catalog uses Anthropic models.
@@ -36,7 +36,7 @@ $env:ANTHROPIC_API_KEY="your-api-key"
 ## 4. Create `agent.ts`
 
 ```ts
-import { createAgent } from "@forge/agentkit/providers";
+import { createAgent } from "@retinue/agentkit/providers";
 
 const agent = createAgent({
   manifest: {

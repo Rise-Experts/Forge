@@ -1,5 +1,5 @@
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { createSlackToolkit } from "@forge/tools-slack";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { createSlackToolkit } from "@retinue/tools-slack";
 
 // A credential reference is resolved at execution time; never put a token in a prompt.
 export const slackToolkit = createSlackToolkit({

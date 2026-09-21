@@ -1,5 +1,5 @@
 {
-  "name": "@forge/tools-telegram",
+  "name": "@retinue/tools-telegram",
   "version": "0.3.0",
   "description": "Telegram Bot API tools for a Forge agent: send, edit, pin and delete messages \u2014 gated, idempotent, and paced to the per-chat limit.",
   "license": "MIT",
@@ -27,10 +27,10 @@
     "prepublishOnly": "node ../../scripts/publish-guard.mjs"
   },
   "peerDependencies": {
-    "@forge/agentkit": "^0.3.0"
+    "@retinue/agentkit": "^0.3.0"
   },
   "devDependencies": {
-    "@forge/agentkit": "*",
+    "@retinue/agentkit": "*",
     "@types/node": "^20",
     "typescript": "^5",
     "vitest": "^4.1.9"

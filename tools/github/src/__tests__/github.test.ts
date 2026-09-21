@@ -6,10 +6,10 @@
  * will be held to.
  */
 import { describe, expect, it, vi } from "vitest";
-import type { ConversationId } from "@forge/agentkit";
-import { bearer, createStaticCredentialResolver } from "@forge/agentkit/tools";
-import type { ExecutionContext } from "@forge/agentkit";
-import { asId } from "@forge/agentkit";
+import type { ConversationId } from "@retinue/agentkit";
+import { bearer, createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import type { ExecutionContext } from "@retinue/agentkit";
+import { asId } from "@retinue/agentkit";
 import { createGitHubToolkit, GITHUB_TOOL_NAMES } from "../index.js";
 
 const context: ExecutionContext = {

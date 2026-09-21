@@ -5,7 +5,7 @@
  * there is nothing here about approval or classification. Five vendors are five values of one parameter.
  */
 import { describe, expect, it, vi } from "vitest";
-import { createWebSearch } from "@forge/agentkit/tools";
+import { createWebSearch } from "@retinue/agentkit/tools";
 import { braveSearch, searxngSearch, serperSearch, tavilySearch, SEARCH_PROVIDERS } from "../index.js";
 
 const json = (body: unknown) => new Response(JSON.stringify(body), { status: 200, headers: { "content-type": "application/json" } });

@@ -33,8 +33,8 @@ import {
   type ToolProvider,
   type ToolkitAuth,
   type VendorTransport,
-} from "@forge/agentkit/tools";
-import { AgentPlatformError, type ExecutionContext } from "@forge/agentkit";
+} from "@retinue/agentkit/tools";
+import { AgentPlatformError, type ExecutionContext } from "@retinue/agentkit";
 
 const API = "https://graph.facebook.com";
 /** Pinned. Meta deprecates a version roughly every quarter and an unpinned client breaks on their schedule. */

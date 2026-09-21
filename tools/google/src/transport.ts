@@ -27,8 +27,8 @@ import {
   type CredentialResolver,
   type VendorFailure,
   type VendorTransport,
-} from "@forge/agentkit/tools";
-import { AgentPlatformError, type ExecutionContext } from "@forge/agentkit";
+} from "@retinue/agentkit/tools";
+import { AgentPlatformError, type ExecutionContext } from "@retinue/agentkit";
 
 export const GOOGLE_API = "https://www.googleapis.com";
 

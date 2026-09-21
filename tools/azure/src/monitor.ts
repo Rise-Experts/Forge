@@ -22,7 +22,7 @@
  * header. The cost is an older api-version, which is a fair trade for a configuration that cannot half-work.
  */
 
-import { defineTool, type Tool } from "@forge/agentkit/tools";
+import { defineTool, type Tool } from "@retinue/agentkit/tools";
 import { checkedGroup, checkedId, checkedSubscription, refuse } from "./guards.js";
 import { LOG_ANALYTICS_READER, MONITORING_READER } from "./roles.js";
 import type { AzureTransport } from "./transport.js";

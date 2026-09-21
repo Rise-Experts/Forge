@@ -1,19 +1,19 @@
-# @forge/tools-x
+# @retinue/tools-x
 
 X (Twitter) tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: search and read posts,
 publish and delete.
 
 ```bash
-npm i @forge/tools-x
+npm i @retinue/tools-x
 ```
 
-Requires `@forge/agentkit` as a peer.
+Requires `@retinue/agentkit` as a peer.
 
 ## Use it
 
 ```ts
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { createXToolkit } from "@forge/tools-x";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { createXToolkit } from "@retinue/tools-x";
 
 const toolkit = createXToolkit({
   credentialRef: "x",

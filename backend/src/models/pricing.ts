@@ -4,7 +4,7 @@
  * Its own module because of what importing it used to drag in. `usage/recorder.ts` needs this one function, and
  * reaching it through `models/index.js` pulled `streaming.js` with it — and `streaming.js` imports `ai`. So the
  * in-memory usage adapter, which needs no model SDK and no network, transitively reached the AI SDK: a consumer
- * importing `@forge/agentkit/persistence` for an in-memory prototype loaded a provider library to do it.
+ * importing `@retinue/agentkit/persistence` for an in-memory prototype loaded a provider library to do it.
  *
  * Nothing about the pricing arithmetic connects it to streaming. The barrel was the only thing joining them.
  */

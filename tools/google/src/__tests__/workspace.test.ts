@@ -11,9 +11,9 @@
  * - **AC-7** the whole-Drive scope is never asked for. Scope creep in a constant is a one-word change.
  */
 import { describe, expect, it, vi } from "vitest";
-import type { ConversationId } from "@forge/agentkit";
-import { bearer, type CredentialResolver } from "@forge/agentkit/tools";
-import { asId, type ExecutionContext } from "@forge/agentkit";
+import type { ConversationId } from "@retinue/agentkit";
+import { bearer, type CredentialResolver } from "@retinue/agentkit/tools";
+import { asId, type ExecutionContext } from "@retinue/agentkit";
 
 import {
   createGoogleToolkit,

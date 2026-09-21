@@ -6,8 +6,8 @@
  * deprecation path (#192) which this service would otherwise silently lack.
  */
 
-import { loadConfig } from "@forge/agentkit/server";
-import type { ForgeConfig } from "@forge/agentkit/server";
+import { loadConfig } from "@retinue/agentkit/server";
+import type { ForgeConfig } from "@retinue/agentkit/server";
 
 export type ServiceConfig = ForgeConfig & {
   /**

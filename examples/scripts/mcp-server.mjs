@@ -23,8 +23,8 @@
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
-import { registerForgeTools } from "@forge/agentkit/mcp-server";
-import { asId } from "@forge/agentkit";
+import { registerForgeTools } from "@retinue/agentkit/mcp-server";
+import { asId } from "@retinue/agentkit";
 import { createMemoryBackend } from "../dist/memory-app.js";
 import { exampleRegistry } from "../dist/index.js";
 import { asExampleBackend } from "../dist/memory-composition.js";

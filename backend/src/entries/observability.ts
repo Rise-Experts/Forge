@@ -1,5 +1,5 @@
 /**
- * `@forge/agentkit/observability` — telemetry, retention, the security review and the harnesses.
+ * `@retinue/agentkit/observability` — telemetry, retention, the security review and the harnesses.
  *
  * Platform operations rather than application code: spans and metrics, the retention windows and deletion path,
  * the security review as executable acceptances, the load and evaluation harnesses. A consumer building an

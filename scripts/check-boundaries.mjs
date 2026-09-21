@@ -27,13 +27,13 @@ const GENERIC_ROOTS = ["backend", "server", "frontend", "examples"];
  * Integration workspaces (#114) — the one place a product name is allowed to appear.
  *
  * `owns` is the set of product names *this* workspace may name. Everything else in `PRODUCT_NAMES`
- * stays forbidden: `@forge/shareflow` importing Twenty is still a violation, because the
+ * stays forbidden: `@retinue/shareflow` importing Twenty is still a violation, because the
  * integration package is an integration for one product, not a place where every boundary stops
  * applying.
  */
 const INTEGRATION_PACKAGES = {
   // ShareFlow's own repository calls itself Chorus (`CHORUS_TEST_MODE`), so both names are one product.
-  shareflow: { specifier: "@forge/shareflow", owns: ["shareflow", "chorus"] },
+  shareflow: { specifier: "@retinue/shareflow", owns: ["shareflow", "chorus"] },
 };
 
 const DEFAULT_ROOTS = [...GENERIC_ROOTS, ...Object.keys(INTEGRATION_PACKAGES)];
@@ -314,7 +314,7 @@ export function scan(roots = DEFAULT_ROOTS) {
 
         // R2 — frontend may only `import type` from the backend's public entry.
         if (isFrontend && /^@(forge|forge)\/agentkit(\/|$)/.test(spec) && !typeOnly)
-          add("R2 frontend must import type-only from @forge/agentkit");
+          add("R2 frontend must import type-only from @retinue/agentkit");
 
         // R3 — the AI/provider SDK is confined to the models layer.
         if ((spec === "ai" || spec.startsWith("@ai-sdk/")) && !isModels)
@@ -350,7 +350,7 @@ export function scan(roots = DEFAULT_ROOTS) {
 
         // R4 — ports must not import adapters.
         if (isPersistence &&
-            (/(^|\/)adapters?\//.test(spec) || ADAPTER_NAMES.some((a) => spec === `@forge/${a}` || spec.startsWith(`@forge/${a}/`))))
+            (/(^|\/)adapters?\//.test(spec) || ADAPTER_NAMES.some((a) => spec === `@retinue/${a}` || spec.startsWith(`@retinue/${a}/`))))
           add("R4 ports must not import adapters");
 
         // R5 — no forbidden product names in a generic package's imports.
@@ -390,8 +390,8 @@ export function scan(roots = DEFAULT_ROOTS) {
         // R8 — a generic workspace must not import an integration package (#114 AC-2).
         //
         // Keyed on the package name, not on the word "shareflow". R5 already catches
-        // `@forge/shareflow` today, but only because of how it happens to be spelled — rename the
-        // package to `@forge/social` and R5 goes quiet while the architectural rule it was standing
+        // `@retinue/shareflow` today, but only because of how it happens to be spelled — rename the
+        // package to `@retinue/social` and R5 goes quiet while the architectural rule it was standing
         // in for is just as broken.
         if (isGeneric && INTEGRATION_SPECIFIERS.some((s) => spec === s || spec.startsWith(`${s}/`)))
           add("R8 a generic package must not import an integration package");

@@ -1,13 +1,13 @@
-# @forge/tools-meta
+# @retinue/tools-meta
 
 WhatsApp Business and Instagram tools for a [Forge](https://github.com/Rise-Experts/Forge) agent, over
 Meta's Graph API.
 
 ```bash
-npm i @forge/tools-meta
+npm i @retinue/tools-meta
 ```
 
-Requires `@forge/agentkit` as a peer.
+Requires `@retinue/agentkit` as a peer.
 
 ## Before the code: Meta's app review
 
@@ -18,8 +18,8 @@ Meta app that has passed review, and you need `whatsapp_business_messaging`, `in
 ## Use it
 
 ```ts
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { createMetaToolkit } from "@forge/tools-meta";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { createMetaToolkit } from "@retinue/tools-meta";
 
 const toolkit = createMetaToolkit({
   credentialRef: "meta",

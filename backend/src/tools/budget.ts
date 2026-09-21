@@ -12,7 +12,7 @@ import type { ToolCatalogEntry, ToolDescriptor } from "./index.js";
  * Deliberately **not** re-exported here.
  *
  * `applyTokenBudget`, `TokenBudget` and `BudgetOutcome` live in `core/` and reach consumers through
- * `@forge/agentkit/runtime`. Re-exporting them from `./tools` as well gave one name two homes, which
+ * `@retinue/agentkit/runtime`. Re-exporting them from `./tools` as well gave one name two homes, which
  * `public-surface.test.ts` fails on — and it is right to: a consumer reading two import paths for one function
  * has to guess which is canonical, and the two will not stay in step.
  */

@@ -11,9 +11,9 @@
  */
 
 import { randomUUID } from "node:crypto";
-import { asId } from "@forge/agentkit";
-import type { Authenticate } from "@forge/agentkit/server";
-import type { ExecutionContext } from "@forge/agentkit";
+import { asId } from "@retinue/agentkit";
+import type { Authenticate } from "@retinue/agentkit/server";
+import type { ExecutionContext } from "@retinue/agentkit";
 
 export const DEV_AUTH_VARIABLE = "FORGE_DEV_AUTH";
 export const RETINUE_DEV_AUTH_VARIABLE = "RETINUE_DEV_AUTH";

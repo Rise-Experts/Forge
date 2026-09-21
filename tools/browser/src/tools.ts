@@ -24,10 +24,10 @@
  * off unless an operator wired a driver.
  */
 
-import { defineTool, type Tool } from "@forge/agentkit/tools";
-import { refuseUrl, resolvePublicly, type Resolve } from "@forge/agentkit/tools";
-import { AgentPlatformError } from "@forge/agentkit";
-import { encloseUntrusted, makeNonce } from "@forge/agentkit/context";
+import { defineTool, type Tool } from "@retinue/agentkit/tools";
+import { refuseUrl, resolvePublicly, type Resolve } from "@retinue/agentkit/tools";
+import { AgentPlatformError } from "@retinue/agentkit";
+import { encloseUntrusted, makeNonce } from "@retinue/agentkit/context";
 import { randomBytes } from "node:crypto";
 
 import { ElementChangedError, type BrowserDriver } from "./driver.js";
@@ -109,7 +109,7 @@ export const browserTools = (config: BrowserToolsConfig): readonly Tool[] => {
    * The URL check, shared with `tools-scrape` rather than reimplemented — AC-3.
    *
    * `refuseUrl` and `resolvePublicly` are the same functions `safeFetch` uses, out of
-   * `@forge/agentkit/tools`. A second copy is how one of them ends up missing the IPv6-mapped forms.
+   * `@retinue/agentkit/tools`. A second copy is how one of them ends up missing the IPv6-mapped forms.
    */
   const assertPublic = async (url: string): Promise<string> => {
     let parsed: URL;
@@ -120,7 +120,7 @@ export const browserTools = (config: BrowserToolsConfig): readonly Tool[] => {
     }
     const refusal = refuseUrl(parsed);
     if (refusal !== null) return refuse("forbidden", refusal);
-    await resolvePublicly(parsed.hostname, config.resolve ?? (await import("@forge/agentkit/tools")).systemResolve);
+    await resolvePublicly(parsed.hostname, config.resolve ?? (await import("@retinue/agentkit/tools")).systemResolve);
     return parsed.toString();
   };
 
@@ -148,7 +148,7 @@ export const browserTools = (config: BrowserToolsConfig): readonly Tool[] => {
       );
     }
     try {
-      await resolvePublicly(parsed.hostname, config.resolve ?? (await import("@forge/agentkit/tools")).systemResolve);
+      await resolvePublicly(parsed.hostname, config.resolve ?? (await import("@retinue/agentkit/tools")).systemResolve);
     } catch (error) {
       await config.sessions.close(sessionId, "closed");
       refuse("forbidden", `${(error as Error).message} The session was closed and nothing from that page was read.`);

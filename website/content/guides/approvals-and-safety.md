@@ -15,7 +15,7 @@ How Forge keeps a model from doing something it shouldn't.
 ## Approval decisions
 
 ```ts
-import { createApprovalService } from "@forge/agentkit/hitl";
+import { createApprovalService } from "@retinue/agentkit/hitl";
 
 const approvals = createApprovalService({ interactions, grants, dispatcher });
 

@@ -32,8 +32,8 @@ Conversation history only follows one conversation. Principal memory lets an app
 `createPrincipalMemoryProvider` is a context provider. Wire it with a `PrincipalMemoryStore`; the in-memory store is suitable for a demo, while PostgreSQL/Supabase-backed stores are required for persistence across processes.
 
 ```ts
-import { createPrincipalMemoryProvider } from "@forge/agentkit/context";
-import { createMemoryPrincipalMemoryStore } from "@forge/agentkit/persistence";
+import { createPrincipalMemoryProvider } from "@retinue/agentkit/context";
+import { createMemoryPrincipalMemoryStore } from "@retinue/agentkit/persistence";
 
 const store = createMemoryPrincipalMemoryStore();
 const memory = createPrincipalMemoryProvider({ store, maxEntries: 8 });

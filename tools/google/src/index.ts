@@ -20,7 +20,7 @@
  * defect this repository added a whole check for (#245).
  */
 
-import type { CredentialRef, CredentialResolver, Tool, ToolProvider, ToolkitAuth } from "@forge/agentkit/tools";
+import type { CredentialRef, CredentialResolver, Tool, ToolProvider, ToolkitAuth } from "@retinue/agentkit/tools";
 
 import { calendarTools, CALENDAR_EVENTS, CALENDAR_READONLY } from "./calendar.js";
 import { docsTools, driveTools, DOCS_READONLY, DOCS_WRITE, DRIVE_FILE, DRIVE_FULL, DRIVE_READONLY } from "./drive.js";

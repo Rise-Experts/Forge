@@ -25,7 +25,7 @@
  * oversight.
  */
 
-import type { SearchHit, SearchProvider } from "@forge/agentkit/tools";
+import type { SearchHit, SearchProvider } from "@retinue/agentkit/tools";
 
 const text = (value: unknown): string => (typeof value === "string" ? value : "");
 

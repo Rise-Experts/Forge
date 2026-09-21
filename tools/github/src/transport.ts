@@ -13,8 +13,8 @@ import {
   type CredentialResolver,
   type VendorClassifier,
   type VendorFailure,
-} from "@forge/agentkit/tools";
-import { AgentPlatformError, type ExecutionContext } from "@forge/agentkit";
+} from "@retinue/agentkit/tools";
+import { AgentPlatformError, type ExecutionContext } from "@retinue/agentkit";
 
 export const API = "https://api.github.com";
 

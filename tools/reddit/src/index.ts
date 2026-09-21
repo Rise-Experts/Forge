@@ -32,8 +32,8 @@ import {
   type ToolProvider,
   type ToolkitAuth,
   type VendorTransport,
-} from "@forge/agentkit/tools";
-import { AgentPlatformError } from "@forge/agentkit";
+} from "@retinue/agentkit/tools";
+import { AgentPlatformError } from "@retinue/agentkit";
 
 const API = "https://oauth.reddit.com";
 const DEFAULT_LIMIT = 25;

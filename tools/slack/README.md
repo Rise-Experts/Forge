@@ -1,9 +1,9 @@
 <img src="https://raw.githubusercontent.com/Rise-Experts/Forge/main/brand/forge-mark.svg" alt="Forge" width="72" />
 
-# @forge/tools-slack
+# @retinue/tools-slack
 
-[![npm](https://img.shields.io/npm/v/@forge/tools-slack)](https://www.npmjs.com/package/@forge/tools-slack)
-[![licence](https://img.shields.io/npm/l/@forge/tools-slack)](https://github.com/Rise-Experts/Forge/blob/main/LICENSE)
+[![npm](https://img.shields.io/npm/v/@retinue/tools-slack)](https://www.npmjs.com/package/@retinue/tools-slack)
+[![licence](https://img.shields.io/npm/l/@retinue/tools-slack)](https://github.com/Rise-Experts/Forge/blob/main/LICENSE)
 
 **Slack tools for a [Forge](https://github.com/Rise-Experts/Forge) agent.** Read channels and history, post
 messages and thread replies — with every write gated behind human approval and carrying an idempotency key.
@@ -11,15 +11,15 @@ messages and thread replies — with every write gated behind human approval and
 ## Install
 
 ```bash
-npm i @forge/tools-slack
+npm i @retinue/tools-slack
 ```
 
 ## Use
 
 ```ts
-import { createAgent } from "@forge/agentkit/providers";
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { createSlackToolkit } from "@forge/tools-slack";
+import { createAgent } from "@retinue/agentkit/providers";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { createSlackToolkit } from "@retinue/tools-slack";
 
 const agent = createAgent({
   manifest: { id: "helper", name: "Helper", instructions: "Answer in the thread you were asked in.", modelPolicy: { role: "smart" } },

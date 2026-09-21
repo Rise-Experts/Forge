@@ -21,7 +21,7 @@ if (process.env.FORGE_DATABASE_URL && !process.env.FORGE_DATABASE_URL.includes("
 }
 process.env.FORGE_APP_MODULE = pathToFileURL(resolve(import.meta.dirname, "../dist/index.js")).href;
 
-const { runApiHost } = await import("@forge/agentkit/server");
+const { runApiHost } = await import("@retinue/agentkit/server");
 const { port } = await runApiHost();
 
 const endpoint = process.env.FORGE_MODEL_BASE_URL ?? "https://api.openai.com/v1";
@@ -41,5 +41,5 @@ console.log(`
   and it has always answered 404. For the browser surface, use 'npm run app' instead.
 
   Start the worker in a second terminal, or nothing will execute:
-    npm run worker -w @forge/example-app
+    npm run worker -w @retinue/example-app
 `);

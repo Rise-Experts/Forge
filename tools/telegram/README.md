@@ -1,19 +1,19 @@
-# @forge/tools-telegram
+# @retinue/tools-telegram
 
 Telegram Bot API tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: send, edit, pin and
 delete messages.
 
 ```bash
-npm i @forge/tools-telegram
+npm i @retinue/tools-telegram
 ```
 
-Requires `@forge/agentkit` as a peer.
+Requires `@retinue/agentkit` as a peer.
 
 ## Use it
 
 ```ts
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { createTelegramToolkit } from "@forge/tools-telegram";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { createTelegramToolkit } from "@retinue/tools-telegram";
 
 const toolkit = createTelegramToolkit({
   credentialRef: "telegram",

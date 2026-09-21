@@ -1,19 +1,19 @@
-# @forge/tools-discord
+# @retinue/tools-discord
 
 Discord tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: read channels and history, send
 messages, react and open threads.
 
 ```bash
-npm i @forge/tools-discord
+npm i @retinue/tools-discord
 ```
 
-Requires `@forge/agentkit` as a peer.
+Requires `@retinue/agentkit` as a peer.
 
 ## Use it
 
 ```ts
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { createDiscordToolkit } from "@forge/tools-discord";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { createDiscordToolkit } from "@retinue/tools-discord";
 
 const toolkit = createDiscordToolkit({
   credentialRef: "discord",

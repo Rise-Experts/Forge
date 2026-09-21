@@ -10,7 +10,7 @@ sidebar_position: 5
 adapter; override only what you need:
 
 ```ts
-import { createAgent } from "@forge/agentkit/providers";
+import { createAgent } from "@retinue/agentkit/providers";
 
 const agent = createAgent({
   manifest: {
@@ -46,20 +46,20 @@ production adapters, and the HITL/usage services — so many runs execute concur
 and a live UI:
 
 ```ts
-import { asId, defineAgent } from "@forge/agentkit";
-import type { AgentId, ResolvedModel, Run } from "@forge/agentkit";
-import { createDefaultEngine, createDurableWorker, createMemoryEventBus } from "@forge/agentkit/runtime";
+import { asId, defineAgent } from "@retinue/agentkit";
+import type { AgentId, ResolvedModel, Run } from "@retinue/agentkit";
+import { createDefaultEngine, createDurableWorker, createMemoryEventBus } from "@retinue/agentkit/runtime";
 import {
   createMemoryCheckpointStore,
   createMemoryRunEventLog,
   createMemoryRunStore,
-} from "@forge/agentkit/persistence";
+} from "@retinue/agentkit/persistence";
 
 const bus = createMemoryEventBus();
 
 const worker = createDurableWorker({
   // The in-memory adapters here so this compiles as written. A deployment swaps in the Postgres ones from
-  // `@forge/agentkit/adapters/postgres` — same ports, no change to any agent or tool.
+  // `@retinue/agentkit/adapters/postgres` — same ports, no change to any agent or tool.
   runs: createMemoryRunStore(),
   checkpoints: createMemoryCheckpointStore(),
   eventLog: createMemoryRunEventLog(),

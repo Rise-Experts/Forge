@@ -19,24 +19,24 @@
  * token, whoever is calling. Here it is one deployment's own token, which is what an example app is.
  */
 
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { createAzureToolkit } from "@forge/tools-azure";
-import { createEmailToolkit, httpProvider, smtpProvider } from "@forge/tools-email";
-import { createGoogleToolkit } from "@forge/tools-google";
-import { createScrapeToolkit, firecrawl, jinaReader } from "@forge/tools-scrape";
-import { createConfluenceToolkit } from "@forge/tools-confluence";
-import { createDiscordToolkit } from "@forge/tools-discord";
-import { createGitHubToolkit } from "@forge/tools-github";
-import { createJiraToolkit } from "@forge/tools-jira";
-import { createLinearToolkit } from "@forge/tools-linear";
-import { createMetaToolkit } from "@forge/tools-meta";
-import { createNotionToolkit } from "@forge/tools-notion";
-import { createRedditToolkit } from "@forge/tools-reddit";
-import { createTelegramToolkit } from "@forge/tools-telegram";
-import { createXToolkit } from "@forge/tools-x";
-import { createSlackToolkit } from "@forge/tools-slack";
-import { braveSearch, searxngSearch, serperSearch, tavilySearch } from "@forge/tools-search";
-import type { SearchProvider, ToolProvider } from "@forge/agentkit";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { createAzureToolkit } from "@retinue/tools-azure";
+import { createEmailToolkit, httpProvider, smtpProvider } from "@retinue/tools-email";
+import { createGoogleToolkit } from "@retinue/tools-google";
+import { createScrapeToolkit, firecrawl, jinaReader } from "@retinue/tools-scrape";
+import { createConfluenceToolkit } from "@retinue/tools-confluence";
+import { createDiscordToolkit } from "@retinue/tools-discord";
+import { createGitHubToolkit } from "@retinue/tools-github";
+import { createJiraToolkit } from "@retinue/tools-jira";
+import { createLinearToolkit } from "@retinue/tools-linear";
+import { createMetaToolkit } from "@retinue/tools-meta";
+import { createNotionToolkit } from "@retinue/tools-notion";
+import { createRedditToolkit } from "@retinue/tools-reddit";
+import { createTelegramToolkit } from "@retinue/tools-telegram";
+import { createXToolkit } from "@retinue/tools-x";
+import { createSlackToolkit } from "@retinue/tools-slack";
+import { braveSearch, searxngSearch, serperSearch, tavilySearch } from "@retinue/tools-search";
+import type { SearchProvider, ToolProvider } from "@retinue/agentkit";
 
 /** The environment, narrowed to what this file reads, so a test can supply one without touching the process. */
 export type ToolkitEnv = Readonly<Record<string, string | undefined>>;
@@ -298,7 +298,7 @@ export const exampleToolkits = (env: ToolkitEnv, fetchImpl?: typeof fetch): read
   }
 
   /**
-   * `@forge/tools-browser` is **deliberately not wired here**, and this note is the record of that decision.
+   * `@retinue/tools-browser` is **deliberately not wired here**, and this note is the record of that decision.
    *
    * It requires a `BrowserDriver`, and the package ships none on purpose — `docs/30-browser-isolation.md`
    * argues that how a browser is launched and isolated is the operator's decision, and a toolkit that silently

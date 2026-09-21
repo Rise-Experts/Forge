@@ -1,10 +1,10 @@
-# @forge/tools-azure
+# @retinue/tools-azure
 
 Azure tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: read-first inspection of an Azure
 estate, with two gated writes and no way to provision anything.
 
 ```bash
-npm i @forge/tools-azure
+npm i @retinue/tools-azure
 ```
 
 ## Why this one is read-first
@@ -31,9 +31,9 @@ Two writes, both gated and both requiring an idempotency key:
 ## Usage
 
 ```ts
-import { withRefreshingCredentials } from "@forge/agentkit/tools";
-import type { CredentialRefresher, CredentialResolver } from "@forge/agentkit/tools";
-import { createAzureToolkit } from "@forge/tools-azure";
+import { withRefreshingCredentials } from "@retinue/agentkit/tools";
+import type { CredentialRefresher, CredentialResolver } from "@retinue/agentkit/tools";
+import { createAzureToolkit } from "@retinue/tools-azure";
 
 // Yours: reads the stored connection, and exchanges the sealed refresh token for a new ARM access token.
 declare const connectionResolver: CredentialResolver;

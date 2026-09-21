@@ -14,8 +14,8 @@
  * defaults to a model known to support it rather than to whatever happens to be running.
  */
 
-import { createProviderFactory } from "@forge/agentkit/providers";
-import type { ModelDefinition, ModelPricing, ResolvedModel } from "@forge/agentkit";
+import { createProviderFactory } from "@retinue/agentkit/providers";
+import type { ModelDefinition, ModelPricing, ResolvedModel } from "@retinue/agentkit";
 
 export const MODEL_API_KEY_VARIABLE = "FORGE_MODEL_API_KEY";
 export const FORGE_MODEL_API_KEY_VARIABLE = "FORGE_MODEL_API_KEY";

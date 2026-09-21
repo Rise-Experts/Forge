@@ -32,7 +32,7 @@ process.env.FORGE_APP_MODULE = pathToFileURL(resolve(import.meta.dirname, "../di
   }
 }
 
-const { runWorker } = await import("@forge/agentkit/server");
+const { runWorker } = await import("@retinue/agentkit/server");
 const { shutdown } = await runWorker();
 console.log(`  forge example — worker running (schema ${SCHEMA}). Ctrl-C to drain.`);
 

@@ -19,7 +19,7 @@
  */
 
 import { createOpenAI } from "@ai-sdk/openai";
-import { streamModelTurn } from "@forge/agentkit/runtime";
+import { streamModelTurn } from "@retinue/agentkit/runtime";
 import { structuredAgentManifest, triageSchema } from "../dist/structured.js";
 
 const key = process.env.FORGE_MODEL_API_KEY;

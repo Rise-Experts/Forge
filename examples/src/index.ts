@@ -17,27 +17,27 @@
  * - **Not a product UI.** The page is deliberately plain; see `public/index.html`.
  */
 
-import { asId, resolveCapabilities } from "@forge/agentkit";
-import { budgetSkillCatalogue, truncationNotice } from "@forge/agentkit/context";
-import { assemblePrompt, commitExtractedMemories, createCitationEmitter, createPrincipalMemoryProvider, createRunSkillTracker, createSkillResolver } from "@forge/agentkit/context";
-import { createApprovalGate, createApprovalService, createAuthorizationPolicy, createQuestionService, createRunApprovals, questionPending } from "@forge/agentkit/hitl";
-import { EMPTY_RUN_STREAM_STATE, computeModelCostMinorUnits, createDefaultEngine, parseExecutionContext, reduceRunEvent } from "@forge/agentkit/runtime";
-import { createToolRegistry, createToolSearch, defineDelegatingTool } from "@forge/agentkit/tools";
-import { createDockerSandbox } from "@forge/agentkit/tools";
-import { createQuotaGuard, createStoredLimitResolver } from "@forge/agentkit/usage";
-import { createBullMqJobDispatcher, createBullMqRunQueue } from "@forge/agentkit/adapters/bullmq";
-import { createPostgresApprovalGrantStore, createPostgresIdempotencyStore, createPostgresInteractionStore, createPostgresPrincipalMemoryStore, createPostgresRunEventLog, createPostgresSkillStore, createPostgresRunStore, createPostgresSessionStateStore, createPostgresUsageLimitStore, createPostgresUsageRollupStore, createPostgresUsageStore, createPostgresConversationStore } from "@forge/agentkit/adapters/postgres";
-import { createRedisLiveEventSource } from "@forge/agentkit/adapters/redis";
-import type { ContextBudget, ContextInspection, QuestionSpec, AgentManifest, ExecutionContext, ModelTurnTool, ResolverDeps, Run, RunId, Tool, TurnMessage } from "@forge/agentkit";
-import type { SqlExecutor, TransactionRunner } from "@forge/agentkit/adapters/postgres";
+import { asId, resolveCapabilities } from "@retinue/agentkit";
+import { budgetSkillCatalogue, truncationNotice } from "@retinue/agentkit/context";
+import { assemblePrompt, commitExtractedMemories, createCitationEmitter, createPrincipalMemoryProvider, createRunSkillTracker, createSkillResolver } from "@retinue/agentkit/context";
+import { createApprovalGate, createApprovalService, createAuthorizationPolicy, createQuestionService, createRunApprovals, questionPending } from "@retinue/agentkit/hitl";
+import { EMPTY_RUN_STREAM_STATE, computeModelCostMinorUnits, createDefaultEngine, parseExecutionContext, reduceRunEvent } from "@retinue/agentkit/runtime";
+import { createToolRegistry, createToolSearch, defineDelegatingTool } from "@retinue/agentkit/tools";
+import { createDockerSandbox } from "@retinue/agentkit/tools";
+import { createQuotaGuard, createStoredLimitResolver } from "@retinue/agentkit/usage";
+import { createBullMqJobDispatcher, createBullMqRunQueue } from "@retinue/agentkit/adapters/bullmq";
+import { createPostgresApprovalGrantStore, createPostgresIdempotencyStore, createPostgresInteractionStore, createPostgresPrincipalMemoryStore, createPostgresRunEventLog, createPostgresSkillStore, createPostgresRunStore, createPostgresSessionStateStore, createPostgresUsageLimitStore, createPostgresUsageRollupStore, createPostgresUsageStore, createPostgresConversationStore } from "@retinue/agentkit/adapters/postgres";
+import { createRedisLiveEventSource } from "@retinue/agentkit/adapters/redis";
+import type { ContextBudget, ContextInspection, QuestionSpec, AgentManifest, ExecutionContext, ModelTurnTool, ResolverDeps, Run, RunId, Tool, TurnMessage } from "@retinue/agentkit";
+import type { SqlExecutor, TransactionRunner } from "@retinue/agentkit/adapters/postgres";
 import { Redis } from "ioredis";
-import type { ForgeConfig } from "@forge/agentkit/server";
+import type { ForgeConfig } from "@retinue/agentkit/server";
 import { createDevAuthenticate } from "./auth.js";
-import type { Authenticate } from "@forge/agentkit/server";
-import { STANDARD_TOOL_CATEGORIES, createStandardToolProvider } from "@forge/agentkit/tools";
-import { createSpeechGenerateTool, createTranscribeTool } from "@forge/agentkit/tools";
-import { createAttachmentResolver } from "@forge/agentkit/knowledge";
-import { createFlowRunner } from "@forge/agentkit/flows";
+import type { Authenticate } from "@retinue/agentkit/server";
+import { STANDARD_TOOL_CATEGORIES, createStandardToolProvider } from "@retinue/agentkit/tools";
+import { createSpeechGenerateTool, createTranscribeTool } from "@retinue/agentkit/tools";
+import { createAttachmentResolver } from "@retinue/agentkit/knowledge";
+import { createFlowRunner } from "@retinue/agentkit/flows";
 import { EXAMPLE_FLOWS, createExampleFlowHandler } from "./flows.js";
 import { exampleToolkits, searchProviderFrom } from "./toolkits.js";
 import { audioProvidersFrom, audioToolDeps } from "./audio.js";
@@ -625,7 +625,7 @@ const exampleToolProviders = (backend: ExampleBackend) => [
      * wired an image for a test and forgot must not thereby have an agent that runs commands.
      */
     ...(exampleSandbox() === undefined ? {} : { sandbox: exampleSandbox() as never, shellEnabled: exampleShellDeclared }),
-    // A search provider from `@forge/tools-search` when one is configured, and no `web_search` otherwise
+    // A search provider from `@retinue/tools-search` when one is configured, and no `web_search` otherwise
     // (#214). Note that the toolkit contributes a *provider*, not a tool: five vendors are five values of one
     // parameter, so switching from Brave to Tavily changes an environment variable and nothing else.
     ...(searchProviderFrom(process.env) === undefined ? {} : { search: searchProviderFrom(process.env) }),
@@ -1454,7 +1454,7 @@ export const composeEngine = (backend: ExampleBackend) => {
           /**
            * ...and the kit's categories, which is the same lesson learned twice — REQ-039 (#188).
            *
-           * The list above said `["assistant", "mcp:…"]`, so the fifteen tools from `@forge/agentkit/tools` —
+           * The list above said `["assistant", "mcp:…"]`, so the fifteen tools from `@retinue/agentkit/tools` —
            * `web`, `data`, `general` — were registered, authorized, listed in the catalogue, and never handed to
            * the model. The only symptom was the assistant declining to fetch a URL it appeared to have a tool
            * for, which reads as a model problem and is not one.
@@ -1610,7 +1610,7 @@ const exampleSystemPrompt = async (
   mode: ConversationMode,
   backend: ExampleBackend,
 ): Promise<string> => {
-  const { gatherSections, renderContextBlock, makeNonce } = await import("@forge/agentkit/context");
+  const { gatherSections, renderContextBlock, makeNonce } = await import("@retinue/agentkit/context");
   const { randomBytes } = await import("node:crypto");
   /**
    * The notebook's provider, plus the **platform's** principal-memory provider.

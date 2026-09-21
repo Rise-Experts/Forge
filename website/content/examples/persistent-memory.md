@@ -8,10 +8,10 @@ Facts a user tells the agent persist across conversations, scoped to that princi
 into later prompts through a budgeted context provider.
 
 ```ts
-import { commitExtractedMemories, createPrincipalMemoryProvider } from "@forge/agentkit/context";
-import { createMemoryPrincipalMemoryStore } from "@forge/agentkit/persistence";
-import { createAgent } from "@forge/agentkit/providers";
-import { asId } from "@forge/agentkit";
+import { commitExtractedMemories, createPrincipalMemoryProvider } from "@retinue/agentkit/context";
+import { createMemoryPrincipalMemoryStore } from "@retinue/agentkit/persistence";
+import { createAgent } from "@retinue/agentkit/providers";
+import { asId } from "@retinue/agentkit";
 
 const memory = createMemoryPrincipalMemoryStore();
 const tenantId = asId("acme");

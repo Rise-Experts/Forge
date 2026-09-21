@@ -9,11 +9,11 @@
  * Providers are passed in rather than reached for, so this file knows nothing about notebooks or memory.
  */
 
-import { assemblePrompt, gatherSections, inspectAssembledPrompt } from "@forge/agentkit/context";
-import { estimateTokens, turnText } from "@forge/agentkit/runtime";
+import { assemblePrompt, gatherSections, inspectAssembledPrompt } from "@retinue/agentkit/context";
+import { estimateTokens, turnText } from "@retinue/agentkit/runtime";
 import type { ExampleStores } from "./stores.js";
-import type { ContextBudget, ContextInspection, ContextProvider, ExecutionContext } from "@forge/agentkit";
-import type { SqlExecutor } from "@forge/agentkit/adapters/postgres";
+import type { ContextBudget, ContextInspection, ContextProvider, ExecutionContext } from "@retinue/agentkit";
+import type { SqlExecutor } from "@retinue/agentkit/adapters/postgres";
 import { conversationTurns } from "./history.js";
 import { resolveExampleModel } from "./model.js";
 import { MODE_DESCRIPTIONS, type ConversationMode } from "./modes.js";

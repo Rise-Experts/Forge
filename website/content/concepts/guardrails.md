@@ -27,7 +27,7 @@ Guardrails are for *inspection*: PII, moderation, topic restriction, an output s
 ## The contract
 
 ```ts
-import type { Guardrail } from "@forge/agentkit/guardrails";
+import type { Guardrail } from "@retinue/agentkit/guardrails";
 ```
 
 Two hooks, both optional. Implement whichever you need:
@@ -44,8 +44,8 @@ A guardrail that refuses a turn containing something shaped like a payment card,
 tool arguments:
 
 ```ts
-import { createAgent } from "@forge/agentkit/providers";
-import type { Guardrail } from "@forge/agentkit/guardrails";
+import { createAgent } from "@retinue/agentkit/providers";
+import type { Guardrail } from "@retinue/agentkit/guardrails";
 
 const luhn = (digits: string): boolean => {
   let sum = 0;
@@ -93,7 +93,7 @@ on.
 ### PII — offline, checksummed, consistent
 
 ```ts
-import { createPiiGuardrail } from "@forge/agentkit/guardrails";
+import { createPiiGuardrail } from "@retinue/agentkit/guardrails";
 
 const pii = createPiiGuardrail({
   // Everything by default: email, phone, card_number, iban, ssn, ip_address
@@ -127,7 +127,7 @@ version of the phone pattern scored 78.6% precision and would have fired on invo
 ### Moderation — an adapter, and off unless you declare it
 
 ```ts
-import { createModerationGuardrail } from "@forge/agentkit/guardrails";
+import { createModerationGuardrail } from "@retinue/agentkit/guardrails";
 
 const moderation = createModerationGuardrail({
   classify: async (text) => {

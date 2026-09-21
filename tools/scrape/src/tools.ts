@@ -18,16 +18,16 @@
  * than inferred from formatting. The decision and its reasoning are recorded in `docs/23`.
  */
 
-import { defineTool, type Tool } from "@forge/agentkit/tools";
+import { defineTool, type Tool } from "@retinue/agentkit/tools";
 import { randomBytes } from "node:crypto";
 
-import { AgentPlatformError, type PlatformError } from "@forge/agentkit";
-import { encloseUntrusted, makeNonce } from "@forge/agentkit/context";
+import { AgentPlatformError, type PlatformError } from "@retinue/agentkit";
+import { encloseUntrusted, makeNonce } from "@retinue/agentkit/context";
 
 import { crawl, CRAWL_CEILINGS, CRAWL_DEFAULTS } from "./crawl.js";
 import type { Gate } from "./politeness.js";
 import type { ScrapeProvider } from "./provider.js";
-import { BlockedError, DEFAULT_USER_AGENT } from "@forge/agentkit/tools";
+import { BlockedError, DEFAULT_USER_AGENT } from "@retinue/agentkit/tools";
 
 const CATEGORY = "web";
 

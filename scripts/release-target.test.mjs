@@ -14,14 +14,14 @@ import { distTag, RELEASABLE, resolveTag } from "./release-target.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 
-const manifests = { backend: { name: "@forge/agentkit", version: "0.1.0" }, frontend: { name: "@forge/react", version: "0.1.0" } };
+const manifests = { backend: { name: "@retinue/agentkit", version: "0.1.0" }, frontend: { name: "@retinue/react", version: "0.1.0" } };
 const read = (dir) => manifests[dir];
 
 test("a well-formed tag resolves to a workspace, with or without the refs/tags prefix", () => {
   assert.deepEqual(resolveTag("agentkit@0.1.0", read), {
-    ok: true, name: "agentkit", version: "0.1.0", distTag: "latest", workspace: "@forge/agentkit", dir: "backend",
+    ok: true, name: "agentkit", version: "0.1.0", distTag: "latest", workspace: "@retinue/agentkit", dir: "backend",
   });
-  assert.equal(resolveTag("refs/tags/react@0.1.0", read).workspace, "@forge/react");
+  assert.equal(resolveTag("refs/tags/react@0.1.0", read).workspace, "@retinue/react");
 });
 
 test("a prerelease goes to `next`, never `latest`", () => {
@@ -49,7 +49,7 @@ test("the old `v0.1.0` shape is refused with the form spelled out", () => {
 });
 
 test("a private manifest cannot be released even by a correct tag", () => {
-  const outcome = resolveTag("agentkit@0.1.0", () => ({ name: "@forge/agentkit", version: "0.1.0", private: true }));
+  const outcome = resolveTag("agentkit@0.1.0", () => ({ name: "@retinue/agentkit", version: "0.1.0", private: true }));
   assert.equal(outcome.ok, false);
   assert.match(outcome.problem, /private: true/);
 });
@@ -111,7 +111,7 @@ test("exactly the shipping packages are releasable, and no more", () => {
    * `tools/azure`, `browser`, `email` and `scrape` were added to the repository and wired into **nothing**:
    * no release target, and no root `tsconfig` reference, so `tsc -b` never built them. The local gate passed
    * for months because stale `dist/` directories existed on one machine; a clean `npm ci` in CI produced
-   * `TS2307: Cannot find module '@forge/tools-azure' or its corresponding type declarations` and failed a
+   * `TS2307: Cannot find module '@retinue/tools-azure' or its corresponding type declarations` and failed a
    * release that had already been tagged.
    *
    * That is the failure `publish-guard.mjs` is written about, arriving from the other direction: not an
@@ -151,7 +151,7 @@ test("exactly the shipping packages are releasable, and no more", () => {
    * checkout only. Their `package.json` ranges were `"*"` rather than a version, which is how they were
    * declared without ever being built.
    *
-   * Derived from the imports rather than a list, and from `from "…"` specifically: `@forge/tools-browser`
+   * Derived from the imports rather than a list, and from `from "…"` specifically: `@retinue/tools-browser`
    * appears in `toolkits.ts` only inside a comment recording that it is *deliberately* not wired, because it
    * needs a `BrowserDriver` the package does not ship. A scan that counted mentions would demand a dependency
    * on it and quietly reverse that decision.

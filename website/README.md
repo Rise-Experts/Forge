@@ -2,7 +2,7 @@
 
 Docusaurus site that renders **everything we build**:
 - the narrative specs (`../docs/01–30` + `../docs/extraction`) — auto sidebar, mermaid, versioning-ready;
-- the **API reference** auto-generated from the `@forge/*` TypeScript types (TypeDoc → `/api`);
+- the **API reference** auto-generated from the `@retinue/*` TypeScript types (TypeDoc → `/api`);
 - `llms.txt` + `llms-full.txt` for AI editors and a docs MCP server.
 
 Standalone app — **not** an npm workspace member, so it never affects package typecheck/boundaries.

@@ -1,10 +1,10 @@
 <img src="https://raw.githubusercontent.com/Rise-Experts/forge/main/brand/forge-mark.svg" alt="Forge" width="72" />
 
-# @forge/agentkit
+# @retinue/agentkit
 
-[![npm](https://img.shields.io/npm/v/@forge/agentkit)](https://www.npmjs.com/package/@forge/agentkit)
-[![licence](https://img.shields.io/npm/l/@forge/agentkit)](https://github.com/Rise-Experts/forge/blob/main/LICENSE)
-[![provenance](https://img.shields.io/badge/provenance-attested-brightgreen)](https://www.npmjs.com/package/@forge/agentkit#provenance)
+[![npm](https://img.shields.io/npm/v/@retinue/agentkit)](https://www.npmjs.com/package/@retinue/agentkit)
+[![licence](https://img.shields.io/npm/l/@retinue/agentkit)](https://github.com/Rise-Experts/forge/blob/main/LICENSE)
+[![provenance](https://img.shields.io/badge/provenance-attested-brightgreen)](https://www.npmjs.com/package/@retinue/agentkit#provenance)
 
 **A durable AI agent runtime for TypeScript.** Agents that survive a restart, tools that ask before
 they act, and retrieval that cites its sources — behind ports you can replace.
@@ -15,7 +15,7 @@ instead of vanishing, an external write waits for a human, and every token is ac
 ## Install
 
 ```bash
-npm i @forge/agentkit
+npm i @retinue/agentkit
 ```
 
 Node 20+. Provider SDKs, PostgreSQL, Redis and BullMQ are **optional peers** — install only what you use.
@@ -24,7 +24,7 @@ The package root imports nothing but `ai` and `zod`.
 ## Your first agent
 
 ```ts
-import { createAgent } from "@forge/agentkit/providers";
+import { createAgent } from "@retinue/agentkit/providers";
 
 const agent = createAgent({
   manifest: {
@@ -68,9 +68,9 @@ The root exports five values and every type. Everything else sits behind a docum
 consumer never installs a dependency they do not use:
 
 ```ts
-import { createRuntime, defineAgent } from "@forge/agentkit";
-import { createDefaultEngine } from "@forge/agentkit/runtime";
-import { createPostgresConversationStore } from "@forge/agentkit/adapters/postgres";
+import { createRuntime, defineAgent } from "@retinue/agentkit";
+import { createDefaultEngine } from "@retinue/agentkit/runtime";
+import { createPostgresConversationStore } from "@retinue/agentkit/adapters/postgres";
 ```
 
 Anything reachable only by a deep import is **not** API — and that is enforced against the published

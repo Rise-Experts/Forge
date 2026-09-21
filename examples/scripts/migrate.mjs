@@ -10,7 +10,7 @@
  * So migrating is a command you run, once, on purpose.
  */
 import pg from "pg";
-import { migrate, MIGRATIONS, rollback } from "@forge/agentkit/adapters/postgres";
+import { migrate, MIGRATIONS, rollback } from "@retinue/agentkit/adapters/postgres";
 
 const SCHEMA = process.env.FORGE_EXAMPLE_SCHEMA ?? "forge_example";
 const URL_ = process.env.FORGE_DATABASE_URL;

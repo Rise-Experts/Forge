@@ -1,4 +1,4 @@
-import { createAgent } from "@forge/agentkit/providers";
+import { createAgent } from "@retinue/agentkit/providers";
 
 // Mirrors Getting started → Quickstart. A model provider is selected by the
 // runtime configuration; this declaration remains provider-neutral.

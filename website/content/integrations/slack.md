@@ -7,7 +7,7 @@ sidebar_position: 3
 List channels, read history, post a message, reply in a thread. Both writes stop and ask a human.
 
 ```bash
-npm i @forge/tools-slack
+npm i @retinue/tools-slack
 ```
 
 ## Tools
@@ -22,9 +22,9 @@ npm i @forge/tools-slack
 ## Wire it up
 
 ```ts
-import { createAgent } from "@forge/agentkit/providers";
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { createSlackToolkit } from "@forge/tools-slack";
+import { createAgent } from "@retinue/agentkit/providers";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { createSlackToolkit } from "@retinue/tools-slack";
 
 const agent = createAgent({
   manifest: {

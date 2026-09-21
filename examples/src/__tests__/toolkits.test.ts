@@ -12,16 +12,16 @@
  * `exampleToolkits(env, stubFetch)` — the same function the app calls, with one extra argument.
  */
 import { afterEach, describe, expect, it } from "vitest";
-import type { ConversationId } from "@forge/agentkit";
+import type { ConversationId } from "@retinue/agentkit";
 import { readFileSync } from "node:fs";
-import { asId, type ExecutionContext, type RoleId } from "@forge/agentkit";
+import { asId, type ExecutionContext, type RoleId } from "@retinue/agentkit";
 import { exampleRegistry } from "../index.js";
 import { asExampleBackend } from "../memory-composition.js";
 import { createMemoryBackend } from "../memory-app.js";
 import { exampleToolkits, searchProviderFrom } from "../toolkits.js";
 import { authorization } from "../index.js";
-import { createFileService } from "@forge/agentkit/knowledge";
-import { createMemoryFileContentStore, createMemoryFileMetadataStore } from "@forge/agentkit/persistence";
+import { createFileService } from "@retinue/agentkit/knowledge";
+import { createMemoryFileContentStore, createMemoryFileMetadataStore } from "@retinue/agentkit/persistence";
 
 const context: ExecutionContext = {
   tenantId: asId("t-toolkits"),
@@ -168,7 +168,7 @@ describe("a rate limit is a retryable failure, not a dead run", () => {
 });
 
 describe("the toolkits are not part of the runtime", () => {
-  it("keeps @forge/agentkit's dependencies free of every toolkit", () => {
+  it("keeps @retinue/agentkit's dependencies free of every toolkit", () => {
     // Test step 4. A toolkit that became a dependency of the runtime would put a vendor's API on the platform's
     // release path — the one thing the sibling-package shape exists to prevent.
     const manifest = JSON.parse(readFileSync(new URL("../../../backend/package.json", import.meta.url), "utf8")) as {
@@ -176,7 +176,7 @@ describe("the toolkits are not part of the runtime", () => {
       peerDependencies?: Record<string, string>;
     };
     const declared = [...Object.keys(manifest.dependencies ?? {}), ...Object.keys(manifest.peerDependencies ?? {})];
-    expect(declared.filter((name) => name.startsWith("@forge/tools-"))).toEqual([]);
+    expect(declared.filter((name) => name.startsWith("@retinue/tools-"))).toEqual([]);
   });
 });
 
@@ -246,7 +246,7 @@ describe("the wave-2 toolkits reach the app's registry", () => {
 
   it("does not wire the browser toolkit, and that is a decision rather than an omission", () => {
     /**
-     * `@forge/tools-browser` needs a `BrowserDriver` and the package ships none on purpose — `docs/30`
+     * `@retinue/tools-browser` needs a `BrowserDriver` and the package ships none on purpose — `docs/30`
      * argues that how a browser is launched and isolated is the operator's call. This asserts the absence so
      * that wiring one later is a deliberate change with a test to update, rather than something that drifts in.
      */

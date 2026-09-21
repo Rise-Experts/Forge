@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Installation
 
-Forge is the product. `@forge/agentkit` is its primary TypeScript SDK and runtime package.
+Forge is the product. `@retinue/agentkit` is its primary TypeScript SDK and runtime package.
 
 ## What you need
 
@@ -14,20 +14,62 @@ Forge is the product. `@forge/agentkit` is its primary TypeScript SDK and runtim
 
 ## Install
 
-Forge ships as two packages:
+Forge ships as **nineteen packages**: the runtime, a headless React client, and seventeen
+integration packages you install only if you use them.
 
 ```bash
 # Primary SDK/runtime package. Install one model-provider peer for the embedded quickstart.
-npm install @forge/agentkit @ai-sdk/anthropic
+npm install @retinue/agentkit @ai-sdk/anthropic
 
 # headless React client (optional, for a UI) — React is a peer dependency
-npm install @forge/react react
+npm install @retinue/react react
 ```
 
-`@forge/agentkit` bundles everything server-side: the durable runtime, the default AI-SDK engine,
+`@retinue/agentkit` bundles everything server-side: the durable runtime, the default AI-SDK engine,
 the tool registry, the model registry and the reference in-memory adapters. Swap in the Postgres /
-Supabase adapters for production. `@forge/react` is transport-agnostic headless state — hooks,
+Supabase adapters for production. `@retinue/react` is transport-agnostic headless state — hooks,
 reducers, localization — plus an optional UI component set.
+
+## Integration packages
+
+An integration is a **sibling package**, not a folder inside the runtime. Each brings its own
+dependencies and ships on its own version, so a vendor changing an API is a patch to one small
+package rather than a release of the runtime.
+
+Install what you use, and nothing else:
+
+```bash
+npm install @retinue/tools-github @retinue/tools-slack
+```
+
+**Seventeen packages, 161 tools.**
+
+| Package | Tools | What it reaches |
+|---|---|---|
+| `@retinue/tools-github` | 44 | Code, issues, pull requests, reviews, actions, releases |
+| `@retinue/tools-google` | 28 | Gmail, Calendar, Drive, Docs, Sheets |
+| `@retinue/tools-meta` | 10 | WhatsApp Business and Instagram |
+| `@retinue/tools-azure` | 9 | Subscriptions, resources, logs, metrics, activity |
+| `@retinue/tools-jira` | 8 | JQL search, read, create, transition |
+| `@retinue/tools-linear` | 7 | Search, read, create, update, states |
+| `@retinue/tools-notion` | 7 | Search, pages, database queries |
+| `@retinue/tools-discord` | 7 | Channels, messages, reactions |
+| `@retinue/tools-browser` | 6 | Navigate, read, click, type, screenshot |
+| `@retinue/tools-confluence` | 6 | Search, read, create, update with a version check |
+| `@retinue/tools-reddit` | 6 | Search, read, comment |
+| `@retinue/tools-telegram` | 6 | Updates, messages, media |
+| `@retinue/tools-x` | 6 | Search, read, post, delete |
+| `@retinue/tools-slack` | 4 | Channels, history, post, thread reply |
+| `@retinue/tools-email` | 4 | Send, preview, status, list |
+| `@retinue/tools-scrape` | 3 | Page, batch, crawl |
+| `@retinue/tools-search` | 0 | Supplies **providers** for the built-in `web_search` — Brave, Tavily, Serper, SearXNG |
+
+Every one takes `@retinue/agentkit` as a **peer dependency**, so install the runtime first. Two carry a
+prerequisite no package can satisfy for you: `tools-email` needs SPF, DKIM and DMARC on the sending
+domain, and `tools-browser` needs a browser you provide.
+
+See **[Working with tool packages](tool-packages)** for the path from install to a first call, and
+**[Integrations](../integrations/overview)** for each vendor's credentials and scopes.
 
 ## The whole stack, with Docker
 
@@ -66,5 +108,5 @@ first agent, then **[Configuration](configuration)** for the server profile.
 ## Verify
 
 ```bash
-node -e "import('@forge/agentkit').then(() => console.log('forge ready'))"
+node -e "import('@retinue/agentkit').then(() => console.log('forge ready'))"
 ```

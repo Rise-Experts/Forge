@@ -14,7 +14,7 @@
  * - **AC-6** Azure's two meanings for 403 get different platform codes.
  */
 import { describe, expect, it, vi } from "vitest";
-import { asId, type ConversationId, type ExecutionContext } from "@forge/agentkit";
+import { asId, type ConversationId, type ExecutionContext } from "@retinue/agentkit";
 import {
   bearer,
   refreshable,
@@ -22,7 +22,7 @@ import {
   type CredentialRefresher,
   type CredentialResolver,
   type RefreshableCredential,
-} from "@forge/agentkit/tools";
+} from "@retinue/agentkit/tools";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";

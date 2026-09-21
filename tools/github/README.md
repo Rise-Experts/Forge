@@ -1,9 +1,9 @@
 <img src="https://raw.githubusercontent.com/Rise-Experts/Forge/main/brand/forge-mark.svg" alt="Forge" width="72" />
 
-# @forge/tools-github
+# @retinue/tools-github
 
-[![npm](https://img.shields.io/npm/v/@forge/tools-github)](https://www.npmjs.com/package/@forge/tools-github)
-[![licence](https://img.shields.io/npm/l/@forge/tools-github)](https://github.com/Rise-Experts/Forge/blob/main/LICENSE)
+[![npm](https://img.shields.io/npm/v/@retinue/tools-github)](https://www.npmjs.com/package/@retinue/tools-github)
+[![licence](https://img.shields.io/npm/l/@retinue/tools-github)](https://github.com/Rise-Experts/Forge/blob/main/LICENSE)
 
 **GitHub tools for a [Forge](https://github.com/Rise-Experts/Forge) agent.** Search code, read files, manage
 issues and pull requests — with every write classified, gated behind human approval, and carrying an idempotency
@@ -12,17 +12,17 @@ key.
 ## Install
 
 ```bash
-npm i @forge/tools-github
+npm i @retinue/tools-github
 ```
 
-`@forge/agentkit` is a peer dependency. This package brings no other dependency.
+`@retinue/agentkit` is a peer dependency. This package brings no other dependency.
 
 ## Use
 
 ```ts
-import { createAgent } from "@forge/agentkit/providers";
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { createGitHubToolkit } from "@forge/tools-github";
+import { createAgent } from "@retinue/agentkit/providers";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { createGitHubToolkit } from "@retinue/tools-github";
 
 const agent = createAgent({
   manifest: { id: "dev", name: "Dev", instructions: "Help with the repository.", modelPolicy: { role: "smart" } },
@@ -63,7 +63,7 @@ a retried write returns the first result rather than firing twice.
 | Option | Required | Notes |
 |---|---|---|
 | `credentialRef` | yes | An opaque handle your resolver understands. A personal access token or a GitHub App installation token both work |
-| `resolver` | yes | `CredentialResolver` from `@forge/agentkit/tools` |
+| `resolver` | yes | `CredentialResolver` from `@retinue/agentkit/tools` |
 | `baseUrl` | no | Defaults to `https://api.github.com`. Set for GitHub Enterprise |
 | `fetchImpl` | no | Injected for tests |
 

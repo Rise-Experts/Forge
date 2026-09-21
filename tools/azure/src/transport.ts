@@ -36,8 +36,8 @@ import {
   type CredentialRef,
   type CredentialResolver,
   type VendorFailure,
-} from "@forge/agentkit/tools";
-import { AgentPlatformError, type ExecutionContext } from "@forge/agentkit";
+} from "@retinue/agentkit/tools";
+import { AgentPlatformError, type ExecutionContext } from "@retinue/agentkit";
 
 export const ARM = "https://management.azure.com";
 

@@ -12,8 +12,8 @@
  * new packages with nothing importing them would have been the next instance.
  */
 import { afterEach, describe, expect, it } from "vitest";
-import type { ConversationId } from "@forge/agentkit";
-import { asId, type ExecutionContext, type RoleId } from "@forge/agentkit";
+import type { ConversationId } from "@retinue/agentkit";
+import { asId, type ExecutionContext, type RoleId } from "@retinue/agentkit";
 
 import { exampleRegistry } from "../index.js";
 import { asExampleBackend } from "../memory-composition.js";

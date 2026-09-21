@@ -29,7 +29,7 @@ const base = { async query(text, params) { return (await pool.query(text, params
  * too. Without the second argument the coordinator's `FOR UPDATE` would run against `public` — another project's
  * schema in this setup.
  */
-const { createTransactionScope, createPoolOpener } = await import("@forge/agentkit/adapters/postgres");
+const { createTransactionScope, createPoolOpener } = await import("@retinue/agentkit/adapters/postgres");
 const scope = createTransactionScope(createPoolOpener(pool, SCHEMA));
 const sql = scope.scoped(base);
 const runner = scope.runner;
@@ -107,7 +107,7 @@ console.log(`
     model     ${process.env.FORGE_MODEL_ID ?? "gpt-4o-mini"} at ${process.env.FORGE_MODEL_BASE_URL ?? "https://api.openai.com/v1"}
 
   Nothing executes until the worker runs — start it in a second terminal:
-    npm run worker -w @forge/example-app
+    npm run worker -w @retinue/example-app
 `);
 
 /**

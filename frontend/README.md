@@ -1,9 +1,9 @@
 <img src="https://raw.githubusercontent.com/Rise-Experts/Forge/main/brand/forge-mark.svg" alt="Forge" width="72" />
 
-# @forge/react
+# @retinue/react
 
-[![npm](https://img.shields.io/npm/v/@forge/react)](https://www.npmjs.com/package/@forge/react)
-[![licence](https://img.shields.io/npm/l/@forge/react)](https://github.com/Rise-Experts/Forge/blob/main/LICENSE)
+[![npm](https://img.shields.io/npm/v/@retinue/react)](https://www.npmjs.com/package/@retinue/react)
+[![licence](https://img.shields.io/npm/l/@retinue/react)](https://github.com/Rise-Experts/Forge/blob/main/LICENSE)
 
 **Headless React hooks for a [Forge](https://github.com/Rise-Experts/Forge) agent runtime.** Streaming
 runs, pending questions, approval prompts and usage — as state, with no styling and no transport assumed.
@@ -14,7 +14,7 @@ renderable parts, de-duplicated across a reconnect, resumable from a cursor.
 ## Install
 
 ```bash
-npm i @forge/react
+npm i @retinue/react
 ```
 
 React 18+ as a peer. Nothing else.
@@ -22,8 +22,8 @@ React 18+ as a peer. Nothing else.
 ## Use
 
 ```tsx
-import { ForgeProvider, useRunSubscription, useSendMessage } from "@forge/react";
-import type { ForgeClient } from "@forge/react";
+import { ForgeProvider, useRunSubscription, useSendMessage } from "@retinue/react";
+import type { ForgeClient } from "@retinue/react";
 
 // `client` implements one interface — GraphQL, SSE, WebSocket, or a test double.
 export const App = ({ client }: { client: ForgeClient }) => (

@@ -1,19 +1,19 @@
-# @forge/tools-reddit
+# @retinue/tools-reddit
 
 Reddit tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: search, read bounded comment
 trees, submit and comment.
 
 ```bash
-npm i @forge/tools-reddit
+npm i @retinue/tools-reddit
 ```
 
-Requires `@forge/agentkit` as a peer.
+Requires `@retinue/agentkit` as a peer.
 
 ## Use it
 
 ```ts
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { createRedditToolkit } from "@forge/tools-reddit";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { createRedditToolkit } from "@retinue/tools-reddit";
 
 const toolkit = createRedditToolkit({
   credentialRef: "reddit",

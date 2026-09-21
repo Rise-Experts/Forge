@@ -14,8 +14,8 @@
  *   threshold can see.
  */
 
-import { compactThread } from "@forge/agentkit/context";
-import { estimateTokens } from "@forge/agentkit/runtime";
+import { compactThread } from "@retinue/agentkit/context";
+import { estimateTokens } from "@retinue/agentkit/runtime";
 import type { ExampleStores } from "./stores.js";
 import type {
   ConversationId,
@@ -24,7 +24,7 @@ import type {
   TenantId,
   ThreadSummarizer,
   ThreadSummary,
-} from "@forge/agentkit";
+} from "@retinue/agentkit";
 
 /**
  * Compact when the window is this full.

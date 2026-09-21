@@ -1,5 +1,5 @@
 /**
- * `@forge/agentkit/mcp` — importing another server's tools.
+ * `@retinue/agentkit/mcp` — importing another server's tools.
  *
  * The client, the provider, the effect classifier and the egress policy. Its own subpath rather than part of
  * `./tools` because the trust story is different: a first-party tool is code in your repository, and an imported

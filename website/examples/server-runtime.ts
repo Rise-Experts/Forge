@@ -1,5 +1,5 @@
-import { createRuntime } from "@forge/agentkit";
-import type { Runtime } from "@forge/agentkit";
+import { createRuntime } from "@retinue/agentkit";
+import type { Runtime } from "@retinue/agentkit";
 
 // Server deployments compose this public runtime factory with persistent adapters.
 // The exact adapter wiring belongs in the server/runtime guide because it depends on

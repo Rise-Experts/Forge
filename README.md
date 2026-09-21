@@ -19,17 +19,17 @@ The full developer documentation is at **[docs.forge.riseexperts.de](https://doc
 ## Install
 
 ```bash
-npm install @forge/agentkit @ai-sdk/anthropic
+npm install @retinue/agentkit @ai-sdk/anthropic
 ```
 
-`@forge/agentkit` is the primary SDK and runtime package. Model-provider SDKs are optional peers; the embedded quickstart uses Anthropic.
+`@retinue/agentkit` is the primary SDK and runtime package. Model-provider SDKs are optional peers; the embedded quickstart uses Anthropic.
 
 ## Your first agent
 
 Set `ANTHROPIC_API_KEY`, then create `agent.ts`:
 
 ```ts
-import { createAgent } from "@forge/agentkit/providers";
+import { createAgent } from "@retinue/agentkit/providers";
 
 const agent = createAgent({
   manifest: {
@@ -66,9 +66,9 @@ This is Forge's embedded mode: it uses in-memory reference adapters and needs no
 
 | Package | Purpose |
 |---|---|
-| `@forge/agentkit` | Core runtime, server surface, tools, flows, persistence, knowledge, HITL, and adapters |
-| `@forge/react` | Headless React client state for Forge events and transport |
-| `@forge/tools-*` | Optional integration packages that register tool providers |
+| `@retinue/agentkit` | Core runtime, server surface, tools, flows, persistence, knowledge, HITL, and adapters |
+| `@retinue/react` | Headless React client state for Forge events and transport |
+| `@retinue/tools-*` | Optional integration packages that register tool providers |
 
 The [package reference](https://docs.forge.riseexperts.de/docs/reference/overview) explains supported subpaths and optional peers.
 

@@ -15,8 +15,8 @@
  * differs by endpoint and "whatever the API does" is not a decision anybody made.
  */
 
-import { confirms, defineTool, destroys, type Tool } from "@forge/agentkit/tools";
-import { AgentPlatformError } from "@forge/agentkit";
+import { confirms, defineTool, destroys, type Tool } from "@retinue/agentkit/tools";
+import { AgentPlatformError } from "@retinue/agentkit";
 
 import type { GoogleTransport } from "./transport.js";
 

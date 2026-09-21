@@ -1,9 +1,9 @@
-# `@forge/api-service`
+# `@retinue/api-service`
 
 A Nest.js service that serves the platform — REQ-044 ([#201](https://github.com/Rise-Experts/Forge/issues/201)).
 
 ```bash
-FORGE_DEV_AUTH=1 FORGE_SCHEMA=agentkit_example PORT=4200 npm start -w @forge/api-service
+FORGE_DEV_AUTH=1 FORGE_SCHEMA=agentkit_example PORT=4200 npm start -w @retinue/api-service
 ```
 
 | | |
@@ -22,7 +22,7 @@ metadata in an ESM `NodeNext` repo.
 
 ## No second copy of the API
 
-`typeDefs` and `createResolvers` come from `@forge/agentkit`, and this service adds **no resolver of its own**.
+`typeDefs` and `createResolvers` come from `@retinue/agentkit`, and this service adds **no resolver of its own**.
 That is checked rather than intended: `src/__tests__/schema.test.ts` compares the served schema against the
 reference host's and asserts every root field resolves from the platform's map.
 

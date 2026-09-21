@@ -7,8 +7,8 @@
  * be reachable from nothing, which has happened seven times in this repository.
  */
 import { afterEach, describe, expect, it } from "vitest";
-import type { ConversationId } from "@forge/agentkit";
-import { asId, type ExecutionContext, type RoleId } from "@forge/agentkit";
+import type { ConversationId } from "@retinue/agentkit";
+import { asId, type ExecutionContext, type RoleId } from "@retinue/agentkit";
 import {
   exampleCapabilities,
   exampleCatalogBudget,

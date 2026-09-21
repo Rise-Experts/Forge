@@ -21,12 +21,12 @@
  */
 
 import { BadRequestException, Body, Controller, HttpException, Inject, Post, Req } from "@nestjs/common";
-import { asId } from "@forge/agentkit";
-import { startOrEnqueueRun } from "@forge/agentkit/runtime";
+import { asId } from "@retinue/agentkit";
+import { startOrEnqueueRun } from "@retinue/agentkit/runtime";
 import { randomUUID } from "node:crypto";
 import { FORGE_AGENT, FORGE_AUTHENTICATE, FORGE_MESSAGES, FORGE_RESOLVER_DEPS } from "../forge/tokens.js";
 import type { Request as ExpressRequest } from "express";
-import type { Authenticate } from "@forge/agentkit/server";
+import type { Authenticate } from "@retinue/agentkit/server";
 import type {
   ConversationId,
   ExecutionContext,
@@ -34,7 +34,7 @@ import type {
   MessagePartId,
   ResolverDeps,
   RunId,
-} from "@forge/agentkit";
+} from "@retinue/agentkit";
 
 type MessageStore = { append(input: { tenantId: unknown; message: unknown }): Promise<unknown> };
 
