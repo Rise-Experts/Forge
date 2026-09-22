@@ -310,10 +310,10 @@ export function scan(roots = DEFAULT_ROOTS) {
         const add = (rule) => violations.push({ file: path, specifier: spec, rule });
 
         // R1 — no deep cross-workspace imports; use the package root.
-        if (/^@(forge|forge)\/[^/]+\/(src|dist)\//.test(spec)) add("R1 deep cross-workspace import (use the package root)");
+        if (/^@retinue\/[^/]+\/(src|dist)\//.test(spec)) add("R1 deep cross-workspace import (use the package root)");
 
         // R2 — frontend may only `import type` from the backend's public entry.
-        if (isFrontend && /^@(forge|forge)\/agentkit(\/|$)/.test(spec) && !typeOnly)
+        if (isFrontend && /^@retinue\/agentkit(\/|$)/.test(spec) && !typeOnly)
           add("R2 frontend must import type-only from @retinue/agentkit");
 
         // R3 — the AI/provider SDK is confined to the models layer.

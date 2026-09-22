@@ -166,7 +166,7 @@ test("exactly the shipping packages are releasable, and no more", () => {
         continue;
       }
       if (!entry.name.endsWith(".ts") && !entry.name.endsWith(".tsx")) continue;
-      for (const m of readFileSync(full, "utf8").matchAll(/from\s+"(@(forge|forge)\/[a-z0-9-]+)"/g)) {
+      for (const m of readFileSync(full, "utf8").matchAll(/from\s+"(@retinue\/[a-z0-9-]+)"/g)) {
         imported.add(m[1]);
       }
     }
