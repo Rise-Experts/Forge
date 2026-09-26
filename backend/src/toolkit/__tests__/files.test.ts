@@ -18,7 +18,7 @@ let outside = "";
 let hasSymlinks = true;
 
 beforeAll(() => {
-  const base = mkdtempSync(join(tmpdir(), "forge-files-"));
+  const base = mkdtempSync(join(tmpdir(), "retinue-files-"));
   root = join(base, "root");
   writable = join(base, "scratch");
   outside = join(base, "outside");
@@ -131,7 +131,7 @@ describe("bounds", () => {
   });
 
   it("caps a listing and says so", () => {
-    const crowded = mkdtempSync(join(tmpdir(), "forge-files-many-"));
+    const crowded = mkdtempSync(join(tmpdir(), "retinue-files-many-"));
     for (let index = 0; index < 12; index += 1) writeFileSync(join(crowded, `f${index}.txt`), "x");
     const result = createFileReader({ root: crowded, maxEntries: 5 }).list(".");
     if (!result.ok) throw new Error("expected a listing");

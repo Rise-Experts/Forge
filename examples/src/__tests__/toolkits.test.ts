@@ -95,21 +95,21 @@ describe("reachable from the app, not just from their own tests", () => {
   });
 
   it("adds web_search only when a search provider is configured — the same tool either way", async () => {
-    setEnv({ FORGE_SEARCH_PROVIDER: undefined, BRAVE_API_KEY: undefined });
+    setEnv({ RETINUE_SEARCH_PROVIDER: undefined, BRAVE_API_KEY: undefined });
     expect(await namesInCatalogue()).not.toContain("web_search");
 
-    setEnv({ FORGE_SEARCH_PROVIDER: "brave", BRAVE_API_KEY: "brave-test" });
+    setEnv({ RETINUE_SEARCH_PROVIDER: "brave", BRAVE_API_KEY: "brave-test" });
     expect(await namesInCatalogue()).toContain("web_search");
 
     // And swapping vendor changes the provider, not the tool: same name, same schema, nothing for the model to
     // learn. That is the one-contract rule, and it is why `tools-search` exports no tools of its own.
-    setEnv({ FORGE_SEARCH_PROVIDER: "tavily", TAVILY_API_KEY: "tavily-test" });
+    setEnv({ RETINUE_SEARCH_PROVIDER: "tavily", TAVILY_API_KEY: "tavily-test" });
     expect(await namesInCatalogue()).toContain("web_search");
     expect(searchProviderFrom(process.env)?.name).toBe("tavily");
   });
 
   it("ignores a named provider whose key is missing, rather than sending an empty credential", async () => {
-    setEnv({ FORGE_SEARCH_PROVIDER: "serper", SERPER_API_KEY: undefined });
+    setEnv({ RETINUE_SEARCH_PROVIDER: "serper", SERPER_API_KEY: undefined });
     expect(searchProviderFrom(process.env)).toBeUndefined();
   });
 });
@@ -119,7 +119,7 @@ describe("a toolkit write is gated by the platform, not by the toolkit", () => {
     setEnv(configured);
     const result = await exampleRegistry(backend()).execute(context, {
       name: "github_create_issue",
-      input: { owner: "Rise-Experts", repo: "forge", title: "from a test" },
+      input: { owner: "Rise-Experts", repo: "retinue", title: "from a test" },
       toolCallId: "call-gate",
     });
     expect(result.ok).toBe(false);
@@ -195,7 +195,7 @@ describe("the wave-2 toolkits reach the app's registry", () => {
   const WAVE_TWO = {
     GOOGLE_ACCESS_TOKEN: "ya29.test",
     AZURE_ACCESS_TOKEN: "az.test",
-    FORGE_ENABLE_SCRAPE: "1",
+    RETINUE_ENABLE_SCRAPE: "1",
     EMAIL_FROM: "alerts@example.test",
     SMTP_HOST: "smtp.example.test",
     SMTP_USERNAME: "postmaster",
@@ -250,7 +250,7 @@ describe("the wave-2 toolkits reach the app's registry", () => {
      * argues that how a browser is launched and isolated is the operator's call. This asserts the absence so
      * that wiring one later is a deliberate change with a test to update, rather than something that drifts in.
      */
-    const everything = { ...WAVE_TWO, FORGE_ENABLE_BROWSER: "1" } as Record<string, string | undefined>;
+    const everything = { ...WAVE_TWO, RETINUE_ENABLE_BROWSER: "1" } as Record<string, string | undefined>;
     expect(exampleToolkits(everything).map((provider) => provider.id)).not.toContain("browser");
   });
 });
@@ -294,7 +294,7 @@ describe("the audio tools reach the app's registry", () => {
   };
 
   it("contributes transcribe and speech_generate when a key is configured", async () => {
-    setEnv({ FORGE_AUDIO_API_KEY: "sk-audio-test" });
+    setEnv({ RETINUE_AUDIO_API_KEY: "sk-audio-test" });
     const names = await audioNames();
     expect(names).toContain("transcribe");
     expect(names).toContain("speech_generate");
@@ -306,7 +306,7 @@ describe("the audio tools reach the app's registry", () => {
      * attachments. A `transcribe` with nowhere to read from would be a tool that always fails, which is the
      * shape this app refuses everywhere else.
      */
-    setEnv({ FORGE_AUDIO_API_KEY: "sk-audio-test" });
+    setEnv({ RETINUE_AUDIO_API_KEY: "sk-audio-test" });
     expect(await namesInCatalogue()).not.toContain("transcribe");
   });
 
@@ -315,14 +315,14 @@ describe("the audio tools reach the app's registry", () => {
      * Wiring is the toggle, here as everywhere. A `transcribe` that answered "not configured" would cost the
      * model a turn to discover and read, in a transcript, exactly like a broken integration.
      */
-    setEnv({ FORGE_AUDIO_API_KEY: undefined, FORGE_MODEL_API_KEY: undefined });
+    setEnv({ RETINUE_AUDIO_API_KEY: undefined, RETINUE_MODEL_API_KEY: undefined });
     const names = await audioNames();
     expect(names).not.toContain("transcribe");
     expect(names).not.toContain("speech_generate");
   });
 
   it("falls back to the model key, so an OpenAI deployment needs no second variable", async () => {
-    setEnv({ FORGE_AUDIO_API_KEY: undefined, FORGE_MODEL_API_KEY: "sk-model-test" });
+    setEnv({ RETINUE_AUDIO_API_KEY: undefined, RETINUE_MODEL_API_KEY: "sk-model-test" });
     expect(await audioNames()).toContain("transcribe");
   });
 });

@@ -125,7 +125,7 @@ Agents are declarative, stored, versioned and auditable.
 ### Which of these fields the runtime honours
 
 A field on a stored definition is worth nothing until something reads it, and five of these were read by nothing
-through 0.2.0 — see task [#242](https://github.com/Rise-Experts/forge/issues/242). `check:reachability` now
+through 0.2.0 — see task [#242](https://github.com/Rise-Experts/retinue/issues/242). `check:reachability` now
 holds every field of this type, so the table below is enforced rather than asserted:
 
 | Field | State |
@@ -135,8 +135,8 @@ holds every field of this type, so the table below is enforced rather than asser
 | `instructions` | The system prompt, unless the host overrides `systemPrompt`. |
 | `modelPolicy` | Read by `resolveModel`. |
 | `limits` | Enforced — step ceiling, output-token ceiling as the *lower* of agent and model definition, temperature, retries. |
-| `responseFormat` | **Honoured** ([#243](https://github.com/Rise-Experts/forge/issues/243)). See below. |
-| `toolPolicy` | **Honoured** ([#244](https://github.com/Rise-Experts/forge/issues/244)). `excluded` is a permission enforced on every path; `preloaded`/`categories` are protected from a catalogue budget. |
+| `responseFormat` | **Honoured** ([#243](https://github.com/Rise-Experts/retinue/issues/243)). See below. |
+| `toolPolicy` | **Honoured** ([#244](https://github.com/Rise-Experts/retinue/issues/244)). `excluded` is a permission enforced on every path; `preloaded`/`categories` are protected from a catalogue budget. |
 | `skillPolicy` | **Honoured** — `assigned` and `allowTenantSkills` gate both the catalogue section and `load_skill`. |
 | `contextProviderIds` | **Honoured** — a selection, in order. Empty means every wired provider; an unknown id is an error. |
 | `authorizationPolicyId` | **Honoured** — selects a registered policy. An unregistered id refuses rather than falling back. |

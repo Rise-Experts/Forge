@@ -1,6 +1,6 @@
 # Tool Selection at Scale
 
-Status: measured, 27 Aug 2026 · REQ-045 ([#204](https://github.com/Rise-Experts/forge/issues/204)), tasks [#221](https://github.com/Rise-Experts/forge/issues/221) and [#210](https://github.com/Rise-Experts/forge/issues/210)
+Status: measured, 27 Aug 2026 · REQ-045 ([#204](https://github.com/Rise-Experts/retinue/issues/204)), tasks [#221](https://github.com/Rise-Experts/retinue/issues/221) and [#210](https://github.com/Rise-Experts/retinue/issues/210)
 Harness: `evals/tool-selection-scale.mjs` · raw output: `evals/tool-selection-scale.json`,
 `evals/tool-selection-scale-budget-1500.json`, `evals/tool-selection-scale-budget-3000.json`
 
@@ -145,7 +145,7 @@ And the budget arm, one file per budget so the curve keeps both points:
 node evals/tool-selection-scale.mjs --sizes 200 --budget 1500
 ```
 
-Needs `FORGE_MODEL_API_KEY`; costs a few dollars of `gpt-4o` for a full run. `--cases N` truncates for a smoke
+Needs `RETINUE_MODEL_API_KEY`; costs a few dollars of `gpt-4o` for a full run. `--cases N` truncates for a smoke
 test. Re-run this after any catalog change and compare against the table above — that is what the committed JSON
 is for.
 

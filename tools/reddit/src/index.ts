@@ -77,7 +77,7 @@ export const userAgentString = (parts: RedditToolkitConfig["userAgent"]): string
     }
   }
   const contact = parts.contact.startsWith("/u/") || parts.contact.includes("@") ? parts.contact : `/u/${parts.contact}`;
-  return `forge:${parts.appId}:${parts.version} (by ${contact})`;
+  return `retinue:${parts.appId}:${parts.version} (by ${contact})`;
 };
 
 type Comment = { author: string; body: string; score: number; at: number; replies: Comment[] };

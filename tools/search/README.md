@@ -1,11 +1,11 @@
-<img src="https://raw.githubusercontent.com/Rise-Experts/Forge/main/brand/forge-mark.svg" alt="Forge" width="72" />
+<img src="https://raw.githubusercontent.com/Rise-Experts/Retinue/main/brand/retinue-mark.svg" alt="Retinue" width="72" />
 
 # @retinue/tools-search
 
 [![npm](https://img.shields.io/npm/v/@retinue/tools-search)](https://www.npmjs.com/package/@retinue/tools-search)
-[![licence](https://img.shields.io/npm/l/@retinue/tools-search)](https://github.com/Rise-Experts/Forge/blob/main/LICENSE)
+[![licence](https://img.shields.io/npm/l/@retinue/tools-search)](https://github.com/Rise-Experts/Retinue/blob/main/LICENSE)
 
-**Web-search providers for a [Forge](https://github.com/Rise-Experts/Forge) agent.** Brave, Tavily, Serper
+**Web-search providers for a [Retinue](https://github.com/Rise-Experts/Retinue) agent.** Brave, Tavily, Serper
 and self-hosted SearXNG — behind the one `web_search` tool the runtime already has.
 
 ## This package exports no tools
@@ -73,7 +73,7 @@ returning plausible results is a tool the model trusts and cannot verify.
 
 ## Licence
 
-MIT — see [LICENSE](https://github.com/Rise-Experts/Forge/blob/main/LICENSE).
+MIT — see [LICENSE](https://github.com/Rise-Experts/Retinue/blob/main/LICENSE).
 
 Copyright (c) 2026 [Azeem Sarwar](https://github.com/azeem-sarwar) and
 [Rise Experts](https://github.com/Rise-Experts).

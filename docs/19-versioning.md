@@ -1,6 +1,6 @@
 # Versioning, API surface and deprecation
 
-REQ-040 ([#189](https://github.com/Rise-Experts/forge/issues/189)). What consumers may depend on, what they
+REQ-040 ([#189](https://github.com/Rise-Experts/retinue/issues/189)). What consumers may depend on, what they
 will be told before it changes, and how long a removed thing keeps working.
 
 Written before the first publish, deliberately. After it, every mistake in here is permanent.
@@ -58,7 +58,7 @@ At 1.0 the normal rules apply: major for a removal, minor for an addition, patch
 
 | Version | Change | Migration |
 |---|---|---|
-| `0.3.0` (pending) | `CredentialResolver.resolve` returns a `Credential` instead of a `string` ([#260](https://github.com/Rise-Experts/forge/issues/260)) | See below |
+| `0.3.0` (pending) | `CredentialResolver.resolve` returns a `Credential` instead of a `string` ([#260](https://github.com/Rise-Experts/retinue/issues/260)) | See below |
 
 **`0.3.0` — a credential is a typed value.**
 
@@ -111,7 +111,7 @@ A removed export keeps working for **one minor version**, and the consumer is to
 2. **A `@deprecated` tag** with the replacement named, so an editor says so before the code is written.
 3. **A changelog entry** under `### Deprecated`, with the version that removes it.
 
-The rename is the shape: `FORGE_*` variables fall back to their `FORGE_*` and `AGENTKIT_*` spellings and warn once,
+The rename is the shape: `RETINUE_*` variables fall back to their `RETINUE_*` and `AGENTKIT_*` spellings and warn once,
 and the fallback goes in the next minor. An existing deployment keeps booting.
 
 **Two exceptions, stated so they are not surprises.** A deprecation cycle does not apply to a **security fix**
@@ -132,7 +132,7 @@ entry a reader does not believe can be checked in one click.
 Honest gaps rather than a plan presented as a state:
 
 - **Nothing is published yet**, but everything except the act of publishing is in place — see *Releasing*
-  below. The `@forge` npm scope exists, the licence is chosen, and both shipping packages are
+  below. The `@retinue` npm scope exists, the licence is chosen, and both shipping packages are
   publishable with a guard in front of them. What remains is a **decision about repository visibility**, below.
 - **No provenance, and no published `next` tag.** Both need a registry and a CI publishing identity, which is
   #193. The *policy* for prereleases is below, because it is needed by a decision already taken (the platform

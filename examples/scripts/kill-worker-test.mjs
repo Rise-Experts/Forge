@@ -24,25 +24,25 @@ import pg from "pg";
 import { spawn } from "node:child_process";
 import { resolve } from "node:path";
 
-const SCHEMA = process.env.FORGE_EXAMPLE_SCHEMA ?? "forge_example";
-const BASE = process.env.FORGE_EXAMPLE_URL ?? "http://localhost:4000";
+const SCHEMA = process.env.RETINUE_EXAMPLE_SCHEMA ?? "retinue_example";
+const BASE = process.env.RETINUE_EXAMPLE_URL ?? "http://localhost:4000";
 const TENANT = "killtest";
 
-if (!process.env.FORGE_DATABASE_URL) {
-  console.error("✗ FORGE_DATABASE_URL is required.");
+if (!process.env.RETINUE_DATABASE_URL) {
+  console.error("✗ RETINUE_DATABASE_URL is required.");
   process.exit(2);
 }
 
-const url = new URL(process.env.FORGE_DATABASE_URL);
+const url = new URL(process.env.RETINUE_DATABASE_URL);
 url.searchParams.set("options", `-c search_path=${SCHEMA},public`);
 const pool = new pg.Pool({ connectionString: url.toString(), max: 4 });
 const q = async (text, params) => (await pool.query(text, params ? [...params] : undefined)).rows;
 
 const headers = {
   "content-type": "application/json",
-  "x-forge-tenant": TENANT,
-  "x-forge-principal": "killtest-principal",
-  "x-forge-roles": "editor",
+  "x-retinue-tenant": TENANT,
+  "x-retinue-principal": "killtest-principal",
+  "x-retinue-roles": "editor",
 };
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -72,7 +72,7 @@ const startWorker = (label) => {
 };
 
 const run = async () => {
-  console.log("\nforge example — worker-kill recovery (#155 test step 3)\n");
+  console.log("\nretinue example — worker-kill recovery (#155 test step 3)\n");
 
   await q(`DELETE FROM messages WHERE tenant_id = $1`, [TENANT]);
   await q(`DELETE FROM runs WHERE tenant_id = $1`, [TENANT]);

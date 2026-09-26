@@ -67,6 +67,6 @@ test("the workflow this guard allows is the workflow that exists", () => {
 test("the escape hatch is named in the refusal rather than honoured", () => {
   // A variable that turns the guard off would be the guard's own bypass, findable by anyone who reads the source
   // while in a hurry. Naming it and refusing anyway is the only version of this that means something.
-  const problem = refusal({ ...RELEASE, FORGE_ALLOW_LOCAL_PUBLISH: "1" });
+  const problem = refusal({ ...RELEASE, RETINUE_ALLOW_LOCAL_PUBLISH: "1" });
   assert.match(problem, /does not do anything/);
 });

@@ -77,12 +77,12 @@ export const isDryRun = (env) => env.npm_config_dry_run === "true";
  */
 export const refusal = (env) => {
   if (isDryRun(env)) return null;
-  if (env.FORGE_ALLOW_LOCAL_PUBLISH || env.FORGE_ALLOW_LOCAL_PUBLISH) {
+  if (env.RETINUE_ALLOW_LOCAL_PUBLISH || env.RETINUE_ALLOW_LOCAL_PUBLISH) {
     // Deliberately not an escape hatch that works: naming it in the refusal is the point. Somebody setting this
     // has decided to publish an unreproducible artefact, and they should have to say so to a person, not to an
     // environment variable.
     return (
-      "FORGE_ALLOW_LOCAL_PUBLISH is set, and it does not do anything. There is no local-publish switch: the " +
+      "RETINUE_ALLOW_LOCAL_PUBLISH is set, and it does not do anything. There is no local-publish switch: the " +
       "artefact would be unreproducible whatever the variable says. Tag a release instead."
     );
   }

@@ -1,7 +1,7 @@
 {
   "name": "@retinue/tools-jira",
   "version": "0.3.0",
-  "description": "Jira Cloud tools for a Forge agent: JQL search, read and edit issues, transition workflows \u2014 gated and idempotent.",
+  "description": "Jira Cloud tools for a Retinue agent: JQL search, read and edit issues, transition workflows \u2014 gated and idempotent.",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -42,11 +42,11 @@
   "author": "Rise Experts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rise-Experts/Forge.git",
+    "url": "git+https://github.com/Rise-Experts/Retinue.git",
     "directory": "tools/jira"
   },
-  "homepage": "https://github.com/Rise-Experts/Forge#readme",
+  "homepage": "https://github.com/Rise-Experts/Retinue#readme",
   "bugs": {
-    "url": "https://github.com/Rise-Experts/Forge/issues"
+    "url": "https://github.com/Rise-Experts/Retinue/issues"
   }
 }

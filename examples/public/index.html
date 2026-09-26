@@ -1,7 +1,7 @@
 <!doctype html>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Assistant · Forge</title>
+<title>Assistant · Retinue</title>
 <!--
   A chat assistant over @retinue/agentkit (#155).
 
@@ -26,7 +26,7 @@
    * This page used to have its own palette: a different blue, a different grey, a different near-black. It is the
    * first thing anybody evaluating the platform actually looks at, and it looked like a different product. The
    * colours below are `brand/tokens.json` verbatim; the semantic names stay, because a stylesheet full of
-   * `--forge-navy` reads worse than one that says what the colour is *for*.
+   * `--retinue-navy` reads worse than one that says what the colour is *for*.
    *
    * Type is the same pairing as the documentation site: a transitional serif for headings, the system sans for
    * everything else, and no web font — nothing here loads from a host we do not control.
@@ -361,7 +361,7 @@
     the mark reads at — see `usage.mark` in brand/tokens.json.
   -->
   <div class="brand">
-    <svg viewBox="0 0 64 64" role="img" aria-label="Forge">
+    <svg viewBox="0 0 64 64" role="img" aria-label="Retinue">
       <circle cx="32" cy="32" r="10.5" fill="var(--accent)" />
       <g fill="#4f81bd">
         <circle cx="39.5" cy="52.7" r="3.6" /><circle cx="52.7" cy="39.5" r="4.2" />
@@ -496,7 +496,7 @@
   const headers = () => ({
     "content-type": "application/json",
     // The dev authenticator reads these. This is not authentication — any caller can claim any workspace, which
-    // is exactly why the server refuses to start without FORGE_EXAMPLE_DEV_AUTH=1.
+    // is exactly why the server refuses to start without RETINUE_EXAMPLE_DEV_AUTH=1.
     "x-agentkit-tenant": $("tenant").value.trim(),
     "x-agentkit-principal": $("principal").value.trim(),
     "x-agentkit-roles": $("role").value,

@@ -18,7 +18,7 @@
         <circle cx="17.9" cy="15.1" r="3.6" />
       </g>
     </g>
-    <text x="96" y="380" fill="#e6edf5" font-family="Iowan Old Style, Palatino, Georgia, serif" font-size="96" font-weight="600">Forge</text>
+    <text x="96" y="380" fill="#e6edf5" font-family="Iowan Old Style, Palatino, Georgia, serif" font-size="96" font-weight="600">Retinue</text>
     <text x="96" y="448" fill="#7aa6d8" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="34">A reusable AI agent platform for TypeScript</text>
     <text x="96" y="530" fill="#8798a9" font-family="system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="24">Durable runs · classified tools · human-in-the-loop · permission-aware retrieval</text>
   </g>

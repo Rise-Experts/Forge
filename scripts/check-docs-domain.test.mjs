@@ -12,7 +12,7 @@ import { readFileSync } from "node:fs";
 import {
   configuredUrl,
   deepPathFrom,
-  LEGACY_URL,
+  RETIRED_HOSTS,
   originsIn,
   redirectVerdict,
   settledPath,
@@ -20,7 +20,7 @@ import {
   customDomains,
 } from "./check-docs-domain.mjs";
 
-const INTENDED = "https://docs.forge.riseexperts.de";
+const INTENDED = "https://docs.retinue.riseexperts.de";
 
 test("importing this module does not run the check", () => {
   // The same guard the consumer-boundary checker needed: without it, importing here ran the whole check and
@@ -29,10 +29,10 @@ test("importing this module does not run the check", () => {
 });
 
 test("the hostname comes from the config, trailing slash removed", () => {
-  assert.equal(configuredUrl('const config = {\n  title: "Forge",\n  url: "https://x.example/",\n};'), "https://x.example");
+  assert.equal(configuredUrl('const config = {\n  title: "Retinue",\n  url: "https://x.example/",\n};'), "https://x.example");
   assert.equal(configuredUrl('  url: "https://y.example",'), "https://y.example");
   // No url: the caller must exit 2 rather than pass, since there is then nothing to hold reality to.
-  assert.equal(configuredUrl('const config = { title: "Forge" };'), null);
+  assert.equal(configuredUrl('const config = { title: "Retinue" };'), null);
   // Not fooled by a `url:` belonging to something else further down the file.
   assert.equal(configuredUrl('  url: "https://real.example",\n  footer: { url: "https://other.example" },'), "https://real.example");
 });
@@ -55,7 +55,7 @@ test("a redirect to the root is refused, which is the failure that looks like su
 test("a redirect to the wrong host, and one with no location, are refused", () => {
   assert.match(
     redirectVerdict({ status: 301, location: "https://elsewhere.example/x/" }, { intended: INTENDED, path: "/x/" }),
-    /expected https:\/\/docs\.forge\.riseexperts\.de\/x\//,
+    /expected https:\/\/docs\.retinue\.riseexperts\.de\/x\//,
   );
   assert.match(redirectVerdict({ status: 301, location: null }, { intended: INTENDED, path: "/x/" }), /no location header/);
   assert.match(redirectVerdict({ status: 200, location: null }, { intended: INTENDED, path: "/x/" }), /not a redirect/);
@@ -78,10 +78,10 @@ test("the deep path comes from the sitemap, and the root is not a deep path", ()
 });
 
 test("origins on our own domain are found, so a stale canonical is visible", () => {
-  const html = `<link rel="canonical" href="${LEGACY_URL}/"><meta property="og:url" content="${INTENDED}/">`;
-  assert.deepEqual([...originsIn(html)].sort(), [LEGACY_URL, INTENDED].sort());
+  const html = `<link rel="canonical" href="${RETIRED_HOSTS[1]}/"><meta property="og:url" content="${INTENDED}/">`;
+  assert.deepEqual([...originsIn(html)].sort(), [RETIRED_HOSTS[1], INTENDED].sort());
   // A third-party absolute URL is not ours and must not be reported as a hostname problem.
-  assert.deepEqual([...originsIn('<a href="https://github.com/Rise-Experts/Forge">')], []);
+  assert.deepEqual([...originsIn('<a href="https://github.com/Rise-Experts/Retinue">')], []);
 });
 
 test("the Worker name is read from a wrangler config, comments and all", () => {
@@ -92,16 +92,24 @@ test("the Worker name is read from a wrangler config, comments and all", () => {
   assert.equal(wranglerName('{ "assets": { "directory": "./build" } }'), null);
 });
 
-test("the legacy host stays named after the cutover", () => {
-  // Deleting it once the move is done would remove the only assertion that the old links kept working.
-  assert.equal(LEGACY_URL, "https://docs.agentkit.riseexperts.de");
+test("every host the site has left stays named, so a stale artefact naming any of them is caught", () => {
+  // The set, not just the most recent: the site moved three times, and a build predating any of those moves can
+  // carry that host in its canonical tag. A single legacy constant is what went stale here before — it named a
+  // host two moves behind while two others went unchecked.
+  assert.deepEqual(RETIRED_HOSTS, [
+    "https://agentkit.rise-experts.dev",
+    "https://docs.agentkit.riseexperts.de",
+    "https://docs.forge.riseexperts.de",
+  ]);
+  // The host the site currently claims is not in the retired set — that pair is the whole invariant.
+  assert.ok(!RETIRED_HOSTS.includes(INTENDED));
 });
 
 test("only a custom domain counts as attaching the hostname", () => {
   /**
    * The distinction that cost an afternoon. A route matches traffic for a hostname that must already resolve and
    * already have a certificate; a custom domain *creates* the record and provisions an Advanced Certificate for
-   * the exact hostname. `docs.forge.riseexperts.de` is a second-level subdomain, which the universal
+   * the exact hostname. `docs.retinue.riseexperts.de` is a second-level subdomain, which the universal
    * certificate does not cover, so a route leaves the site answering over HTTP and failing TLS.
    */
   const withDomain = '{ "routes": [ { "pattern": "docs.example.com", "custom_domain": true } ] }';

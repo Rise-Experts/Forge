@@ -1,7 +1,7 @@
 {
   "name": "@retinue/tools-confluence",
   "version": "0.3.0",
-  "description": "Confluence Cloud tools for a Forge agent: CQL search, read and write pages \u2014 gated, idempotent, and conflict-safe.",
+  "description": "Confluence Cloud tools for a Retinue agent: CQL search, read and write pages \u2014 gated, idempotent, and conflict-safe.",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -42,11 +42,11 @@
   "author": "Rise Experts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rise-Experts/Forge.git",
+    "url": "git+https://github.com/Rise-Experts/Retinue.git",
     "directory": "tools/confluence"
   },
-  "homepage": "https://github.com/Rise-Experts/Forge#readme",
+  "homepage": "https://github.com/Rise-Experts/Retinue#readme",
   "bugs": {
-    "url": "https://github.com/Rise-Experts/Forge/issues"
+    "url": "https://github.com/Rise-Experts/Retinue/issues"
   }
 }

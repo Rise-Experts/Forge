@@ -1,7 +1,7 @@
 {
   "name": "@retinue/tools-linear",
   "version": "0.3.0",
-  "description": "Linear tools for a Forge agent: search, read and edit issues, move them between workflow states \u2014 gated and idempotent.",
+  "description": "Linear tools for a Retinue agent: search, read and edit issues, move them between workflow states \u2014 gated and idempotent.",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -42,11 +42,11 @@
   "author": "Rise Experts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rise-Experts/Forge.git",
+    "url": "git+https://github.com/Rise-Experts/Retinue.git",
     "directory": "tools/linear"
   },
-  "homepage": "https://github.com/Rise-Experts/Forge#readme",
+  "homepage": "https://github.com/Rise-Experts/Retinue#readme",
   "bugs": {
-    "url": "https://github.com/Rise-Experts/Forge/issues"
+    "url": "https://github.com/Rise-Experts/Retinue/issues"
   }
 }

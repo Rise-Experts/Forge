@@ -364,7 +364,7 @@ const run = (command, args, options = {}) => {
  * time inside the check written to find it.
  */
 const main = () => {
-  const work = mkdtempSync(join(tmpdir(), "forge-consumer-"));
+  const work = mkdtempSync(join(tmpdir(), "retinue-consumer-"));
   const keep = process.argv.includes("--keep");
   const published = process.argv.includes("--published");
   /**
@@ -394,12 +394,12 @@ const main = () => {
     // ── one consumer, both packages: a directory whose only knowledge of them is `node_modules` ───────────────
     const consumer = join(work, "consumer");
     const modules = join(consumer, "node_modules");
-    mkdirSync(join(modules, "@forge"), { recursive: true });
+    mkdirSync(join(modules, "@retinue"), { recursive: true });
 
-    // Everything except `@forge` and legacy `@retinue`: the workspace's own links would put `backend/src` back within reach and undo
+    // Everything except `@retinue` and legacy `@retinue`: the workspace's own links would put `backend/src` back within reach and undo
     // the only thing being tested here.
     for (const entry of readdirSync(join(ROOT, "node_modules"))) {
-      if (entry === "@forge" || entry === "@retinue") continue;
+      if (entry === "@retinue" || entry === "@retinue") continue;
       const src = join(ROOT, "node_modules", entry);
       const dst = join(modules, entry);
       try {

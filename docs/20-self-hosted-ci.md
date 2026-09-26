@@ -25,7 +25,7 @@ when reading the rest: this is a system you can break while learning, which is e
 to learn on.
 
 So the JUnit wiring is what makes a second CI system pay for itself. `vitest.shared.ts` adds a `junit` reporter
-**only** when `FORGE_JUNIT_DIR` (or `FORGE_JUNIT_DIR`) is set, so the suites run **once** and emit both reporters — collecting trend
+**only** when `RETINUE_JUNIT_DIR` (or `RETINUE_JUNIT_DIR`) is set, so the suites run **once** and emit both reporters — collecting trend
 data by running the slowest part of the build a second time would cost more than the data is worth. Nothing
 changes on a workstation, where the variable is unset.
 
@@ -77,7 +77,7 @@ The repository is public, so **no credentials are needed to clone it** — a rea
 few things that got easier today.
 
 - **Job type:** a *Pipeline* job with "Pipeline script from SCM", pointing at
-  `https://github.com/Rise-Experts/forge.git`, branch `main`, script path `Jenkinsfile`. A *Multibranch
+  `https://github.com/Rise-Experts/retinue.git`, branch `main`, script path `Jenkinsfile`. A *Multibranch
   Pipeline* builds every branch and PR automatically — more useful, and it is where the fork hazard below
   applies.
 - **Triggering:** a GitHub webhook to `http://<jenkins>/github-webhook/` is the responsive option and needs
@@ -137,7 +137,7 @@ This is the part worth reading as a tutorial, because every stage in it exists b
 |---|---|
 | `agent { label 'linux' }` | Where the build runs. A label rather than `any` so a machine without Docker fails at scheduling rather than three stages in. |
 | `options { … }` | `disableConcurrentBuilds()` — the host ports are fixed, so two builds collide on `EADDRINUSE` and it reads as a broken test. `timeout(45, MINUTES)` — a wedged container must not hold the agent overnight. `buildDiscarder(logRotator(numToKeepStr: '30'))` — build history is disk, and it grows without this. `timestamps()` — a log without times cannot answer "what was slow". |
-| `environment { … }` | Values every stage sees. `npm_config_cache` is redirected into the workspace because a Jenkins agent's `$HOME` is not always writable by the build user — an error that reads as an npm bug. `FORGE_JUNIT_DIR` is what switches the JUnit reporter on. |
+| `environment { … }` | Values every stage sees. `npm_config_cache` is redirected into the workspace because a Jenkins agent's `$HOME` is not always writable by the build user — an error that reads as an npm bug. `RETINUE_JUNIT_DIR` is what switches the JUnit reporter on. |
 | `Checkout` → `sh 'git log -1 --oneline'` | A build log that does not say what it built cannot answer "was that fixed before or after". One line, disproportionate value. |
 | `Preflight` | Fail with a sentence, not a stack trace three stages later. It checks Node, Docker, **and Docker usable as this user** — the third is the one people miss, because `docker` on `PATH` says nothing about group membership. |
 | `Services` | What Jenkins has no `services:` block for: `docker run`, then **wait for readiness**, then clean up in `post`. |

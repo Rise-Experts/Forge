@@ -18,7 +18,7 @@ const CHECKER = join(import.meta.dirname, "check-script-imports.mjs");
 
 /** A tree with one hand-written package installed, so resolution is real but hermetic. */
 function fixture(scripts) {
-  const dir = mkdtempSync(join(tmpdir(), "forge-scripts-"));
+  const dir = mkdtempSync(join(tmpdir(), "retinue-scripts-"));
   mkdirSync(join(dir, "node_modules", "fixture-pkg"), { recursive: true });
   writeFileSync(
     join(dir, "node_modules", "fixture-pkg", "package.json"),
@@ -91,7 +91,7 @@ test("a default import is checked too", (t) => {
 });
 
 test("finding nothing to check exits 2, not 0", (t) => {
-  const dir = mkdtempSync(join(tmpdir(), "forge-scripts-empty-"));
+  const dir = mkdtempSync(join(tmpdir(), "retinue-scripts-empty-"));
   t.after(() => rmSync(dir, { recursive: true, force: true }));
   const { code, out } = run(dir);
   assert.equal(code, 2, out);

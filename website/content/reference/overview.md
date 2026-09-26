@@ -1,6 +1,6 @@
 ---
 title: Reference
-description: Find Forge packages, subpaths, configuration, and generated API documentation.
+description: Find Retinue packages, subpaths, configuration, and generated API documentation.
 ---
 
 # Reference

@@ -1,8 +1,8 @@
 # The Open Knowledge Format, Read Against Our Document Model
 
 Status: read, decided — **wait for 1.0**, 27 Aug 2026 · REQ-050
-([#209](https://github.com/Rise-Experts/forge/issues/209)), task
-[#220](https://github.com/Rise-Experts/forge/issues/220)
+([#209](https://github.com/Rise-Experts/retinue/issues/209)), task
+[#220](https://github.com/Rise-Experts/retinue/issues/220)
 Sources: [the announcement](https://cloud.google.com/blog/products/data-analytics/how-the-open-knowledge-format-can-improve-data-sharing)
 · [the specification](https://github.com/GoogleCloudPlatform/open-knowledge-format) (Apache-2.0)
 
@@ -56,7 +56,7 @@ bundle-relative path.
 | Concept body (headings, prose, lists, tables) | `DocumentBlock[]` | Clean; every block kind has a counterpart |
 | `#` sections | `Chunk.locator` | Clean, and better than most corpora give us |
 | One concept file | One `IndexSourceInput` source | Clean |
-| `index.md` hierarchy | `OutlineCatalogue` (from [#219](https://github.com/Rise-Experts/forge/issues/219)) | Clean — and see below, this is the interesting one |
+| `index.md` hierarchy | `OutlineCatalogue` (from [#219](https://github.com/Rise-Experts/retinue/issues/219)) | Clean — and see below, this is the interesting one |
 | Bundle-relative links | *nothing* | No counterpart |
 
 ### What has no counterpart, OKF → us
@@ -101,7 +101,7 @@ Concretely, and the parts are unequal.
 | Bundle walking, `index.md`, links | `OutlineCatalogue` (already exists) | Small |
 | Chunking | **nothing** | Nothing at all — see below |
 
-**Chunking needs nothing.** [#219](https://github.com/Rise-Experts/forge/issues/219) measured 400/800 against
+**Chunking needs nothing.** [#219](https://github.com/Rise-Experts/retinue/issues/219) measured 400/800 against
 200/400 and 800/1600 over exactly this kind of corpus: the default is right for prose, and an OKF concept is
 prose. That is a concrete answer rather than an assumption, and it is the cheapest half of this estimate.
 

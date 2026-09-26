@@ -64,7 +64,7 @@ export type JsonResult =
  *
  * Requested unfenced, because the body is parsed here and reaches the model as *structured data*, not as prose.
  * Fencing it would put delimiters inside string values. The safety argument is different in kind: a parsed object
- * cannot forge a section boundary, and a caller rendering one back into a prompt is the caller that must fence.
+ * cannot retinue a section boundary, and a caller rendering one back into a prompt is the caller that must fence.
  */
 export const createFetchJson = (config: HttpClientConfig & { readonly client?: HttpClient } = {}) => {
   const client = config.client ?? createHttpClient(config);

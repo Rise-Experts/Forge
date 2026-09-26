@@ -10,13 +10,13 @@
 import { pathToFileURL } from "node:url";
 import { resolve } from "node:path";
 
-const SCHEMA = process.env.FORGE_EXAMPLE_SCHEMA ?? "forge_example";
-if (process.env.FORGE_DATABASE_URL && !process.env.FORGE_DATABASE_URL.includes("search_path")) {
-  const url = new URL(process.env.FORGE_DATABASE_URL);
+const SCHEMA = process.env.RETINUE_EXAMPLE_SCHEMA ?? "retinue_example";
+if (process.env.RETINUE_DATABASE_URL && !process.env.RETINUE_DATABASE_URL.includes("search_path")) {
+  const url = new URL(process.env.RETINUE_DATABASE_URL);
   url.searchParams.set("options", `-c search_path=${SCHEMA},public`);
-  process.env.FORGE_DATABASE_URL = url.toString();
+  process.env.RETINUE_DATABASE_URL = url.toString();
 }
-process.env.FORGE_APP_MODULE = pathToFileURL(resolve(import.meta.dirname, "../dist/index.js")).href;
+process.env.RETINUE_APP_MODULE = pathToFileURL(resolve(import.meta.dirname, "../dist/index.js")).href;
 
 // The dev-auth gate, before anything boots — #155 AC-6. The authenticator itself is built lazily now, so this
 // is what keeps "refuses to start" true rather than "fails on the first request".
@@ -34,7 +34,7 @@ process.env.FORGE_APP_MODULE = pathToFileURL(resolve(import.meta.dirname, "../di
 
 const { runWorker } = await import("@retinue/agentkit/server");
 const { shutdown } = await runWorker();
-console.log(`  forge example — worker running (schema ${SCHEMA}). Ctrl-C to drain.`);
+console.log(`  retinue example — worker running (schema ${SCHEMA}). Ctrl-C to drain.`);
 
 /**
  * Drain, then close the MCP server — #173.

@@ -2,7 +2,7 @@
  * The published API reference documents the platform, not its consumers.
  *
  * `website/typedoc.json`'s `entryPoints` decide what gets rendered to `/api/**` and served from
- * `docs.forge.riseexperts.de`. `../shareflow/src/index.ts` was one of them, and the result was **404 URLs in
+ * `docs.retinue.riseexperts.de`. `../shareflow/src/index.ts` was one of them, and the result was **404 URLs in
  * the sitemap** under `/api/shareflow/src/` — every exported function and type of the ShareFlow integration,
  * with its docstrings attached. Those docstrings are where the integration's reasoning lives: ShareFlow's table
  * names, its schema quirks, which platform refuses to delete what. None of it is a credential; all of it is

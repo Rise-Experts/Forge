@@ -49,7 +49,7 @@ export type ToolkitEnv = Readonly<Record<string, string | undefined>>;
  * the deployment's decision and not a decision a model should be spending a tool call on.
  */
 export const searchProviderFrom = (env: ToolkitEnv): SearchProvider | undefined => {
-  const named = env.FORGE_SEARCH_PROVIDER ?? env.FORGE_SEARCH_PROVIDER;
+  const named = env.RETINUE_SEARCH_PROVIDER ?? env.RETINUE_SEARCH_PROVIDER;
   if (named === "brave" && env.BRAVE_API_KEY !== undefined) return braveSearch({ apiKey: env.BRAVE_API_KEY });
   if (named === "tavily" && env.TAVILY_API_KEY !== undefined) return tavilySearch({ apiKey: env.TAVILY_API_KEY });
   if (named === "serper" && env.SERPER_API_KEY !== undefined) return serperSearch({ apiKey: env.SERPER_API_KEY });
@@ -171,7 +171,7 @@ export const exampleToolkits = (env: ToolkitEnv, fetchImpl?: typeof fetch): read
         credentialRef: "reddit",
         resolver: createStaticCredentialResolver({ reddit: env.REDDIT_ACCESS_TOKEN }),
         userAgent: {
-          appId: env.REDDIT_APP_ID ?? "forge-example",
+          appId: env.REDDIT_APP_ID ?? "retinue-example",
           version: env.REDDIT_APP_VERSION ?? "0.3.0",
           contact: env.REDDIT_USER_AGENT_CONTACT,
         },
@@ -244,7 +244,7 @@ export const exampleToolkits = (env: ToolkitEnv, fetchImpl?: typeof fetch): read
    * A hosted provider is an *upgrade* chosen the way a search provider is, and implies the opt-in: configuring
    * one is asking for this.
    */
-  if (env.FIRECRAWL_API_KEY !== undefined || env.JINA_API_KEY !== undefined || env.FORGE_ENABLE_SCRAPE === "1" || env.FORGE_ENABLE_SCRAPE === "1") {
+  if (env.FIRECRAWL_API_KEY !== undefined || env.JINA_API_KEY !== undefined || env.RETINUE_ENABLE_SCRAPE === "1" || env.RETINUE_ENABLE_SCRAPE === "1") {
     providers.push(
       createScrapeToolkit({
         ...(env.FIRECRAWL_API_KEY !== undefined

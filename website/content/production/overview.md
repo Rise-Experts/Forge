@@ -1,9 +1,9 @@
 ---
-title: Run Forge in production
-description: Move from an embedded agent to the Forge server and worker runtime.
+title: Run Retinue in production
+description: Move from an embedded agent to the Retinue server and worker runtime.
 ---
 
-# Run Forge in production
+# Run Retinue in production
 
 The embedded facade is intentionally simple. Production deployments use the same engine with durable stores, a queue, an API host, and workers.
 

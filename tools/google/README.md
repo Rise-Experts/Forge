@@ -1,6 +1,6 @@
 # @retinue/tools-google
 
-Gmail and Calendar tools for a [Forge](https://github.com/Rise-Experts/Forge) agent.
+Gmail and Calendar tools for a [Retinue](https://github.com/Rise-Experts/Retinue) agent.
 
 ```bash
 npm i @retinue/tools-google
@@ -60,6 +60,6 @@ a message to eight people and the other is not.
   verification — a security assessment taking weeks — before anyone outside your test users can consent.
   Calendar's are merely *sensitive*: verification, no assessment. `GOOGLE_SCOPES` exports which is which.
 
-Full documentation: [docs.forge.riseexperts.de](https://docs.forge.riseexperts.de/integrations/google).
+Full documentation: [docs.retinue.riseexperts.de](https://docs.retinue.riseexperts.de/integrations/google).
 
 MIT

@@ -17,7 +17,7 @@ import { asId } from "../../core/ids.js";
 import type { RunId, TenantId } from "../../core/ids.js";
 import { TOOL_EFFECTS, type ToolDescriptor, type ToolEffect, type Tool, type ToolProvider } from "../../tools/index.js";
 import { createToolRegistry } from "../../tools/registry.js";
-import { annotationsFor, describeForMcp, registerForgeTools, toMcpResult } from "../index.js";
+import { annotationsFor, describeForMcp, registerRetinueTools, toMcpResult } from "../index.js";
 
 const ctx = (tenant: string, excluded: readonly string[] = []): ExecutionContext => ({
   tenantId: asId<TenantId>(tenant),
@@ -90,7 +90,7 @@ const SCHEMAS = { listTools: "list", callTool: "call" };
 const wire = (descriptors: readonly ToolDescriptor[], context: ExecutionContext) => {
   const registry = createToolRegistry({ providers: [provider(descriptors)], authorization: allowAll });
   const fake = fakeServer();
-  registerForgeTools(fake.server, SCHEMAS, { registry, context });
+  registerRetinueTools(fake.server, SCHEMAS, { registry, context });
   return fake;
 };
 
@@ -147,7 +147,7 @@ describe("the caller's toolset, never the whole registry — AC-2", () => {
       },
     });
     const fake = fakeServer();
-    registerForgeTools(fake.server, SCHEMAS, { registry, context: ctx("t1") });
+    registerRetinueTools(fake.server, SCHEMAS, { registry, context: ctx("t1") });
     const listed = (await fake.list()) as { tools: readonly { name: string }[] };
     expect(listed.tools.map((t) => t.name)).toEqual(["alpha"]);
   });
@@ -166,7 +166,7 @@ describe("the caller's toolset, never the whole registry — AC-2", () => {
       },
     });
     const fake = fakeServer();
-    registerForgeTools(fake.server, SCHEMAS, { registry, context: ctx("t1") });
+    registerRetinueTools(fake.server, SCHEMAS, { registry, context: ctx("t1") });
     const result = (await fake.call("secret")) as { isError?: boolean };
     expect(result.isError).toBe(true);
     expect(ran).toEqual([]);

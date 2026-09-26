@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Approvals & safety
 
-How Forge keeps a model from doing something it shouldn't.
+How Retinue keeps a model from doing something it shouldn't.
 
 ## The three lines of defense
 

@@ -8,7 +8,7 @@ A tool is a typed capability an agent can call to read data or take an action be
 
 ## Why tools exist
 
-Models can explain what to do, but they cannot safely inspect your inventory, query an internal service, or send a message. A Forge tool is the boundary around that operation: it describes the inputs the model may supply and classifies the action before it executes.
+Models can explain what to do, but they cannot safely inspect your inventory, query an internal service, or send a message. A Retinue tool is the boundary around that operation: it describes the inputs the model may supply and classifies the action before it executes.
 
 ```mermaid
 flowchart TD
@@ -59,11 +59,11 @@ const agent = createAgent({
 
 `ToolProvider` is the interface between an agent and one or more tools. The inline provider above is appropriate for a fixed example; use `toolProvider("inventory", [checkStock])` for a fixed set, or implement `listTools(context)` when available tools depend on the tenant or caller.
 
-This example is compile-checked in [`website/examples/agent-with-tool.ts`](https://github.com/Rise-Experts/forge/blob/main/website/examples/agent-with-tool.ts).
+This example is compile-checked in [`website/examples/agent-with-tool.ts`](https://github.com/Rise-Experts/retinue/blob/main/website/examples/agent-with-tool.ts).
 
 ## Effects, approval, and idempotency
 
-An effect states what the tool can change. Forge uses it to apply safety rules before the tool function runs.
+An effect states what the tool can change. Retinue uses it to apply safety rules before the tool function runs.
 
 | Effect | Meaning | Default approval behavior |
 |---|---|---|
@@ -91,7 +91,7 @@ In embedded mode, an unapproved action returns an approval-required result. In s
 
 In the normal agent runtime, tools are filtered before discovery and checked again when called. Tool input is validated before execution. External and destructive effects need idempotency protection, so a retry returns the original result rather than repeating the side effect.
 
-Tools can also return a normal result envelope: `{ ok: true, data }` on success, or `{ ok: false, error }` when the operation cannot run. Throw from a `defineTool` callback when the underlying service fails; Forge converts it to that safe error shape.
+Tools can also return a normal result envelope: `{ ok: true, data }` on success, or `{ ok: false, error }` when the operation cannot run. Throw from a `defineTool` callback when the underlying service fails; Retinue converts it to that safe error shape.
 
 ## Choose the right starting point
 
@@ -101,7 +101,7 @@ Tools can also return a normal result envelope: `{ ok: true, data }` on success,
 | Make a write safe by default | `confirms()` or `destroys()` |
 | Add maintained vendor capabilities | An [integration package](../integrations/overview) |
 | Connect a tenant-owned external tool server | [MCP](../mcp/overview) |
-| Use Forge's supplied utilities | [Built-in tools](../guides/tools) |
+| Use Retinue's supplied utilities | [Built-in tools](../guides/tools) |
 
 ## Next
 

@@ -1,6 +1,6 @@
 # @retinue/tools-jira
 
-Jira Cloud tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: JQL search, read and edit
+Jira Cloud tools for a [Retinue](https://github.com/Rise-Experts/Retinue) agent: JQL search, read and edit
 issues, move them along their workflow, and comment.
 
 ```bash
@@ -84,6 +84,6 @@ nobody asked for while reporting success. One extra call cannot be wrong.
   rather than a person's.
 
 Full documentation, including per-permission requirements and what is deliberately not built:
-[docs.forge.riseexperts.de](https://docs.forge.riseexperts.de/integrations/jira).
+[docs.retinue.riseexperts.de](https://docs.retinue.riseexperts.de/integrations/jira).
 
 MIT

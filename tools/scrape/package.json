@@ -42,11 +42,11 @@
   "author": "Rise Experts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rise-Experts/Forge.git",
+    "url": "git+https://github.com/Rise-Experts/Retinue.git",
     "directory": "tools/scrape"
   },
-  "homepage": "https://github.com/Rise-Experts/Forge#readme",
+  "homepage": "https://github.com/Rise-Experts/Retinue#readme",
   "bugs": {
-    "url": "https://github.com/Rise-Experts/Forge/issues"
+    "url": "https://github.com/Rise-Experts/Retinue/issues"
   }
 }

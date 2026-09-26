@@ -1,6 +1,6 @@
 # @retinue/tools-browser
 
-Drive a real browser for a [Forge](https://github.com/Rise-Experts/Forge) agent, when a page will not yield
+Drive a real browser for a [Retinue](https://github.com/Rise-Experts/Retinue) agent, when a page will not yield
 to a fetch.
 
 ```bash

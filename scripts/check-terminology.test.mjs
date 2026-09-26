@@ -69,7 +69,7 @@ test("a phrase still matches across a line wrap", () => {
 
 /** A tree with its own glossary, so the end-to-end path is exercised without depending on the real one. */
 const fixture = (glossary, files) => {
-  const dir = mkdtempSync(join(tmpdir(), "forge-terms-"));
+  const dir = mkdtempSync(join(tmpdir(), "retinue-terms-"));
   mkdirSync(join(dir, "docs"), { recursive: true });
   mkdirSync(join(dir, "scripts"), { recursive: true });
   writeFileSync(join(dir, "docs", "22-glossary.md"), glossary);

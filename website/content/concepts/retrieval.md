@@ -4,7 +4,7 @@ sidebar_position: 7
 
 # Retrieval (RAG)
 
-Knowledge is Forge's indexed, authorized source material. Unlike memory, it is not a remembered user fact; it is retrieved because it is relevant to the current request.
+Knowledge is Retinue's indexed, authorized source material. Unlike memory, it is not a remembered user fact; it is retrieved because it is relevant to the current request.
 
 ```mermaid
 flowchart TD

@@ -99,7 +99,7 @@ scope, and the tool that would change that is `tools-browser`, which has its own
 argument.
 
 **No bot-detection evasion.** No browser impersonation, no CAPTCHA solving, no proxy rotation, no fingerprint
-spoofing. The User-Agent is honest — `ForgeBot/1.0` with a URL explaining what it is — so a site that wants
+spoofing. The User-Agent is honest — `RetinueBot/1.0` with a URL explaining what it is — so a site that wants
 to refuse this can. That is a deliberate position, not a missing feature: a package whose purpose is reading
 public pages does not need to pretend to be a person, and one that did would be a different kind of tool with
 different questions attached.

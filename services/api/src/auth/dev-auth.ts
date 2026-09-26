@@ -5,7 +5,7 @@
  * claim to be anyone. It exists because a service you cannot start is a service nobody evaluates, and the honest
  * way to ship that is a thing that says what it is and refuses to run unless someone acknowledges it.
  *
- * `FORGE_DEV_AUTH=1` is the acknowledgement, and it is checked at **construction** rather than per request: a
+ * `RETINUE_DEV_AUTH=1` is the acknowledgement, and it is checked at **construction** rather than per request: a
  * misconfigured service then fails at boot with one clear message, instead of returning 401 to every caller and
  * leaving somebody to guess why.
  */
@@ -15,13 +15,13 @@ import { asId } from "@retinue/agentkit";
 import type { Authenticate } from "@retinue/agentkit/server";
 import type { ExecutionContext } from "@retinue/agentkit";
 
-export const DEV_AUTH_VARIABLE = "FORGE_DEV_AUTH";
+export const DEV_AUTH_VARIABLE = "RETINUE_DEV_AUTH";
 export const RETINUE_DEV_AUTH_VARIABLE = "RETINUE_DEV_AUTH";
-export const TENANT_HEADER = "x-forge-tenant";
+export const TENANT_HEADER = "x-retinue-tenant";
 export const RETINUE_TENANT_HEADER = "x-retinue-tenant";
-export const PRINCIPAL_HEADER = "x-forge-principal";
+export const PRINCIPAL_HEADER = "x-retinue-principal";
 export const RETINUE_PRINCIPAL_HEADER = "x-retinue-principal";
-export const ROLES_HEADER = "x-forge-roles";
+export const ROLES_HEADER = "x-retinue-roles";
 export const RETINUE_ROLES_HEADER = "x-retinue-roles";
 
 export class DevAuthNotEnabled extends Error {

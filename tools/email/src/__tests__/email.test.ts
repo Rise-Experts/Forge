@@ -52,7 +52,7 @@ const bearerResolver: CredentialResolver = {
   },
 };
 
-const FROM = "alerts@forge.test";
+const FROM = "alerts@retinue.test";
 
 const localSmtp = (sink: Sink, extra: Record<string, unknown> = {}) =>
   smtpProvider({
@@ -219,7 +219,7 @@ describe("MIME correctness — AC-5", () => {
 
   it("puts text before html in multipart/alternative", () => {
     const raw = compose({ to: ["a@example.test"], subject: "S", text: "plain", html: "<p>rich</p>" });
-    expect(raw).toMatch(/Content-Type: multipart\/alternative; boundary="=_(?:forge|forge)_[0-9a-f]{32}"/);
+    expect(raw).toMatch(/Content-Type: multipart\/alternative; boundary="=_(?:retinue|retinue)_[0-9a-f]{32}"/);
     /**
      * Order is load-bearing. The spec orders parts least-faithful first, and a client that shows the last part
      * it understands would otherwise display the plain-text fallback and never the HTML — mail that looks
@@ -606,9 +606,9 @@ describe("addresses and configuration", () => {
     const sink = (open = await startSink());
     // SPF and DKIM align against `From`; a caller-supplied one is the fastest route to mail that lands in spam
     // — and a model that could choose it could send as anyone the domain permits.
-    await run(localSmtp(sink), "email_send", { ...BASIC, from: "ceo@forge.test" } as never);
+    await run(localSmtp(sink), "email_send", { ...BASIC, from: "ceo@retinue.test" } as never);
     expect(sink.messages[0]).toContain(`From: ${FROM}`);
-    expect(sink.messages[0]).not.toContain("ceo@forge.test");
+    expect(sink.messages[0]).not.toContain("ceo@retinue.test");
   });
 
   it("refuses an unknown include or exclude name", () => {

@@ -1,6 +1,6 @@
 # @retinue/tools-azure
 
-Azure tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: read-first inspection of an Azure
+Azure tools for a [Retinue](https://github.com/Rise-Experts/Retinue) agent: read-first inspection of an Azure
 estate, with two gated writes and no way to provision anything.
 
 ```bash
@@ -11,7 +11,7 @@ npm i @retinue/tools-azure
 
 Everywhere else in this catalogue a gated write costs a person an approval click if it was wrong. Here it can
 cost a production environment. So there is no create, no delete, no scale, no deployment and no role
-assignment — see **Limits** on the [integration page](https://forge.dev/integrations/azure), which states
+assignment — see **Limits** on the [integration page](https://retinue.dev/integrations/azure), which states
 that as a decision rather than apologising for a gap.
 
 ## Tools

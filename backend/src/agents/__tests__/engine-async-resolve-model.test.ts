@@ -1,5 +1,5 @@
 /**
- * `resolveModel` may be asynchronous — Rise-Experts/forge#279.
+ * `resolveModel` may be asynchronous — Rise-Experts/retinue#279.
  *
  * The hook takes an `ExecutionContext`, which is what makes per-tenant model resolution expressible at
  * all: a host serving many tenants can give each its own provider and key. It was called synchronously,

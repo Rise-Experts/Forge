@@ -407,7 +407,7 @@ describe("session caps — AC-5", () => {
      * The grandchild writes its own pid where this test can find it, and the assertion is that signalling it
      * afterwards raises `ESRCH`.
      */
-    const dir = mkdtempSync(join(tmpdir(), "forge-orphan-"));
+    const dir = mkdtempSync(join(tmpdir(), "retinue-orphan-"));
     const pidFile = join(dir, "grandchild.pid");
     const child = `
       const { spawn } = require("node:child_process");

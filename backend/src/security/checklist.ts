@@ -175,7 +175,7 @@ export const SECURITY_CHECKS: readonly SecurityCheck[] = [
   {
     id: "inj-delimiter-forgery",
     area: "prompt-injection",
-    property: "Content cannot close its own envelope, forge a heading, or emit a chat-template turn marker.",
+    property: "Content cannot close its own envelope, retinue a heading, or emit a chat-template turn marker.",
     criterion: "AC-4",
     verifiedBy: "test",
     evidence: "security-audit.test.ts → planted payloads for each forgery class",
@@ -186,7 +186,7 @@ export const SECURITY_CHECKS: readonly SecurityCheck[] = [
     property: "A platform section that interpolates untrusted values neutralises them.",
     criterion: "AC-4",
     verifiedBy: "test",
-    evidence: "security-audit.test.ts → 'a filename cannot forge a heading in the attachment section'",
+    evidence: "security-audit.test.ts → 'a filename cannot retinue a heading in the attachment section'",
   },
   {
     id: "inj-tool-results-are-parts",

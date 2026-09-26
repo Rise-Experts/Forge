@@ -141,7 +141,7 @@ filtering, the approval gate, idempotency keys and the audit trail.
 The shipped packages exist to prove one shape, and copying it is the intended path — the same five rules, the
 same `defineTool` / `confirms` / `destroys` helpers, the same HTTP client. See the
 [tools guide](../guides/tools) for the tool contract, and
-[`tools/github`](https://github.com/Rise-Experts/forge/tree/main/tools/github) as the reference.
+[`tools/github`](https://github.com/Rise-Experts/retinue/tree/main/tools/github) as the reference.
 
 Most of a vendor package is now `createVendorTransport`, which handles the parts that are silent when wrong:
 resolving the credential per call, pinning the auth header to one validated host, tolerating an empty body on a

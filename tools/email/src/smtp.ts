@@ -278,7 +278,7 @@ export const smtpSend = async (
 
   try {
     await connection.send("", [2]); // the greeting
-    const client = config.clientName ?? "forge";
+    const client = config.clientName ?? "retinue";
     let ehlo = await connection.send(`EHLO ${client}`, [2]);
     connection.setCapabilities(ehlo.lines);
 

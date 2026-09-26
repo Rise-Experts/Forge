@@ -1,7 +1,7 @@
 # `@retinue/example-app`
 
 A runnable app module and a browser test surface (#155). This is what makes
-`node server/dist/cli.js` boot: `FORGE_APP_MODULE` needs a module that default-exports
+`node server/dist/cli.js` boot: `RETINUE_APP_MODULE` needs a module that default-exports
 `{ authenticate, deps, engine, buildContext }`, and until this existed there was none anywhere.
 
 ## What this is not
@@ -9,7 +9,7 @@ A runnable app module and a browser test surface (#155). This is what makes
 Example code is what people copy, so the disclaimers come first.
 
 - **Not an auth reference.** `authenticate` reads the tenant from a request header, which is not authentication —
-  any caller can claim any tenant. It refuses to start without `FORGE_EXAMPLE_DEV_AUTH=1` for that reason.
+  any caller can claim any tenant. It refuses to start without `RETINUE_EXAMPLE_DEV_AUTH=1` for that reason.
 - **Not a deployment template.** One process per role, no TLS, no rate limiting, GraphiQL on.
 - **Not a product UI.** It is pleasant enough to read a model's answers in, because something you are meant to
   *use* while judging an assistant has to be — but nothing here is a component library, and the layout is not
@@ -31,7 +31,7 @@ server answers `/composer.js` with a script that reports itself missing. `npm ru
 ## Run it
 
 ```bash
-cp .env.example .env      # then set FORGE_MODEL_API_KEY
+cp .env.example .env      # then set RETINUE_MODEL_API_KEY
 npm run build
 npm run migrate -w @retinue/example-app   # once — creates the schema and its tables
 npm run app    -w @retinue/example-app    # terminal 1: page + GraphQL + SSE
@@ -47,7 +47,7 @@ exists to avoid — and #144 recorded that this boundary had never actually been
 ## Or run it with nothing installed
 
 ```bash
-FORGE_MODEL_API_KEY=sk-… FORGE_EXAMPLE_DEV_AUTH=1 npm run memory -w @retinue/example-app
+RETINUE_MODEL_API_KEY=sk-… RETINUE_EXAMPLE_DEV_AUTH=1 npm run memory -w @retinue/example-app
 ```
 
 One process, in-memory adapters, an in-process queue. No database, no Redis, no migration, no second terminal.
@@ -98,21 +98,21 @@ Everything is in `.env` at the repository root; `.env.example` documents each va
 
 | Variable | Notes |
 |---|---|
-| `FORGE_MODEL_API_KEY` | **Required, no default.** A key for whatever `FORGE_MODEL_BASE_URL` points at. |
-| `FORGE_MODEL_ID` | Defaults to `gpt-4o`. Mini is enough to prove the plumbing works and not enough to show the agent behaving. |
-| `FORGE_MODEL_BASE_URL` | Unset for `api.openai.com`; set for a local server. |
-| `FORGE_DATABASE_URL` | Any Postgres. |
-| `FORGE_EXAMPLE_SCHEMA` | A **dedicated schema**, default `agentkit_example`. |
-| `FORGE_REDIS_URL` | Include a database number (`/9`) if the Redis is shared. |
-| `FORGE_SCHEMA_MODE` | `off`, so booting never migrates. Migration is a command you run on purpose. |
-| `FORGE_EXAMPLE_DEV_AUTH` | Must be `1`. There is no implicit way to enable header auth. |
-| `FORGE_CATALOG_BUDGET_TOKENS` | Unset. A ceiling on the tool list; what does not fit is dropped and named in a `catalog.truncated` run event. Measured cost at 200 tools: see `docs/24`, and read it before turning this on |
-| `FORGE_DISABLED_TOOL_CATEGORIES` | Unset. Comma-separated categories this tenant does not want — the cheaper way to shrink a catalogue, because it removes near-duplicates rather than arbitrary tools |
-| `FORGE_SKILL_CATALOGUE_BUDGET_TOKENS` | Unset. The same ceiling for the skill catalogue; the notice goes into the prompt |
-| `FORGE_FILES_ROOT` | Unset. A directory the assistant may read, list and search. Everything outside it is refused, symlinks included |
-| `FORGE_FILES_WRITABLE_ROOT` | Unset, and it must be a **different** directory from the read root. Enables `fs_write` |
-| `FORGE_SANDBOX_IMAGE` | Unset. A local container image with a shell — `redis:7-alpine` will do. Only takes effect with `FORGE_SHELL=1` |
-| `FORGE_SHELL` | Unset. `1` declares the `shell` capability. Set without an image, the app **refuses to boot** — which is the point of a declaration |
+| `RETINUE_MODEL_API_KEY` | **Required, no default.** A key for whatever `RETINUE_MODEL_BASE_URL` points at. |
+| `RETINUE_MODEL_ID` | Defaults to `gpt-4o`. Mini is enough to prove the plumbing works and not enough to show the agent behaving. |
+| `RETINUE_MODEL_BASE_URL` | Unset for `api.openai.com`; set for a local server. |
+| `RETINUE_DATABASE_URL` | Any Postgres. |
+| `RETINUE_EXAMPLE_SCHEMA` | A **dedicated schema**, default `agentkit_example`. |
+| `RETINUE_REDIS_URL` | Include a database number (`/9`) if the Redis is shared. |
+| `RETINUE_SCHEMA_MODE` | `off`, so booting never migrates. Migration is a command you run on purpose. |
+| `RETINUE_EXAMPLE_DEV_AUTH` | Must be `1`. There is no implicit way to enable header auth. |
+| `RETINUE_CATALOG_BUDGET_TOKENS` | Unset. A ceiling on the tool list; what does not fit is dropped and named in a `catalog.truncated` run event. Measured cost at 200 tools: see `docs/24`, and read it before turning this on |
+| `RETINUE_DISABLED_TOOL_CATEGORIES` | Unset. Comma-separated categories this tenant does not want — the cheaper way to shrink a catalogue, because it removes near-duplicates rather than arbitrary tools |
+| `RETINUE_SKILL_CATALOGUE_BUDGET_TOKENS` | Unset. The same ceiling for the skill catalogue; the notice goes into the prompt |
+| `RETINUE_FILES_ROOT` | Unset. A directory the assistant may read, list and search. Everything outside it is refused, symlinks included |
+| `RETINUE_FILES_WRITABLE_ROOT` | Unset, and it must be a **different** directory from the read root. Enables `fs_write` |
+| `RETINUE_SANDBOX_IMAGE` | Unset. A local container image with a shell — `redis:7-alpine` will do. Only takes effect with `RETINUE_SHELL=1` |
+| `RETINUE_SHELL` | Unset. `1` declares the `shell` capability. Set without an image, the app **refuses to boot** — which is the point of a declaration |
 
 ### The integration toolkits
 
@@ -129,7 +129,7 @@ broken integration. `.env.example` lists every variable with its caveats.
 | X, Reddit | a token; Reddit also needs a contact for its user agent |
 | **Google Workspace** | `GOOGLE_ACCESS_TOKEN` — a **static token here is a demonstration, not a pattern**: it expires in about an hour, so a deployment needs `withRefreshingCredentials` |
 | **Azure** | `AZURE_ACCESS_TOKEN`, same expiry caveat. Read-first: one tag write, one restart |
-| **Scraping** | `FORGE_ENABLE_SCRAPE=1`, or a hosted provider key. Opt-in rather than credential-gated, because the direct provider needs no account and fetching arbitrary URLs is worth asking for |
+| **Scraping** | `RETINUE_ENABLE_SCRAPE=1`, or a hosted provider key. Opt-in rather than credential-gated, because the direct provider needs no account and fetching arbitrary URLs is worth asking for |
 | **Mail** | `EMAIL_FROM` plus either SMTP settings or `RESEND_API_KEY`. `EMAIL_FROM` has no default on purpose — it is what SPF and DKIM align against |
 
 `@retinue/tools-browser` is **not** wired here. It needs a `BrowserDriver` and the package ships none by design:
@@ -145,7 +145,7 @@ endpoint cannot call tools, the example fails on the first turn — which is the
 
 ### It shares a database, and stays out of the way
 
-`FORGE_EXAMPLE_SCHEMA` exists so the example can run inside a database that belongs to something else. All 20
+`RETINUE_EXAMPLE_SCHEMA` exists so the example can run inside a database that belongs to something else. All 20
 migrations land in that schema; nothing touches `public`. `npm run migrate -w @retinue/example-app -- --down`
 drops the schema and everything in it. The migrate script **asserts the `search_path` actually took effect**,
 because a silently ignored connection option would put every table in `public` — which here is another project's

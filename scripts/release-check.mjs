@@ -103,7 +103,7 @@ const manifestChecks = () => {
    * `docs/19-versioning.md`. This check states the reason so that whoever removes it has to have read why it was
    * there.
    *
-   * Both original reasons are now gone: the `forge` npm organisation exists and is ours (#192 AC-1, confirmed
+   * Both original reasons are now gone: the `retinue` npm organisation exists and is ours (#192 AC-1, confirmed
    * by an authenticated `npm org ls`, not by a 404 on the registry), and the licence is MIT (#184). What
    * is left is the publish itself — #193 — which is a pipeline, a provenance identity and a decision about when.
    * So the note names one reason rather than three, and if that reason is also gone, flipping this flag is a

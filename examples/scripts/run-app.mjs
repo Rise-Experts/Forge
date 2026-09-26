@@ -9,14 +9,14 @@ import { pathToFileURL } from "node:url";
 import { resolve } from "node:path";
 import pg from "pg";
 
-const SCHEMA = process.env.FORGE_EXAMPLE_SCHEMA ?? "forge_example";
+const SCHEMA = process.env.RETINUE_EXAMPLE_SCHEMA ?? "retinue_example";
 const PORT = Number(process.env.PORT ?? 4000);
-if (!process.env.FORGE_DATABASE_URL) {
-  console.error("✗ FORGE_DATABASE_URL is required. Copy .env.example to .env.");
+if (!process.env.RETINUE_DATABASE_URL) {
+  console.error("✗ RETINUE_DATABASE_URL is required. Copy .env.example to .env.");
   process.exit(2);
 }
 
-const url = new URL(process.env.FORGE_DATABASE_URL);
+const url = new URL(process.env.RETINUE_DATABASE_URL);
 url.searchParams.set("options", `-c search_path=${SCHEMA},public`);
 const pool = new pg.Pool({ connectionString: url.toString(), max: 8 });
 const base = { async query(text, params) { return (await pool.query(text, params ? [...params] : undefined)).rows; } };
@@ -57,7 +57,7 @@ const appModule = await import(pathToFileURL(resolve(import.meta.dirname, "../di
 const app = appModule.default;
 const { startExampleServer } = await import(pathToFileURL(resolve(import.meta.dirname, "../dist/server.js")).href);
 
-const deps = await app.deps({ config: { redisUrl: process.env.FORGE_REDIS_URL ?? "" }, sql, runner });
+const deps = await app.deps({ config: { redisUrl: process.env.RETINUE_REDIS_URL ?? "" }, sql, runner });
 // The Postgres composition: stores and providers built from the executor, and `sql` still passed for the one
 // genuinely-SQL query (the message count behind the context meter).
 const { postgresBackend } = await import(pathToFileURL(resolve(import.meta.dirname, "../dist/stores.js")).href);
@@ -98,13 +98,13 @@ const { port } = await startExampleServer({
 });
 
 console.log(`
-  forge example — app
+  retinue example — app
 
     page      http://localhost:${port}/
     graphql   http://localhost:${port}/graphql
     sse       http://localhost:${port}/runs/events
     schema    ${SCHEMA}
-    model     ${process.env.FORGE_MODEL_ID ?? "gpt-4o-mini"} at ${process.env.FORGE_MODEL_BASE_URL ?? "https://api.openai.com/v1"}
+    model     ${process.env.RETINUE_MODEL_ID ?? "gpt-4o-mini"} at ${process.env.RETINUE_MODEL_BASE_URL ?? "https://api.openai.com/v1"}
 
   Nothing executes until the worker runs — start it in a second terminal:
     npm run worker -w @retinue/example-app

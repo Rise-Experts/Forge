@@ -9,7 +9,7 @@ primitives — moved here from the package README, which is a front door rather 
 
 Nothing here is a promise on its own: what is covered by semver is the package root's exports and the
 documented subpaths, and that is stated in
-[Versioning, API surface and deprecation](https://github.com/Rise-Experts/forge/blob/main/docs/19-versioning.md).
+[Versioning, API surface and deprecation](https://github.com/Rise-Experts/retinue/blob/main/docs/19-versioning.md).
 
 ## Modules
 
@@ -197,8 +197,8 @@ an `authorization` or `cookie` header supplied by a caller rather than forwardin
 
 ## Flows and teams
 
-`@retinue/agentkit/flows` — REQ-038 ([#187](https://github.com/Rise-Experts/forge/issues/187)) and REQ-037
-([#186](https://github.com/Rise-Experts/forge/issues/186)).
+`@retinue/agentkit/flows` — REQ-038 ([#187](https://github.com/Rise-Experts/retinue/issues/187)) and REQ-037
+([#186](https://github.com/Rise-Experts/retinue/issues/186)).
 
 **A team is a kind of flow step, and a team compiles to a flow.** Both issues say they share design, and they are
 right: a flow's step and a team's member turn are the same idea, and modelling them separately produces two

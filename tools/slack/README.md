@@ -1,11 +1,11 @@
-<img src="https://raw.githubusercontent.com/Rise-Experts/Forge/main/brand/forge-mark.svg" alt="Forge" width="72" />
+<img src="https://raw.githubusercontent.com/Rise-Experts/Retinue/main/brand/retinue-mark.svg" alt="Retinue" width="72" />
 
 # @retinue/tools-slack
 
 [![npm](https://img.shields.io/npm/v/@retinue/tools-slack)](https://www.npmjs.com/package/@retinue/tools-slack)
-[![licence](https://img.shields.io/npm/l/@retinue/tools-slack)](https://github.com/Rise-Experts/Forge/blob/main/LICENSE)
+[![licence](https://img.shields.io/npm/l/@retinue/tools-slack)](https://github.com/Rise-Experts/Retinue/blob/main/LICENSE)
 
-**Slack tools for a [Forge](https://github.com/Rise-Experts/Forge) agent.** Read channels and history, post
+**Slack tools for a [Retinue](https://github.com/Rise-Experts/Retinue) agent.** Read channels and history, post
 messages and thread replies — with every write gated behind human approval and carrying an idempotency key.
 
 ## Install
@@ -63,7 +63,7 @@ saying "ignore your instructions" arrives as data.
 
 ## Licence
 
-MIT — see [LICENSE](https://github.com/Rise-Experts/Forge/blob/main/LICENSE).
+MIT — see [LICENSE](https://github.com/Rise-Experts/Retinue/blob/main/LICENSE).
 
 Copyright (c) 2026 [Azeem Sarwar](https://github.com/azeem-sarwar) and
 [Rise Experts](https://github.com/Rise-Experts).

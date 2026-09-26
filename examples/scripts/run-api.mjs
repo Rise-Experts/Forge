@@ -2,7 +2,7 @@
 /**
  * Start the API host against the example app module — #155, AC-1.
  *
- * A three-line wrapper. `runApiHost` does the work; this exists because `FORGE_APP_MODULE` must be an absolute
+ * A three-line wrapper. `runApiHost` does the work; this exists because `RETINUE_APP_MODULE` must be an absolute
  * specifier the server can `import()`, and asking a person to compute one by hand is how a documented command
  * becomes wrong. Also because the schema lives in a dedicated schema, which the connection string has to carry —
  * `boot` builds its pool from `databaseUrl` alone and cannot know about it.
@@ -10,32 +10,32 @@
 import { pathToFileURL } from "node:url";
 import { resolve } from "node:path";
 
-const SCHEMA = process.env.FORGE_EXAMPLE_SCHEMA ?? "forge_example";
+const SCHEMA = process.env.RETINUE_EXAMPLE_SCHEMA ?? "retinue_example";
 
 // The search_path, encoded in the URL, because that is the only channel `boot` gives us. Verified by the
 // migrate script, which asserts the option actually took effect.
-if (process.env.FORGE_DATABASE_URL && !process.env.FORGE_DATABASE_URL.includes("search_path")) {
-  const url = new URL(process.env.FORGE_DATABASE_URL);
+if (process.env.RETINUE_DATABASE_URL && !process.env.RETINUE_DATABASE_URL.includes("search_path")) {
+  const url = new URL(process.env.RETINUE_DATABASE_URL);
   url.searchParams.set("options", `-c search_path=${SCHEMA},public`);
-  process.env.FORGE_DATABASE_URL = url.toString();
+  process.env.RETINUE_DATABASE_URL = url.toString();
 }
-process.env.FORGE_APP_MODULE = pathToFileURL(resolve(import.meta.dirname, "../dist/index.js")).href;
+process.env.RETINUE_APP_MODULE = pathToFileURL(resolve(import.meta.dirname, "../dist/index.js")).href;
 
 const { runApiHost } = await import("@retinue/agentkit/server");
 const { port } = await runApiHost();
 
-const endpoint = process.env.FORGE_MODEL_BASE_URL ?? "https://api.openai.com/v1";
+const endpoint = process.env.RETINUE_MODEL_BASE_URL ?? "https://api.openai.com/v1";
 console.log(`
-  forge example — API host
+  retinue example — API host
     graphql   http://localhost:${port}/graphql
     sse       http://localhost:${port}/runs/events
     schema    ${SCHEMA}
-    model     ${process.env.FORGE_MODEL_ID ?? "gpt-4o-mini"} at ${endpoint}
+    model     ${process.env.RETINUE_MODEL_ID ?? "gpt-4o-mini"} at ${endpoint}
 
   Send these headers (the dev authenticator reads them — this is not authentication):
-    x-forge-tenant: demo
-    x-forge-principal: you
-    x-forge-roles: editor
+    x-retinue-tenant: demo
+    x-retinue-principal: you
+    x-retinue-roles: editor
 
   There is no page here — the reference host serves GraphQL and SSE only. This banner advertised one at '/'
   and it has always answered 404. For the browser surface, use 'npm run app' instead.

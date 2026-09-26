@@ -1,5 +1,5 @@
 /**
- * `forge doctor` — task #252 AC-4.
+ * `retinue doctor` — task #252 AC-4.
  *
  * The one command here that is new rather than a wrapper, and the one that pays for itself: every failure it
  * names is otherwise a support conversation. A deployment that will not start currently produces one error, from
@@ -83,7 +83,7 @@ export type DoctorDeps = {
    *
    * Takes the whole connection setting rather than a URL, because `databaseSchema` changes the answer:
    * the schema probe counts applied migrations, and reading `public` when the deployment configured
-   * `forge` reports "0 of 35 applied → run migrate" about a schema that is fully migrated. The
+   * `retinue` reports "0 of 35 applied → run migrate" about a schema that is fully migrated. The
    * comment below already names that class of bug — a diagnostic sending an operator to fix the wrong
    * thing — and a URL-only signature is how this one would have got in.
    */
@@ -178,14 +178,14 @@ export const runChecks = async (deps: DoctorDeps = {}): Promise<readonly CheckRe
   }
 
   // 2. The app module, which `serve` and `worker` need and `migrate` does not.
-  const appModule = env["FORGE_APP_MODULE"] ?? env["FORGE_APP_MODULE"];
+  const appModule = env["RETINUE_APP_MODULE"] ?? env["RETINUE_APP_MODULE"];
   if (appModule === undefined || appModule.trim() === "") {
     results.push({
       name: "app module",
       ok: true,
       skipped: true,
-      detail: "FORGE_APP_MODULE is unset — `migrate` and `doctor` work without it; `serve` and `worker` do not",
-      remedy: "Point FORGE_APP_MODULE at a module default-exporting { authenticate, deps } before serving.",
+      detail: "RETINUE_APP_MODULE is unset — `migrate` and `doctor` work without it; `serve` and `worker` do not",
+      remedy: "Point RETINUE_APP_MODULE at a module default-exporting { authenticate, deps } before serving.",
     });
   } else {
     try {
@@ -226,7 +226,7 @@ export const runChecks = async (deps: DoctorDeps = {}): Promise<readonly CheckRe
         name: "postgres",
         ok: false,
         detail: failureDetail(config.databaseUrl, error),
-        remedy: "Check the database is running and FORGE_DATABASE_URL points at it.",
+        remedy: "Check the database is running and RETINUE_DATABASE_URL points at it.",
       });
     }
     if (reachable && sql !== undefined && deps.schemaVersions !== undefined) {
@@ -244,7 +244,7 @@ export const runChecks = async (deps: DoctorDeps = {}): Promise<readonly CheckRe
             : {
                 remedy:
                   current < target
-                    ? "Run `forge migrate`."
+                    ? "Run `retinue migrate`."
                     : "This database is ahead of this build. Deploy the matching version rather than migrating down.",
               }),
         });
@@ -253,7 +253,7 @@ export const runChecks = async (deps: DoctorDeps = {}): Promise<readonly CheckRe
           name: "schema",
           ok: false,
           detail: message(error),
-          remedy: "Run `forge migrate --status` for detail.",
+          remedy: "Run `retinue migrate --status` for detail.",
         });
       }
     } else if (reachable) {
@@ -283,7 +283,7 @@ export const runChecks = async (deps: DoctorDeps = {}): Promise<readonly CheckRe
         name: "redis",
         ok: false,
         detail: failureDetail(config.redisUrl, error),
-        remedy: "Check Redis is running and FORGE_REDIS_URL points at it.",
+        remedy: "Check Redis is running and RETINUE_REDIS_URL points at it.",
       });
     } finally {
       if (redis !== undefined) await redis.quit().catch(() => undefined);

@@ -10,22 +10,22 @@ import { describe, expect, it, vi } from "vitest";
 import { Test } from "@nestjs/testing";
 import { DevAuthNotEnabled, PRINCIPAL_HEADER, ROLES_HEADER, TENANT_HEADER, createDevAuthenticate } from "../auth/dev-auth.js";
 import { HealthController } from "../health/health.controller.js";
-import { ForgeConnections } from "../forge/forge.module.js";
-import { FORGE_POOL, FORGE_PROBES, FORGE_REDIS } from "../forge/tokens.js";
-import { loadServiceConfig } from "../forge/config.js";
+import { RetinueConnections } from "../retinue/retinue.module.js";
+import { RETINUE_POOL, RETINUE_PROBES, RETINUE_REDIS } from "../retinue/tokens.js";
+import { loadServiceConfig } from "../retinue/config.js";
 
 describe("authentication has no default", () => {
   it("refuses to build without the acknowledgement", () => {
     // A service that starts with a permissive fallback serves an open API to whoever forgot to configure one.
     // Refusing at construction means one clear message at boot, not a 401 per request and a guess.
     expect(() => createDevAuthenticate({})).toThrow(DevAuthNotEnabled);
-    expect(() => createDevAuthenticate({ FORGE_DEV_AUTH: "0" })).toThrow(DevAuthNotEnabled);
-    expect(() => createDevAuthenticate({ FORGE_DEV_AUTH: "true" })).toThrow(DevAuthNotEnabled);
+    expect(() => createDevAuthenticate({ RETINUE_DEV_AUTH: "0" })).toThrow(DevAuthNotEnabled);
+    expect(() => createDevAuthenticate({ RETINUE_DEV_AUTH: "true" })).toThrow(DevAuthNotEnabled);
     expect(() => createDevAuthenticate({ RETINUE_DEV_AUTH: "0" })).toThrow(DevAuthNotEnabled);
   });
 
   it("reads a tenant and a principal, and refuses a request carrying only one", () => {
-    const authenticate = createDevAuthenticate({ FORGE_DEV_AUTH: "1" });
+    const authenticate = createDevAuthenticate({ RETINUE_DEV_AUTH: "1" });
     const request = (headers: Record<string, string>) => new Request("http://localhost/graphql", { headers });
 
     expect(authenticate(request({ [TENANT_HEADER]: "t1", [PRINCIPAL_HEADER]: "p1" }))).toMatchObject({
@@ -42,7 +42,7 @@ describe("authentication has no default", () => {
   });
 
   it("splits roles, and gives none where none were sent", async () => {
-    const authenticate = createDevAuthenticate({ FORGE_DEV_AUTH: "1" });
+    const authenticate = createDevAuthenticate({ RETINUE_DEV_AUTH: "1" });
     const headers = { [TENANT_HEADER]: "t1", [PRINCIPAL_HEADER]: "p1", [ROLES_HEADER]: "editor, viewer ,," };
     expect((await authenticate(new Request("http://localhost/", { headers })))?.roleIds).toEqual(["editor", "viewer"]);
     expect(
@@ -52,7 +52,7 @@ describe("authentication has no default", () => {
   });
 
   it("gives each request its own id", async () => {
-    const authenticate = createDevAuthenticate({ FORGE_DEV_AUTH: "1" });
+    const authenticate = createDevAuthenticate({ RETINUE_DEV_AUTH: "1" });
     const headers = { [TENANT_HEADER]: "t1", [PRINCIPAL_HEADER]: "p1" };
     const first = (await authenticate(new Request("http://localhost/", { headers })))?.requestId;
     const second = (await authenticate(new Request("http://localhost/", { headers })))?.requestId;
@@ -64,14 +64,14 @@ describe("authentication has no default", () => {
 
 describe("configuration", () => {
   const base = {
-    FORGE_DATABASE_URL: "postgres://user@localhost:5432/db",
-    FORGE_REDIS_URL: "redis://localhost:6379",
+    RETINUE_DATABASE_URL: "postgres://user@localhost:5432/db",
+    RETINUE_REDIS_URL: "redis://localhost:6379",
   };
 
   it("folds the schema into the connection string", () => {
     // The platform builds its pool from `databaseUrl` alone and cannot be told about a schema separately, so a
     // deployment whose tables are not in the default schema has to carry it in the URL.
-    const config = loadServiceConfig({ ...base, FORGE_SCHEMA: "app" });
+    const config = loadServiceConfig({ ...base, RETINUE_SCHEMA: "app" });
     expect(config.databaseUrl).toContain("search_path%3Dapp%2Cpublic");
     expect(config.schema).toBe("app");
   });
@@ -80,13 +80,13 @@ describe("configuration", () => {
     // An operator who wrote their own `options` was being specific. Overwriting it is this service quietly
     // disagreeing with them.
     const url = "postgres://user@localhost:5432/db?options=-c%20statement_timeout%3D5000";
-    const config = loadServiceConfig({ ...base, FORGE_DATABASE_URL: url, FORGE_SCHEMA: "app" });
+    const config = loadServiceConfig({ ...base, RETINUE_DATABASE_URL: url, RETINUE_SCHEMA: "app" });
     expect(config.databaseUrl).toContain("statement_timeout");
     expect(config.databaseUrl).not.toContain("search_path");
   });
 
   it("changes nothing when no schema is named", () => {
-    expect(loadServiceConfig(base).databaseUrl).toBe(base.FORGE_DATABASE_URL);
+    expect(loadServiceConfig(base).databaseUrl).toBe(base.RETINUE_DATABASE_URL);
   });
 });
 
@@ -94,7 +94,7 @@ describe("readiness", () => {
   const controllerWith = async (probes: readonly { name: string; check(): Promise<void> }[]) => {
     const moduleRef = await Test.createTestingModule({
       controllers: [HealthController],
-      providers: [{ provide: FORGE_PROBES, useValue: probes }],
+      providers: [{ provide: RETINUE_PROBES, useValue: probes }],
     }).compile();
     return moduleRef.get(HealthController);
   };
@@ -155,13 +155,13 @@ describe("shutdown", () => {
     const redis = { quit: vi.fn(async () => "OK") };
     const moduleRef = await Test.createTestingModule({
       providers: [
-        ForgeConnections,
-        { provide: FORGE_POOL, useValue: pool },
-        { provide: FORGE_REDIS, useValue: redis },
+        RetinueConnections,
+        { provide: RETINUE_POOL, useValue: pool },
+        { provide: RETINUE_REDIS, useValue: redis },
       ],
     }).compile();
 
-    await moduleRef.get(ForgeConnections).onApplicationShutdown("SIGTERM");
+    await moduleRef.get(RetinueConnections).onApplicationShutdown("SIGTERM");
 
     // A pool that outlives its process is a service that fails its *next* deploy: the new instance cannot get
     // the connections the old one still holds, and the error arrives minutes later as a connection limit.
@@ -174,15 +174,15 @@ describe("shutdown", () => {
     const redis = { quit: vi.fn(async () => { throw new Error("connection is closed"); }) };
     const moduleRef = await Test.createTestingModule({
       providers: [
-        ForgeConnections,
-        { provide: FORGE_POOL, useValue: pool },
-        { provide: FORGE_REDIS, useValue: redis },
+        RetinueConnections,
+        { provide: RETINUE_POOL, useValue: pool },
+        { provide: RETINUE_REDIS, useValue: redis },
       ],
     }).compile();
 
     // `allSettled`, not `all`: with `all` a Redis that has already dropped would reject first and leave the
     // pool open — the failure mode this test exists for.
-    await expect(moduleRef.get(ForgeConnections).onApplicationShutdown("SIGTERM")).resolves.toBeUndefined();
+    await expect(moduleRef.get(RetinueConnections).onApplicationShutdown("SIGTERM")).resolves.toBeUndefined();
     expect(pool.end).toHaveBeenCalledOnce();
   });
 });
