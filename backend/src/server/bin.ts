@@ -299,7 +299,7 @@ export const main = async (argv: readonly string[], env = process.env): Promise<
 const ONE_SHOT = new Set(["migrate", "doctor", "help", "--help", "-h"]);
 
 // Only when invoked as the binary, so importing this module for a test starts nothing.
-if (process.argv[1] !== undefined && /(^|[/\\])(retinue|retinue|bin\.js)$/.test(process.argv[1])) {
+if (process.argv[1] !== undefined && /(^|[/\\])(retinue|bin\.js)$/.test(process.argv[1])) {
   const command = process.argv[2];
   main(process.argv.slice(2))
     .then((code) => {
