@@ -122,7 +122,23 @@ jobs:
     # No assertion above that step makes a model call, so a real key is unused by all of them; a fork has no
     # secret, gets the placeholder, and the one step that needs a key skips instead of failing.
     env:
-      RETINUE_MODEL_API_KEY: ${{ secrets.RETINUE_MODEL_API_KEY || 'ci-no-model-call-is-made' }}
+      # **The real model call is deliberately off.** Pinned to the placeholder rather than reading
+      # `secrets.RETINUE_MODEL_API_KEY`, so the step below skips by the same mechanism a fork does.
+      #
+      # The stored secret is an OpenAI key that answers **401 invalid_api_key**, and the decision was not to
+      # rotate it. Pinning it here is the honest form of that decision: the step reports as *skipped*, which is
+      # visible, rather than the job going red every run — a check that can only be red is one people learn to
+      # scroll past, and then it is not there on the day it matters.
+      #
+      # What this costs, stated because it is real: **nothing in CI makes a real model call any more.** A
+      # regression in the engine, the provider adapter or the worker's turn handling reaches `main` uncaught.
+      # The assertions above it still cover admission and the durable run lifecycle; none of them talk to a
+      # provider.
+      #
+      # To re-enable: rotate the secret, then restore
+      # `${{ secrets.RETINUE_MODEL_API_KEY || 'ci-no-model-call-is-made' }}` on the line below. Nothing else
+      # needs changing — the step's own `if` already keys off this value.
+      RETINUE_MODEL_API_KEY: 'ci-no-model-call-is-made'
     steps:
       - uses: actions/checkout@v4
       - name: Bring the stack up from clean
@@ -177,7 +193,11 @@ jobs:
           docker compose exec -T postgres psql -U postgres -d retinue -tAc \
             "select count(*) from conversations where id = 'ci-1'" | grep -q 1
       - name: A real agent turn reaches a terminal state — #267, AC-4
-        # Gated on the secret rather than failing without it: a fork has no access to it, and a job that goes
+        # **Currently always skipped** — see the job-level `env` above, which pins the key to the placeholder
+        # on purpose. The step is kept rather than deleted so re-enabling is one line once the secret is
+        # rotated, and so the assertion it encodes does not have to be rediscovered.
+        #
+        # Gated on the key rather than failing without it: a fork has no access to it, and a job that goes
         # red on every fork PR is a job people learn to ignore. Skipped is honest; failing is not.
         #
         # Gated on the **job's** value rather than a step-local copy, so the condition asks the same question
