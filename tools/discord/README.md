@@ -1,6 +1,6 @@
 # @retinue/tools-discord
 
-Discord tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: read channels and history, send
+Discord tools for a [Retinue](https://github.com/Rise-Experts/Retinue) agent: read channels and history, send
 messages, react and open threads.
 
 ```bash
@@ -41,6 +41,6 @@ agent relaying a user's text is one character away from a mass ping. Sends go ou
 
 Messages are counted in code points, so 2000 emoji is a valid message.
 
-Full documentation: <https://docs.forge.riseexperts.de/integrations/discord>
+Full documentation: <https://docs.retinue.riseexperts.de/integrations/discord>
 
 MIT.

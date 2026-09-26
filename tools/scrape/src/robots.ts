@@ -109,7 +109,7 @@ export const matchesRule = (pattern: string, path: string): boolean => {
 /**
  * The group that applies to a user-agent.
  *
- * The longest matching agent token wins, which is how `ForgeBot` beats `Forge` beats `*`. Only one group
+ * The longest matching agent token wins, which is how `RetinueBot` beats `Retinue` beats `*`. Only one group
  * applies: a crawler named explicitly must not also obey `*`, because a site that wrote a specific group meant
  * it to replace the general one.
  */

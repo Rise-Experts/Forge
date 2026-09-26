@@ -142,7 +142,7 @@ const main = () => {
     failures.push(`${BUILD} does not exist, so no external-asset check ran — build the site first`);
   }
 
-  for (const asset of ["website/static/img/favicon.svg", "website/static/img/og-forge.png"]) {
+  for (const asset of ["website/static/img/favicon.svg", "website/static/img/og-retinue.png"]) {
     if (!existsSync(asset)) failures.push(`${asset} is missing — a shared link renders as a grey rectangle without it`);
   }
 

@@ -25,7 +25,7 @@
  *
  * ## Honest limits
  *
- * One provider. `FORGE_MODEL_API_KEY` is an OpenAI key, whose caching is **automatic and best-effort** — there
+ * One provider. `RETINUE_MODEL_API_KEY` is an OpenAI key, whose caching is **automatic and best-effort** — there
  * is no directive to send and no guarantee of a hit, which the results show directly. Anthropic's explicit
  * `cache_control` path is implemented and **not measured here**, for want of a key; that gap is stated in the
  * write-up rather than papered over.
@@ -37,12 +37,12 @@ import { createOpenAI } from "@ai-sdk/openai";
 import { streamModelTurn } from "../backend/dist/models/streaming.js";
 import { computeModelCostMinorUnits } from "../backend/dist/models/pricing.js";
 
-const key = process.env.FORGE_MODEL_API_KEY;
+const key = process.env.RETINUE_MODEL_API_KEY;
 if (!key) {
-  console.error("FORGE_MODEL_API_KEY is not set.");
+  console.error("RETINUE_MODEL_API_KEY is not set.");
   process.exit(2);
 }
-const modelId = process.env.FORGE_MODEL_ID ?? "gpt-4o";
+const modelId = process.env.RETINUE_MODEL_ID ?? "gpt-4o";
 const model = createOpenAI({ apiKey: key })(modelId);
 
 /** GPT-4o's published rates, in minor units (tenths of a cent) per million tokens. */

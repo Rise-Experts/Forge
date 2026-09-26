@@ -8,7 +8,7 @@
  * nothing in the suite: the pool tests call `openPostgres` directly and never see who calls it.
  *
  * The worker is the one that matters most. It is the process nobody watches, and a worker in `public`
- * while the host is in `forge` does not error -- it produces runs that vanish.
+ * while the host is in `retinue` does not error -- it produces runs that vanish.
  *
  * Scanning source rather than asserting behaviour is deliberate and narrow: the rule is "hand it the
  * whole config", which is a property of the text and of nothing else.

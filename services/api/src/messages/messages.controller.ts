@@ -24,7 +24,7 @@ import { BadRequestException, Body, Controller, HttpException, Inject, Post, Req
 import { asId } from "@retinue/agentkit";
 import { startOrEnqueueRun } from "@retinue/agentkit/runtime";
 import { randomUUID } from "node:crypto";
-import { FORGE_AGENT, FORGE_AUTHENTICATE, FORGE_MESSAGES, FORGE_RESOLVER_DEPS } from "../forge/tokens.js";
+import { RETINUE_AGENT, RETINUE_AUTHENTICATE, RETINUE_MESSAGES, RETINUE_RESOLVER_DEPS } from "../retinue/tokens.js";
 import type { Request as ExpressRequest } from "express";
 import type { Authenticate } from "@retinue/agentkit/server";
 import type {
@@ -43,10 +43,10 @@ export type StartTurnBody = { readonly conversationId?: string; readonly text?: 
 @Controller("api")
 export class MessagesController {
   constructor(
-    @Inject(FORGE_RESOLVER_DEPS) private readonly deps: ResolverDeps,
-    @Inject(FORGE_MESSAGES) private readonly messages: MessageStore,
-    @Inject(FORGE_AUTHENTICATE) private readonly authenticate: Authenticate,
-    @Inject(FORGE_AGENT) private readonly agentId: string,
+    @Inject(RETINUE_RESOLVER_DEPS) private readonly deps: ResolverDeps,
+    @Inject(RETINUE_MESSAGES) private readonly messages: MessageStore,
+    @Inject(RETINUE_AUTHENTICATE) private readonly authenticate: Authenticate,
+    @Inject(RETINUE_AGENT) private readonly agentId: string,
   ) {}
 
   @Post("message")

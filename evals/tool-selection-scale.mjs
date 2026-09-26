@@ -39,7 +39,7 @@
  * survive the cut, which is luck rather than the mechanism working.
  *
  * Usage: node evals/tool-selection-scale.mjs [--sizes 20,50] [--cases 5] [--budget 1200]
- * Writes `evals/tool-selection-scale.json`. Needs FORGE_MODEL_API_KEY; costs real money (~$1–3 for a full run).
+ * Writes `evals/tool-selection-scale.json`. Needs RETINUE_MODEL_API_KEY; costs real money (~$1–3 for a full run).
  */
 
 import { readFileSync, writeFileSync } from "node:fs";
@@ -130,7 +130,7 @@ const providerOf = (tools) => ({ id: "scale-harness", async listTools() { return
 export const catalogTokens = (specs) =>
   estimateTokens(JSON.stringify(specs.map(([name, category, description]) => ({ name, label: name, description, category, effect: "read" }))));
 
-const MODEL = process.env.FORGE_MODEL_ID ?? "gpt-4o";
+const MODEL = process.env.RETINUE_MODEL_ID ?? "gpt-4o";
 const catalogue = [
   {
     provider: "openai",
@@ -151,8 +151,8 @@ const arg = (flag, fallback) => {
 };
 
 const main = async () => {
-  if (!process.env.FORGE_MODEL_API_KEY) {
-    console.error("✗ FORGE_MODEL_API_KEY is unset. This harness scores against a live model on purpose:");
+  if (!process.env.RETINUE_MODEL_API_KEY) {
+    console.error("✗ RETINUE_MODEL_API_KEY is unset. This harness scores against a live model on purpose:");
     console.error("  selection accuracy is a property of the model reading our catalogue, and a stub would");
     console.error("  measure the stub.");
     return 2;
@@ -196,7 +196,7 @@ const main = async () => {
       },
       models: catalogue,
       roleAssignments: { smart: [MODEL], fast: [MODEL] },
-      providerCredentials: { openai: { apiKey: process.env.FORGE_MODEL_API_KEY, ...(process.env.FORGE_MODEL_BASE_URL ? { baseURL: process.env.FORGE_MODEL_BASE_URL } : {}) } },
+      providerCredentials: { openai: { apiKey: process.env.RETINUE_MODEL_API_KEY, ...(process.env.RETINUE_MODEL_BASE_URL ? { baseURL: process.env.RETINUE_MODEL_BASE_URL } : {}) } },
       tools: [providerOf(tools)],
       ...(budget === undefined ? {} : { catalogBudget: { maxTokens: budget }, toolSearch: createToolSearch() }),
     });

@@ -128,7 +128,7 @@ const robotsFetcher = (timeoutMs: number, userAgent: string) => async (origin: s
 export const createScrapeToolkit = (config: ScrapeToolkitConfig = {}): ToolProvider => {
   const provider = config.provider ?? directProvider();
   const gate = config.gate ?? createGate(config.politeness);
-  const userAgent = config.userAgent ?? "ForgeBot/1.0 (+https://forge.dev/integrations/scrape)";
+  const userAgent = config.userAgent ?? "RetinueBot/1.0 (+https://retinue.dev/integrations/scrape)";
   const timeoutMs = config.timeoutMs ?? 15_000;
   const toolConfig: ScrapeToolsConfig = {
     provider,

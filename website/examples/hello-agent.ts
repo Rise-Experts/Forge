@@ -11,4 +11,4 @@ export const helloAgent = createAgent({
   },
 });
 
-export const hello = () => helloAgent.run({ conversationId: "getting-started", message: "Hello, Forge." });
+export const hello = () => helloAgent.run({ conversationId: "getting-started", message: "Hello, Retinue." });

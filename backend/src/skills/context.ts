@@ -33,7 +33,7 @@ import type { SkillBodyLoader } from "../tools/registry.js";
 export const SKILL_CATALOGUE_PROVIDER_ID = "skill-catalogue";
 
 /**
- * Strips what could end a delimited block or forge a heading in the rendered prompt.
+ * Strips what could end a delimited block or retinue a heading in the rendered prompt.
  *
  * Narrow on purpose: a skill description is prose a customer wrote, and mangling it would make the catalogue
  * unreadable. Newlines go because the section is one line per skill and a description containing a line break

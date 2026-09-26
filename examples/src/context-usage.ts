@@ -31,7 +31,7 @@ export const contextLimitFor = (): number => resolveExampleModel().definition.li
  * Bucket budgets, as fractions of the window rather than fixed numbers.
  *
  * A **function**, not a constant. It was a module-level IIFE, so importing anything that transitively reached
- * this file demanded `FORGE_MODEL_API_KEY` — which made the whole module untestable, and captured the budget
+ * this file demanded `RETINUE_MODEL_API_KEY` — which made the whole module untestable, and captured the budget
  * of whatever model happened to be configured when the process loaded rather than the one resolved for the turn.
  *
  * Fixed token counts are wrong the moment the configured model changes — a budget tuned for a 128k window

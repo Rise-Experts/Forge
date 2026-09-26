@@ -52,23 +52,23 @@ import { postgresProbe, redisProbe, schemaProbe } from "@retinue/agentkit/server
 import { createSchemaManager } from "@retinue/agentkit/adapters/postgres";
 import { loadServiceConfig } from "./config.js";
 import {
-  FORGE_AUTHENTICATE,
-  FORGE_AGENT,
-  FORGE_CONFIG,
-  FORGE_MESSAGES,
-  FORGE_POOL,
-  FORGE_PROBES,
-  FORGE_REDIS,
-  FORGE_REGISTRY,
-  FORGE_RESOLVER_DEPS,
-  FORGE_SQL,
+  RETINUE_AUTHENTICATE,
+  RETINUE_AGENT,
+  RETINUE_CONFIG,
+  RETINUE_MESSAGES,
+  RETINUE_POOL,
+  RETINUE_PROBES,
+  RETINUE_REDIS,
+  RETINUE_REGISTRY,
+  RETINUE_RESOLVER_DEPS,
+  RETINUE_SQL,
 } from "./tokens.js";
 import type { ServiceConfig } from "./config.js";
 import type { Authenticate } from "@retinue/agentkit/server";
 import type { ExecutionContext, ResolverDeps } from "@retinue/agentkit";
 import type { SqlExecutor } from "@retinue/agentkit/adapters/postgres";
 
-export type ForgeModuleOptions = {
+export type RetinueModuleOptions = {
   /**
    * How a request becomes an `ExecutionContext`. **Required.**
    *
@@ -98,10 +98,10 @@ export type ForgeModuleOptions = {
  * associates with a restart.
  */
 @Injectable()
-export class ForgeConnections implements OnApplicationShutdown {
+export class RetinueConnections implements OnApplicationShutdown {
   constructor(
-    @Inject(FORGE_POOL) private readonly pool: pg.Pool,
-    @Inject(FORGE_REDIS) private readonly redis: Redis,
+    @Inject(RETINUE_POOL) private readonly pool: pg.Pool,
+    @Inject(RETINUE_REDIS) private readonly redis: Redis,
   ) {}
 
   async onApplicationShutdown(signal?: string): Promise<void> {
@@ -114,33 +114,33 @@ export class ForgeConnections implements OnApplicationShutdown {
 }
 
 @Module({})
-export class ForgeModule {
-  static forRoot(options: ForgeModuleOptions): DynamicModule {
+export class RetinueModule {
+  static forRoot(options: RetinueModuleOptions): DynamicModule {
     const config = options.config ?? loadServiceConfig();
 
     return {
-      module: ForgeModule,
+      module: RetinueModule,
       global: true,
       providers: [
-        { provide: FORGE_CONFIG, useValue: config },
-        { provide: FORGE_AGENT, useValue: options.agentId ?? "forge-api-agent" },
+        { provide: RETINUE_CONFIG, useValue: config },
+        { provide: RETINUE_AGENT, useValue: options.agentId ?? "retinue-api-agent" },
         {
-          provide: FORGE_MESSAGES,
-          inject: [FORGE_SQL],
+          provide: RETINUE_MESSAGES,
+          inject: [RETINUE_SQL],
           useFactory: ({ sql }: { sql: SqlExecutor }) => createPostgresMessageStore(sql),
         },
-        { provide: FORGE_AUTHENTICATE, useValue: options.authenticate },
+        { provide: RETINUE_AUTHENTICATE, useValue: options.authenticate },
         {
-          provide: FORGE_POOL,
+          provide: RETINUE_POOL,
           useFactory: () => new pg.Pool({ connectionString: config.databaseUrl, max: 8 }),
         },
         {
-          provide: FORGE_REDIS,
+          provide: RETINUE_REDIS,
           useFactory: () => new Redis(config.redisUrl, { maxRetriesPerRequest: null }),
         },
         {
-          provide: FORGE_SQL,
-          inject: [FORGE_POOL],
+          provide: RETINUE_SQL,
+          inject: [RETINUE_POOL],
           useFactory: (pool: pg.Pool) => {
             const base: SqlExecutor = {
               async query(text, params) {
@@ -159,8 +159,8 @@ export class ForgeModule {
           },
         },
         {
-          provide: FORGE_REGISTRY,
-          inject: [FORGE_SQL],
+          provide: RETINUE_REGISTRY,
+          inject: [RETINUE_SQL],
           useFactory: ({ sql }: { sql: SqlExecutor }) => {
             const authorization = createAuthorizationPolicy({ roles: (options.roles ?? []) as never });
             const idempotency = createPostgresIdempotencyStore(sql);
@@ -181,8 +181,8 @@ export class ForgeModule {
           },
         },
         {
-          provide: FORGE_RESOLVER_DEPS,
-          inject: [FORGE_SQL, FORGE_REDIS, FORGE_REGISTRY],
+          provide: RETINUE_RESOLVER_DEPS,
+          inject: [RETINUE_SQL, RETINUE_REDIS, RETINUE_REGISTRY],
           useFactory: (
             { sql, runner }: { sql: SqlExecutor; runner: Parameters<typeof createPostgresConversationRunCoordinator>[1] },
             redis: Redis,
@@ -225,8 +225,8 @@ export class ForgeModule {
           },
         },
         {
-          provide: FORGE_PROBES,
-          inject: [FORGE_SQL, FORGE_REDIS],
+          provide: RETINUE_PROBES,
+          inject: [RETINUE_SQL, RETINUE_REDIS],
           useFactory: ({ sql }: { sql: SqlExecutor }, redis: Redis) => [
             postgresProbe(sql),
             // Named separately from Postgres on purpose: "unreachable" and "behind" need different responses
@@ -235,25 +235,22 @@ export class ForgeModule {
             redisProbe(redis),
           ],
         },
-        ForgeConnections,
+        RetinueConnections,
       ],
       exports: [
-        FORGE_CONFIG,
-        FORGE_AUTHENTICATE,
-        FORGE_SQL,
-        FORGE_POOL,
-        FORGE_REDIS,
-        FORGE_REGISTRY,
-        FORGE_RESOLVER_DEPS,
-        FORGE_PROBES,
-        FORGE_MESSAGES,
-        FORGE_AGENT,
+        RETINUE_CONFIG,
+        RETINUE_AUTHENTICATE,
+        RETINUE_SQL,
+        RETINUE_POOL,
+        RETINUE_REDIS,
+        RETINUE_REGISTRY,
+        RETINUE_RESOLVER_DEPS,
+        RETINUE_PROBES,
+        RETINUE_MESSAGES,
+        RETINUE_AGENT,
       ],
     };
   }
 }
 
-// Deprecated aliases for backwards compatibility
-export { ForgeConnections as RetinueConnections, ForgeModule as RetinueModule };
-export type { ForgeModuleOptions as RetinueModuleOptions };
 export type { ExecutionContext };

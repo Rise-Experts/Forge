@@ -1,6 +1,6 @@
 # @retinue/tools-x
 
-X (Twitter) tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: search and read posts,
+X (Twitter) tools for a [Retinue](https://github.com/Rise-Experts/Retinue) agent: search and read posts,
 publish and delete.
 
 ```bash
@@ -41,6 +41,6 @@ permission.
 
 Posts are counted in code points, so 280 emoji is a valid post.
 
-Full documentation: <https://docs.forge.riseexperts.de/integrations/x>
+Full documentation: <https://docs.retinue.riseexperts.de/integrations/x>
 
 MIT.

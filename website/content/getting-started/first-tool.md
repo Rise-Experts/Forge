@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Your first tool
 
-An agent that cannot do anything is a chat box. A **tool** is how it acts — and in Forge a tool is a thin
+An agent that cannot do anything is a chat box. A **tool** is how it acts — and in Retinue a tool is a thin
 envelope over a function you already have, with authorization, human approval and idempotency wrapped around it
 rather than written into it.
 

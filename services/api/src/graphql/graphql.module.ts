@@ -20,7 +20,7 @@ import type { YogaDriverConfig } from "@graphql-yoga/nestjs";
 import { createGraphQLError } from "graphql-yoga";
 import { createResolvers, typeDefs } from "@retinue/agentkit/server";
 import { UNAUTHENTICATED } from "@retinue/agentkit/server";
-import { FORGE_AUTHENTICATE, FORGE_RESOLVER_DEPS } from "../forge/tokens.js";
+import { RETINUE_AUTHENTICATE, RETINUE_RESOLVER_DEPS } from "../retinue/tokens.js";
 import type { Authenticate } from "@retinue/agentkit/server";
 import type { ResolverDeps } from "@retinue/agentkit";
 
@@ -28,7 +28,7 @@ import type { ResolverDeps } from "@retinue/agentkit";
   imports: [
     GraphQLModule.forRootAsync<YogaDriverConfig>({
       driver: YogaDriver,
-      inject: [FORGE_RESOLVER_DEPS, FORGE_AUTHENTICATE],
+      inject: [RETINUE_RESOLVER_DEPS, RETINUE_AUTHENTICATE],
       useFactory: (deps: ResolverDeps, authenticate: Authenticate) => ({
         typeDefs,
         resolvers: createResolvers(deps) as never,
@@ -58,6 +58,5 @@ import type { ResolverDeps } from "@retinue/agentkit";
     }),
   ],
 })
-export class ForgeGraphQLModule {}
+export class RetinueGraphQLModule {}
 
-export { ForgeGraphQLModule as RetinueGraphQLModule };

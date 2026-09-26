@@ -1,6 +1,6 @@
 # @retinue/tools-notion
 
-Notion tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: search, read pages as markdown,
+Notion tools for a [Retinue](https://github.com/Rise-Experts/Retinue) agent: search, read pages as markdown,
 query databases, and write back.
 
 ```bash
@@ -40,6 +40,6 @@ reports success. So `notion_create_page` and `notion_update_page` fetch the data
 **A page is a block tree, not a document.** Reading one is bounded in depth, block count and size, and when it
 stops early it says which limit it hit.
 
-Full documentation: <https://docs.forge.riseexperts.de/integrations/notion>
+Full documentation: <https://docs.retinue.riseexperts.de/integrations/notion>
 
 MIT.

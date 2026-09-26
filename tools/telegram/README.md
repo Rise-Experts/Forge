@@ -1,6 +1,6 @@
 # @retinue/tools-telegram
 
-Telegram Bot API tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: send, edit, pin and
+Telegram Bot API tools for a [Retinue](https://github.com/Rise-Experts/Retinue) agent: send, edit, pin and
 delete messages.
 
 ```bash
@@ -42,6 +42,6 @@ told apart, with different remedies named. A bot also cannot message a user who 
 **Pinning is silent by default.** A pin notifies every member of a group, and a notification to a thousand
 people is not a side effect an agent should cause by omission.
 
-Full documentation: <https://docs.forge.riseexperts.de/integrations/telegram>
+Full documentation: <https://docs.retinue.riseexperts.de/integrations/telegram>
 
 MIT.

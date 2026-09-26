@@ -1,12 +1,12 @@
 /**
  * The example's `authenticate` — #155, AC-6.
  *
- * `ForgeApp.authenticate` has no default on purpose: the server refuses to start without one, because a
+ * `RetinueApp.authenticate` has no default on purpose: the server refuses to start without one, because a
  * permissive fallback would serve an open API to anyone who forgot to set it. An *example* is the most dangerous
  * place to undermine that, since example code is what people copy.
  *
  * So this reads tenant and principal from request headers — which is exactly what you must not do in production
- * — and **refuses to run unless `FORGE_EXAMPLE_DEV_AUTH=1` is set explicitly**. The opt-in is the whole
+ * — and **refuses to run unless `RETINUE_EXAMPLE_DEV_AUTH=1` is set explicitly**. The opt-in is the whole
  * point: nobody reaches this code path by accident, and the failure is a startup error naming the variable
  * rather than an open API nobody notices.
  */
@@ -16,16 +16,16 @@ import { parseExecutionContext } from "@retinue/agentkit/runtime";
 import type { ExecutionContext } from "@retinue/agentkit";
 import type { Authenticate } from "@retinue/agentkit/server";
 
-export const DEV_AUTH_VARIABLE = "FORGE_EXAMPLE_DEV_AUTH";
-export const FORGE_DEV_AUTH_VARIABLE = "FORGE_EXAMPLE_DEV_AUTH";
+export const DEV_AUTH_VARIABLE = "RETINUE_EXAMPLE_DEV_AUTH";
+export const RETINUE_DEV_AUTH_VARIABLE = "RETINUE_EXAMPLE_DEV_AUTH";
 
 /** Headers the dev authenticator reads. Named so the README and the code cannot drift. */
-export const TENANT_HEADER = "x-forge-tenant";
-export const FORGE_TENANT_HEADER = "x-forge-tenant";
-export const PRINCIPAL_HEADER = "x-forge-principal";
-export const FORGE_PRINCIPAL_HEADER = "x-forge-principal";
-export const ROLES_HEADER = "x-forge-roles";
-export const FORGE_ROLES_HEADER = "x-forge-roles";
+export const TENANT_HEADER = "x-retinue-tenant";
+export const RETINUE_TENANT_HEADER = "x-retinue-tenant";
+export const PRINCIPAL_HEADER = "x-retinue-principal";
+export const RETINUE_PRINCIPAL_HEADER = "x-retinue-principal";
+export const ROLES_HEADER = "x-retinue-roles";
+export const RETINUE_ROLES_HEADER = "x-retinue-roles";
 
 export class DevAuthNotEnabled extends Error {
   constructor() {
@@ -47,15 +47,15 @@ export class DevAuthNotEnabled extends Error {
 export const createDevAuthenticate = (
   env: Readonly<Record<string, string | undefined>> = process.env,
 ): Authenticate => {
-  if (env[DEV_AUTH_VARIABLE] !== "1" && env[FORGE_DEV_AUTH_VARIABLE] !== "1") throw new DevAuthNotEnabled();
+  if (env[DEV_AUTH_VARIABLE] !== "1" && env[RETINUE_DEV_AUTH_VARIABLE] !== "1") throw new DevAuthNotEnabled();
 
   return (request: Request): ExecutionContext | null => {
     const tenantId = (
-      request.headers.get(FORGE_TENANT_HEADER) ??
+      request.headers.get(RETINUE_TENANT_HEADER) ??
       request.headers.get(TENANT_HEADER)
     )?.trim();
     const principalId = (
-      request.headers.get(FORGE_PRINCIPAL_HEADER) ??
+      request.headers.get(RETINUE_PRINCIPAL_HEADER) ??
       request.headers.get(PRINCIPAL_HEADER)
     )?.trim();
     // No fallback tenant. A default here would mean an unauthenticated request silently landing in *somebody's*
@@ -63,7 +63,7 @@ export const createDevAuthenticate = (
     if (tenantId === undefined || tenantId === "" || principalId === undefined || principalId === "") return null;
 
     const rawRoles = (
-      request.headers.get(FORGE_ROLES_HEADER) ??
+      request.headers.get(RETINUE_ROLES_HEADER) ??
       request.headers.get(ROLES_HEADER) ??
       ""
     );
@@ -102,5 +102,5 @@ export const createDevAuthenticate = (
 export const assertDevAuthEnabled = (
   env: Readonly<Record<string, string | undefined>> = process.env,
 ): void => {
-  if (env[DEV_AUTH_VARIABLE] !== "1" && env[FORGE_DEV_AUTH_VARIABLE] !== "1") throw new DevAuthNotEnabled();
+  if (env[DEV_AUTH_VARIABLE] !== "1" && env[RETINUE_DEV_AUTH_VARIABLE] !== "1") throw new DevAuthNotEnabled();
 };

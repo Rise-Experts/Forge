@@ -1,5 +1,5 @@
 /**
- * `forge migrate` provisions the schema it was told to use — REQ-041 (#190).
+ * `retinue migrate` provisions the schema it was told to use — REQ-041 (#190).
  *
  * Against a real Postgres (PGlite), because the whole point is what the database does: `CREATE SCHEMA
  * IF NOT EXISTS` twice, `pg_namespace` answering honestly, and an identifier reaching SQL by
@@ -57,9 +57,9 @@ describe("ensureSchema", () => {
   it("creates the schema, releases the connection, and is safe to run again", async () => {
     const { connect, exists, ended, close } = db();
     // Twice: `migrate` runs on every deploy, so the second run is the normal case, not the edge one.
-    expect(await ensureSchema({ databaseUrl: "x", databaseSchema: "forge" }, { create: true, connect })).toBe(true);
-    expect(await ensureSchema({ databaseUrl: "x", databaseSchema: "forge" }, { create: true, connect })).toBe(true);
-    expect(await exists("forge")).toBe(true);
+    expect(await ensureSchema({ databaseUrl: "x", databaseSchema: "retinue" }, { create: true, connect })).toBe(true);
+    expect(await ensureSchema({ databaseUrl: "x", databaseSchema: "retinue" }, { create: true, connect })).toBe(true);
+    expect(await exists("retinue")).toBe(true);
     expect(ended()).toBe(2);
     await close();
   });
@@ -86,8 +86,8 @@ describe("ensureSchema", () => {
      */
     const { connect, exists, queries, close } = db();
     const error = vi.spyOn(console, "error").mockImplementation(() => undefined);
-    expect(await ensureSchema({ databaseUrl: "x", databaseSchema: "forge" }, { create: false, connect })).toBe(false);
-    expect(await exists("forge")).toBe(false);
+    expect(await ensureSchema({ databaseUrl: "x", databaseSchema: "retinue" }, { create: false, connect })).toBe(false);
+    expect(await exists("retinue")).toBe(false);
     expect(queries.some((q) => /create schema/i.test(q))).toBe(false);
     expect(error.mock.calls[0]?.[0]).toMatch(/does not exist/);
     error.mockRestore();
@@ -96,15 +96,15 @@ describe("ensureSchema", () => {
 
   it("confirms an existing schema on the read-only paths", async () => {
     const { connect, exists, close } = db();
-    await ensureSchema({ databaseUrl: "x", databaseSchema: "forge" }, { create: true, connect });
-    expect(await exists("forge")).toBe(true);
-    expect(await ensureSchema({ databaseUrl: "x", databaseSchema: "forge" }, { create: false, connect })).toBe(true);
+    await ensureSchema({ databaseUrl: "x", databaseSchema: "retinue" }, { create: true, connect });
+    expect(await exists("retinue")).toBe(true);
+    expect(await ensureSchema({ databaseUrl: "x", databaseSchema: "retinue" }, { create: false, connect })).toBe(true);
     await close();
   });
 });
 
 describe("the schema name, before it ever reaches SQL", () => {
-  const base = { FORGE_DATABASE_URL: "postgres://u:p@h:5432/d", FORGE_REDIS_URL: "redis://h:6379" };
+  const base = { RETINUE_DATABASE_URL: "postgres://u:p@h:5432/d", RETINUE_REDIS_URL: "redis://h:6379" };
 
   it("refuses anything Postgres would need quoted", () => {
     /**
@@ -114,31 +114,31 @@ describe("the schema name, before it ever reaches SQL", () => {
      * and it is why the pattern is what Postgres accepts unquoted and nothing else.
      */
     for (const bad of [
-      "forge; drop schema public cascade",
-      "public, forge",
-      'forge" ; --',
-      "1forge",
-      "forge-prod",
-      "forge schema",
+      "retinue; drop schema public cascade",
+      "public, retinue",
+      'retinue" ; --',
+      "1retinue",
+      "retinue-prod",
+      "retinue schema",
       "réтinue",
     ]) {
-      expect(() => loadConfig({ ...base, FORGE_DATABASE_SCHEMA: bad }), bad).toThrow(
+      expect(() => loadConfig({ ...base, RETINUE_DATABASE_SCHEMA: bad }), bad).toThrow(
         /must be an unquoted Postgres identifier/,
       );
     }
   });
 
   it("accepts what a real deployment would use", () => {
-    for (const good of ["forge", "forge_prod", "_r", "r$1", "Forge"]) {
-      expect(loadConfig({ ...base, FORGE_DATABASE_SCHEMA: good }).databaseSchema, good).toBe(good);
+    for (const good of ["retinue", "retinue_prod", "_r", "r$1", "Retinue"]) {
+      expect(loadConfig({ ...base, RETINUE_DATABASE_SCHEMA: good }).databaseSchema, good).toBe(good);
     }
   });
 
   it("treats blank as unset, so an empty variable in a compose file is not an error", () => {
-    // `SCHEMA=${FORGE_DATABASE_SCHEMA:-}` in a compose file expands to an empty string, which means
+    // `SCHEMA=${RETINUE_DATABASE_SCHEMA:-}` in a compose file expands to an empty string, which means
     // "not configured" and must not fail boot or produce `SET search_path TO , public`.
-    expect(loadConfig({ ...base, FORGE_DATABASE_SCHEMA: "" }).databaseSchema).toBeUndefined();
-    expect(loadConfig({ ...base, FORGE_DATABASE_SCHEMA: "   " }).databaseSchema).toBeUndefined();
+    expect(loadConfig({ ...base, RETINUE_DATABASE_SCHEMA: "" }).databaseSchema).toBeUndefined();
+    expect(loadConfig({ ...base, RETINUE_DATABASE_SCHEMA: "   " }).databaseSchema).toBeUndefined();
   });
 });
 
@@ -185,7 +185,7 @@ describe("why the schema must exist before anything connects", () => {
     /**
      * The premise of this whole file, executable rather than asserted in prose.
      *
-     * It is tempting to assume a missing schema announces itself — that `SET search_path TO forge,
+     * It is tempting to assume a missing schema announces itself — that `SET search_path TO retinue,
      * public` fails, or that the first `CREATE TABLE` does. Neither happens. A missing entry in the
      * path is *skipped*, and the create lands in the next schema that exists. So without
      * `ensureSchema`, all 34 platform migrations would be created in `public` beside a product's

@@ -14,7 +14,7 @@
  *   id must fail rather than return somebody else's credential.
  * - **A dangling pointer.** Application tables restored without the `vault` schema.
  *
- * Skips without `FORGE_TEST_VAULT_URL`. It does not fall back to a stub: a stub would make this file assert
+ * Skips without `RETINUE_TEST_VAULT_URL`. It does not fall back to a stub: a stub would make this file assert
  * that a mock behaves like a mock, which is exactly the reassurance #268 refused to ship.
  */
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
@@ -24,8 +24,8 @@ import { createAesGcmCipher } from "../cipher.js";
 import type { SealedSecret } from "../cipher.js";
 import type { SqlExecutor } from "../../adapters/postgres/sql.js";
 
-const VAULT_URL = process.env["FORGE_TEST_VAULT_URL"];
-const PREFIX = "forge-test-268";
+const VAULT_URL = process.env["RETINUE_TEST_VAULT_URL"];
+const PREFIX = "retinue-test-268";
 
 let sql: SqlExecutor;
 let end: (() => Promise<void>) | undefined;

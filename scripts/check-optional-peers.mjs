@@ -43,12 +43,12 @@ export const IMAGES = [{ dockerfile: "Dockerfile", app: "examples" }];
 /**
  * What an image actually runs, read out of the Dockerfile.
  *
- * Two entry points, and both matter: `CMD` is the process, and `FORGE_APP_MODULE` is the module that
+ * Two entry points, and both matter: `CMD` is the process, and `RETINUE_APP_MODULE` is the module that
  * process loads to get its wiring. Checking only the first misses everything the application imports;
  * checking only the second misses the host's own Postgres and Redis clients.
  */
 export const entryPointsOf = (dockerfile) => {
-  const appModule = /^ENV (?:FORGE|FORGE)_APP_MODULE=(\S+)/m.exec(dockerfile)?.[1];
+  const appModule = /^ENV (?:RETINUE|AGENTKIT)_APP_MODULE=(\S+)/m.exec(dockerfile)?.[1];
   const cmd = /^CMD \[([^\]]+)\]/m.exec(dockerfile)?.[1];
   const out = [];
   if (appModule !== undefined) out.push(appModule.replace(/^file:\/\/\/app\//, ""));
@@ -89,7 +89,7 @@ export const findUndeclared = (image, io) => {
   if (entries.length === 0) {
     // Never "nothing to check": a Dockerfile whose CMD this cannot read is a Dockerfile whose image
     // is unchecked, and reporting success would be the wrong answer to the wrong question.
-    return { error: `${image.dockerfile} names no entry point this check can read (CMD / FORGE_APP_MODULE)` };
+    return { error: `${image.dockerfile} names no entry point this check can read (CMD / RETINUE_APP_MODULE)` };
   }
 
   const manifest = io.readJson(`${image.app}/package.json`);

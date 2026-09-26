@@ -204,7 +204,7 @@ export const textOf = (node: Node): string => {
 
 const collapse = (text: string): string => text.replace(/\s+/g, " ").trim();
 
-/** Markdown's structural characters, escaped so page text cannot forge structure in the output. */
+/** Markdown's structural characters, escaped so page text cannot retinue structure in the output. */
 const escapeText = (text: string): string => text.replace(/([\\`*_[\]<>|])/g, "\\$1");
 
 const languageOf = (element: Extract<Node, { kind: "element" }>): string => {

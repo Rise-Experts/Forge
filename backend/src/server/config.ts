@@ -13,7 +13,7 @@
 import { readEnv } from "../core/env.js";
 import type { SchemaMode } from "../entries/adapters-postgres.js";
 
-export type ForgeConfig = {
+export type RetinueConfig = {
   readonly databaseUrl: string;
   readonly redisUrl: string;
   /** How the schema is provisioned at boot. `off` in production, so managed migrations stay in control. */
@@ -26,9 +26,6 @@ export type ForgeConfig = {
   readonly workerConcurrency: number;
   readonly logLevel: "debug" | "info" | "warn" | "error";
 };
-
-/** @deprecated Use ForgeConfig */
-export type RetinueConfig = ForgeConfig;
 
 /** Thrown when configuration is unusable. Carries the variable names so the message is actionable. */
 export class ConfigurationError extends Error {
@@ -60,7 +57,7 @@ export type Env = Readonly<Record<string, string | undefined>>;
  * from one boot, not discover them across three deploys. That is what "fail fast with a precise
  * message" is actually worth.
  */
-export const loadConfig = (env: Env): ForgeConfig => {
+export const loadConfig = (env: Env): RetinueConfig => {
   const problems: string[] = [];
   const variables: string[] = [];
 
@@ -70,7 +67,7 @@ export const loadConfig = (env: Env): ForgeConfig => {
   };
 
   const lookup = (suffix: string): string | undefined => readEnv(env, suffix);
-  const named = (suffix: string): string => `FORGE_${suffix}`;
+  const named = (suffix: string): string => `RETINUE_${suffix}`;
 
   const required = (suffix: string): string => {
     const variable = named(suffix);
@@ -150,7 +147,7 @@ export const loadConfig = (env: Env): ForgeConfig => {
     ...(databaseSchema === undefined ? {} : { databaseSchema }),
     port,
     workerConcurrency,
-    logLevel: rawLogLevel as ForgeConfig["logLevel"],
+    logLevel: rawLogLevel as RetinueConfig["logLevel"],
   };
 };
 
@@ -163,7 +160,7 @@ export const loadConfig = (env: Env): ForgeConfig => {
  * briefly stripped it — a regex over the file caught this constant along with the internal literals — and the
  * test that asserts the error names every missing variable is what found it.
  */
-export const REQUIRED_VARIABLES = ["FORGE_DATABASE_URL", "FORGE_REDIS_URL"] as const;
+export const REQUIRED_VARIABLES = ["RETINUE_DATABASE_URL", "RETINUE_REDIS_URL"] as const;
 export const OPTIONAL_VARIABLES = [
   "SCHEMA_MODE",
   "DATABASE_SCHEMA",

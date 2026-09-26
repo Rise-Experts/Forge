@@ -28,9 +28,9 @@ supply.
 ## Two processes, not one
 
 The API admits work and the worker executes it. That boundary is load-bearing, and running
-them in one process hides exactly the defects worth finding: [#161](https://github.com/Rise-Experts/forge/issues/161)
+them in one process hides exactly the defects worth finding: [#161](https://github.com/Rise-Experts/retinue/issues/161)
 (a hard-coded no-op event publisher, so nothing streamed) and
-[#157](https://github.com/Rise-Experts/forge/issues/157) (an unwired message store, so
+[#157](https://github.com/Rise-Experts/retinue/issues/157) (an unwired message store, so
 turn two saw half of turn one) both survived because nothing exercised the split.
 
 ## Scripts

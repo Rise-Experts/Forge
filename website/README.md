@@ -1,4 +1,4 @@
-# Forge documentation site
+# Retinue documentation site
 
 Docusaurus site that renders **everything we build**:
 - the narrative specs (`../docs/01–30` + `../docs/extraction`) — auto sidebar, mermaid, versioning-ready;
@@ -29,17 +29,17 @@ can consume these directly. A docs **MCP server** can serve the same corpus:
 - **Hosted:** Inkeep/kapa expose an MCP endpoint from the indexed docs.
 - **Self-hosted:** a small MCP server that returns sections of `llms-full.txt` by query.
 
-## Deployment (Cloudflare Workers Static Assets → docs.forge.riseexperts.de)
+## Deployment (Cloudflare Workers Static Assets → docs.retinue.riseexperts.de)
 
-The checked-in configuration targets the `forge-docs` Worker at
-`https://docs.forge.riseexperts.de`. Keep the Worker name, the configured URL, and the custom domain in
+The checked-in configuration targets the `retinue-docs` Worker at
+`https://docs.retinue.riseexperts.de`. Keep the Worker name, the configured URL, and the custom domain in
 both `wrangler.jsonc` files aligned: a changed Worker name creates a new Worker rather than renaming the old one.
 
 Deployed via **Cloudflare's Git build** (Workers Builds) using `wrangler.jsonc` — no API-token
 secret needed, Cloudflare builds from the connected repo on each push. One-time setup — **these
 steps need your Cloudflare/DNS access; the config is already in the repo:**
 
-1. In the Cloudflare project (Workers & Pages → your `forge-docs` project) → **Settings →
+1. In the Cloudflare project (Workers & Pages → your `retinue-docs` project) → **Settings →
    Build**, set — these work from the **repo root**, so the "Root directory" setting no longer
    matters (a root `wrangler.jsonc` and `website/wrangler.jsonc` both exist):
    - **Root directory:** leave as repo root (default).
@@ -49,12 +49,12 @@ steps need your Cloudflare/DNS access; the config is already in the repo:**
    - **Deploy command:** `npx wrangler deploy`  ← change from `npx wrangler versions upload`
      (`versions upload` stages a version without publishing to the live URL). From the repo root
      this reads the root `wrangler.jsonc`, whose `assets.directory` is `./website/build`.
-2. **Custom domain**: project → **Custom domains** → add **`docs.forge.riseexperts.de`**. It has to be a
+2. **Custom domain**: project → **Custom domains** → add **`docs.retinue.riseexperts.de`**. It has to be a
    *custom domain* rather than a route: a third-level hostname is not covered by Cloudflare's universal
    certificate, and a custom domain is what provisions one for it. Without that the host serves over plain HTTP
    and fails the TLS handshake.
    - If `riseexperts.de` DNS is **on Cloudflare**, the record is created automatically.
-   - Otherwise add a DNS **CNAME**: `docs.forge` → `<worker>.workers.dev` (as shown in the
+   - Otherwise add a DNS **CNAME**: `docs.retinue` → `<worker>.workers.dev` (as shown in the
      Custom domains dialog).
 
 `wrangler.jsonc` declares `assets.directory: ./build`, so `wrangler deploy` uploads the

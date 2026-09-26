@@ -40,7 +40,7 @@ import type { ExecutionContext } from "@retinue/agentkit";
 import type { ToolRegistry } from "@retinue/agentkit/tools";
 
 export const mount = (registry: ToolRegistry, context: ExecutionContext) => {
-  const server = new Server({ name: "forge", version: "0.2.0" }, { capabilities: { tools: {} } });
+  const server = new Server({ name: "retinue", version: "0.2.0" }, { capabilities: { tools: {} } });
   registerRetinueTools(
     server,
     { listTools: ListToolsRequestSchema, callTool: CallToolRequestSchema },
@@ -54,7 +54,7 @@ A runnable one is in the repository: `examples/scripts/mcp-server.mjs`, plus `mc
 with a real MCP client.
 
 ```bash
-claude mcp add forge -- node /abs/path/examples/scripts/mcp-server.mjs
+claude mcp add retinue -- node /abs/path/examples/scripts/mcp-server.mjs
 ```
 
 ## Credentials and scopes

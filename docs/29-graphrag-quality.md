@@ -1,7 +1,7 @@
 # GraphRAG Quality, Measured
 
-Status: measured, 29 Aug 2026 · REQ-064 ([#270](https://github.com/Rise-Experts/forge/issues/270)), task
-[#275](https://github.com/Rise-Experts/forge/issues/275)
+Status: measured, 29 Aug 2026 · REQ-064 ([#270](https://github.com/Rise-Experts/retinue/issues/270)), task
+[#275](https://github.com/Rise-Experts/retinue/issues/275)
 Harness: `evals/retrieval-quality.mjs` · dataset: `evals/cases/retrieval.json` · raw output:
 `evals/retrieval-quality.json`
 
@@ -24,7 +24,7 @@ Same corpus and same harness as `docs/26`: this repository's own documentation, 
 | **semantic** | **75.0%** | **87.5%** | **37.5%** | **66.7%** | **0.528** | 281 |
 | hybrid | 62.5% | 83.3% | 33.3% | 60.4% | 0.446 | 327 |
 | graph-local *(as measured, connectivity ranking)* | 20.8% | 45.8% | 0.0% | 14.6% | 0.071 | 2 |
-| **graph-local after [#277](https://github.com/Rise-Experts/forge/issues/277)** | **45.8%** | **62.5%** | **33.3%** | **39.6%** | **0.373** | ~600–1400 |
+| **graph-local after [#277](https://github.com/Rise-Experts/retinue/issues/277)** | **45.8%** | **62.5%** | **33.3%** | **39.6%** | **0.373** | ~600–1400 |
 | graph-global | 0.0% | 0.0% | 0.0% | 0.0% | 0.000 | 3 |
 
 By class, which is the comparison that matters — the eighteen original queries are the regression check, and
@@ -161,7 +161,7 @@ the correct behaviour and it shows the limit: `graph-local` can only answer ques
 ours does not. Using the graph for candidate *selection* and embeddings for *ranking* is the obvious next
 version, and it is filed rather than done here — an unmeasured improvement written after reading a bad number
 is how a harness gets tuned until it agrees. See
-[#277](https://github.com/Rise-Experts/forge/issues/277).
+[#277](https://github.com/Rise-Experts/retinue/issues/277).
 
 Note the one thing in its favour: **2 ms per query**, against semantic's 281 ms, because it is pure graph
 traversal with no embedding call.
@@ -200,7 +200,7 @@ to trust one, and not worth pretending to now.
   communities. Its ceiling correctly refuses, so the failure is safe rather than expensive — but a mode that
   always refuses is a mode nobody should switch on.
 - `graph-local`'s diagnosed defect — connectivity ranking — **was fixed and re-measured** in
-  [#277](https://github.com/Rise-Experts/forge/issues/277). It more than doubled, from 20.8% to 45.8%
+  [#277](https://github.com/Rise-Experts/retinue/issues/277). It more than doubled, from 20.8% to 45.8%
   success@5, and still loses to semantic's 75%. It also gave up its speed advantage doing so. The
   recommendation is therefore unchanged, but it now rests on a measured answer rather than on a known defect.
 - The corpus shape matters more than anything else here, and this measurement covers exactly one shape.
@@ -246,7 +246,7 @@ builder gained a `summariseLevels` option, and the harness passes only the coars
 A third, found in the *unit* tests while wiring this up: `createMemoryVectorIndex()` takes no argument and
 builds its own backend, so #273's test had been comparing against an empty index and "semantic finds fewer"
 was passing vacuously. Fixed, and the claim narrowed — the details are on
-[#273](https://github.com/Rise-Experts/forge/issues/273).
+[#273](https://github.com/Rise-Experts/retinue/issues/273).
 
 ## Re-running it
 
@@ -259,5 +259,5 @@ node evals/retrieval-quality.mjs --graph --graph-cache --arms graph-local --miss
 which is the twenty-seven minutes and thirty cents above. Without `--graph` the harness runs exactly as
 `docs/26` describes and costs about two cents.
 
-Needs `FORGE_MODEL_API_KEY`. It is **not** in `ci:local`, for the same reason the other harnesses are not: a
+Needs `RETINUE_MODEL_API_KEY`. It is **not** in `ci:local`, for the same reason the other harnesses are not: a
 gate that spends money on every run is a gate somebody switches off.

@@ -106,7 +106,7 @@ export type ScrapeToolsConfig = {
  * long enough to escape the surrounding one, and the delimiter itself. A hand-rolled `> ` prefix would look
  * like the same protection and be none of it.
  *
- * A fresh nonce per page, because the nonce is what content cannot guess and therefore cannot forge a close
+ * A fresh nonce per page, because the nonce is what content cannot guess and therefore cannot retinue a close
  * tag with. Reusing one across a crawl would mean a page that saw the nonce in an earlier turn could close the
  * envelope of a later one.
  *

@@ -49,12 +49,12 @@ describe("dev auth — AC-6", () => {
     // At construction, not per request: a misconfigured example should fail at boot with one clear message
     // rather than return 401 to every caller and leave someone guessing.
     expect(() => createDevAuthenticate({})).toThrow(DevAuthNotEnabled);
-    expect(() => createDevAuthenticate({ FORGE_EXAMPLE_DEV_AUTH: "true" })).toThrow(DevAuthNotEnabled);
-    expect(() => createDevAuthenticate({ FORGE_EXAMPLE_DEV_AUTH: "1" })).not.toThrow();
+    expect(() => createDevAuthenticate({ RETINUE_EXAMPLE_DEV_AUTH: "true" })).toThrow(DevAuthNotEnabled);
+    expect(() => createDevAuthenticate({ RETINUE_EXAMPLE_DEV_AUTH: "1" })).not.toThrow();
   });
 
   it("rejects a request with no tenant or no principal", async () => {
-    const authenticate = createDevAuthenticate({ FORGE_EXAMPLE_DEV_AUTH: "1" });
+    const authenticate = createDevAuthenticate({ RETINUE_EXAMPLE_DEV_AUTH: "1" });
     // No fallback tenant. A default would mean an unauthenticated request landing in *somebody's* data, which is
     // the one failure tenant isolation exists to prevent.
     expect(await authenticate(request())).toBeNull();
@@ -64,7 +64,7 @@ describe("dev auth — AC-6", () => {
   });
 
   it("builds a context through the platform's own validator", async () => {
-    const authenticate = createDevAuthenticate({ FORGE_EXAMPLE_DEV_AUTH: "1" });
+    const authenticate = createDevAuthenticate({ RETINUE_EXAMPLE_DEV_AUTH: "1" });
     const context = await authenticate(
       request({ [TENANT_HEADER]: "t1", [PRINCIPAL_HEADER]: "p1", [ROLES_HEADER]: "editor, viewer" }),
     );
@@ -81,15 +81,15 @@ describe("model configuration", () => {
   });
 
   it("defaults the model id but not the key", () => {
-    const resolved = resolveExampleModel({ FORGE_MODEL_API_KEY: "sk-test" });
+    const resolved = resolveExampleModel({ RETINUE_MODEL_API_KEY: "sk-test" });
     expect(resolved.modelId).toBe(DEFAULT_MODEL_ID);
     expect(resolved.endpoint).toBe("https://api.openai.com/v1");
   });
 
   it("switches to the openai-compatible provider when a base URL is given", () => {
     const resolved = resolveExampleModel({
-      FORGE_MODEL_API_KEY: "sk-test",
-      FORGE_MODEL_BASE_URL: "http://127.0.0.1:8888/v1",
+      RETINUE_MODEL_API_KEY: "sk-test",
+      RETINUE_MODEL_BASE_URL: "http://127.0.0.1:8888/v1",
     });
     // The dedicated OpenAI provider assumes endpoints a local server may not implement, and the failure is a 404
     // on a path nobody chose.

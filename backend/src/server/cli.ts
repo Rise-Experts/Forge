@@ -6,15 +6,15 @@
  * engine and a tool registry, none of which a generic entrypoint can invent. Without a CLI,
  * `node server/dist/main.js` loads a module and exits, and the README would be fiction.
  *
- * The contract is one environment variable: `FORGE_APP_MODULE`, a module that default-exports the
+ * The contract is one environment variable: `RETINUE_APP_MODULE`, a module that default-exports the
  * application's wiring. That keeps the deployment-specific parts — identity above all — in the
  * deployment, while the command itself stays the same everywhere.
  */
 import { boot } from "./boot.js";
 import { readEnv } from "../core/env.js";
-import { createForgeHost, type Authenticate } from "./host.js";
+import { createRetinueHost, type Authenticate } from "./host.js";
 import { createHealthRoutes, postgresProbe, redisProbe, schemaProbe } from "./health.js";
-import { loadConfig, type ForgeConfig } from "./config.js";
+import { loadConfig, type RetinueConfig } from "./config.js";
 import type { ResolverDeps } from "../index.js";
 import type { SqlExecutor } from "../entries/adapters-postgres.js";
 import type { TransactionRunner } from "../adapters/postgres/transaction.js";
@@ -25,23 +25,20 @@ import type { TransactionRunner } from "../adapters/postgres/transaction.js";
  * `authenticate` has no default on purpose. A permissive default would serve an open API to anyone who
  * forgot to set it, and that is a worse failure than refusing to start.
  */
-export type ForgeApp = {
+export type RetinueApp = {
   readonly authenticate: Authenticate;
   readonly deps: (input: {
-    readonly config: ForgeConfig;
+    readonly config: RetinueConfig;
     readonly sql: SqlExecutor;
     readonly runner?: TransactionRunner;
   }) => Promise<ResolverDeps> | ResolverDeps;
   /** Optional liveness/readiness extras beyond Postgres, Redis and the schema version. */
-  readonly redis?: (config: ForgeConfig) => { ping(): Promise<string> };
+  readonly redis?: (config: RetinueConfig) => { ping(): Promise<string> };
 };
 
-/** @deprecated Use ForgeApp */
-export type RetinueApp = ForgeApp;
+export const APP_MODULE_VARIABLE = "RETINUE_APP_MODULE";
 
-export const APP_MODULE_VARIABLE = "FORGE_APP_MODULE";
-
-const loadApp = async (env: Readonly<Record<string, string | undefined>>): Promise<ForgeApp> => {
+const loadApp = async (env: Readonly<Record<string, string | undefined>>): Promise<RetinueApp> => {
   const specifier = readEnv(env, "APP_MODULE");
   if (specifier === undefined || specifier.trim() === "") {
     throw new Error(
@@ -50,7 +47,7 @@ const loadApp = async (env: Readonly<Record<string, string | undefined>>): Promi
         `serve an open API to anyone who forgot to set this.`,
     );
   }
-  const loaded = (await import(specifier)) as { default?: ForgeApp };
+  const loaded = (await import(specifier)) as { default?: RetinueApp };
   const app = loaded.default;
   if (app === undefined || typeof app.authenticate !== "function" || typeof app.deps !== "function") {
     throw new Error(`${specifier} must default-export { authenticate, deps }`);
@@ -62,7 +59,7 @@ export const runApiHost = async (
   env: Readonly<Record<string, string | undefined>> = process.env,
 ): Promise<{ readonly port: number; readonly close: () => Promise<void> }> => {
   // Configuration is validated before the app module is loaded, so a deployment that removed
-  // FORGE_DATABASE_URL is told about *that* rather than about FORGE_APP_MODULE. Cheap to do
+  // RETINUE_DATABASE_URL is told about *that* rather than about RETINUE_APP_MODULE. Cheap to do
   // twice: `loadConfig` is pure and `boot` validates again.
   loadConfig(env);
   const app = await loadApp(env);
@@ -85,7 +82,7 @@ export const runApiHost = async (
   const probes = [postgresProbe(sql), schemaProbe(createSchemaManager(sql))];
   if (app.redis) probes.push(redisProbe(app.redis(config)));
 
-  const yoga = createForgeHost({
+  const yoga = createRetinueHost({
     deps,
     authenticate: app.authenticate,
     sse: { enabled: true },

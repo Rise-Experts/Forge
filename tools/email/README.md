@@ -1,6 +1,6 @@
 # @retinue/tools-email
 
-Send a [Forge](https://github.com/Rise-Experts/Forge) deployment's **own** mail — from its own domain, with
+Send a [Retinue](https://github.com/Rise-Experts/Retinue) deployment's **own** mail — from its own domain, with
 no user grant. One contract over SMTP and an HTTP API.
 
 ```bash

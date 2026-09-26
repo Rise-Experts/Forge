@@ -67,7 +67,7 @@ export const NONCE_LENGTH = 16;
  *   template delimits turns. Content carrying one can end the system message.
  */
 export const neutralizeDelimiters = (body: string, nonce: string): string =>
-  // An **empty** nonce means "no envelope to forge" — a platform section neutralising an interpolated value has
+  // An **empty** nonce means "no envelope to retinue" — a platform section neutralising an interpolated value has
   // no delimiter of its own. Guarded because `"abc".split("")` splits into characters, so the unguarded version
   // rewrote every filename to `q[removed]3[removed].[removed]c…`. The existing attachment tests caught it; had
   // they not, every filename in every prompt would have been silently mangled.

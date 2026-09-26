@@ -61,7 +61,7 @@ One rule per kind of name, applied everywhere. Deviations fail review.
 
 | Kind | Convention | Example |
 |---|---|---|
-| npm packages | kebab-case under the `@forge` scope | `@retinue/runtime` |
+| npm packages | kebab-case under the `@retinue` scope | `@retinue/runtime` |
 | Types and interfaces | PascalCase | `ExecutionContext`, `ToolProvider` |
 | Branded ID types | PascalCase ending `Id` | `ConversationId`, `RunId` |
 | Fields, variables, functions | camelCase | `tenantId`, `createAgentPlatform` |

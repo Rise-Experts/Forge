@@ -9,7 +9,7 @@ test("extracts site-internal links and leaves external ones alone", () => {
   const index = [
     "- [Overview](/docs/overview)",
     "- [Spec](/specifications/architecture)",
-    "- [GitHub](https://github.com/Rise-Experts/Forge)",
+    "- [GitHub](https://github.com/Rise-Experts/Retinue)",
     "plain text (/not-a-link)",
   ].join("\n");
   assert.deepEqual(internalLinks(index), ["/docs/overview", "/specifications/architecture"]);

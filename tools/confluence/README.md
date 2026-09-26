@@ -1,6 +1,6 @@
 # @retinue/tools-confluence
 
-Confluence Cloud tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: CQL search, read pages as
+Confluence Cloud tools for a [Retinue](https://github.com/Rise-Experts/Retinue) agent: CQL search, read pages as
 markdown, and write them back — without overwriting an edit the agent never saw.
 
 ```bash
@@ -90,6 +90,6 @@ verbatim.
   rather than a person's.
 
 Full documentation, including space-permission notes and what is deliberately not built:
-[docs.forge.riseexperts.de](https://docs.forge.riseexperts.de/integrations/confluence).
+[docs.retinue.riseexperts.de](https://docs.retinue.riseexperts.de/integrations/confluence).
 
 MIT

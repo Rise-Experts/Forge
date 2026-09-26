@@ -16,12 +16,12 @@ import { createPostgresFlowDefinitionStore, createPostgresFlowExecutionStore } f
 import { createFlowRunner } from "@retinue/agentkit/flows";
 import { RESEARCH_TEAM_FLOW, TRIAGE_FLOW } from "../dist/flows.js";
 
-const SCHEMA = process.env.FORGE_EXAMPLE_SCHEMA ?? "forge_example";
-if (!process.env.FORGE_DATABASE_URL) {
-  console.error("✗ FORGE_DATABASE_URL is required. Copy .env.example to .env first.");
+const SCHEMA = process.env.RETINUE_EXAMPLE_SCHEMA ?? "retinue_example";
+if (!process.env.RETINUE_DATABASE_URL) {
+  console.error("✗ RETINUE_DATABASE_URL is required. Copy .env.example to .env first.");
   process.exit(2);
 }
-const url = new URL(process.env.FORGE_DATABASE_URL);
+const url = new URL(process.env.RETINUE_DATABASE_URL);
 url.searchParams.set("options", `-c search_path=${SCHEMA},public`);
 const pool = new pg.Pool({ connectionString: url.toString(), max: 4 });
 const sql = { async query(text, params) { return (await pool.query(text, params ? [...params] : undefined)).rows; } };

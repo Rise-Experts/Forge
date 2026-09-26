@@ -358,7 +358,7 @@ that passed would let a regression land once and then be compared against foreve
 
 ### The override is recorded or it does not exist
 
-`FORGE_GATE_OVERRIDE_ACTOR` and `FORGE_GATE_OVERRIDE_REASON` (with legacy `FORGE_*` fallback), both required and both trimmed. In CI they
+`RETINUE_GATE_OVERRIDE_ACTOR` and `RETINUE_GATE_OVERRIDE_REASON` (with legacy `RETINUE_*` fallback), both required and both trimmed. In CI they
 come from a `workflow_dispatch` input, so the actor is `github.actor` — the person who clicked — and the reason is
 text they typed. Neither can be defaulted, which is the mechanism: an override suppliable by automation is an
 override nobody is accountable for.

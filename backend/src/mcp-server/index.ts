@@ -186,7 +186,7 @@ export const toMcpResult = (
  * imports `@modelcontextprotocol/sdk`, builds a `Server`, and hands it here. That also leaves the host in
  * charge of the transport, which is where the authentication story differs between stdio and HTTP.
  */
-export const registerForgeTools = (
+export const registerRetinueTools = (
   server: McpServerLike,
   schemas: { readonly listTools: unknown; readonly callTool: unknown },
   deps: McpToolServerDeps,
@@ -245,5 +245,3 @@ export const registerForgeTools = (
   });
 };
 
-/** @deprecated Use registerForgeTools instead */
-export const registerRetinueTools = registerForgeTools;

@@ -95,8 +95,8 @@ describe("wiring is the toggle", () => {
     const query = (async () => []) as never;
     // A real directory pair for the filesystem tools, and a sandbox that runs nothing: this test is about the
     // *list*, and a tool that cannot be built is what it exists to catch.
-    const root = mkdtempSync(join(tmpdir(), "forge-library-read-"));
-    const writable = mkdtempSync(join(tmpdir(), "forge-library-write-"));
+    const root = mkdtempSync(join(tmpdir(), "retinue-library-read-"));
+    const writable = mkdtempSync(join(tmpdir(), "retinue-library-write-"));
     const wired = await names(
       {
         deps,

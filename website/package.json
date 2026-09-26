@@ -34,7 +34,7 @@
   "author": "Rise Experts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Rise-Experts/Forge.git",
+    "url": "git+https://github.com/Rise-Experts/Retinue.git",
     "directory": "website"
   },
   "license": "UNLICENSED"

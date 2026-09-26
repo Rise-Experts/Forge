@@ -124,7 +124,7 @@ describe("crawl bounds, each exceeded on purpose — AC-4", () => {
       seed: "https://site.example/p0",
       provider,
       gate: instantGate(),
-      userAgent: "ForgeBot/1.0",
+      userAgent: "RetinueBot/1.0",
       timeoutMs: 1000,
       respectRobots: false,
       maxPages: 5,
@@ -149,7 +149,7 @@ describe("crawl bounds, each exceeded on purpose — AC-4", () => {
       seed: "https://site.example/a",
       provider,
       gate: instantGate(),
-      userAgent: "ForgeBot/1.0",
+      userAgent: "RetinueBot/1.0",
       timeoutMs: 1000,
       respectRobots: false,
       maxDepth: 1,
@@ -171,7 +171,7 @@ describe("crawl bounds, each exceeded on purpose — AC-4", () => {
       seed: "https://site.example/1",
       provider,
       gate: instantGate(),
-      userAgent: "ForgeBot/1.0",
+      userAgent: "RetinueBot/1.0",
       timeoutMs: 1000,
       respectRobots: false,
       maxBytes: 500,
@@ -202,7 +202,7 @@ describe("crawl bounds, each exceeded on purpose — AC-4", () => {
       seed: "https://slow.example/1",
       provider,
       gate: instantGate(),
-      userAgent: "ForgeBot/1.0",
+      userAgent: "RetinueBot/1.0",
       timeoutMs: 1000,
       respectRobots: false,
       maxDurationMs: 600,
@@ -226,7 +226,7 @@ describe("crawl bounds, each exceeded on purpose — AC-4", () => {
       seed: "https://site.example/1",
       provider,
       gate: instantGate(),
-      userAgent: "ForgeBot/1.0",
+      userAgent: "RetinueBot/1.0",
       timeoutMs: 1000,
       respectRobots: false,
       maxPages: 10,
@@ -247,7 +247,7 @@ describe("crawl bounds, each exceeded on purpose — AC-4", () => {
       seed: "https://site.example/1",
       provider,
       gate: instantGate(),
-      userAgent: "ForgeBot/1.0",
+      userAgent: "RetinueBot/1.0",
       timeoutMs: 1000,
       respectRobots: false,
       maxPages: 10,
@@ -265,7 +265,7 @@ describe("crawl bounds, each exceeded on purpose — AC-4", () => {
       seed: "https://site.example/1",
       provider,
       gate: instantGate(),
-      userAgent: "ForgeBot/1.0",
+      userAgent: "RetinueBot/1.0",
       timeoutMs: 1000,
       respectRobots: false,
       maxPages: 10,
@@ -282,7 +282,7 @@ Disallow: /private/
 Allow: /private/public-bit/
 Crawl-delay: 2
 
-User-agent: ForgeBot
+User-agent: RetinueBot
 Disallow: /nobots/
 `;
 
@@ -290,8 +290,8 @@ Disallow: /nobots/
     const robots = parseRobots(ROBOTS);
     expect(robots.groups).toHaveLength(2);
     // A named group replaces `*` entirely rather than merging with it.
-    expect(isAllowed(robots, "ForgeBot/1.0", "https://s.example/nobots/x")).toBe(false);
-    expect(isAllowed(robots, "ForgeBot/1.0", "https://s.example/private/x")).toBe(true);
+    expect(isAllowed(robots, "RetinueBot/1.0", "https://s.example/nobots/x")).toBe(false);
+    expect(isAllowed(robots, "RetinueBot/1.0", "https://s.example/private/x")).toBe(true);
     expect(isAllowed(robots, "OtherBot/1.0", "https://s.example/private/x")).toBe(false);
     // Longest match, not first: the Allow is more specific than the Disallow it sits inside.
     expect(isAllowed(robots, "OtherBot/1.0", "https://s.example/private/public-bit/y")).toBe(true);
@@ -333,7 +333,7 @@ Disallow: /nobots/
       seed: "https://s.example/",
       provider,
       gate: instantGate(),
-      userAgent: "ForgeBot/1.0",
+      userAgent: "RetinueBot/1.0",
       timeoutMs: 1000,
       respectRobots: true,
       fetchRobots: async () => null,
@@ -562,7 +562,7 @@ describe("one contract, several providers — AC-1", () => {
     const direct = await directProvider({
       resolve: async () => ["93.184.216.34"],
       transport,
-    }).fetch({ url: "https://a.example/", maxBytes: 10_000, timeoutMs: 1000, userAgent: "ForgeBot/1.0" });
+    }).fetch({ url: "https://a.example/", maxBytes: 10_000, timeoutMs: 1000, userAgent: "RetinueBot/1.0" });
 
     const hosted = await hostedProvider({
       name: "stub",
@@ -573,7 +573,7 @@ describe("one contract, several providers — AC-1", () => {
           status: 200,
           headers: { "content-type": "application/json" },
         })) as unknown as typeof fetch,
-    }).fetch({ url: "https://a.example/", maxBytes: 10_000, timeoutMs: 1000, userAgent: "ForgeBot/1.0" });
+    }).fetch({ url: "https://a.example/", maxBytes: 10_000, timeoutMs: 1000, userAgent: "RetinueBot/1.0" });
 
     /**
      * Swapping providers changes what a scrape costs and how good it is — never what a caller has to handle.
@@ -598,7 +598,7 @@ describe("one contract, several providers — AC-1", () => {
         body: "%PDF-1.7\n%âãÏÓ",
         truncated: false,
       }),
-    }).fetch({ url: "https://a.example/x.pdf", maxBytes: 10_000, timeoutMs: 1000, userAgent: "ForgeBot/1.0" });
+    }).fetch({ url: "https://a.example/x.pdf", maxBytes: 10_000, timeoutMs: 1000, userAgent: "RetinueBot/1.0" });
     // Handing a model the bytes of a PDF as prose produces confident nonsense.
     expect(content.markdown).toBe("");
     expect(content.contentType).toBe("application/pdf");
@@ -614,7 +614,7 @@ describe("one contract, several providers — AC-1", () => {
         body: "z".repeat(maxBytes),
         truncated: true,
       }),
-    }).fetch({ url: "https://a.example/big.txt", maxBytes: 50, timeoutMs: 1000, userAgent: "ForgeBot/1.0" });
+    }).fetch({ url: "https://a.example/big.txt", maxBytes: 50, timeoutMs: 1000, userAgent: "RetinueBot/1.0" });
     expect(content.markdown).toHaveLength(50);
     expect(content.truncated).toBe(true);
   });

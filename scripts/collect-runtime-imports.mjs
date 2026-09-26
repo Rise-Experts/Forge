@@ -27,7 +27,7 @@
  * Both static and dynamic imports are collected. A dynamic one fails later than a static one -- on the
  * first turn that reaches it rather than at load -- which is worse, not better.
  *
- * A copy of this script lives in the forge monorepo, which ships the platform this package consumes.
+ * A copy of this script lives in the retinue monorepo, which ships the platform this package consumes.
  * They are deliberately identical; if you change one, change the other.
  *
  * Usage: `node scripts/collect-runtime-imports.mjs <entry.js> [entry.js ...] > imports.json`
@@ -43,7 +43,7 @@ import ts from "typescript";
 const BUILTINS = new Set([...builtinModules, ...builtinModules.map((m) => `node:${m}`)]);
 
 /** The scope whose packages the walk follows into. See `localPackages`. */
-const OWN_SCOPE = "@forge";
+const OWN_SCOPE = "@retinue";
 
 /**
  * Resolve a relative specifier the way Node does for a directory or an extensionless path.

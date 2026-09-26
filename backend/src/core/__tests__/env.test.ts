@@ -14,7 +14,7 @@ beforeEach(() => resetEnvWarnings());
 describe("readEnv", () => {
   it("prefers the current name", () => {
     const warn = vi.fn();
-    const value = readEnv({ FORGE_DATABASE_URL: "new", RETINUE_DATABASE_URL: "old" }, "DATABASE_URL", warn);
+    const value = readEnv({ RETINUE_DATABASE_URL: "new", AGENTKIT_DATABASE_URL: "old" }, "DATABASE_URL", warn);
     expect(value).toBe("new");
     // No warning: a deployment that has already migrated should hear nothing.
     expect(warn).not.toHaveBeenCalled();
@@ -22,11 +22,11 @@ describe("readEnv", () => {
 
   it("falls back to the legacy name and says so", () => {
     const warn = vi.fn();
-    expect(readEnv({ RETINUE_DATABASE_URL: "old" }, "DATABASE_URL", warn)).toBe("old");
+    expect(readEnv({ AGENTKIT_DATABASE_URL: "old" }, "DATABASE_URL", warn)).toBe("old");
     expect(warn).toHaveBeenCalledTimes(1);
     const message = String(warn.mock.calls[0]?.[0]);
     // Both names, and the deadline. A warning that does not say what to change is a warning people filter out.
-    expect(message).toContain("FORGE_DATABASE_URL");
+    expect(message).toContain("AGENTKIT_DATABASE_URL");
     expect(message).toContain("RETINUE_DATABASE_URL");
     expect(message).toContain("next minor release");
   });
@@ -35,20 +35,20 @@ describe("readEnv", () => {
     // A worker reads its configuration on every job in some hosts. The same line a thousand times is a log
     // nobody reads, which is the same outcome as not warning.
     const warn = vi.fn();
-    const env = { RETINUE_REDIS_URL: "redis://x" };
+    const env = { AGENTKIT_REDIS_URL: "redis://x" };
     for (let i = 0; i < 5; i += 1) readEnv(env, "REDIS_URL", warn);
     expect(warn).toHaveBeenCalledTimes(1);
   });
 
   it("treats an empty value as unset, under either name", () => {
     /**
-     * `FORGE_X=""` is what a half-finished migration looks like — the new variable added to a template and
+     * `RETINUE_X=""` is what a half-finished migration looks like — the new variable added to a template and
      * never filled in. Honouring it would shadow a working legacy value and take the deployment down at exactly
      * the moment the fallback exists to prevent that.
      */
     const warn = vi.fn();
-    expect(readEnv({ FORGE_REDIS_URL: "", RETINUE_REDIS_URL: "redis://x" }, "REDIS_URL", warn)).toBe("redis://x");
-    expect(readEnv({ FORGE_REDIS_URL: "", RETINUE_REDIS_URL: "" }, "REDIS_URL", warn)).toBeUndefined();
+    expect(readEnv({ RETINUE_REDIS_URL: "", AGENTKIT_REDIS_URL: "redis://x" }, "REDIS_URL", warn)).toBe("redis://x");
+    expect(readEnv({ RETINUE_REDIS_URL: "", AGENTKIT_REDIS_URL: "" }, "REDIS_URL", warn)).toBeUndefined();
   });
 
   it("returns undefined when neither is set, without warning", () => {

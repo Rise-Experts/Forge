@@ -1,20 +1,20 @@
-<img src="https://raw.githubusercontent.com/Rise-Experts/forge/main/brand/forge-mark.svg" alt="Forge" width="72" />
+<img src="https://raw.githubusercontent.com/Rise-Experts/retinue/main/brand/retinue-mark.svg" alt="Retinue" width="72" />
 
-# Forge
+# Retinue
 
 Build reliable AI agents and automations in TypeScript.
 
-Forge is a provider-neutral platform for agents that need more than a single model call: typed tools, persistent context, human approval for consequential actions, and a runtime that can recover work across processes.
+Retinue is a provider-neutral platform for agents that need more than a single model call: typed tools, persistent context, human approval for consequential actions, and a runtime that can recover work across processes.
 
 ## Start here
 
-The full developer documentation is at **[docs.forge.riseexperts.de](https://docs.forge.riseexperts.de)**.
+The full developer documentation is at **[docs.retinue.riseexperts.de](https://docs.retinue.riseexperts.de)**.
 
-- [Quickstart](https://docs.forge.riseexperts.de/docs/getting-started/quick-start)
-- [Agents](https://docs.forge.riseexperts.de/docs/concepts/agents)
-- [Tools and integrations](https://docs.forge.riseexperts.de/docs/integrations/overview)
-- [Run in production](https://docs.forge.riseexperts.de/docs/production/overview)
-- [API reference](https://docs.forge.riseexperts.de/api/)
+- [Quickstart](https://docs.retinue.riseexperts.de/docs/getting-started/quick-start)
+- [Agents](https://docs.retinue.riseexperts.de/docs/concepts/agents)
+- [Tools and integrations](https://docs.retinue.riseexperts.de/docs/integrations/overview)
+- [Run in production](https://docs.retinue.riseexperts.de/docs/production/overview)
+- [API reference](https://docs.retinue.riseexperts.de/api/)
 
 ## Install
 
@@ -48,7 +48,7 @@ const result = await agent.run({
 console.log(result.text);
 ```
 
-This is Forge's embedded mode: it uses in-memory reference adapters and needs no database or queue. Move to the [server runtime](https://docs.forge.riseexperts.de/docs/production/overview) when your application needs persistence, workers, recovery, realtime streaming, or multi-user hosting.
+This is Retinue's embedded mode: it uses in-memory reference adapters and needs no database or queue. Move to the [server runtime](https://docs.retinue.riseexperts.de/docs/production/overview) when your application needs persistence, workers, recovery, realtime streaming, or multi-user hosting.
 
 ## What you can build
 
@@ -67,10 +67,10 @@ This is Forge's embedded mode: it uses in-memory reference adapters and needs no
 | Package | Purpose |
 |---|---|
 | `@retinue/agentkit` | Core runtime, server surface, tools, flows, persistence, knowledge, HITL, and adapters |
-| `@retinue/react` | Headless React client state for Forge events and transport |
+| `@retinue/react` | Headless React client state for Retinue events and transport |
 | `@retinue/tools-*` | Optional integration packages that register tool providers |
 
-The [package reference](https://docs.forge.riseexperts.de/docs/reference/overview) explains supported subpaths and optional peers.
+The [package reference](https://docs.retinue.riseexperts.de/docs/reference/overview) explains supported subpaths and optional peers.
 
 ## Run the repository
 
@@ -80,7 +80,7 @@ npm run build
 npm test
 ```
 
-For the full reference application with PostgreSQL and Redis, set `FORGE_MODEL_API_KEY` and run:
+For the full reference application with PostgreSQL and Redis, set `RETINUE_MODEL_API_KEY` and run:
 
 ```bash
 docker compose up
@@ -88,7 +88,7 @@ docker compose up
 
 ## Contributing
 
-Forge keeps public learning guides, generated API reference, and deeper implementation specifications separate. Start with the [developer docs](https://docs.forge.riseexperts.de/docs/overview); use [Specifications](https://docs.forge.riseexperts.de/specifications/) when you need the design rationale.
+Retinue keeps public learning guides, generated API reference, and deeper implementation specifications separate. Start with the [developer docs](https://docs.retinue.riseexperts.de/docs/overview); use [Specifications](https://docs.retinue.riseexperts.de/specifications/) when you need the design rationale.
 
 ## License
 

@@ -1,9 +1,9 @@
-<img src="https://raw.githubusercontent.com/Rise-Experts/forge/main/brand/forge-mark.svg" alt="Forge" width="72" />
+<img src="https://raw.githubusercontent.com/Rise-Experts/retinue/main/brand/retinue-mark.svg" alt="Retinue" width="72" />
 
 # @retinue/agentkit
 
 [![npm](https://img.shields.io/npm/v/@retinue/agentkit)](https://www.npmjs.com/package/@retinue/agentkit)
-[![licence](https://img.shields.io/npm/l/@retinue/agentkit)](https://github.com/Rise-Experts/forge/blob/main/LICENSE)
+[![licence](https://img.shields.io/npm/l/@retinue/agentkit)](https://github.com/Rise-Experts/retinue/blob/main/LICENSE)
 [![provenance](https://img.shields.io/badge/provenance-attested-brightgreen)](https://www.npmjs.com/package/@retinue/agentkit#provenance)
 
 **A durable AI agent runtime for TypeScript.** Agents that survive a restart, tools that ask before
@@ -60,7 +60,7 @@ your own model catalogue when you need them — same code above.
 | **Injection containment** | Untrusted content is wrapped in a nonce-delimited envelope with delimiter forgery neutralised — structural, not a detector |
 | **Usage you can bill** | Per-model, per-principal token and cost accounting, with quotas enforced before a run is admitted |
 | **Flows and teams** | Durable multi-step workflows; a team compiles to a flow, and each member's turn is a child run with its own ceiling |
-| **Replaceable everything** | 32 ports, three adapter families, one conformance suite held over all of them — [exported](https://docs.forge.riseexperts.de/docs/getting-started/testing), so your adapter is held to it too |
+| **Replaceable everything** | 32 ports, three adapter families, one conformance suite held over all of them — [exported](https://docs.retinue.riseexperts.de/docs/getting-started/testing), so your adapter is held to it too |
 
 ## Composing it yourself
 
@@ -78,15 +78,15 @@ tarball rather than asserted here.
 
 ## Documentation
 
-- [Getting started](https://docs.forge.riseexperts.de/docs/getting-started/installation) — install, first agent, configuration
-- [Core concepts](https://docs.forge.riseexperts.de/docs/concepts/architecture) — agents, tools, durable runtime, retrieval, HITL
-- [Package surface](https://docs.forge.riseexperts.de/docs/reference/package-surface) — every module, subpath, capability and tool
-- [Versioning and deprecation](https://github.com/Rise-Experts/forge/blob/main/docs/19-versioning.md) — what semver covers, and how you are told before it changes
-- [Specifications](https://github.com/Rise-Experts/forge/tree/main/docs) — the design documents, kept as reference
+- [Getting started](https://docs.retinue.riseexperts.de/docs/getting-started/installation) — install, first agent, configuration
+- [Core concepts](https://docs.retinue.riseexperts.de/docs/concepts/architecture) — agents, tools, durable runtime, retrieval, HITL
+- [Package surface](https://docs.retinue.riseexperts.de/docs/reference/package-surface) — every module, subpath, capability and tool
+- [Versioning and deprecation](https://github.com/Rise-Experts/retinue/blob/main/docs/19-versioning.md) — what semver covers, and how you are told before it changes
+- [Specifications](https://github.com/Rise-Experts/retinue/tree/main/docs) — the design documents, kept as reference
 
 ## Licence
 
-MIT — see [LICENSE](https://github.com/Rise-Experts/forge/blob/main/LICENSE).
+MIT — see [LICENSE](https://github.com/Rise-Experts/retinue/blob/main/LICENSE).
 
 Copyright (c) 2026 [Azeem Sarwar](https://github.com/azeem-sarwar) and
 [Rise Experts](https://github.com/Rise-Experts).

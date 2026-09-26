@@ -11,7 +11,7 @@ import { join } from "node:path";
 import { scan } from "./check-boundaries.mjs";
 
 function fixture(files) {
-  const dir = mkdtempSync(join(tmpdir(), "forge-bound-"));
+  const dir = mkdtempSync(join(tmpdir(), "retinue-bound-"));
   for (const [rel, content] of Object.entries(files)) {
     const p = join(dir, rel);
     mkdirSync(join(p, ".."), { recursive: true });

@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Forge">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Retinue">
   <!--
-    A principal, and the forge around it.
+    A principal, and the retinue around it.
 
     The sweep is deliberately open — 200°, not a closed ring. A closed ring of dots is a loading spinner, and
-    every multi-agent product already ships one. The gap makes it a forge attending someone rather than a
+    every multi-agent product already ships one. The gap makes it a retinue attending someone rather than a
     circle of nodes, and it is also the honest picture: a team is assembled around a person, not a topology.
 
     Sizes peak at the centre of the sweep so the eye reads an arrangement rather than a scatter.

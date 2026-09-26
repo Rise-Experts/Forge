@@ -1,7 +1,7 @@
 /**
  * The model, from configuration — #155.
  *
- * Any OpenAI-compatible endpoint: `api.openai.com` when `FORGE_MODEL_BASE_URL` is unset, or a local server
+ * Any OpenAI-compatible endpoint: `api.openai.com` when `RETINUE_MODEL_BASE_URL` is unset, or a local server
  * (Ollama, llama.cpp, Unsloth Studio, vLLM) when it is set. The provider factory in `models/` already handles
  * both, so this file is configuration reading and nothing else.
  *
@@ -17,12 +17,12 @@
 import { createProviderFactory } from "@retinue/agentkit/providers";
 import type { ModelDefinition, ModelPricing, ResolvedModel } from "@retinue/agentkit";
 
-export const MODEL_API_KEY_VARIABLE = "FORGE_MODEL_API_KEY";
-export const FORGE_MODEL_API_KEY_VARIABLE = "FORGE_MODEL_API_KEY";
-export const MODEL_ID_VARIABLE = "FORGE_MODEL_ID";
-export const FORGE_MODEL_ID_VARIABLE = "FORGE_MODEL_ID";
-export const MODEL_BASE_URL_VARIABLE = "FORGE_MODEL_BASE_URL";
-export const FORGE_MODEL_BASE_URL_VARIABLE = "FORGE_MODEL_BASE_URL";
+export const MODEL_API_KEY_VARIABLE = "RETINUE_MODEL_API_KEY";
+export const RETINUE_MODEL_API_KEY_VARIABLE = "RETINUE_MODEL_API_KEY";
+export const MODEL_ID_VARIABLE = "RETINUE_MODEL_ID";
+export const RETINUE_MODEL_ID_VARIABLE = "RETINUE_MODEL_ID";
+export const MODEL_BASE_URL_VARIABLE = "RETINUE_MODEL_BASE_URL";
+export const RETINUE_MODEL_BASE_URL_VARIABLE = "RETINUE_MODEL_BASE_URL";
 
 /**
  * The default model.
@@ -32,8 +32,8 @@ export const FORGE_MODEL_BASE_URL_VARIABLE = "FORGE_MODEL_BASE_URL";
  * at *conversation*: shorter, flatter answers, and it drops instructions from a long system prompt more often.
  *
  * Cost is the trade, and for an example the right side of it is the one that makes the platform look like itself
- * rather than like the cheapest model available. Override with `FORGE_MODEL_ID` — `gpt-5` is a further step up
- * again, and any OpenAI-compatible endpoint works via `FORGE_MODEL_BASE_URL`.
+ * rather than like the cheapest model available. Override with `RETINUE_MODEL_ID` — `gpt-5` is a further step up
+ * again, and any OpenAI-compatible endpoint works via `RETINUE_MODEL_BASE_URL`.
  */
 export const DEFAULT_MODEL_ID = "gpt-4o";
 
@@ -59,11 +59,11 @@ export type ExampleModel = {
 export const resolveExampleModel = (
   env: Readonly<Record<string, string | undefined>> = process.env,
 ): ExampleModel => {
-  const apiKey = (env[MODEL_API_KEY_VARIABLE] ?? env[FORGE_MODEL_API_KEY_VARIABLE])?.trim();
+  const apiKey = (env[MODEL_API_KEY_VARIABLE] ?? env[RETINUE_MODEL_API_KEY_VARIABLE])?.trim();
   if (apiKey === undefined || apiKey === "") throw new ModelNotConfigured();
 
-  const modelId = (env[MODEL_ID_VARIABLE] ?? env[FORGE_MODEL_ID_VARIABLE])?.trim() || DEFAULT_MODEL_ID;
-  const baseURL = (env[MODEL_BASE_URL_VARIABLE] ?? env[FORGE_MODEL_BASE_URL_VARIABLE])?.trim();
+  const modelId = (env[MODEL_ID_VARIABLE] ?? env[RETINUE_MODEL_ID_VARIABLE])?.trim() || DEFAULT_MODEL_ID;
+  const baseURL = (env[MODEL_BASE_URL_VARIABLE] ?? env[RETINUE_MODEL_BASE_URL_VARIABLE])?.trim();
 
   // `openai-compatible` rather than `openai` whenever a base URL is given: the dedicated OpenAI provider assumes
   // endpoints a local server may not implement, and the failure is a 404 on a path nobody chose.
@@ -96,7 +96,7 @@ export const resolveExampleModel = (
 /**
  * Prices, only if the operator supplied them — #155 AC-5.
  *
- * `FORGE_MODEL_PRICE_INPUT` and `_OUTPUT`, in minor units per million tokens (so `250` is $2.50/M). Absent
+ * `RETINUE_MODEL_PRICE_INPUT` and `_OUTPUT`, in minor units per million tokens (so `250` is $2.50/M). Absent
  * means **zero**, and zero is the honest answer: this file cannot know what an arbitrary model id the operator
  * typed costs, and a usage panel showing a cost derived from invented prices is worse than one showing zero.
  * Zero is obviously not a measurement; a plausible number is not obviously wrong.
@@ -114,9 +114,9 @@ export const examplePricing = (env: Readonly<Record<string, string | undefined>>
     return Number.isFinite(raw) && raw >= 0 ? raw : 0;
   };
   return {
-    currency: env["FORGE_MODEL_PRICE_CURRENCY"] ?? env["FORGE_MODEL_PRICE_CURRENCY"] ?? "USD",
-    inputPerMillion: read("FORGE_MODEL_PRICE_INPUT", "FORGE_MODEL_PRICE_INPUT"),
-    outputPerMillion: read("FORGE_MODEL_PRICE_OUTPUT", "FORGE_MODEL_PRICE_OUTPUT"),
+    currency: env["RETINUE_MODEL_PRICE_CURRENCY"] ?? env["RETINUE_MODEL_PRICE_CURRENCY"] ?? "USD",
+    inputPerMillion: read("RETINUE_MODEL_PRICE_INPUT", "RETINUE_MODEL_PRICE_INPUT"),
+    outputPerMillion: read("RETINUE_MODEL_PRICE_OUTPUT", "RETINUE_MODEL_PRICE_OUTPUT"),
   };
 };
 

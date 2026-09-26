@@ -78,7 +78,7 @@ jobs:
         run: npm run check:consumer
       - name: Test
         env:
-          FORGE_TEST_REDIS_URL: redis://localhost:6479
+          RETINUE_TEST_REDIS_URL: redis://localhost:6479
         run: npm test
       - name: Dependency boundaries
         run: npm run check:boundaries
@@ -122,7 +122,7 @@ jobs:
     # No assertion above that step makes a model call, so a real key is unused by all of them; a fork has no
     # secret, gets the placeholder, and the one step that needs a key skips instead of failing.
     env:
-      FORGE_MODEL_API_KEY: ${{ secrets.FORGE_MODEL_API_KEY || 'ci-no-model-call-is-made' }}
+      RETINUE_MODEL_API_KEY: ${{ secrets.RETINUE_MODEL_API_KEY || 'ci-no-model-call-is-made' }}
     steps:
       - uses: actions/checkout@v4
       - name: Bring the stack up from clean
@@ -164,17 +164,17 @@ jobs:
           test "$script" = "200"
           # Not an error page served with a 200, and not an empty file.
           test "$(wc -c < /tmp/composer.js)" -gt 10000
-          grep -q "ForgeComposer" /tmp/composer.js
+          grep -q "RetinueComposer" /tmp/composer.js
       - name: doctor, from inside the network
         run: docker compose exec -T api node backend/dist/server/bin.js doctor
       - name: A conversation round-trips through the API and into Postgres
         run: |
           curl -sf -X POST http://127.0.0.1:4010/graphql \
             -H 'content-type: application/json' \
-            -H 'x-forge-tenant: ci' -H 'x-forge-principal: ci' -H 'x-forge-roles: admin' \
+            -H 'x-retinue-tenant: ci' -H 'x-retinue-principal: ci' -H 'x-retinue-roles: admin' \
             -d '{"query":"mutation{ createConversation(id:\"ci-1\", title:\"ci\"){ id } }"}' | tee /tmp/gql.json
           grep -q '"id":"ci-1"' /tmp/gql.json
-          docker compose exec -T postgres psql -U postgres -d forge -tAc \
+          docker compose exec -T postgres psql -U postgres -d retinue -tAc \
             "select count(*) from conversations where id = 'ci-1'" | grep -q 1
       - name: A real agent turn reaches a terminal state — #267, AC-4
         # Gated on the secret rather than failing without it: a fork has no access to it, and a job that goes
@@ -183,9 +183,9 @@ jobs:
         # Gated on the **job's** value rather than a step-local copy, so the condition asks the same question
         # the containers were started with. A step that ran because its own `env` held a secret, against a
         # stack that held a placeholder, is the failure this line now prevents.
-        if: ${{ env.FORGE_MODEL_API_KEY != 'ci-no-model-call-is-made' }}
+        if: ${{ env.RETINUE_MODEL_API_KEY != 'ci-no-model-call-is-made' }}
         env:
-          MODEL_KEY: ${{ secrets.FORGE_MODEL_API_KEY }}
+          MODEL_KEY: ${{ secrets.RETINUE_MODEL_API_KEY }}
         run: |
           set -euo pipefail
           # The reference app's own route, not the GraphQL host's `sendMessage`: the host coordinates a
@@ -193,7 +193,7 @@ jobs:
           # could only ever reach admission.
           curl -sf -X POST http://127.0.0.1:4010/api/message \
             -H 'content-type: application/json' \
-            -H 'x-forge-tenant: ci' -H 'x-forge-principal: ci' -H 'x-forge-roles: editor' \
+            -H 'x-retinue-tenant: ci' -H 'x-retinue-principal: ci' -H 'x-retinue-roles: editor' \
             -d '{"conversationId":"ci-turn","text":"What is 2 + 2? Answer with just the number."}' | tee /tmp/turn.json
           run_id=$(node -e "process.stdout.write(String(JSON.parse(require('fs').readFileSync('/tmp/turn.json','utf8')).runId ?? ''))")
           test -n "$run_id"
@@ -204,7 +204,7 @@ jobs:
           # the model *declined* — the run still completed, because a refusal is a normal answer, but a prompt
           # that invites one is a prompt that makes this job's logs confusing to read.
           for _ in $(seq 1 60); do
-            status=$(docker compose exec -T postgres psql -U postgres -d forge -tAc \
+            status=$(docker compose exec -T postgres psql -U postgres -d retinue -tAc \
               "select status from runs where id = '$run_id'" | tr -d '[:space:]')
             echo "  status=$status"
             case "$status" in
@@ -231,7 +231,7 @@ jobs:
         image: postgres:16
         env:
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: forge_test
+          POSTGRES_DB: retinue_test
         # 5442 for the same reason as Redis's 6479: one port per service across hosted CI, Jenkins and laptops.
         ports: ["5442:5432"]
         options: >-
@@ -276,8 +276,8 @@ jobs:
       # "current === target" immediately after the migration that made it true.
       - name: CLI — migrate, again, then doctor
         env:
-          FORGE_DATABASE_URL: postgres://postgres:postgres@localhost:5442/forge_test
-          FORGE_REDIS_URL: redis://localhost:6479
+          RETINUE_DATABASE_URL: postgres://postgres:postgres@localhost:5442/retinue_test
+          RETINUE_REDIS_URL: redis://localhost:6479
         run: |
           node backend/dist/server/bin.js migrate --status
           node backend/dist/server/bin.js migrate
@@ -285,7 +285,7 @@ jobs:
           node backend/dist/server/bin.js doctor
       - name: Conformance suite (real PostgreSQL)
         env:
-          FORGE_TEST_PG_URL: postgres://postgres:postgres@localhost:5442/forge_test
+          RETINUE_TEST_PG_URL: postgres://postgres:postgres@localhost:5442/retinue_test
         run: npm run conformance:report
       - name: Publish matrix
         # always(): a regression must still publish the table, or the job fails without showing
@@ -342,11 +342,11 @@ jobs:
         env:
           # Empty unless the dispatch supplied them. The CLI refuses *half* an override rather than ignoring it,
           # so a blank reason with an actor set fails loudly instead of shipping unrecorded.
-          FORGE_GATE_OVERRIDE_ACTOR: ${{ inputs.override_reason && github.actor || '' }}
-          FORGE_GATE_OVERRIDE_REASON: ${{ inputs.override_reason || '' }}
+          RETINUE_GATE_OVERRIDE_ACTOR: ${{ inputs.override_reason && github.actor || '' }}
+          RETINUE_GATE_OVERRIDE_REASON: ${{ inputs.override_reason || '' }}
         # --record appends to evals/trend.json; the commit below is what makes the trend accumulate.
         #
-        # THE GAP, STATED. `FORGE_EVAL_REPORT` is a scored run, and producing one needs a deployed runtime to
+        # THE GAP, STATED. `RETINUE_EVAL_REPORT` is a scored run, and producing one needs a deployed runtime to
         # score against -- which lands with the ShareFlow cutover, not here. Until then this step fails with a
         # message naming why, rather than skipping: a gate that skips when its input is missing is a gate that
         # silently stops gating the day someone renames a variable. It only fires on a release tag and there are
@@ -354,13 +354,13 @@ jobs:
         # protection required checks, because a required check that cannot pass blocks every release. Adding it
         # there is the last step of the cutover, and docs/09 says so.
         run: |
-          if [ -z "${FORGE_EVAL_REPORT:-}" ] || [ ! -f "$FORGE_EVAL_REPORT" ]; then
-            echo "✗ no scored eval report at '${FORGE_EVAL_REPORT:-<unset>}'."
+          if [ -z "${RETINUE_EVAL_REPORT:-}" ] || [ ! -f "$RETINUE_EVAL_REPORT" ]; then
+            echo "✗ no scored eval report at '${RETINUE_EVAL_REPORT:-<unset>}'."
             echo "  The gate is implemented and tested; producing a scored run needs a deployed runtime."
             echo "  See docs/09-quality-and-release.md -> 'The gate's live half'."
             exit 2
           fi
-          node scripts/release-gate.mjs --report "$FORGE_EVAL_REPORT" --record --release "${GITHUB_REF_NAME}"
+          node scripts/release-gate.mjs --report "$RETINUE_EVAL_REPORT" --record --release "${GITHUB_REF_NAME}"
       - name: Record the trend
         # always(): a *failed* gate must still record its entry, or the trend shows only the releases that passed
         # and reads as an unbroken record of quality. That is the history this file exists to prevent.
@@ -419,23 +419,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build the image
-        run: docker build -t forge:ci .
+        run: docker build -t retinue:ci .
       - name: The host must at least start and answer /healthz
         # No database here, so readiness is expected to fail; liveness must not. A process that exits
         # because a dependency is missing turns a dependency blip into a restart storm.
         run: |
-          docker run -d --name forge-ci -p 4000:4000 \
-            -e FORGE_DATABASE_URL=postgres://nobody@127.0.0.1:1/none \
-            -e FORGE_REDIS_URL=redis://127.0.0.1:1 \
-            -e FORGE_EXAMPLE_DEV_AUTH=1 \
-            forge:ci
+          docker run -d --name retinue-ci -p 4000:4000 \
+            -e RETINUE_DATABASE_URL=postgres://nobody@127.0.0.1:1/none \
+            -e RETINUE_REDIS_URL=redis://127.0.0.1:1 \
+            -e RETINUE_EXAMPLE_DEV_AUTH=1 \
+            retinue:ci
           for i in $(seq 20); do
             code=$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:4000/healthz || true)
             [ "$code" = "200" ] && break
             sleep 1
           done
-          docker logs forge-ci
+          docker logs retinue-ci
           test "$code" = "200"
       - name: Cleanup
         if: always()
-        run: docker rm -f forge-ci || true
+        run: docker rm -f retinue-ci || true

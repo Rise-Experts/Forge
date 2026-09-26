@@ -1,11 +1,11 @@
-<img src="https://raw.githubusercontent.com/Rise-Experts/Forge/main/brand/forge-mark.svg" alt="Forge" width="72" />
+<img src="https://raw.githubusercontent.com/Rise-Experts/Retinue/main/brand/retinue-mark.svg" alt="Retinue" width="72" />
 
 # @retinue/tools-github
 
 [![npm](https://img.shields.io/npm/v/@retinue/tools-github)](https://www.npmjs.com/package/@retinue/tools-github)
-[![licence](https://img.shields.io/npm/l/@retinue/tools-github)](https://github.com/Rise-Experts/Forge/blob/main/LICENSE)
+[![licence](https://img.shields.io/npm/l/@retinue/tools-github)](https://github.com/Rise-Experts/Retinue/blob/main/LICENSE)
 
-**GitHub tools for a [Forge](https://github.com/Rise-Experts/Forge) agent.** Search code, read files, manage
+**GitHub tools for a [Retinue](https://github.com/Rise-Experts/Retinue) agent.** Search code, read files, manage
 issues and pull requests — with every write classified, gated behind human approval, and carrying an idempotency
 key.
 
@@ -80,7 +80,7 @@ address space — the control that matters when a URL is influenced by a model.
 
 ## Licence
 
-MIT — see [LICENSE](https://github.com/Rise-Experts/Forge/blob/main/LICENSE).
+MIT — see [LICENSE](https://github.com/Rise-Experts/Retinue/blob/main/LICENSE).
 
 Copyright (c) 2026 [Azeem Sarwar](https://github.com/azeem-sarwar) and
 [Rise Experts](https://github.com/Rise-Experts).

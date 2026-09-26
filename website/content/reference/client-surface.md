@@ -15,7 +15,7 @@ Moved here from the package README, which is a front door rather than a referenc
 |---|---|
 | `types` | Re-exports the wire contract from `@retinue/agentkit`, plus client-only view state. Type-only, erased at build time. |
 | `event-buffer` | **Implemented.** Orders and de-duplicates run events across a reconnect. |
-| `hooks` | **Implemented** — all ten: `useForgeClient`, `useConversations`, `useConversation`, `useRunSubscription`, `usePendingInteraction`, `useSendMessage`, `useAnswerQuestion`, `useDecideApproval`, `useCancelRun`, `useSessionContext`. |
+| `hooks` | **Implemented** — all ten: `useRetinueClient`, `useConversations`, `useConversation`, `useRunSubscription`, `usePendingInteraction`, `useSendMessage`, `useAnswerQuestion`, `useDecideApproval`, `useCancelRun`, `useSessionContext`. |
 | `client` | The transport port the hooks take. An interface, so the host supplies fetch, SSE or WebSocket and this package assumes none of them. |
 | `reducers` | Run events folded into renderable parts. Pure functions, so the ordering guarantees are testable without a DOM. |
 | `context-inspector` | What the window holds and what is left of it — the view behind the composer's context meter. |
@@ -55,6 +55,6 @@ reverse, and is deliberately not a mobile dependency.
 
 ## What "headless" costs and buys
 
-The package assumes no fetch, no SSE and no WebSocket — `ForgeClient` is an interface the host implements.
+The package assumes no fetch, no SSE and no WebSocket — `RetinueClient` is an interface the host implements.
 That is why the same hooks drive a DOM renderer and a native one, and why the reducers are pure functions whose
 event-ordering guarantees are testable without a browser.

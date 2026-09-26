@@ -36,8 +36,8 @@ in the code: the *suppressed write*, the *approval gate*, the *shadow run*, the 
 guard*, the *conformance matrix*, the *capability map*. Nobody else ships these, and a reader who learns them
 has learned something about this runtime rather than a synonym for something they knew.
 
-**What is decided for the brand:** the product name (*Forge*, which the `@retinue/*` scope,
-repository, docs site, and `forge` CLI all use), the platform product's name (REQ-041), and the CLI
+**What is decided for the brand:** the product name (*Retinue*, which the `@retinue/*` scope,
+repository, docs site, and `retinue` CLI all use), the platform product's name (REQ-041), and the CLI
 verb.
 
 **This decision has a deadline, which is the first publish.** Every term below is a public identifier or a

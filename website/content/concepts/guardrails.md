@@ -4,7 +4,7 @@ sidebar_position: 10
 
 # Guardrails
 
-A guardrail is a check the runtime runs for you, on the way in and on the way out. Forge ships the seam and
+A guardrail is a check the runtime runs for you, on the way in and on the way out. Retinue ships the seam and
 you supply the policy — because what counts as unacceptable input is a property of your deployment, not of an
 agent framework.
 
@@ -178,4 +178,4 @@ changes its mind about history makes a conversation impossible to continue.
 document; this page and the source comments are the specification for now. The surrounding threat model — untrusted
 content, prompt injection, what the platform already refuses — is in
 [Security review](/specifications/security-review), and the requirement itself is
-[REQ-046](https://github.com/Rise-Experts/forge/issues/205).
+[REQ-046](https://github.com/Rise-Experts/retinue/issues/205).

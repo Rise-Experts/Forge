@@ -38,13 +38,13 @@ export const audioProvidersFrom = (
   env: AudioEnv,
   fetchImpl?: typeof fetch,
 ): { transcription?: TranscriptionProvider; speech?: SpeechProvider } => {
-  const apiKey = env.FORGE_AUDIO_API_KEY ?? env.FORGE_AUDIO_API_KEY ?? env.FORGE_MODEL_API_KEY ?? env.FORGE_MODEL_API_KEY;
+  const apiKey = env.RETINUE_AUDIO_API_KEY ?? env.RETINUE_AUDIO_API_KEY ?? env.RETINUE_MODEL_API_KEY ?? env.RETINUE_MODEL_API_KEY;
   if (apiKey === undefined || apiKey === "") return {};
   const wiring = fetchImpl === undefined ? {} : { fetchImpl };
-  const transcriptionModel = env.FORGE_TRANSCRIPTION_MODEL ?? env.FORGE_TRANSCRIPTION_MODEL;
-  const audioBaseUrl = env.FORGE_AUDIO_BASE_URL ?? env.FORGE_AUDIO_BASE_URL;
-  const speechModel = env.FORGE_SPEECH_MODEL ?? env.FORGE_SPEECH_MODEL;
-  const speechVoice = env.FORGE_SPEECH_VOICE ?? env.FORGE_SPEECH_VOICE;
+  const transcriptionModel = env.RETINUE_TRANSCRIPTION_MODEL ?? env.RETINUE_TRANSCRIPTION_MODEL;
+  const audioBaseUrl = env.RETINUE_AUDIO_BASE_URL ?? env.RETINUE_AUDIO_BASE_URL;
+  const speechModel = env.RETINUE_SPEECH_MODEL ?? env.RETINUE_SPEECH_MODEL;
+  const speechVoice = env.RETINUE_SPEECH_VOICE ?? env.RETINUE_SPEECH_VOICE;
 
   return {
     transcription: openAiTranscription({

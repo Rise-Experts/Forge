@@ -67,7 +67,7 @@ would be invisible until an audit asked whose account posted. The resolver is ca
 refreshing resolver is the whole mechanism.
 
 **The `User-Agent` is required and this package will not build without it.** Pass `appId`, `version` and
-`contact`; it becomes `forge:<appId>:<version> (by /u/<contact>)`. A shared default would make every
+`contact`; it becomes `retinue:<appId>:<version> (by /u/<contact>)`. A shared default would make every
 deployment of this package look like one client to Reddit's rate limiter, which is exactly what the requirement
 exists to prevent.
 

@@ -1,6 +1,6 @@
 # @retinue/tools-scrape
 
-Read the pages a [Forge](https://github.com/Rise-Experts/Forge) agent finds. `web_scrape`,
+Read the pages a [Retinue](https://github.com/Rise-Experts/Retinue) agent finds. `web_scrape`,
 `web_scrape_batch` and `web_crawl`, behind one provider-swappable contract.
 
 ```bash

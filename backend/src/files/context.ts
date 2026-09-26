@@ -89,7 +89,7 @@ export const truncateFilename = (filename: string): string => {
  * instruction for how to read a file. Wrapping it would negate the thing it exists to say. So the untrusted
  * *values* are neutralised in place, which is the surgical version of the same defence.
  *
- * The nonce is empty: there is no envelope here to forge, so only the structural markers matter.
+ * The nonce is empty: there is no envelope here to retinue, so only the structural markers matter.
  */
 export const renderAttachmentReference = (file: FileMetadata): string =>
   `- ${neutralizeDelimiters(truncateFilename(file.filename), "")} (${file.mediaType}, ${humanSize(file.byteSize)}) — file:${file.id}${extractionSuffix(file)}`;

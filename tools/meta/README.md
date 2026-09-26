@@ -1,6 +1,6 @@
 # @retinue/tools-meta
 
-WhatsApp Business and Instagram tools for a [Forge](https://github.com/Rise-Experts/Forge) agent, over
+WhatsApp Business and Instagram tools for a [Retinue](https://github.com/Rise-Experts/Retinue) agent, over
 Meta's Graph API.
 
 ```bash
@@ -48,6 +48,6 @@ Template parameter counts are validated against the template's real definition b
 own error names neither the count nor the template.
 
 Full documentation, including the permission list and what is deliberately not built:
-<https://docs.forge.riseexperts.de/integrations/meta>
+<https://docs.retinue.riseexperts.de/integrations/meta>
 
 MIT.

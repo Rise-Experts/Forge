@@ -105,7 +105,7 @@ containing the closing delimiter ends the block early and everything after it is
 Four classes, each with a planted-payload test:
 
 - the **nonce** itself, so content cannot close its own envelope;
-- **markdown headings** at a line start, which forge a sibling or top-level section;
+- **markdown headings** at a line start, which retinue a sibling or top-level section;
 - **chat-template turn markers** (`<|im_start|>`, `[INST]`, `### System:`), which are how a provider's own
   template delimits turns and can therefore end the system message;
 - **fences** long enough to escape a surrounding fence.
@@ -263,4 +263,4 @@ resolved per call, so a run that resolved one holds it for that call only.
 
 No OAuth application has been registered with a real provider from this repository, so the flow is verified by
 unit tests down to the exact bytes of the token request and **not** by a completed consent. That gap is
-[#262](https://github.com/Rise-Experts/forge/issues/262) AC-10 and is recorded rather than closed.
+[#262](https://github.com/Rise-Experts/retinue/issues/262) AC-10 and is recorded rather than closed.

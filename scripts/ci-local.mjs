@@ -220,7 +220,7 @@ const steps = [...STEPS];
 if (process.argv.includes("--with-image")) {
   // Off by default: the image build is minutes on a runner and a few minutes here, and it only changes when the
   // Dockerfile or a manifest does.
-  steps.push(["docker image", "docker build -t forge:local ."]);
+  steps.push(["docker image", "docker build -t retinue:local ."]);
 }
 
 const results = [];

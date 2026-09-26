@@ -1,7 +1,7 @@
 # Prompt Caching
 
-Measured for REQ-058 ([#246](https://github.com/Rise-Experts/forge/issues/246)), task
-[#247](https://github.com/Rise-Experts/forge/issues/247). Reproduce with:
+Measured for REQ-058 ([#246](https://github.com/Rise-Experts/retinue/issues/246)), task
+[#247](https://github.com/Rise-Experts/retinue/issues/247). Reproduce with:
 
 ```
 node --env-file=.env evals/prompt-caching.mjs

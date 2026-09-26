@@ -1,6 +1,6 @@
 # @retinue/tools-reddit
 
-Reddit tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: search, read bounded comment
+Reddit tools for a [Retinue](https://github.com/Rise-Experts/Retinue) agent: search, read bounded comment
 trees, submit and comment.
 
 ```bash
@@ -47,6 +47,6 @@ when a `more` placeholder means Reddit withheld a branch.
 Token refresh belongs to the resolver, not this package: a module-level cache would be shared by every tenant
 in the process.
 
-Full documentation: <https://docs.forge.riseexperts.de/integrations/reddit>
+Full documentation: <https://docs.retinue.riseexperts.de/integrations/reddit>
 
 MIT.

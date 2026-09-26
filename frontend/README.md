@@ -1,11 +1,11 @@
-<img src="https://raw.githubusercontent.com/Rise-Experts/Forge/main/brand/forge-mark.svg" alt="Forge" width="72" />
+<img src="https://raw.githubusercontent.com/Rise-Experts/Retinue/main/brand/retinue-mark.svg" alt="Retinue" width="72" />
 
 # @retinue/react
 
 [![npm](https://img.shields.io/npm/v/@retinue/react)](https://www.npmjs.com/package/@retinue/react)
-[![licence](https://img.shields.io/npm/l/@retinue/react)](https://github.com/Rise-Experts/Forge/blob/main/LICENSE)
+[![licence](https://img.shields.io/npm/l/@retinue/react)](https://github.com/Rise-Experts/Retinue/blob/main/LICENSE)
 
-**Headless React hooks for a [Forge](https://github.com/Rise-Experts/Forge) agent runtime.** Streaming
+**Headless React hooks for a [Retinue](https://github.com/Rise-Experts/Retinue) agent runtime.** Streaming
 runs, pending questions, approval prompts and usage — as state, with no styling and no transport assumed.
 
 You bring the transport and the markup. This package brings the ordering guarantees: run events folded into
@@ -22,14 +22,14 @@ React 18+ as a peer. Nothing else.
 ## Use
 
 ```tsx
-import { ForgeProvider, useRunSubscription, useSendMessage } from "@retinue/react";
-import type { ForgeClient } from "@retinue/react";
+import { RetinueProvider, useRunSubscription, useSendMessage } from "@retinue/react";
+import type { RetinueClient } from "@retinue/react";
 
 // `client` implements one interface — GraphQL, SSE, WebSocket, or a test double.
-export const App = ({ client }: { client: ForgeClient }) => (
-  <ForgeProvider client={client}>
+export const App = ({ client }: { client: RetinueClient }) => (
+  <RetinueProvider client={client}>
     <Thread conversationId="conv-1" runId="run-1" />
-  </ForgeProvider>
+  </RetinueProvider>
 );
 
 const Thread = ({ conversationId, runId }: { conversationId: string; runId: string }) => {
@@ -60,13 +60,13 @@ const Thread = ({ conversationId, runId }: { conversationId: string; runId: stri
 
 ## Documentation
 
-- [Frontend concepts](https://docs.forge.riseexperts.de/docs/concepts/frontend)
-- [Client package surface](https://docs.forge.riseexperts.de/docs/reference/client-surface) — every module and hook
-- [GraphQL and frontend specification](https://github.com/Rise-Experts/Forge/blob/main/docs/06-graphql-and-frontend.md)
+- [Frontend concepts](https://docs.retinue.riseexperts.de/docs/concepts/frontend)
+- [Client package surface](https://docs.retinue.riseexperts.de/docs/reference/client-surface) — every module and hook
+- [GraphQL and frontend specification](https://github.com/Rise-Experts/Retinue/blob/main/docs/06-graphql-and-frontend.md)
 
 ## Licence
 
-MIT — see [LICENSE](https://github.com/Rise-Experts/Forge/blob/main/LICENSE).
+MIT — see [LICENSE](https://github.com/Rise-Experts/Retinue/blob/main/LICENSE).
 
 Copyright (c) 2026 [Azeem Sarwar](https://github.com/azeem-sarwar) and
 [Rise Experts](https://github.com/Rise-Experts).

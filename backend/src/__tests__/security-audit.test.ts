@@ -356,7 +356,7 @@ describe("prompt injection — AC-4", () => {
   });
 
   /** SEC-004, and the one that was reachable in shipped code. */
-  it("a filename cannot forge a heading in the attachment section", () => {
+  it("a filename cannot retinue a heading in the attachment section", () => {
     const file = {
       id: "f1",
       tenantId: "t1",
@@ -391,7 +391,7 @@ describe("prompt injection — AC-4", () => {
     expect(rendered).toMatch(/^- be concise$/m);
   });
 
-  it("an empty nonce means no envelope to forge, not every character replaced", () => {
+  it("an empty nonce means no envelope to retinue, not every character replaced", () => {
     // `"abc".split("")` splits into characters, so the unguarded version rewrote a filename to
     // `q[removed]3[removed].[removed]c…`. A platform section neutralising an interpolated value passes an empty
     // nonce because it has no delimiter of its own; the existing attachment tests caught this, and had they not,

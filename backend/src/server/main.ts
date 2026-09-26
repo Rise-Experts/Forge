@@ -5,14 +5,14 @@
  * tested; this file's whole job is to be a documented command that serves the API.
  *
  * Run with:
- *   FORGE_DATABASE_URL=postgres://… PORT=4000 node dist/main.js
+ *   RETINUE_DATABASE_URL=postgres://… PORT=4000 node dist/main.js
  *
  * `authenticate` is deliberately not implemented here. A reference host cannot know a deployment's
  * identity provider, and shipping a permissive default would be worse than shipping none — so the
  * entrypoint refuses to start without one rather than quietly serving an open API.
  */
 import { createServer } from "node:http";
-import { createForgeHost, type Authenticate } from "./host.js";
+import { createRetinueHost, type Authenticate } from "./host.js";
 import type { ResolverDeps } from "../index.js";
 
 export type MainOptions = {
@@ -27,11 +27,11 @@ export const DEFAULT_PORT = 4000;
 export const startServer = async (options: MainOptions) => {
   const port = options.port ?? Number(process.env["PORT"] ?? DEFAULT_PORT);
   const log = options.log ?? ((message: string) => console.log(message));
-  const yoga = createForgeHost({ deps: options.deps, authenticate: options.authenticate });
+  const yoga = createRetinueHost({ deps: options.deps, authenticate: options.authenticate });
 
   const server = createServer(yoga);
   await new Promise<void>((resolve) => server.listen(port, resolve));
-  log(`forge graphql host listening on :${port}${yoga.graphqlEndpoint}`);
+  log(`retinue graphql host listening on :${port}${yoga.graphqlEndpoint}`);
 
   return {
     port,

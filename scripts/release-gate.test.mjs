@@ -64,7 +64,7 @@ const reportOf = (release, results) => {
  * the committed trend would put fake releases in the project's real quality history.
  */
 const sandbox = () => {
-  const dir = mkdtempSync(join(tmpdir(), "forge-gate-"));
+  const dir = mkdtempSync(join(tmpdir(), "retinue-gate-"));
   mkdirSync(join(dir, "scripts"));
   mkdirSync(join(dir, "evals"));
   cpSync(join(ROOT, "scripts/release-gate.mjs"), join(dir, "scripts/release-gate.mjs"));
@@ -150,8 +150,8 @@ test("an override exits zero but records itself as overridden", () => {
   const failing = PASSING.map((r) => (r.caseId === "a1" ? caseResult("a1", "authorization", 0) : r));
   writeFileSync(join(dir, "report.json"), JSON.stringify(reportOf("1.2", failing)));
   const { code, stdout } = run(dir, ["--record"], {
-    FORGE_GATE_OVERRIDE_ACTOR: "azeem",
-    FORGE_GATE_OVERRIDE_REASON: "SEV-1 hotfix, ticket OPS-411",
+    RETINUE_GATE_OVERRIDE_ACTOR: "azeem",
+    RETINUE_GATE_OVERRIDE_REASON: "SEV-1 hotfix, ticket OPS-411",
   });
   assert.equal(code, 0, stdout);
   assert.match(stdout, /OVERRIDDEN by azeem: SEV-1 hotfix, ticket OPS-411/);
@@ -171,11 +171,11 @@ test("half an override is refused rather than ignored", () => {
   const dir = sandbox();
   writeFileSync(join(dir, "report.json"), JSON.stringify(reportOf("1.3", PASSING)));
   for (const env of [
-    { FORGE_GATE_OVERRIDE_ACTOR: "azeem" },
-    { FORGE_GATE_OVERRIDE_REASON: "because" },
+    { RETINUE_GATE_OVERRIDE_ACTOR: "azeem" },
+    { RETINUE_GATE_OVERRIDE_REASON: "because" },
     // Whitespace is not a reason. Without the trim, a CI input left blank produces an override with an empty
     // reason, which reads in the trend exactly like no record at all.
-    { FORGE_GATE_OVERRIDE_ACTOR: "azeem", FORGE_GATE_OVERRIDE_REASON: "   " },
+    { RETINUE_GATE_OVERRIDE_ACTOR: "azeem", RETINUE_GATE_OVERRIDE_REASON: "   " },
   ]) {
     const { code, stdout } = run(dir, [], env);
     assert.equal(code, 2, stdout);

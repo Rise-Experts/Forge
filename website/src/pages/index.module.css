@@ -35,7 +35,7 @@
   border-radius: 999px;
   background: rgba(122, 166, 216, 0.14);
   border: 1px solid rgba(122, 166, 216, 0.32);
-  color: var(--forge-sky);
+  color: var(--retinue-sky);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -43,7 +43,7 @@
 }
 
 .heroTitle {
-  font-family: var(--forge-display);
+  font-family: var(--retinue-display);
   font-size: clamp(2.8rem, 5.2vw, 4.1rem);
   line-height: 1.08;
   font-weight: 600;
@@ -118,7 +118,7 @@
 .buttonSecondary:focus-visible,
 .card:focus-visible,
 .inlineLink:focus-visible {
-  outline: 3px solid var(--forge-sky);
+  outline: 3px solid var(--retinue-sky);
   outline-offset: 3px;
 }
 
@@ -136,7 +136,7 @@
   backdrop-filter: blur(12px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   color: #e6edf5;
-  font-family: var(--forge-mono);
+  font-family: var(--retinue-mono);
   font-size: 0.875rem;
   line-height: 1.5;
   text-align: left;
@@ -161,7 +161,7 @@
 }
 
 .section h2 {
-  font-family: var(--forge-display);
+  font-family: var(--retinue-display);
   color: var(--ifm-heading-color);
   font-size: 2rem;
   font-weight: 600;
@@ -207,7 +207,7 @@
 }
 
 .card:hover {
-  border-color: var(--forge-sky);
+  border-color: var(--retinue-sky);
   background: rgba(35, 75, 126, 0.2);
   transform: translateY(-3px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(122, 166, 216, 0.15);
@@ -215,8 +215,8 @@
 }
 
 [data-theme="light"] .card:hover {
-  border-color: var(--forge-blue);
-  background: var(--forge-wash);
+  border-color: var(--retinue-blue);
+  background: var(--retinue-wash);
   box-shadow: 0 6px 18px rgba(35, 75, 126, 0.1);
 }
 
@@ -231,7 +231,7 @@
 
 .cardBody {
   margin: 0 0 1.25rem;
-  color: var(--forge-slate);
+  color: var(--retinue-slate);
   font-size: 0.95rem;
   line-height: 1.55;
   flex-grow: 1;
@@ -305,12 +305,12 @@
 }
 
 [data-theme="dark"] .integrationList span {
-  color: var(--forge-dusk-ink);
+  color: var(--retinue-dusk-ink);
 }
 
 .integrationList span:hover {
   background: rgba(122, 166, 216, 0.18);
-  border-color: var(--forge-sky);
+  border-color: var(--retinue-sky);
   color: #ffffff;
   transform: translateY(-2px);
 }
@@ -328,18 +328,18 @@
 }
 
 [data-theme="light"] .finalCta {
-  background: var(--forge-wash);
+  background: var(--retinue-wash);
   border: 1px solid #e2e8f0;
 }
 
 .finalCta h2 {
-  font-family: var(--forge-display);
+  font-family: var(--retinue-display);
   font-size: 2.25rem;
   margin-bottom: 0.75rem;
 }
 
 .finalCta p {
-  color: var(--forge-slate);
+  color: var(--retinue-slate);
   margin-bottom: 1.5rem;
   font-size: 1.05rem;
 }

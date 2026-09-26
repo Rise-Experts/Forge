@@ -2,42 +2,34 @@
 /**
  * The documentation site is on the hostname it says it is — REQ-035 (#184), SPEC #203.
  *
- * The site now claims `docs.forge.riseexperts.de`; it was `docs.agentkit.riseexperts.de` until #203. Moving it
- * is a cutover with a live site on the other end — a DNS record, a custom domain, a 301, and only then a rebuild
- * — and the parts that need the Cloudflare account cannot be done from this repository at all. So what this
- * repository owns is the *verification*: the difference between a promise and a gate is that one of them can be
- * answered with "I thought it worked".
+ * The site claims `docs.retinue.riseexperts.de`. It has had four hostnames — `agentkit.rise-experts.dev`,
+ * `docs.agentkit.riseexperts.de`, `docs.forge.riseexperts.de` and now this one — and the three it left are
+ * retired: DNS removed, nothing answering, no redirect. Moving it is a cutover with a live site on the other
+ * end — a DNS record, a custom domain, and only then a rebuild — and the parts needing the Cloudflare account
+ * cannot be done from this repository at all. So what this repository owns is the *verification*.
  *
  * ## Why the config is the single source of truth
  *
  * `website/docusaurus.config.ts`'s `url` is baked into every built page's canonical link, its `og:url` and every
  * entry of `sitemap.xml`. So the check does not take the target hostname as an argument — it reads what the site
- * *claims to be*, and holds reality to it. That means this file needs no edit during the cutover: change the
- * config, and the same check flips from "not cut over yet" to enforcing the redirect.
+ * *claims to be*, and holds reality to it. A hostname passed on the command line would be a second place the
+ * answer lives, which is the shape this repository keeps finding defects in.
  *
- * A hostname passed on the command line would be a second place the answer lives, which is the shape this
- * repository keeps finding defects in.
+ * ## There is deliberately no redirect assertion
  *
- * ## Before the cutover this was not a failure
+ * There was one, against a single `LEGACY_URL`. See `RETIRED_HOSTS` for why it went: it named a host two moves
+ * behind, and the records were removed rather than left redirecting, so it could only ever be red. The cost is
+ * real and worth stating once — **deep links to any retired host are dead and stay dead.**
  *
- * While the config still named the legacy host there was nothing to redirect, and reporting red would have made
- * a check that could only ever be red — one people learn to ignore, and then it is not there on the day it
- * matters. That branch is still here and still correct; it simply no longer applies, because the config moved in
- * #203 and the assertions below are live.
+ * ## What it asserts
  *
- * ## What it asserts once the config has moved
- *
- * 1. The intended host serves the site.
- * 2. The legacy host answers **301** — not 302 — to the *same path* on the intended host. A redirect to the root
- *    is the failure that loses every deep link that exists today, and it passes any test that only checks "a
- *    redirect happens".
- * 3. `sitemap.xml` and the canonical/`og:url` tags name the intended host and not the legacy one. A site whose
- *    canonical URL points at a host that redirects is a site telling search engines two different things.
- * 4. The *built output on disk* agrees with the config, which is the offline half: it catches "the config moved
- *    and nothing was redeployed", where every network check above would pass against the old build.
+ * 1. The intended host serves the site, and the config does not name a host we have retired.
+ * 2. Both wrangler configs deploy to one Worker name, and attach the claimed hostname as a **custom domain**.
+ * 3. `sitemap.xml` and the canonical/`og:url` tags name the intended host and none of the retired ones.
+ * 4. The *built output on disk* agrees with the config — the offline half.
  *
  * Usage: node scripts/check-docs-domain.mjs [--offline]
- * Exit codes: 0 holds (or not cut over yet), 1 a violation, 2 the check could not tell.
+ * Exit codes: 0 holds, 1 a violation, 2 the check could not tell.
  */
 
 import { existsSync, readFileSync } from "node:fs";
@@ -60,14 +52,27 @@ const BUILD = "website/build";
 const WRANGLER = ["wrangler.jsonc", "website/wrangler.jsonc"];
 
 /**
- * The host the site *was* served from, kept on purpose.
+ * Every host the site *was* served from. All of them are **retired** — no DNS, nothing answering.
  *
- * A constant rather than derived, and it stays here **after** the cutover: the thing being checked from now on is
- * that this host still answers and still redirects, path preserved. Deleting it once the move was done would have
- * removed the only assertion that the old links kept working — and those links are in issue comments, commit
- * messages, and whatever is already indexed.
+ * This was a single `LEGACY_URL` asserting that one host still answered **301** to the same path. Two things
+ * went wrong with it. The site moved twice more after it was written and the constant was not updated either
+ * time, so it named a host two moves behind — the redirect verified was never the one a reader following a
+ * recent link would take. And the records were removed rather than left redirecting, so the assertion could not
+ * pass at all. A check that can only ever be red is one people learn to skip, and then it is not there on the
+ * day it matters.
+ *
+ * What the list is still for is staleness — a canonical link, an `og:url` or a sitemap entry naming one of these
+ * means the build predates the config. It is the whole set rather than the most recent, because a stale artefact
+ * can name any of them.
+ *
+ * Restoring a redirect is a Cloudflare change, not a change here. `redirectVerdict` below is kept as the
+ * standard to hold one to, and because it encodes the three ways a redirect goes wrong while looking right.
  */
-export const LEGACY_URL = "https://docs.agentkit.riseexperts.de";
+export const RETIRED_HOSTS = [
+  "https://agentkit.rise-experts.dev",
+  "https://docs.agentkit.riseexperts.de",
+  "https://docs.forge.riseexperts.de",
+];
 
 /** The Worker name a wrangler config declares. */
 export const wranglerName = (source) => {
@@ -81,7 +86,7 @@ export const wranglerName = (source) => {
  * Only `custom_domain: true` entries count, and the distinction is the whole point. A plain route matches
  * traffic for a hostname that must already resolve and already have a certificate; a custom domain *creates*
  * the DNS record and provisions an Advanced Certificate for the exact hostname. For a second-level subdomain
- * like `docs.forge.riseexperts.de` — which Cloudflare's universal certificate does not cover — a route leaves
+ * like `docs.retinue.riseexperts.de` — which Cloudflare's universal certificate does not cover — a route leaves
  * the site answering over plain HTTP and failing the TLS handshake. That is not a hypothetical: it is what the
  * hostname did for several hours on 27 Aug 2026.
  */
@@ -171,7 +176,11 @@ const main = async () => {
   }
 
   const problems = [];
-  const cutOver = intended !== LEGACY_URL;
+  // The config naming a host we have retired is a misconfiguration, not a "not cut over yet" state: those
+  // hosts have no DNS, so the site would claim an address nothing can serve.
+  if (RETIRED_HOSTS.includes(intended)) {
+    problems.push(`${CONFIG} claims ${intended}, which is retired and has no DNS — the site would serve nowhere`);
+  }
 
   // ── the deploy target: one name, in two files ─────────────────────────────────────────────────────────────
   const names = WRANGLER.map((path) => (existsSync(path) ? wranglerName(readFileSync(path, "utf8")) : null));
@@ -217,16 +226,18 @@ const main = async () => {
     sitemap = readFileSync(sitemapPath, "utf8");
     const origins = originsIn(sitemap);
     if (!origins.has(intended)) problems.push(`the built sitemap does not use ${intended} — rebuild the site`);
-    if (cutOver && origins.has(LEGACY_URL)) {
-      problems.push(`the built sitemap still contains ${LEGACY_URL}, so the build predates the config change`);
+    for (const retired of RETIRED_HOSTS) {
+      if (!origins.has(retired)) continue;
+      problems.push(`the built sitemap still contains ${retired}, so the build predates the config change`);
     }
     const indexPath = join(BUILD, "index.html");
     if (existsSync(indexPath)) {
       const origins = originsIn(readFileSync(indexPath, "utf8"));
-      if (cutOver && origins.has(LEGACY_URL)) {
+      for (const retired of RETIRED_HOSTS) {
+        if (!origins.has(retired)) continue;
         problems.push(
-          `the built home page's canonical/og:url still name ${LEGACY_URL} — a canonical pointing at a host` +
-            ` that redirects tells search engines two different things`,
+          `the built home page's canonical/og:url still name ${retired} — a canonical pointing at a host that` +
+            ` no longer resolves is worse than a wrong one, because it looks deliberate`,
         );
       }
     }
@@ -247,42 +258,24 @@ const main = async () => {
       const response = await fetch(url, { redirect: "manual" });
       return { status: response.status, location: response.headers.get("location"), response };
     } catch (error) {
-      die(
-        `cannot reach ${url}: ${error.message}`,
-        "this check needs the network. It is not in `npm test` for that reason — a gate that fails when DNS is\n" +
-          "slow is a gate people learn to skip. Use --offline for the half that does not.",
-      );
+      /**
+       * The intended host failing to resolve is a *different* problem from a flaky network, and saying "DNS is
+       * slow" sends the reader to the wrong place. It is the expected state mid-cutover: the config names the
+       * new hostname before anyone has attached it, and nothing here can attach it.
+       */
+      const detail = url.startsWith(intended)
+        ? `${intendedHost} does not resolve. If a cutover is in progress this is expected until the hostname is\n` +
+          "attached as a **custom domain** in Cloudflare — a plain route will not provision a certificate for a\n" +
+          "second-level subdomain, and the handshake fails instead. That step is not in this repository.\n" +
+          "Until then, `--offline` checks the half that does not need the network."
+        : "this check needs the network. It is not in `npm test` for that reason — a gate that fails when DNS is\n" +
+          "slow is a gate people learn to skip. Use --offline for the half that does not.";
+      die(`cannot reach ${url}: ${error.message}`, detail);
     }
   };
 
   const live = await get(`${intended}/`);
   if (live.status !== 200) problems.push(`${intended}/ answered ${live.status}`);
-
-  if (!cutOver) {
-    for (const problem of problems) console.error(`✗ ${problem}`);
-    if (problems.length > 0) return 1;
-    console.log(
-      `· not cut over yet: ${CONFIG} still says ${LEGACY_URL}, which answers 200. #203 is the cutover;\n` +
-        `  this check starts enforcing the 301 the moment that \`url\` changes, with no edit here.`,
-    );
-    return 0;
-  }
-
-  /**
-   * A deep path in the form the site actually serves it.
-   *
-   * Found by sabotage: the sitemap lists `/search`, and the live host answers **307** to `/search/` because the
-   * asset server normalises trailing slashes. Asserting the legacy host's redirect against the unnormalised path
-   * would then report a redirect that "is not a 301" when the 301 is there and something else answered first. So
-   * the path is resolved on the intended host once, and the deep-link assertion uses the settled form.
-   */
-  let path = (sitemap && deepPathFrom(sitemap, intended)) || "/search";
-  const settled = await get(`${intended}${path}`);
-  path = settledPath(path, settled, intended);
-
-  const legacy = await get(`${LEGACY_URL}${path}`);
-  const verdict = redirectVerdict(legacy, { intended, path });
-  if (verdict) problems.push(`${LEGACY_URL}${path} ${verdict}`);
 
   const map = await get(`${intended}/sitemap.xml`);
   if (map.status !== 200) {
@@ -290,14 +283,17 @@ const main = async () => {
   } else {
     const origins = originsIn(await map.response.text());
     if (!origins.has(intended)) problems.push(`the served sitemap does not use ${intended}`);
-    if (origins.has(LEGACY_URL)) problems.push(`the served sitemap still contains ${LEGACY_URL}`);
+    for (const retired of RETIRED_HOSTS) {
+      if (origins.has(retired)) problems.push(`the served sitemap still contains ${retired}`);
+    }
   }
 
   const home = await get(`${intended}/`);
   if (home.status === 200) {
     const origins = originsIn(await home.response.text());
-    if (origins.has(LEGACY_URL)) {
-      problems.push(`the served home page still names ${LEGACY_URL} in its canonical or og:url`);
+    for (const retired of RETIRED_HOSTS) {
+      if (!origins.has(retired)) continue;
+      problems.push(`the served home page still names ${retired} in its canonical or og:url`);
     }
   }
 
@@ -308,8 +304,8 @@ const main = async () => {
   }
 
   console.log(
-    `✓ ${intended} serves the site, ${LEGACY_URL}${path} redirects 301 to the same path, and the sitemap and` +
-      ` canonical tags name only the new host`,
+    `✓ ${intended} serves the site, and the sitemap and canonical tags name it and none of the` +
+      ` ${RETIRED_HOSTS.length} retired hosts`,
   );
   return 0;
 };

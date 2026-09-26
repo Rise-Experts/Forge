@@ -5,7 +5,7 @@ import styles from "./index.module.css";
 const primitives = [
   {
     title: "Agents",
-    body: "Declare instructions, model policy, tools, skills, and limits in a versioned manifest. Forge builds context, invokes tools, and records each run.",
+    body: "Declare instructions, model policy, tools, skills, and limits in a versioned manifest. Retinue builds context, invokes tools, and records each run.",
     to: "/docs/concepts/agents",
   },
   {
@@ -75,10 +75,10 @@ const startHere = [
 
 export default function Home(): JSX.Element {
   return (
-    <Layout title="Build durable agent platforms" description="The Forge TypeScript SDK for durable agents, flows, tools, and production operations.">
+    <Layout title="Build durable agent platforms" description="The Retinue TypeScript SDK for durable agents, flows, tools, and production operations.">
       <header className={styles.hero}>
         <div className={styles.heroInner}>
-          <p className={styles.eyebrow}>FORGE SDK</p>
+          <p className={styles.eyebrow}>RETINUE SDK</p>
           <h1 className={styles.heroTitle}>Build durable agent platforms.</h1>
           <p className={styles.heroSubtitle}>
             A TypeScript SDK for building agents and flows with safe tools, persistent context,
@@ -92,7 +92,7 @@ export default function Home(): JSX.Element {
               API reference
             </Link>
           </div>
-          <div className={styles.install} aria-label="Install Forge AgentKit">
+          <div className={styles.install} aria-label="Install Retinue AgentKit">
             <code>npm install @retinue/agentkit @ai-sdk/anthropic</code>
           </div>
         </div>
@@ -144,7 +144,7 @@ console.log(result.text);`}</code></pre>
           </div>
         </section>
         <section className={styles.section}>
-          <h2>Choose how to run Forge</h2>
+          <h2>Choose how to run Retinue</h2>
           <div className={styles.grid}>
             <Link className={styles.card} to="/docs/getting-started/quick-start">
               <h3 className={styles.cardTitle}>Embedded</h3>

@@ -1,7 +1,7 @@
 /**
  * The configured schema reaches every connection -- REQ-041 (#190).
  *
- * `FORGE_DATABASE_SCHEMA` exists so a deployment can share a database with a product that owns
+ * `RETINUE_DATABASE_SCHEMA` exists so a deployment can share a database with a product that owns
  * `public`. What makes it worth testing is the shape of the failure when it is wired to only *some* of
  * the paths: nothing errors. Migrations report success, the host answers, and the tables are simply in
  * the wrong schema -- or worse, half in each, since `createPgExecutor` runs every query through
@@ -19,21 +19,21 @@ describe("searchPathFor", () => {
     /**
      * Not the schema alone. Two things resolve through `public`: the `vector` type is pinned there so it
      * is visible from any schema (see the note in `migrations.ts`), and ShareFlow's adapters qualify all
-     * of their queries as `public.`. A bare `SET search_path TO forge` makes the first fail with
+     * of their queries as `public.`. A bare `SET search_path TO retinue` makes the first fail with
      * `type "vector" does not exist` on a machine where the extension is installed and working.
      */
-    expect(searchPathFor("forge")).toBe("forge,public");
+    expect(searchPathFor("retinue")).toBe("retinue,public");
   });
 
   it("puts no space after the comma, because libpq would read one as another option", () => {
     /**
      * The assertion a real database earned. This string becomes `-c search_path=…`, and in libpq's
-     * option syntax a space separates options -- so `forge, public` arrives as `search_path` =
-     * `forge,` plus a stray `public`, and Postgres refuses the connection outright:
-     * `invalid value for parameter "search_path": "forge,"`. Every test here passed with the spaced
+     * option syntax a space separates options -- so `retinue, public` arrives as `search_path` =
+     * `retinue,` plus a stray `public`, and Postgres refuses the connection outright:
+     * `invalid value for parameter "search_path": "retinue,"`. Every test here passed with the spaced
      * version; `migrate` against a real server did not.
      */
-    expect(searchPathFor("forge")).not.toMatch(/,\s/);
+    expect(searchPathFor("retinue")).not.toMatch(/,\s/);
   });
 
   it("is undefined when no schema is configured, rather than a guess", () => {
@@ -126,7 +126,7 @@ describe("openPostgres", () => {
      *
      * `createPgExecutor` calls `pool.query`, which checks out whichever connection is free and hands
      * back one carrying whatever `search_path` its previous borrower left. So setting it once at
-     * startup governs the first statements and nothing after them -- migration 1 in `forge`,
+     * startup governs the first statements and nothing after them -- migration 1 in `retinue`,
      * migration 20 in `public`, both reporting success.
      *
      * The first version did it per connection with `pool.on("connect", (c) => c.query("SET …"))`,
@@ -134,8 +134,8 @@ describe("openPostgres", () => {
      * the client is already executing a query is deprecated and will be removed in pg@9.0"*, printed
      * on every boot. `options` needs no query, so the ordering question does not arise.
      */
-    const { constructedWith, listeners } = await load({ databaseUrl: "postgres://x/y", databaseSchema: "forge" });
-    expect(constructedWith()?.["options"]).toBe("-c search_path=forge,public");
+    const { constructedWith, listeners } = await load({ databaseUrl: "postgres://x/y", databaseSchema: "retinue" });
+    expect(constructedWith()?.["options"]).toBe("-c search_path=retinue,public");
     // And no `connect` listener: the deprecated mechanism is gone, not merely supplemented.
     expect(listeners["connect"]).toBeUndefined();
   });
@@ -150,25 +150,25 @@ describe("openPostgres", () => {
      * One round-trip at startup turns that into a refusal.
      */
     const { load: loadWith } = { load };
-    const rejected = loadWith({ databaseUrl: "postgres://x/y", databaseSchema: "forge" }, "public");
+    const rejected = loadWith({ databaseUrl: "postgres://x/y", databaseSchema: "retinue" }, "public");
     await expect(rejected).rejects.toThrow(/were not applied/);
   });
 
   it("accepts a path that differs only in spacing, since Postgres echoes its own formatting", async () => {
-    // `forge, public` and `forge,public` are the same path. Comparing strings would refuse a
+    // `retinue, public` and `retinue,public` are the same path. Comparing strings would refuse a
     // correctly configured database, which is the false alarm that gets a check deleted.
     await expect(
-      load({ databaseUrl: "postgres://x/y", databaseSchema: "forge" }, "forge,public"),
+      load({ databaseUrl: "postgres://x/y", databaseSchema: "retinue" }, "retinue,public"),
     ).resolves.toBeDefined();
     await expect(
-      load({ databaseUrl: "postgres://x/y", databaseSchema: "forge" }, '"forge", public'),
+      load({ databaseUrl: "postgres://x/y", databaseSchema: "retinue" }, '"retinue", public'),
     ).resolves.toBeDefined();
   });
 
   it("refuses a path with the right schemas in the wrong order", async () => {
-    // Order is the whole meaning of a search path: `public, forge` creates in `public`.
+    // Order is the whole meaning of a search path: `public, retinue` creates in `public`.
     await expect(
-      load({ databaseUrl: "postgres://x/y", databaseSchema: "forge" }, "public, forge"),
+      load({ databaseUrl: "postgres://x/y", databaseSchema: "retinue" }, "public, retinue"),
     ).rejects.toThrow(/were not applied/);
   });
 
@@ -179,8 +179,8 @@ describe("openPostgres", () => {
      * path -- and it must not depend on an event listener having fired on that particular connection.
      * Dropping this argument changed nothing that any other assertion here could see.
      */
-    const { openerSearchPath } = await load({ databaseUrl: "postgres://x/y", databaseSchema: "forge" });
-    expect(openerSearchPath()).toBe("forge,public");
+    const { openerSearchPath } = await load({ databaseUrl: "postgres://x/y", databaseSchema: "retinue" });
+    expect(openerSearchPath()).toBe("retinue,public");
   });
 
   it("adds no listener and no search path when none is configured", async () => {

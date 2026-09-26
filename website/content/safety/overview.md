@@ -1,11 +1,11 @@
 ---
 title: Safety and control
-description: Understand Forge authorization, guardrails, questions, and approval gates.
+description: Understand Retinue authorization, guardrails, questions, and approval gates.
 ---
 
 # Safety and control
 
-Forge keeps control in the application, not in the model prompt. Tools are authorized when they are discovered and again when they are executed. Actions that have an external or destructive effect can pause for a human decision.
+Retinue keeps control in the application, not in the model prompt. Tools are authorized when they are discovered and again when they are executed. Actions that have an external or destructive effect can pause for a human decision.
 
 ```mermaid
 flowchart TD

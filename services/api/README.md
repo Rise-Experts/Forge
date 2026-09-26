@@ -1,9 +1,9 @@
 # `@retinue/api-service`
 
-A Nest.js service that serves the platform — REQ-044 ([#201](https://github.com/Rise-Experts/Forge/issues/201)).
+A Nest.js service that serves the platform — REQ-044 ([#201](https://github.com/Rise-Experts/Retinue/issues/201)).
 
 ```bash
-FORGE_DEV_AUTH=1 FORGE_SCHEMA=agentkit_example PORT=4200 npm start -w @retinue/api-service
+RETINUE_DEV_AUTH=1 RETINUE_SCHEMA=agentkit_example PORT=4200 npm start -w @retinue/api-service
 ```
 
 | | |
@@ -50,9 +50,9 @@ then the slot, then the job. A job enqueued before its run row exists points at 
 
 ## Authentication has no default
 
-`ForgeModule.forRoot` requires an `authenticate`, so forgetting one is a type error rather than an open API.
+`RetinueModule.forRoot` requires an `authenticate`, so forgetting one is a type error rather than an open API.
 The bundled `createDevAuthenticate` reads a tenant and principal from headers — which is *not* authentication,
-any caller can claim any tenant — and refuses to build unless `FORGE_DEV_AUTH=1` acknowledges that. Checked at
+any caller can claim any tenant — and refuses to build unless `RETINUE_DEV_AUTH=1` acknowledges that. Checked at
 construction, so a misconfigured service fails at boot with one message instead of 401ing every request.
 
 ## Roles must match the worker's
@@ -68,8 +68,8 @@ it is worth knowing before an empty catalogue reads as a broken tool.
 
 ## Configuration
 
-Read through the platform's `loadConfig`, so the `FORGE_*` → `RETINUE_*` / `AGENTKIT_*` deprecation path (#192) applies here
-too. `FORGE_SCHEMA` is this service's addition: the platform builds its pool from `databaseUrl` alone and
+Read through the platform's `loadConfig`, so the `RETINUE_*` → `RETINUE_*` / `AGENTKIT_*` deprecation path (#192) applies here
+too. `RETINUE_SCHEMA` is this service's addition: the platform builds its pool from `databaseUrl` alone and
 cannot be told about a schema separately, so the schema is folded into the URL — unless an explicit `options`
 parameter is already there, which is an operator being specific.
 

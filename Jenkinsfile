@@ -30,17 +30,17 @@ pipeline {
   environment {
     // The same non-default ports the workflow uses, and for the same reason: an agent is a server that probably
     // already runs a Redis and a Postgres.
-    FORGE_TEST_REDIS_URL = 'redis://localhost:6479'
-    FORGE_TEST_PG_URL    = 'postgres://postgres:postgres@localhost:5442/forge_test'
+    RETINUE_TEST_REDIS_URL = 'redis://localhost:6479'
+    RETINUE_TEST_PG_URL    = 'postgres://postgres:postgres@localhost:5442/retinue_test'
     // Per-build container names, so a leaked container from an earlier build cannot be mistaken for this one's.
-    REDIS_NAME = "forge-ci-redis-${env.BUILD_NUMBER}"
-    PG_NAME    = "forge-ci-pg-${env.BUILD_NUMBER}"
+    REDIS_NAME = "retinue-ci-redis-${env.BUILD_NUMBER}"
+    PG_NAME    = "retinue-ci-pg-${env.BUILD_NUMBER}"
     // npm writes to $HOME; a Jenkins agent's HOME is not always writable by the build user.
     npm_config_cache = "${env.WORKSPACE}/.npm"
     // JUnit XML, which is the reason to have Jenkins at all rather than only the Actions UI: a console log says
     // what happened this build, and a trend says "this test has failed 3 of the last 20". Read by
     // `vitest.shared.ts`, so the suites run **once** and emit both reporters.
-    FORGE_JUNIT_DIR = "${env.WORKSPACE}/reports"
+    RETINUE_JUNIT_DIR = "${env.WORKSPACE}/reports"
   }
 
   stages {
@@ -75,7 +75,7 @@ pipeline {
           docker rm -f "$REDIS_NAME" "$PG_NAME" >/dev/null 2>&1 || true
           docker run -d --name "$REDIS_NAME" -p 6479:6379 redis:7-alpine >/dev/null
           docker run -d --name "$PG_NAME" -p 5442:5432 \
-            -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=forge_test postgres:16 >/dev/null
+            -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=retinue_test postgres:16 >/dev/null
 
           # Waited for, not slept on. `docker run` returns when the container starts, which is before the server
           # inside it accepts connections — and a suite that connects one second early fails like a flaky test.
@@ -153,18 +153,18 @@ pipeline {
 
     stage('Image') {
       steps {
-        sh 'docker build -t forge:ci-${BUILD_NUMBER} .'
+        sh 'docker build -t retinue:ci-${BUILD_NUMBER} .'
         // Liveness with no database, exactly as the workflow's image job checks it: a process that exits because
         // a dependency is missing turns a dependency blip into a restart storm.
         sh '''
           set -e
-          NAME="forge-ci-app-${BUILD_NUMBER}"
+          NAME="retinue-ci-app-${BUILD_NUMBER}"
           docker rm -f "$NAME" >/dev/null 2>&1 || true
           docker run -d --name "$NAME" -p 4099:4000 \
-            -e FORGE_DATABASE_URL=postgres://nobody@127.0.0.1:1/none \
-            -e FORGE_REDIS_URL=redis://127.0.0.1:1 \
-            -e FORGE_EXAMPLE_DEV_AUTH=1 \
-            forge:ci-${BUILD_NUMBER} >/dev/null
+            -e RETINUE_DATABASE_URL=postgres://nobody@127.0.0.1:1/none \
+            -e RETINUE_REDIS_URL=redis://127.0.0.1:1 \
+            -e RETINUE_EXAMPLE_DEV_AUTH=1 \
+            retinue:ci-${BUILD_NUMBER} >/dev/null
           code=000
           for i in $(seq 20); do
             code=$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:4099/healthz || true)
@@ -178,7 +178,7 @@ pipeline {
         '''
       }
       post {
-        always { sh 'docker rmi -f forge:ci-${BUILD_NUMBER} >/dev/null 2>&1 || true' }
+        always { sh 'docker rmi -f retinue:ci-${BUILD_NUMBER} >/dev/null 2>&1 || true' }
       }
     }
   }

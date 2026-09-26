@@ -3,7 +3,7 @@ title: GraphQL
 ---
 # GraphQL
 
-The server subpath exposes Forge's reference GraphQL schema for applications that want an API boundary around conversations and runs. Your host supplies authentication and builds the tenant/principal context; Forge does not infer identity from model input.
+The server subpath exposes Retinue's reference GraphQL schema for applications that want an API boundary around conversations and runs. Your host supplies authentication and builds the tenant/principal context; Retinue does not infer identity from model input.
 
 GraphQL operations cover conversation and run lifecycle work, while SSE and subscriptions deliver durable run events to clients. Use the generated API/schema for exact operations and fields because the host is designed to be composed by an application.
 

@@ -1,6 +1,6 @@
 # @retinue/tools-linear
 
-Linear tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: search, read and edit issues, and
+Linear tools for a [Retinue](https://github.com/Rise-Experts/Retinue) agent: search, read and edit issues, and
 move them between workflow states.
 
 ```bash
@@ -41,6 +41,6 @@ A name that does not match fails naming the ones that do.
 
 **Descriptions and comments are markdown natively**, so nothing is converted in either direction.
 
-Full documentation: <https://docs.forge.riseexperts.de/integrations/linear>
+Full documentation: <https://docs.retinue.riseexperts.de/integrations/linear>
 
 MIT.

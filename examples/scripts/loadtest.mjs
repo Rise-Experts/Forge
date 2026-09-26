@@ -22,9 +22,9 @@
 import pg from "pg";
 import { performance } from "node:perf_hooks";
 
-const SCHEMA = process.env.FORGE_EXAMPLE_SCHEMA ?? "forge_example";
-const BASE = process.env.FORGE_EXAMPLE_URL ?? "http://localhost:4000";
-const TENANT = process.env.FORGE_LOADTEST_TENANT ?? "loadtest";
+const SCHEMA = process.env.RETINUE_EXAMPLE_SCHEMA ?? "retinue_example";
+const BASE = process.env.RETINUE_EXAMPLE_URL ?? "http://localhost:4000";
+const TENANT = process.env.RETINUE_LOADTEST_TENANT ?? "loadtest";
 const PRINCIPAL = "loadtest-principal";
 
 const arg = (name, fallback) => {
@@ -35,21 +35,21 @@ const MESSAGES = Number(arg("messages", 2000));
 const NOTES = Number(arg("notes", 500));
 const SAMPLES = Number(arg("samples", 40));
 
-if (!process.env.FORGE_DATABASE_URL) {
-  console.error("✗ FORGE_DATABASE_URL is required.");
+if (!process.env.RETINUE_DATABASE_URL) {
+  console.error("✗ RETINUE_DATABASE_URL is required.");
   process.exit(2);
 }
 
-const url = new URL(process.env.FORGE_DATABASE_URL);
+const url = new URL(process.env.RETINUE_DATABASE_URL);
 url.searchParams.set("options", `-c search_path=${SCHEMA},public`);
 const pool = new pg.Pool({ connectionString: url.toString(), max: 8 });
 const q = async (text, params) => (await pool.query(text, params)).rows;
 
 const headers = {
   "content-type": "application/json",
-  "x-forge-tenant": TENANT,
-  "x-forge-principal": PRINCIPAL,
-  "x-forge-roles": "editor",
+  "x-retinue-tenant": TENANT,
+  "x-retinue-principal": PRINCIPAL,
+  "x-retinue-roles": "editor",
 };
 
 /** Percentiles over a sorted copy. Nearest-rank, which is the honest reading for a few dozen samples. */
@@ -152,7 +152,7 @@ const api = async (path, init = {}) => {
 };
 
 const run = async () => {
-  console.log(`\nforge example — load probe`);
+  console.log(`\nretinue example — load probe`);
   console.log(`  schema ${SCHEMA}   tenant ${TENANT}   base ${BASE}\n`);
 
   // A clean slate for this tenant only. Never `TRUNCATE`: the schema is shared with the interactive example.
