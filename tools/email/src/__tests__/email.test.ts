@@ -219,7 +219,7 @@ describe("MIME correctness — AC-5", () => {
 
   it("puts text before html in multipart/alternative", () => {
     const raw = compose({ to: ["a@example.test"], subject: "S", text: "plain", html: "<p>rich</p>" });
-    expect(raw).toMatch(/Content-Type: multipart\/alternative; boundary="=_(?:retinue|retinue)_[0-9a-f]{32}"/);
+    expect(raw).toMatch(/Content-Type: multipart\/alternative; boundary="=_retinue_[0-9a-f]{32}"/);
     /**
      * Order is load-bearing. The spec orders parts least-faithful first, and a client that shows the last part
      * it understands would otherwise display the plain-text fallback and never the HTML — mail that looks
