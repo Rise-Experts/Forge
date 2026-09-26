@@ -7,8 +7,8 @@
  * assertion is about what came back.
  */
 import { describe, expect, it, vi } from "vitest";
-import type { ConversationId } from "@forge/agentkit";
-import { asId, type ExecutionContext } from "@forge/agentkit";
+import type { ConversationId } from "@retinue/agentkit";
+import { asId, type ExecutionContext } from "@retinue/agentkit";
 
 import {
   createGate,

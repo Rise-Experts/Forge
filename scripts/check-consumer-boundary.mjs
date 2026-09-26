@@ -101,7 +101,7 @@ const ROOT = resolve(import.meta.dirname, "..");
  */
 export const PACKAGES = [
   {
-    name: "@forge/agentkit",
+    name: "@retinue/agentkit",
     dir: "backend",
     deep: [
       "dist/index.js",
@@ -117,103 +117,103 @@ export const PACKAGES = [
     ],
   },
   {
-    name: "@forge/react",
+    name: "@retinue/react",
     dir: "frontend",
     deep: ["dist/index.js", "dist/hooks/hooks.js", "src/client.ts", "hooks", "ui"],
   },
   {
-    name: "@forge/tools-github",
+    name: "@retinue/tools-github",
     dir: "tools/github",
     deep: ["dist/index.js", "src/index.ts", "tools", "internal"],
   },
   {
-    name: "@forge/tools-slack",
+    name: "@retinue/tools-slack",
     dir: "tools/slack",
     deep: ["dist/index.js", "src/index.ts", "tools", "internal"],
   },
   {
-    name: "@forge/tools-search",
+    name: "@retinue/tools-search",
     dir: "tools/search",
     deep: ["dist/index.js", "src/index.ts", "providers", "internal"],
   },
   {
-    name: "@forge/tools-discord",
+    name: "@retinue/tools-discord",
     dir: "tools/discord",
     deep: ["dist/index.js", "src/index.ts", "channels", "internal"],
   },
   {
-    name: "@forge/tools-telegram",
+    name: "@retinue/tools-telegram",
     dir: "tools/telegram",
     deep: ["dist/index.js", "src/index.ts", "pacer", "internal"],
   },
   {
-    name: "@forge/tools-jira",
+    name: "@retinue/tools-jira",
     dir: "tools/jira",
     // `adf` is the module a consumer would most plausibly reach for — the converter is genuinely useful on its
     // own — which is exactly why it must not resolve as a subpath. It is re-exported from the root instead.
     deep: ["dist/index.js", "src/index.ts", "adf", "internal"],
   },
   {
-    name: "@forge/tools-confluence",
+    name: "@retinue/tools-confluence",
     dir: "tools/confluence",
     deep: ["dist/index.js", "src/index.ts", "storage", "internal"],
   },
   {
-    name: "@forge/tools-linear",
+    name: "@retinue/tools-linear",
     dir: "tools/linear",
     deep: ["dist/index.js", "src/index.ts", "graphql", "internal"],
   },
   {
-    name: "@forge/tools-meta",
+    name: "@retinue/tools-meta",
     dir: "tools/meta",
     deep: ["dist/index.js", "src/index.ts", "whatsapp", "internal"],
   },
   {
-    name: "@forge/tools-x",
+    name: "@retinue/tools-x",
     dir: "tools/x",
     deep: ["dist/index.js", "src/index.ts", "posts", "internal"],
   },
   {
-    name: "@forge/tools-reddit",
+    name: "@retinue/tools-reddit",
     dir: "tools/reddit",
     deep: ["dist/index.js", "src/index.ts", "comments", "internal"],
   },
   {
-    name: "@forge/tools-google",
+    name: "@retinue/tools-google",
     dir: "tools/google",
     // `mime` is the module a consumer would most plausibly reach for — building an RFC 5322 message is useful
     // on its own — which is exactly why it must not resolve. It is re-exported from the root.
     deep: ["dist/index.js", "src/index.ts", "mime", "gmail"],
   },
   {
-    name: "@forge/tools-notion",
+    name: "@retinue/tools-notion",
     dir: "tools/notion",
     // `blocks` is the module a consumer would most plausibly reach for, which is why it must not resolve.
     deep: ["dist/index.js", "src/index.ts", "blocks", "internal"],
   },
   {
-    name: "@forge/tools-scrape",
+    name: "@retinue/tools-scrape",
     dir: "tools/scrape",
     // `ssrf` is the module a consumer would most plausibly reach for — a hardened fetch is useful on its own —
     // which is exactly why it must not resolve. It is re-exported from the root.
     deep: ["dist/index.js", "src/index.ts", "ssrf", "html"],
   },
   {
-    name: "@forge/tools-email",
+    name: "@retinue/tools-email",
     dir: "tools/email",
     // `smtp` is the module a consumer would most plausibly reach for — a minimal SMTP client is useful on its
     // own — which is exactly why it must not resolve. It is re-exported from the root.
     deep: ["dist/index.js", "src/index.ts", "smtp", "providers"],
   },
   {
-    name: "@forge/tools-browser",
+    name: "@retinue/tools-browser",
     dir: "tools/browser",
     // `supervisor` is the module a consumer would most plausibly reach for — a process-group killer is useful
     // on its own — which is exactly why it must not resolve. It is re-exported from the root.
     deep: ["dist/index.js", "src/index.ts", "supervisor", "refs"],
   },
   {
-    name: "@forge/tools-azure",
+    name: "@retinue/tools-azure",
     dir: "tools/azure",
     // `resource-id` is the module a consumer would most plausibly reach for — parsing an ARM id is useful on
     // its own — which is exactly why it must not resolve. It is re-exported from the root.
@@ -368,15 +368,15 @@ const main = () => {
   const keep = process.argv.includes("--keep");
   const published = process.argv.includes("--published");
   /**
-   * The one package to check, when a caller names it. Accepts the workspace name (`@forge/tools-slack`) or the
+   * The one package to check, when a caller names it. Accepts the workspace name (`@retinue/tools-slack`) or the
    * short form (`tools-slack`), because the release workflow has the first and a person typing it has the second.
    */
   const onlyAt = process.argv.indexOf("--only");
   const only = onlyAt === -1 ? null : process.argv[onlyAt + 1];
   if (onlyAt !== -1 && (only === undefined || only.startsWith("--"))) {
-    die("--only needs a package name, for example --only @forge/tools-slack");
+    die("--only needs a package name, for example --only @retinue/tools-slack");
   }
-  const selected = only === null ? PACKAGES : PACKAGES.filter((shipped) => shipped.name === only || shipped.name === `@forge/${only}`);
+  const selected = only === null ? PACKAGES : PACKAGES.filter((shipped) => shipped.name === only || shipped.name === `@retinue/${only}`);
   if (only !== null && selected.length === 0) {
     die(
       `--only ${only} matches none of the shipping packages: ${PACKAGES.map((shipped) => shipped.name).join(", ")}`,
@@ -600,7 +600,7 @@ const main = () => {
       /**
        * Installed for everyone, asserted for the one named — see `--only`.
        *
-       * The install cannot be narrowed: `@forge/tools-slack` imports `@forge/agentkit`, so a consumer holding
+       * The install cannot be narrowed: `@retinue/tools-slack` imports `@retinue/agentkit`, so a consumer holding
        * only the toolkit cannot load it at all, and the check would report a boundary failure that is really a
        * missing peer. So the scratch consumer always gets every package — which is what a real consumer has — and
        * `--only` narrows what is *checked*.
@@ -674,7 +674,7 @@ const main = () => {
         writeFileSync(
           specPath,
           [
-            `import { conversationStoreConformance } from "@forge/agentkit/testing";`,
+            `import { conversationStoreConformance } from "@retinue/agentkit/testing";`,
             `/** Leaks across tenants: the exact shape of the #91 defect. */`,
             `const leaky = () => {`,
             `  const rows = new Map<string, any>();`,
@@ -705,8 +705,8 @@ const main = () => {
         writeFileSync(
           positivePath,
           [
-            `import { conversationStoreConformance } from "@forge/agentkit/testing";`,
-            `import { createMemoryConversationStore } from "@forge/agentkit/persistence";`,
+            `import { conversationStoreConformance } from "@retinue/agentkit/testing";`,
+            `import { createMemoryConversationStore } from "@retinue/agentkit/persistence";`,
             `conversationStoreConformance(() => createMemoryConversationStore());`,
           ].join("\n"),
         );
@@ -715,7 +715,7 @@ const main = () => {
         if (!existsSync(vitestBin)) {
           fail(
             "vitest is not reachable from the scratch consumer, so the conformance negative test cannot run",
-            "it is an optional peer of @forge/agentkit and a devDependency of this workspace; the symlink\n" +
+            "it is an optional peer of @retinue/agentkit and a devDependency of this workspace; the symlink\n" +
               "step should have provided it",
           );
         } else {

@@ -8,7 +8,7 @@ sidebar_position: 14
 bounds a stranger's server can live with.
 
 ```bash
-npm i @forge/tools-scrape
+npm i @retinue/tools-scrape
 ```
 
 ## Tools
@@ -31,7 +31,7 @@ disclosure without a decision.
 ## Wire it up
 
 ```ts
-import { createScrapeToolkit, firecrawl } from "@forge/tools-scrape";
+import { createScrapeToolkit, firecrawl } from "@retinue/tools-scrape";
 
 // The default: no account, no key, no third party.
 const toolkit = createScrapeToolkit();

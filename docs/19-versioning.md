@@ -9,7 +9,7 @@ Written before the first publish, deliberately. After it, every mistake in here 
 
 **The package root's exports, and nothing else.**
 
-`@forge/agentkit` exports **five values** from its root — `createRuntime`, `resolveCapabilities`,
+`@retinue/agentkit` exports **five values** from its root — `createRuntime`, `resolveCapabilities`,
 `defineAgent`, `asId`, and `AgentPlatformError` with its guard — plus every type. Those, and the documented
 subpaths listed in `backend/src/entries/README.md`, are the API.
 
@@ -81,7 +81,7 @@ createStaticCredentialResolver({ github: process.env.GITHUB_TOKEN ?? "" });
 const resolver = { async resolve({ ref, context }) { return lookupToken(ref, context); } };
 
 // after
-import { bearer } from "@forge/agentkit/tools";
+import { bearer } from "@retinue/agentkit/tools";
 const resolver = { async resolve({ ref, context }) { return bearer(await lookupToken(ref, context)); } };
 ```
 
@@ -93,7 +93,7 @@ const token = await resolver.resolve({ ref, context });
 headers.authorization = `Bearer ${token}`;
 
 // after
-import { credentialHeader } from "@forge/agentkit/tools";
+import { credentialHeader } from "@retinue/agentkit/tools";
 const [name, value] = credentialHeader(await resolver.resolve({ ref, context }));
 headers[name.toLowerCase()] = value;
 ```
@@ -141,7 +141,7 @@ Honest gaps rather than a plan presented as a state:
 
 ## The licence
 
-**MIT**, for `@forge/agentkit` and `@forge/react`, held jointly by
+**MIT**, for `@retinue/agentkit` and `@retinue/react`, held jointly by
 [Azeem Sarwar](https://github.com/azeem-sarwar) and [Rise Experts](https://github.com/Rise-Experts).
 
 Chosen for the reason a runtime is licensed at all: installing it should need no conversation. MIT is the
@@ -186,7 +186,7 @@ agentkit@0.2.0-next.1   a prerelease, to `next`
 
 Per-package rather than one `v0.1.0`, because the versions are independent: a client-only fix must not bump the
 runtime, and a shared version teaches consumers that every release affects them. The first release is therefore
-two tags — the runtime first, since `@forge/react` depends on `@forge/agentkit@^0.1.0` and a client
+two tags — the runtime first, since `@retinue/react` depends on `@retinue/agentkit@^0.1.0` and a client
 published against an absent runtime is uninstallable.
 
 `.github/workflows/release.yml` does the rest: resolve the tag, run the whole gate, publish with provenance,
@@ -236,7 +236,7 @@ shortcut that dissolves the boundary — so `next` is not a convenience, it is w
 
 - **Version shape:** `0.2.0-next.3` — the version being worked towards, then `-next.<n>`. Not a date and not a
   commit hash: a consumer reading a lockfile should be able to tell which release a prerelease precedes.
-- **Tag:** published under `next`, never `latest`. `npm install @forge/agentkit` must never resolve to a
+- **Tag:** published under `next`, never `latest`. `npm install @retinue/agentkit` must never resolve to a
   prerelease, which is the one mistake in this area that reaches people who never opted in.
 - **Who may depend on one:** our own platform, pinned exactly (`0.2.0-next.3`, not `^`). A caret range over
   prereleases moves under you between installs.

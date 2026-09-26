@@ -12,10 +12,10 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { ConversationId } from "@forge/agentkit";
+import type { ConversationId } from "@retinue/agentkit";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { asId, type ExecutionContext } from "@forge/agentkit";
-import { createCredential, type CredentialResolver } from "@forge/agentkit/tools";
+import { asId, type ExecutionContext } from "@retinue/agentkit";
+import { createCredential, type CredentialResolver } from "@retinue/agentkit/tools";
 
 import {
   composeFor,

@@ -32,8 +32,8 @@ import {
   type ToolkitAuth,
   type VendorFailure,
   type VendorTransport,
-} from "@forge/agentkit/tools";
-import { AgentPlatformError } from "@forge/agentkit";
+} from "@retinue/agentkit/tools";
+import { AgentPlatformError } from "@retinue/agentkit";
 
 import { adfToMarkdown, EMPTY_ADF, markdownToAdf } from "./adf.js";
 

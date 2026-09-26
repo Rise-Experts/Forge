@@ -8,7 +8,7 @@ Search with CQL, read pages as markdown, and write them back — without ever ov
 not see.
 
 ```bash
-npm i @forge/tools-confluence
+npm i @retinue/tools-confluence
 ```
 
 Confluence and Jira share one credential and one site host, so a deployment that wires this also wires
@@ -30,9 +30,9 @@ These are classified `knowledge`, not `project` — so a tenant switching off `p
 ## Wire it up
 
 ```ts
-import { createAgent } from "@forge/agentkit/providers";
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { createConfluenceToolkit } from "@forge/tools-confluence";
+import { createAgent } from "@retinue/agentkit/providers";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { createConfluenceToolkit } from "@retinue/tools-confluence";
 
 // The same credential Jira uses: an account email and an API token, as HTTP Basic.
 const resolver = createStaticCredentialResolver({

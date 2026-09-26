@@ -1,19 +1,19 @@
-# @forge/tools-linear
+# @retinue/tools-linear
 
 Linear tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: search, read and edit issues, and
 move them between workflow states.
 
 ```bash
-npm i @forge/tools-linear
+npm i @retinue/tools-linear
 ```
 
-Requires `@forge/agentkit` as a peer.
+Requires `@retinue/agentkit` as a peer.
 
 ## Use it
 
 ```ts
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { createLinearToolkit } from "@forge/tools-linear";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { createLinearToolkit } from "@retinue/tools-linear";
 
 const toolkit = createLinearToolkit({
   credentialRef: "linear",

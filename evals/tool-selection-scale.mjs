@@ -45,9 +45,9 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { createAgent } from "@forge/agentkit/providers";
-import { createToolSearch, defineTool } from "@forge/agentkit/tools";
-import { estimateTokens } from "@forge/agentkit/runtime";
+import { createAgent } from "@retinue/agentkit/providers";
+import { createToolSearch, defineTool } from "@retinue/agentkit/tools";
+import { estimateTokens } from "@retinue/agentkit/runtime";
 
 const CASES = "evals/cases/tool-selection.json";
 const OUT = "evals/tool-selection-scale.json";

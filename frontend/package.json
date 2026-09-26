@@ -1,5 +1,5 @@
 {
-  "name": "@forge/react",
+  "name": "@retinue/react",
   "version": "0.3.0",
   "description": "Headless React state for a Forge runtime: subscriptions, typed part reducers and view models.",
   "license": "MIT",
@@ -30,7 +30,7 @@
     "prepublishOnly": "node ../scripts/publish-guard.mjs"
   },
   "dependencies": {
-    "@forge/agentkit": "^0.3.0"
+    "@retinue/agentkit": "^0.3.0"
   },
   "peerDependencies": {
     "react": "^19"

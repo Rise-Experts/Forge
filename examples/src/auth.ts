@@ -11,10 +11,10 @@
  * rather than an open API nobody notices.
  */
 
-import { asId } from "@forge/agentkit";
-import { parseExecutionContext } from "@forge/agentkit/runtime";
-import type { ExecutionContext } from "@forge/agentkit";
-import type { Authenticate } from "@forge/agentkit/server";
+import { asId } from "@retinue/agentkit";
+import { parseExecutionContext } from "@retinue/agentkit/runtime";
+import type { ExecutionContext } from "@retinue/agentkit";
+import type { Authenticate } from "@retinue/agentkit/server";
 
 export const DEV_AUTH_VARIABLE = "FORGE_EXAMPLE_DEV_AUTH";
 export const FORGE_DEV_AUTH_VARIABLE = "FORGE_EXAMPLE_DEV_AUTH";

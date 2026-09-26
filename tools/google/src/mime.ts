@@ -23,7 +23,7 @@ export const fromBase64Url = (value: string): string =>
   Buffer.from(value.replaceAll("-", "+").replaceAll("_", "/"), "base64").toString("utf8");
 
 /**
- * The RFC 5322 pieces now live in `@forge/agentkit/tools`, and are re-exported here.
+ * The RFC 5322 pieces now live in `@retinue/agentkit/tools`, and are re-exported here.
  *
  * They moved when `tools-email` (#241) needed the same encoder. Header encoding and the CRLF-injection guard
  * are exactly the kind of rule that must have one implementation: both fail *silently* when wrong — mojibake
@@ -31,8 +31,8 @@ export const fromBase64Url = (value: string): string =>
  * fix. `buildMessage` grew `multipart/alternative` and attachments in the move; the single-body path this
  * package uses is byte-identical, which is what the tests below assert and what made the move safe.
  */
-export { assertHeaderSafe, buildMessage, encodeHeader } from "@forge/agentkit/tools";
-export type { OutgoingMessage } from "@forge/agentkit/tools";
+export { assertHeaderSafe, buildMessage, encodeHeader } from "@retinue/agentkit/tools";
+export type { OutgoingMessage } from "@retinue/agentkit/tools";
 
 export const headerOf = (
   headers: readonly { readonly name?: unknown; readonly value?: unknown }[] | undefined,

@@ -27,8 +27,8 @@ flowchart TD
 Use `defineTool` for an operation that reads data. Give it a descriptive name, a useful model-facing description, and an input schema. Schemas are optional in the public helper, but strongly recommended: without one, the model has no reliable argument contract.
 
 ```ts
-import { createAgent } from "@forge/agentkit/providers";
-import { defineTool } from "@forge/agentkit/tools";
+import { createAgent } from "@retinue/agentkit/providers";
+import { defineTool } from "@retinue/agentkit/tools";
 
 const inventory = new Map([["SKU-1", { name: "Blue mug", inStock: 14 }]]);
 
@@ -75,7 +75,7 @@ An effect states what the tool can change. Forge uses it to apply safety rules b
 For an external write, use `confirms()`. It fixes the effect to `external-write`, requires approval, and requires an idempotency key together. Use `destroys()` for an irreversible action.
 
 ```ts
-import { confirms } from "@forge/agentkit/tools";
+import { confirms } from "@retinue/agentkit/tools";
 
 const sendMessage = confirms({
   name: "send_message",

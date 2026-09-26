@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { MessagePartId } from "@forge/agentkit";
+import type { MessagePartId } from "@retinue/agentkit";
 import {
   citationHref,
   citationLabel,

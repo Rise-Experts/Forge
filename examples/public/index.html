@@ -3,13 +3,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Assistant · Forge</title>
 <!--
-  A chat assistant over @forge/agentkit (#155).
+  A chat assistant over @retinue/agentkit (#155).
 
   No framework, and one bundled file: the composer (#179). Everything about the *platform* — streaming, approvals,
   questions, modes, citations, compaction — is still plain readable script in here, so what you see is the
   runtime's behaviour rather than a bundler's. The exception is the text input, which is Tiptap, because a
   suggestion menu and a real placeholder over `contenteditable` is a few hundred lines of caret arithmetic that
-  would tell you nothing about @forge/agentkit. Its source is `src/composer/`, built by `npm run build`.
+  would tell you nothing about @retinue/agentkit. Its source is `src/composer/`, built by `npm run build`.
 
   This is also the first place the runtime's streaming, approval and question paths are driven by a person at all
   — the frontend components' tests use `renderToStaticMarkup`, so there is no DOM and no clicks, and a handler
@@ -1871,7 +1871,7 @@
   showEmpty();
   // After `showEmpty`, which replaces the log's contents — reported before it, the explanation was wiped by the
   // empty state a few lines later and the input was simply dead with nothing said.
-  if (!composerApi) note("The composer failed to load — run `npm run build -w @forge/example-app`, then reload.", true);
+  if (!composerApi) note("The composer failed to load — run `npm run build -w @retinue/example-app`, then reload.", true);
   void loadConversations();
   void loadMode();
   void loadModelMeta();

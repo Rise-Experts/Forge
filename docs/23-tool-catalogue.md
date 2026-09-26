@@ -33,7 +33,7 @@ with `never` | `policy` | `always`. Anything `external-write` or `destructive` c
 `requiresIdempotencyKey: true`, so a retry returns the first result instead of firing the side effect twice.
 Deciding "is this dangerous" by matching on a tool's name is a losing game; declaring an effect is not.
 
-**Packaging.** First-party primitives that need no vendor SDK ship in `@forge/agentkit`. Everything else is a
+**Packaging.** First-party primitives that need no vendor SDK ship in `@retinue/agentkit`. Everything else is a
 sibling package, so a vendor API change is not a runtime release and the runtime's dependency-free root
 survives.
 
@@ -209,7 +209,7 @@ Planned, and listed here so the reasoning survives the packages being written:
 
 ---
 
-## Wave 1 — no third-party auth · `@forge/agentkit`
+## Wave 1 — no third-party auth · `@retinue/agentkit`
 
 Extensions of what exists. Nothing here needs a vendor account, so nothing here is blocked on anything.
 
@@ -229,7 +229,7 @@ Extensions of what exists. Nothing here needs a vendor account, so nothing here 
 | `list_attachments` | files | `read` | `never` | no | **built** |
 | `now` | general | `read` | `never` | no | **built** |
 | `calculate` | general | `read` | `never` | no | **built** |
-| `web_search` | web | `read` | `policy` | no | **built**; real providers ship in `@forge/tools-search` (#214) |
+| `web_search` | web | `read` | `policy` | no | **built**; real providers ship in `@retinue/tools-search` (#214) |
 | `fs_read` | files | `read` | `never` | no | **built** (#215). Path-scoped; an absolute path, a `..` escape and a symlink out of the root are all refused, and the refusal does not depend on whether the target exists |
 | `fs_list` | files | `read` | `never` | no | **built** (#215) |
 | `fs_search` | files | `read` | `never` | no | **built** (#215). Literal-text search, bounded in files and matches, reporting when a ceiling stopped it |
@@ -240,7 +240,7 @@ Extensions of what exists. Nothing here needs a vendor account, so nothing here 
 | `think` | general | `read` | `never` | no | A scratchpad that structures reasoning without a side effect |
 | `sql_write` | data | `internal-write` | `always` | yes | Deliberately separate from `sql_query`; a read tool that can write is a read tool nobody can reason about |
 
-## Meta — the machinery · `@forge/agentkit`
+## Meta — the machinery · `@retinue/agentkit`
 
 Not domain tools; the mechanism the rest of the catalogue depends on. Listed because the check below covers every
 registered tool, and a tool absent from this file is a tool nobody classified.
@@ -438,8 +438,8 @@ provider has no event stream.
 
 ## Built so far
 
-**37** tools across four packages: 27 in `@forge/agentkit`, 6 in `@forge/tools-github`, 4 in
-`@forge/tools-slack`, and 0 in `@forge/tools-search` — which ships four providers for a contract that already
+**37** tools across four packages: 27 in `@retinue/agentkit`, 6 in `@retinue/tools-github`, 4 in
+`@retinue/tools-slack`, and 0 in `@retinue/tools-search` — which ships four providers for a contract that already
 exists. `npm run check:catalogue` reads every one of those packages, so a toolkit landing with an unclassified
 tool is a failing build; it also requires each `tools/*` package to export its own `*_TOOL_NAMES` and
 cross-checks that array's length against the declarations in the file, because a constant that has drifted from
@@ -454,7 +454,7 @@ The full inventory, which is the answer to "what tools do we need":
 
 | | Tools | Built |
 |---|---|---|
-| **Wave 1** — no third-party auth, in `@forge/agentkit` | 24 | 20 |
+| **Wave 1** — no third-party auth, in `@retinue/agentkit` | 24 | 20 |
 | **Meta** — the machinery | 7 | 7 |
 | **Wave 2** — API key only, sibling packages | 12 | 0 |
 | **Wave 3, specified** — 16 packages with a per-tool contract | 163 | 10 |
@@ -462,7 +462,7 @@ The full inventory, which is the answer to "what tools do we need":
 | **Total** | **~272** | **37** |
 
 Wave 2 counts **12**, not the 13 contracts its own table lists: `web_search` is a wave 1 tool and is counted
-there. `@forge/tools-search` ships four providers for it and exports no tool of its own — which is the
+there. `@retinue/tools-search` ships four providers for it and exports no tool of its own — which is the
 one-contract rule applied to itself, and the reason the built column reads 0 for a package that is finished.
 
 That is more than double the **~120** this document estimated before wave 3 was specified per tool, and the

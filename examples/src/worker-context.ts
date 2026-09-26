@@ -6,8 +6,8 @@
  * as* was the one function with no test. It had `principalId: "example-worker", roleIds: ["editor"]` hardcoded.
  */
 
-import { parseExecutionContext } from "@forge/agentkit/runtime";
-import type { ExecutionContext, Run } from "@forge/agentkit";
+import { parseExecutionContext } from "@retinue/agentkit/runtime";
+import type { ExecutionContext, Run } from "@retinue/agentkit";
 
 /**
  * The caller's identity, from the run — #164.

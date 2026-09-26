@@ -403,7 +403,7 @@ dataset by construction and shrinks further as more expectations become structur
 The `release-gate` job runs on a `refs/tags/v*` push and on demand, not on every commit. A gate expensive enough
 to matter is one people disable if it fires on every push.
 
-`npm run build` now runs **before** `npm test` in CI, because the gate CLI imports the built `@forge/agentkit`.
+`npm run build` now runs **before** `npm test` in CI, because the gate CLI imports the built `@retinue/agentkit`.
 A stale dist is worse than a missing one — the tests then pass or fail against the previous build's logic — so the
 CLI test fails immediately with that message rather than as a resolution error.
 
@@ -526,7 +526,7 @@ aggregator.
 
 ### Vendor-neutral, proven rather than claimed
 
-`@forge/agentkit` has **no runtime dependency on any OpenTelemetry package**. The adapter declares the OTel API
+`@retinue/agentkit` has **no runtime dependency on any OpenTelemetry package**. The adapter declares the OTel API
 surface it needs as structural interfaces and the caller passes their own providers, so a customer already
 running the OTel SDK hands us what they have and a customer running something else implements four small
 interfaces.

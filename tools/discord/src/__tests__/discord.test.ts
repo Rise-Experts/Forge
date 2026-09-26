@@ -6,11 +6,11 @@
  * not be more different.
  */
 import { readFileSync } from "node:fs";
-import type { ConversationId } from "@forge/agentkit";
+import type { ConversationId } from "@retinue/agentkit";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it, vi } from "vitest";
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { asId, type ExecutionContext } from "@forge/agentkit";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { asId, type ExecutionContext } from "@retinue/agentkit";
 
 import {
   classifyAccess,

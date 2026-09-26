@@ -1,5 +1,5 @@
 {
-  "name": "@forge/monorepo",
+  "name": "@retinue/monorepo",
   "version": "0.0.0",
   "private": true,
   "description": "Reusable AI agent platform — npm-workspaces monorepo (see docs/).",
@@ -27,7 +27,7 @@
     "deploy": "npm run docs:build && npx wrangler deploy",
     "clean": "npm run clean --workspaces --if-present && node -e \"require('fs').rmSync('tsconfig.tsbuildinfo', { force: true })\"",
     "conformance:matrix": "node scripts/conformance-matrix.mjs backend/.conformance/vitest.json",
-    "conformance:report": "node -e \"require('fs').rmSync('backend/.conformance/vitest.json', { force: true })\" && npm run test -w @forge/agentkit -- --reporter=default --reporter=json --outputFile=.conformance/vitest.json",
+    "conformance:report": "node -e \"require('fs').rmSync('backend/.conformance/vitest.json', { force: true })\" && npm run test -w @retinue/agentkit -- --reporter=default --reporter=json --outputFile=.conformance/vitest.json",
     "conformance": "npm run conformance:report && npm run conformance:matrix",
     "release:gate": "node scripts/release-gate.mjs",
     "loadtest": "node scripts/loadtest.mjs",

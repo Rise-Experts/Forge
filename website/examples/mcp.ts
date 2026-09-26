@@ -1,4 +1,4 @@
-import { MCP_TRANSPORTS, classifyMcpTool, mcpToolName } from "@forge/agentkit/mcp";
+import { MCP_TRANSPORTS, classifyMcpTool, mcpToolName } from "@retinue/agentkit/mcp";
 
 export const supportedTransports = MCP_TRANSPORTS;
 export const remoteToolName = mcpToolName("docs-server", "search");

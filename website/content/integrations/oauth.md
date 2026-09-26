@@ -4,7 +4,7 @@ title: OAuth connections
 
 # Connecting a tenant to a provider
 
-`@forge/agentkit/connections` carries an OAuth 2.0 authorization-code flow with PKCE, a store for the
+`@retinue/agentkit/connections` carries an OAuth 2.0 authorization-code flow with PKCE, a store for the
 resulting credentials, and the cipher that protects them. A deployment mounts it rather than implementing it —
 which matters beyond convenience: this is the piece where a mistake is *exploitable* rather than merely broken.
 
@@ -29,7 +29,7 @@ import {
   createMemoryOAuthAttemptStore,
   createOAuthConnectionService,
   createOAuthFlow,
-} from "@forge/agentkit/connections";
+} from "@retinue/agentkit/connections";
 
 export const github = (store: never) => {
   const config = {
@@ -108,7 +108,7 @@ than the deployment's. For three providers this is the difference between workin
 | **Google Workspace** | An enterprise whose security team will not approve a third-party app in their tenant has no other route. |
 
 ```ts
-import { registerTenantOAuthApp, resolveOAuthClient, configForTenant } from "@forge/agentkit/connections";
+import { registerTenantOAuthApp, resolveOAuthClient, configForTenant } from "@retinue/agentkit/connections";
 ```
 
 Register once per tenant per provider, then resolve before each flow. `resolveOAuthClient` reports

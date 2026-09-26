@@ -16,7 +16,7 @@
  * browser cannot have it.
  */
 
-import type { Tool, ToolProvider } from "@forge/agentkit/tools";
+import type { Tool, ToolProvider } from "@retinue/agentkit/tools";
 
 import { browserTools, type BrowserToolsConfig } from "./tools.js";
 import { createSessionManager, type SessionManagerOptions } from "./session.js";

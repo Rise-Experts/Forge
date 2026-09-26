@@ -7,17 +7,17 @@ sidebar_position: 4
 Brave, Tavily, Serper and self-hosted SearXNG — behind the one `web_search` tool the runtime already ships.
 
 ```bash
-npm i @forge/tools-search
+npm i @retinue/tools-search
 ```
 
 ## Tools
 
 **None — and that is the point.** This package adds no tool to the catalogue. It supplies *providers* for the
-`web_search` tool `@forge/agentkit` already ships:
+`web_search` tool `@retinue/agentkit` already ships:
 
 | Tool | Effect | Approval | Notes |
 |---|---|---|---|
-| `web_search` (in `@forge/agentkit`) | `read` | `policy` | Exists only when a provider is configured. This package is where the providers come from |
+| `web_search` (in `@retinue/agentkit`) | `read` | `policy` | Exists only when a provider is configured. This package is where the providers come from |
 
 That is the rule the whole catalogue follows: **one contract, several providers.** Four search vendors are four
 values of one parameter rather than four tools. A model shown `brave_search`, `tavily_search` and `serper_search`
@@ -33,9 +33,9 @@ would be choosing a vendor — which is your decision, and one it cannot make we
 ## Wire it up
 
 ```ts
-import { createStandardToolProvider } from "@forge/agentkit/tools";
-import type { DelegatingToolDeps } from "@forge/agentkit/tools";
-import { braveSearch } from "@forge/tools-search";
+import { createStandardToolProvider } from "@retinue/agentkit/tools";
+import type { DelegatingToolDeps } from "@retinue/agentkit/tools";
+import { braveSearch } from "@retinue/tools-search";
 
 // Your authorization policy, idempotency store and approval gate — see Getting Started → Configuration.
 declare const deps: DelegatingToolDeps;
@@ -79,7 +79,7 @@ plausible results is the worst possible failure: the model trusts it and cannot 
 ## Limits
 
 No `web_scrape` and no `web_crawl`: fetching and rendering a page is a different contract with different failure
-modes, and it belongs in `@forge/tools-scrape` when that lands. Exa, DuckDuckGo, Perplexity, Linkup and You.com
+modes, and it belongs in `@retinue/tools-scrape` when that lands. Exa, DuckDuckGo, Perplexity, Linkup and You.com
 are each one more adapter object — additions rather than work, deferred only because four providers already prove
 the seam.
 

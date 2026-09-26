@@ -102,7 +102,7 @@ the only direction the package had, and it is half the story — `backend/src/mc
 inbound server that lives in the *old Chorus repository*, not in this package. So a deployment could consume an
 MCP server and could not be one, and its tools were unreachable from Claude Code, Claude Desktop and Cursor.
 
-`@forge/agentkit/mcp-server` is the other direction. It adds no capability: every call goes through
+`@retinue/agentkit/mcp-server` is the other direction. It adds no capability: every call goes through
 `registry.execute` exactly as an agent's would, so authorization, the tenant's toolset, the approval gate,
 validation, idempotency and audit attribution all apply unchanged.
 

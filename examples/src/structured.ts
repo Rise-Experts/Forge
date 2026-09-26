@@ -19,7 +19,7 @@
  */
 
 import { z } from "zod";
-import type { AgentManifest } from "@forge/agentkit";
+import type { AgentManifest } from "@retinue/agentkit";
 
 /**
  * What a triage answer has to contain.

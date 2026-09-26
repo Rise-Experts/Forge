@@ -12,8 +12,8 @@ import { ForgeGraphQLModule } from "./graphql/graphql.module.js";
 import { HealthController } from "./health/health.controller.js";
 import { MessagesController } from "./messages/messages.controller.js";
 import { createDevAuthenticate } from "./auth/dev-auth.js";
-import { STANDARD_TOOL_NAMES } from "@forge/agentkit/tools";
-import type { Authenticate } from "@forge/agentkit/server";
+import { STANDARD_TOOL_NAMES } from "@retinue/agentkit/tools";
+import type { Authenticate } from "@retinue/agentkit/server";
 
 /**
  * Two roles, because one cannot demonstrate authorization at all.

@@ -93,7 +93,7 @@ export default function Home(): JSX.Element {
             </Link>
           </div>
           <div className={styles.install} aria-label="Install Forge AgentKit">
-            <code>npm install @forge/agentkit @ai-sdk/anthropic</code>
+            <code>npm install @retinue/agentkit @ai-sdk/anthropic</code>
           </div>
         </div>
       </header>
@@ -118,7 +118,7 @@ export default function Home(): JSX.Element {
               <p className={styles.sectionIntro}>The embedded path runs in one process with in-memory adapters—ideal for learning, scripts, and tests.</p>
               <Link className={styles.inlineLink} to="/docs/getting-started/quick-start">Read the five-minute quickstart →</Link>
             </div>
-            <pre className={styles.exampleCode}><code>{`import { createAgent } from "@forge/agentkit/providers";
+            <pre className={styles.exampleCode}><code>{`import { createAgent } from "@retinue/agentkit/providers";
 
 const agent = createAgent({
   manifest: {

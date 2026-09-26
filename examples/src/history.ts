@@ -14,8 +14,8 @@
  * The fold is not merely redundant now — keeping it would double every assistant turn.
  */
 
-import { describeSkipped } from "@forge/agentkit/knowledge";
-import type { AttachmentResolver, ConversationId, ExecutionContext, InputModality, Message, TenantId, TurnContentPart, TurnMessage } from "@forge/agentkit";
+import { describeSkipped } from "@retinue/agentkit/knowledge";
+import type { AttachmentResolver, ConversationId, ExecutionContext, InputModality, Message, TenantId, TurnContentPart, TurnMessage } from "@retinue/agentkit";
 import type { ExampleStores } from "./stores.js";
 
 /**

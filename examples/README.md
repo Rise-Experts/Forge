@@ -1,4 +1,4 @@
-# `@forge/example-app`
+# `@retinue/example-app`
 
 A runnable app module and a browser test surface (#155). This is what makes
 `node server/dist/cli.js` boot: `FORGE_APP_MODULE` needs a module that default-exports
@@ -21,21 +21,21 @@ The composer is the one bundled thing here — Tiptap, with a `/` command menu �
 first run:
 
 ```bash
-npm run build -w @forge/example-app
+npm run build -w @retinue/example-app
 ```
 
 Started without it, the page still loads and says exactly this in red rather than presenting a dead input: the
 server answers `/composer.js` with a script that reports itself missing. `npm run build:composer -w
-@forge/example-app -- --watch` while working on it.
+@retinue/example-app -- --watch` while working on it.
 
 ## Run it
 
 ```bash
 cp .env.example .env      # then set FORGE_MODEL_API_KEY
 npm run build
-npm run migrate -w @forge/example-app   # once — creates the schema and its tables
-npm run app    -w @forge/example-app    # terminal 1: page + GraphQL + SSE
-npm run worker -w @forge/example-app    # terminal 2: nothing executes without this
+npm run migrate -w @retinue/example-app   # once — creates the schema and its tables
+npm run app    -w @retinue/example-app    # terminal 1: page + GraphQL + SSE
+npm run worker -w @retinue/example-app    # terminal 2: nothing executes without this
 ```
 
 Then open <http://localhost:4000/>.
@@ -47,7 +47,7 @@ exists to avoid — and #144 recorded that this boundary had never actually been
 ## Or run it with nothing installed
 
 ```bash
-FORGE_MODEL_API_KEY=sk-… FORGE_EXAMPLE_DEV_AUTH=1 npm run memory -w @forge/example-app
+FORGE_MODEL_API_KEY=sk-… FORGE_EXAMPLE_DEV_AUTH=1 npm run memory -w @retinue/example-app
 ```
 
 One process, in-memory adapters, an in-process queue. No database, no Redis, no migration, no second terminal.
@@ -70,8 +70,8 @@ Use `npm run app` for anything past a first look.
 ## Prove the durable path actually recovers
 
 ```bash
-npm run app -w @forge/example-app        # terminal 1
-npm run test:kill -w @forge/example-app  # terminal 2 — starts and kills its own workers
+npm run app -w @retinue/example-app        # terminal 1
+npm run test:kill -w @retinue/example-app  # terminal 2 — starts and kills its own workers
 ```
 
 Starts a run that performs an external write, `SIGKILL`s the worker mid-run, starts a replacement, and asserts
@@ -84,7 +84,7 @@ checkpointed" is milliseconds wide, and a pass is evidence rather than proof. It
 ## Measure it at size
 
 ```bash
-npm run loadtest -w @forge/example-app -- --messages=2000
+npm run loadtest -w @retinue/example-app -- --messages=2000
 ```
 
 Percentiles rather than averages at three sizes, so a linear scan hiding behind a small fixture shows up as a
@@ -132,7 +132,7 @@ broken integration. `.env.example` lists every variable with its caveats.
 | **Scraping** | `FORGE_ENABLE_SCRAPE=1`, or a hosted provider key. Opt-in rather than credential-gated, because the direct provider needs no account and fetching arbitrary URLs is worth asking for |
 | **Mail** | `EMAIL_FROM` plus either SMTP settings or `RESEND_API_KEY`. `EMAIL_FROM` has no default on purpose — it is what SPF and DKIM align against |
 
-`@forge/tools-browser` is **not** wired here. It needs a `BrowserDriver` and the package ships none by design:
+`@retinue/tools-browser` is **not** wired here. It needs a `BrowserDriver` and the package ships none by design:
 how a browser is launched and isolated is the operator's decision, and a toolkit that spawned one it found on
 the PATH would be the "works on the machine where it was configured" shape with an unusually large blast
 radius. `docs/30` makes the argument; a test asserts the absence so wiring one later is a deliberate change.
@@ -146,7 +146,7 @@ endpoint cannot call tools, the example fails on the first turn — which is the
 ### It shares a database, and stays out of the way
 
 `FORGE_EXAMPLE_SCHEMA` exists so the example can run inside a database that belongs to something else. All 20
-migrations land in that schema; nothing touches `public`. `npm run migrate -w @forge/example-app -- --down`
+migrations land in that schema; nothing touches `public`. `npm run migrate -w @retinue/example-app -- --down`
 drops the schema and everything in it. The migrate script **asserts the `search_path` actually took effect**,
 because a silently ignored connection option would put every table in `public` — which here is another project's
 schema.

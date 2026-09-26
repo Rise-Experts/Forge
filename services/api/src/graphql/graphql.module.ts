@@ -18,11 +18,11 @@ import { GraphQLModule } from "@nestjs/graphql";
 import { YogaDriver } from "@graphql-yoga/nestjs";
 import type { YogaDriverConfig } from "@graphql-yoga/nestjs";
 import { createGraphQLError } from "graphql-yoga";
-import { createResolvers, typeDefs } from "@forge/agentkit/server";
-import { UNAUTHENTICATED } from "@forge/agentkit/server";
+import { createResolvers, typeDefs } from "@retinue/agentkit/server";
+import { UNAUTHENTICATED } from "@retinue/agentkit/server";
 import { FORGE_AUTHENTICATE, FORGE_RESOLVER_DEPS } from "../forge/tokens.js";
-import type { Authenticate } from "@forge/agentkit/server";
-import type { ResolverDeps } from "@forge/agentkit";
+import type { Authenticate } from "@retinue/agentkit/server";
+import type { ResolverDeps } from "@retinue/agentkit";
 
 @Module({
   imports: [

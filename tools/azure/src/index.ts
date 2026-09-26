@@ -20,7 +20,7 @@
  * after it.
  */
 
-import type { CredentialRef, CredentialResolver, Tool, ToolProvider, ToolkitAuth } from "@forge/agentkit/tools";
+import type { CredentialRef, CredentialResolver, Tool, ToolProvider, ToolkitAuth } from "@retinue/agentkit/tools";
 
 import { armTools } from "./arm.js";
 import { monitorTools } from "./monitor.js";

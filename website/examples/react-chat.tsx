@@ -1,5 +1,5 @@
-import { ForgeProvider, useRunSubscription, useSendMessage } from "@forge/react";
-import type { ForgeClient } from "@forge/react";
+import { ForgeProvider, useRunSubscription, useSendMessage } from "@retinue/react";
+import type { ForgeClient } from "@retinue/react";
 
 export function Chat({ client }: { client: ForgeClient }) {
   return (

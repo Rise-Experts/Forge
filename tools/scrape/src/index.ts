@@ -17,15 +17,15 @@
  * independent bounds, `robots.txt` on by default, and per-host concurrency and spacing.
  */
 
-import type { Tool, ToolProvider } from "@forge/agentkit/tools";
+import type { Tool, ToolProvider } from "@retinue/agentkit/tools";
 
 import { createGate, type Gate, type PolitenessOptions } from "./politeness.js";
 import { directProvider, type ScrapeProvider } from "./provider.js";
-import { safeFetch } from "@forge/agentkit/tools";
+import { safeFetch } from "@retinue/agentkit/tools";
 import { scrapeTools, type ScrapeToolsConfig } from "./tools.js";
 
 /**
- * The SSRF-hardened fetch now lives in `@forge/agentkit/tools`, and is re-exported here.
+ * The SSRF-hardened fetch now lives in `@retinue/agentkit/tools`, and is re-exported here.
  *
  * It moved when `tools-browser` (#239) needed the same implementation rather than a second copy — a browser
  * navigating to a metadata address is the same hole as a fetch doing it. Re-exported so this package's public
@@ -42,8 +42,8 @@ export {
   resolvePublicly,
   safeFetch,
   systemResolve,
-} from "@forge/agentkit/tools";
-export type { Resolve, SafeFetchOptions, SafeResponse, SafeTransport } from "@forge/agentkit/tools";
+} from "@retinue/agentkit/tools";
+export type { Resolve, SafeFetchOptions, SafeResponse, SafeTransport } from "@retinue/agentkit/tools";
 export { decodeEntities, findElement, htmlToMarkdown, linksIn, parseHtml, textOf } from "./html.js";
 export type { Extraction, Node } from "./html.js";
 export { crawlDelayOf, EMPTY_ROBOTS, groupFor, isAllowed, matchesRule, parseRobots } from "./robots.js";

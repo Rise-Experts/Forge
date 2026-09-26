@@ -11,13 +11,13 @@
  *   grandchild, and asserts the grandchild is gone.
  */
 import { mkdtempSync, readFileSync, existsSync } from "node:fs";
-import type { ConversationId } from "@forge/agentkit";
+import type { ConversationId } from "@retinue/agentkit";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it, vi } from "vitest";
-import { asId, type ExecutionContext } from "@forge/agentkit";
-import { createToolSearch } from "@forge/agentkit/tools";
-import { createScrapeToolkit } from "@forge/tools-scrape";
+import { asId, type ExecutionContext } from "@retinue/agentkit";
+import { createToolSearch } from "@retinue/agentkit/tools";
+import { createScrapeToolkit } from "@retinue/tools-scrape";
 
 import {
   BROWSER_EFFECTS,

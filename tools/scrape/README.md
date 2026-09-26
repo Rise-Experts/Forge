@@ -1,16 +1,16 @@
-# @forge/tools-scrape
+# @retinue/tools-scrape
 
 Read the pages a [Forge](https://github.com/Rise-Experts/Forge) agent finds. `web_scrape`,
 `web_scrape_batch` and `web_crawl`, behind one provider-swappable contract.
 
 ```bash
-npm i @forge/tools-scrape
+npm i @retinue/tools-scrape
 ```
 
 ## Usage
 
 ```ts
-import { createScrapeToolkit } from "@forge/tools-scrape";
+import { createScrapeToolkit } from "@retinue/tools-scrape";
 
 // The direct provider is the default: no account, no key, no third party.
 const toolkit = createScrapeToolkit({

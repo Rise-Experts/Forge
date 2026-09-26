@@ -70,7 +70,7 @@ const manifestChecks = () => {
     for (const field of ["dependencies", "peerDependencies"]) {
       for (const [name, range] of Object.entries(manifest[field] ?? {})) {
         // `"*"` resolves only because these are workspaces. Published, it means "any version, forever".
-        if (name.startsWith("@forge/") && range === "*") at(`${field}.${name} is "*" — pin a published range`);
+        if (name.startsWith("@retinue/") && range === "*") at(`${field}.${name} is "*" — pin a published range`);
         // `workspace:` is a protocol npm does not even understand outside a workspace install, so a published
         // artefact carrying one is uninstallable rather than merely wrong (#193 AC-2). Checked separately from
         // `"*"` because they fail differently, and a check that lumps them together explains neither.

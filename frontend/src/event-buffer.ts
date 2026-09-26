@@ -9,7 +9,7 @@
  * order, drops anything already seen, and holds a gap until it fills.
  */
 
-import type { RunEvent } from "@forge/agentkit";
+import type { RunEvent } from "@retinue/agentkit";
 
 export type EventBuffer = {
   /**

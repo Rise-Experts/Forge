@@ -1,5 +1,5 @@
 /**
- * `@forge/agentkit/adapters/bullmq` — the durable queue and its dispatchers.
+ * `@retinue/agentkit/adapters/bullmq` — the durable queue and its dispatchers.
  *
  * `bullmq` and `ioredis` are optional peers. Importing this constructs no connection; only
  * `createBullMqRunQueue` does.

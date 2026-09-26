@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { ROLE_TOOL_NAMES, exampleRegistry } from "../index.js";
-import type { ExecutionContext } from "@forge/agentkit";
-import type { SqlExecutor } from "@forge/agentkit/adapters/postgres";
+import type { ExecutionContext } from "@retinue/agentkit";
+import type { SqlExecutor } from "@retinue/agentkit/adapters/postgres";
 import { DevAuthNotEnabled, createDevAuthenticate, PRINCIPAL_HEADER, ROLES_HEADER, TENANT_HEADER } from "../auth.js";
 import { ModelNotConfigured, resolveExampleModel, definitionFor, DEFAULT_MODEL_ID } from "../model.js";
 import { MAX_MEMORY_ENTRIES, NoteNotFound, createExampleStore, createExampleTools } from "../tools.js";
@@ -9,16 +9,16 @@ import { exampleAgentManifest, exampleContextProviders } from "../agent.js";
 import { questionSpecsFrom } from "../questions.js";
 import { buildWorkerContext } from "../worker-context.js";
 import { ASSIGNED_SKILLS, EXAMPLE_SKILLS, renderSkillCatalogue } from "../skills.js";
-import { SKILL_LIMITS } from "@forge/agentkit/context";
-import { classifyMcpTool, hashToolList, mcpToolName } from "@forge/agentkit/mcp";
+import { SKILL_LIMITS } from "@retinue/agentkit/context";
+import { classifyMcpTool, hashToolList, mcpToolName } from "@retinue/agentkit/mcp";
 import { DOCS_MCP_EFFECTS, DOCS_MCP_SERVER_ID, DOCS_MCP_TOOLS, createDocsMcpProvider, docsMcpConnection } from "../mcp.js";
-import { createMcpToolProvider } from "@forge/agentkit/mcp";
+import { createMcpToolProvider } from "@retinue/agentkit/mcp";
 import { createInProcessBus, createMemoryBackend } from "../memory-app.js";
-import { STANDARD_TOOL_CATEGORIES, createStandardToolProvider } from "@forge/agentkit/tools";
+import { STANDARD_TOOL_CATEGORIES, createStandardToolProvider } from "@retinue/agentkit/tools";
 import { asExampleBackend } from "../memory-composition.js";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { resolveCapabilities } from "@forge/agentkit";
+import { resolveCapabilities } from "@retinue/agentkit";
 import { exampleCapabilities } from "../index.js";
 import { exampleProviders } from "../providers.js";
 import { COMPOSER_COMMANDS, commandQueryAt, filterCommands } from "../composer/commands.js";
@@ -599,7 +599,7 @@ describe("the MCP bridge", () => {
 /**
  * `fetch_url` now comes from the kit — REQ-039 (#188).
  *
- * This app used to carry its own fetcher and its own egress policy. Both are gone: `@forge/agentkit/tools`
+ * This app used to carry its own fetcher and its own egress policy. Both are gone: `@retinue/agentkit/tools`
  * ships the tool, and the client's refusals are tested exhaustively where they live
  * (`backend/src/toolkit/__tests__/http.test.ts` — twenty-two cases including every SSRF shape).
  *

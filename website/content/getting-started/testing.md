@@ -5,7 +5,7 @@ sidebar_position: 6
 
 # Testing
 
-`@forge/agentkit/testing` carries two things, for two different jobs: the **conformance suite**, if you are
+`@retinue/agentkit/testing` carries two things, for two different jobs: the **conformance suite**, if you are
 implementing a port, and **fakes**, if you are testing an agent or a tool you wrote.
 
 Both need a test runner. `vitest` is an *optional peer* — install it if you import this subpath, and nothing in
@@ -22,7 +22,7 @@ which is what lets you write "the model calls the tool, sees the result, then an
 first turn fails and the second succeeds".
 
 ```ts
-import { createStubModel } from "@forge/agentkit/testing";
+import { createStubModel } from "@retinue/agentkit/testing";
 
 const model = createStubModel([
   { call: [{ tool: "lookup_order", input: { id: "A-1" } }], then: "It shipped on Tuesday." },
@@ -46,7 +46,7 @@ Three details, each there because the obvious hand-written fake gets it wrong:
 not rebuild a list of sixteen — and does not silently miss the seventeenth when it lands.
 
 ```ts
-import { createMemoryStores } from "@forge/agentkit/testing";
+import { createMemoryStores } from "@retinue/agentkit/testing";
 
 const stores = createMemoryStores();
 console.log(Object.keys(stores).length);
@@ -60,8 +60,8 @@ adapters take an executor and hold nothing, which is why those are safe to const
 Every port has a harness holding the same contract the built-in adapters are held to. Hand it a factory:
 
 ```ts
-import { conversationStoreConformance } from "@forge/agentkit/testing";
-import { createMemoryConversationStore } from "@forge/agentkit/persistence";
+import { conversationStoreConformance } from "@retinue/agentkit/testing";
+import { createMemoryConversationStore } from "@retinue/agentkit/persistence";
 
 conversationStoreConformance(() => createMemoryConversationStore());
 ```
@@ -84,7 +84,7 @@ directions: the in-memory adapter must pass and a deliberately leaky one must fa
 `REGISTERED_PORTS` lists every port with a harness, so you can check what you still owe:
 
 ```ts
-import { REGISTERED_PORTS } from "@forge/agentkit/testing";
+import { REGISTERED_PORTS } from "@retinue/agentkit/testing";
 
 for (const { port, harness } of REGISTERED_PORTS) console.log(port, harness);
 ```

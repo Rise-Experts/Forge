@@ -1,5 +1,5 @@
 {
-  "name": "@forge/agentkit",
+  "name": "@retinue/agentkit",
   "version": "0.3.3",
   "description": "A provider-neutral, durable AI agent runtime for TypeScript: agents, tools, approvals, context, knowledge and persistence behind ports.",
   "license": "MIT",

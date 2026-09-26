@@ -8,7 +8,7 @@ Search and read posts, publish, and delete. Read-heavy in practice: an agent res
 than it posts.
 
 ```bash
-npm i @forge/tools-x
+npm i @retinue/tools-x
 ```
 
 ## Tools
@@ -27,9 +27,9 @@ Both writes are category `publishing`.
 ## Wire it up
 
 ```ts
-import { createAgent } from "@forge/agentkit/providers";
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { createXToolkit } from "@forge/tools-x";
+import { createAgent } from "@retinue/agentkit/providers";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { createXToolkit } from "@retinue/tools-x";
 
 const agent = createAgent({
   manifest: {

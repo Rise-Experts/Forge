@@ -8,7 +8,7 @@ Read-first inspection of an Azure estate: subscriptions, resources, metrics, the
 Log Analytics. Two writes — a tag and a restart — and nothing that can create or destroy infrastructure.
 
 ```bash
-npm i @forge/tools-azure
+npm i @retinue/tools-azure
 ```
 
 ## Tools
@@ -45,9 +45,9 @@ whatever a caller can name.
 ## Wire it up
 
 ```ts
-import { bearer, refreshable, withRefreshingCredentials } from "@forge/agentkit/tools";
-import type { CredentialRefresher, CredentialResolver } from "@forge/agentkit/tools";
-import { createAzureToolkit } from "@forge/tools-azure";
+import { bearer, refreshable, withRefreshingCredentials } from "@retinue/agentkit/tools";
+import type { CredentialRefresher, CredentialResolver } from "@retinue/agentkit/tools";
+import { createAzureToolkit } from "@retinue/tools-azure";
 
 // Your own: reads the stored connection for this tenant.
 declare const connectionResolver: CredentialResolver;

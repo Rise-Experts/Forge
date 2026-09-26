@@ -11,9 +11,9 @@
  * the flow and the tool.
  */
 import pg from "pg";
-import { asId } from "@forge/agentkit";
-import { createPostgresFlowDefinitionStore, createPostgresFlowExecutionStore } from "@forge/agentkit/adapters/postgres";
-import { createFlowRunner } from "@forge/agentkit/flows";
+import { asId } from "@retinue/agentkit";
+import { createPostgresFlowDefinitionStore, createPostgresFlowExecutionStore } from "@retinue/agentkit/adapters/postgres";
+import { createFlowRunner } from "@retinue/agentkit/flows";
 import { RESEARCH_TEAM_FLOW, TRIAGE_FLOW } from "../dist/flows.js";
 
 const SCHEMA = process.env.FORGE_EXAMPLE_SCHEMA ?? "forge_example";

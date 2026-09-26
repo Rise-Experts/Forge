@@ -17,7 +17,7 @@
  * people it is a campaign tool with none of a campaign tool's safeguards.
  */
 
-import type { Tool, ToolProvider } from "@forge/agentkit/tools";
+import type { Tool, ToolProvider } from "@retinue/agentkit/tools";
 
 import { emailTools, type EmailToolsConfig } from "./tools.js";
 import type { EmailProvider } from "./provider.js";

@@ -4,8 +4,8 @@ title: MCP server
 
 # Expose this deployment over MCP
 
-`@forge/agentkit/mcp-server` makes a deployment's tools available to any MCP client — Claude Code, Claude
-Desktop, Cursor. It is the **inbound** direction; `@forge/agentkit/mcp` is the outbound one, where a tenant
+`@retinue/agentkit/mcp-server` makes a deployment's tools available to any MCP client — Claude Code, Claude
+Desktop, Cursor. It is the **inbound** direction; `@retinue/agentkit/mcp` is the outbound one, where a tenant
 registers *their* MCP server and this platform consumes it.
 
 Nothing here re-implements a capability. Every call goes through `registry.execute` exactly as an agent's would,
@@ -34,14 +34,14 @@ direction, because a client may skip a confirmation on that basis.
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
-import { registerForgeTools } from "@forge/agentkit/mcp-server";
+import { registerRetinueTools } from "@retinue/agentkit/mcp-server";
 
-import type { ExecutionContext } from "@forge/agentkit";
-import type { ToolRegistry } from "@forge/agentkit/tools";
+import type { ExecutionContext } from "@retinue/agentkit";
+import type { ToolRegistry } from "@retinue/agentkit/tools";
 
 export const mount = (registry: ToolRegistry, context: ExecutionContext) => {
   const server = new Server({ name: "forge", version: "0.2.0" }, { capabilities: { tools: {} } });
-  registerForgeTools(
+  registerRetinueTools(
     server,
     { listTools: ListToolsRequestSchema, callTool: CallToolRequestSchema },
     { registry, context },
@@ -61,7 +61,7 @@ claude mcp add forge -- node /abs/path/examples/scripts/mcp-server.mjs
 
 `@modelcontextprotocol/sdk` is an **optional peer dependency**. Install it only if you mount a server.
 
-There is no `authenticate` callback and no default. `registerForgeTools` takes a **resolved
+There is no `authenticate` callback and no default. `registerRetinueTools` takes a **resolved
 `ExecutionContext`**, so a host that has not authenticated has nothing to pass and cannot construct a server.
 That is the same decision the API host makes — *"a permissive default would serve an open API to anyone who
 forgot to set it"* — expressed in the type rather than in a runtime check, because this surface gets exposed to

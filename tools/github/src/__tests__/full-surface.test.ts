@@ -9,9 +9,9 @@
  * node id — get their own cases.
  */
 import { describe, expect, it, vi } from "vitest";
-import type { ConversationId } from "@forge/agentkit";
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { asId, type ExecutionContext } from "@forge/agentkit";
+import type { ConversationId } from "@retinue/agentkit";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { asId, type ExecutionContext } from "@retinue/agentkit";
 
 import { createGitHubToolkit, fieldValueFor, GITHUB_TOOL_NAMES, parseIssueRef, select } from "../index.js";
 
@@ -494,7 +494,7 @@ describe("the gate is the registry's, not the tool's — test step 5", () => {
    * field is *load-bearing*.
    */
   const registryFor = async (fetchImpl: typeof fetch) => {
-    const { createToolRegistry } = await import("@forge/agentkit/tools");
+    const { createToolRegistry } = await import("@retinue/agentkit/tools");
     return createToolRegistry({
       providers: [toolkit(fetchImpl)],
       // Allows everything, so the only thing that can refuse below is the approval gate.

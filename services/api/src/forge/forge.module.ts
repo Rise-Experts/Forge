@@ -27,9 +27,9 @@ import type { DynamicModule, OnApplicationShutdown } from "@nestjs/common";
 import { Inject, Injectable } from "@nestjs/common";
 import pg from "pg";
 import { Redis } from "ioredis";
-import { createApprovalGate, createApprovalService, createAuthorizationPolicy, createQuestionService } from "@forge/agentkit/hitl";
-import { createToolRegistry } from "@forge/agentkit/tools";
-import { createQuotaGuard, createStoredLimitResolver } from "@forge/agentkit/usage";
+import { createApprovalGate, createApprovalService, createAuthorizationPolicy, createQuestionService } from "@retinue/agentkit/hitl";
+import { createToolRegistry } from "@retinue/agentkit/tools";
+import { createQuotaGuard, createStoredLimitResolver } from "@retinue/agentkit/usage";
 import {
   createPostgresApprovalGrantStore,
   createPostgresConversationRunCoordinator,
@@ -44,12 +44,12 @@ import {
   createPostgresUsageStore,
   createPoolOpener,
   createTransactionScope,
-} from "@forge/agentkit/adapters/postgres";
-import { createRedisLiveEventSource } from "@forge/agentkit/adapters/redis";
-import { createBullMqJobDispatcher, createBullMqRunQueue } from "@forge/agentkit/adapters/bullmq";
-import { createStandardToolProvider } from "@forge/agentkit/tools";
-import { postgresProbe, redisProbe, schemaProbe } from "@forge/agentkit/server";
-import { createSchemaManager } from "@forge/agentkit/adapters/postgres";
+} from "@retinue/agentkit/adapters/postgres";
+import { createRedisLiveEventSource } from "@retinue/agentkit/adapters/redis";
+import { createBullMqJobDispatcher, createBullMqRunQueue } from "@retinue/agentkit/adapters/bullmq";
+import { createStandardToolProvider } from "@retinue/agentkit/tools";
+import { postgresProbe, redisProbe, schemaProbe } from "@retinue/agentkit/server";
+import { createSchemaManager } from "@retinue/agentkit/adapters/postgres";
 import { loadServiceConfig } from "./config.js";
 import {
   FORGE_AUTHENTICATE,
@@ -64,9 +64,9 @@ import {
   FORGE_SQL,
 } from "./tokens.js";
 import type { ServiceConfig } from "./config.js";
-import type { Authenticate } from "@forge/agentkit/server";
-import type { ExecutionContext, ResolverDeps } from "@forge/agentkit";
-import type { SqlExecutor } from "@forge/agentkit/adapters/postgres";
+import type { Authenticate } from "@retinue/agentkit/server";
+import type { ExecutionContext, ResolverDeps } from "@retinue/agentkit";
+import type { SqlExecutor } from "@retinue/agentkit/adapters/postgres";
 
 export type ForgeModuleOptions = {
   /**

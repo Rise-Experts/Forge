@@ -1,19 +1,19 @@
-# @forge/tools-notion
+# @retinue/tools-notion
 
 Notion tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: search, read pages as markdown,
 query databases, and write back.
 
 ```bash
-npm i @forge/tools-notion
+npm i @retinue/tools-notion
 ```
 
-Requires `@forge/agentkit` as a peer.
+Requires `@retinue/agentkit` as a peer.
 
 ## Use it
 
 ```ts
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { createNotionToolkit } from "@forge/tools-notion";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { createNotionToolkit } from "@retinue/tools-notion";
 
 const toolkit = createNotionToolkit({
   credentialRef: "notion",

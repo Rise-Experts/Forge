@@ -1,5 +1,5 @@
 {
-  "name": "@forge/tools-discord",
+  "name": "@retinue/tools-discord",
   "version": "0.3.0",
   "description": "Discord tools for a Forge agent: read channels and history, send messages, react and open threads \u2014 gated and idempotent.",
   "license": "MIT",
@@ -27,10 +27,10 @@
     "prepublishOnly": "node ../../scripts/publish-guard.mjs"
   },
   "peerDependencies": {
-    "@forge/agentkit": "^0.3.0"
+    "@retinue/agentkit": "^0.3.0"
   },
   "devDependencies": {
-    "@forge/agentkit": "*",
+    "@retinue/agentkit": "*",
     "@types/node": "^20",
     "typescript": "^5",
     "vitest": "^4.1.9"

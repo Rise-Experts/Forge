@@ -5,7 +5,7 @@
  * Usage:
  *   node scripts/release-gate.mjs --report <scored-run.json> [--record] [--release <name>]
  *
- * A thin wrapper. All the deciding happens in `evaluateGate` in `@forge/agentkit`, which is a pure function
+ * A thin wrapper. All the deciding happens in `evaluateGate` in `@retinue/agentkit`, which is a pure function
  * with its own tests; this file reads files, prints, appends to the trend and sets an exit code. Deliberately
  * thin, because logic here would be logic the test suite does not cover — and the gate is the one script whose
  * being wrong is invisible (it fails open by passing).
@@ -21,7 +21,7 @@
  */
 
 import { readFileSync, writeFileSync } from "node:fs";
-import { evaluateGate, formatGateReport, trendEntryFor } from "@forge/agentkit/observability";
+import { evaluateGate, formatGateReport, trendEntryFor } from "@retinue/agentkit/observability";
 
 const THRESHOLDS = "evals/thresholds.json";
 const TREND = "evals/trend.json";

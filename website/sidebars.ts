@@ -15,6 +15,7 @@ const sidebars: SidebarsConfig = {
         "getting-started/quick-start",
         "getting-started/mental-model",
         "getting-started/first-tool",
+        "getting-started/tool-packages",
         "getting-started/first-flow",
         "getting-started/configuration",
         "getting-started/testing",

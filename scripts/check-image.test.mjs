@@ -68,23 +68,23 @@ test("workspace globs are expanded from what is on disk", () => {
   const readJson = (path) =>
     ({
       "package.json": { workspaces: ["backend", "tools/*"] },
-      "backend/package.json": { name: "@forge/agentkit" },
-      "tools/github/package.json": { name: "@forge/tools-github" },
+      "backend/package.json": { name: "@retinue/agentkit" },
+      "tools/github/package.json": { name: "@retinue/tools-github" },
     })[path] ?? null;
   const found = workspacesOf(".", readJson, () => ["github"]);
   assert.deepEqual(found, [
-    { dir: "backend", name: "@forge/agentkit" },
-    { dir: "tools/github", name: "@forge/tools-github" },
+    { dir: "backend", name: "@retinue/agentkit" },
+    { dir: "tools/github", name: "@retinue/tools-github" },
   ]);
 });
 
 test("only the app's own workspace dependencies are demanded", () => {
   // `shareflow` and `services/*` are deliberately absent from the image; demanding them would be wrong.
   const needed = workspaceDependenciesOf(
-    { dependencies: { "@forge/agentkit": "^0.1.0", zod: "^3" } },
+    { dependencies: { "@retinue/agentkit": "^0.1.0", zod: "^3" } },
     [
-      { dir: "backend", name: "@forge/agentkit" },
-      { dir: "shareflow", name: "@forge/shareflow" },
+      { dir: "backend", name: "@retinue/agentkit" },
+      { dir: "shareflow", name: "@retinue/shareflow" },
     ],
   );
   assert.deepEqual(needed, ["backend"]);

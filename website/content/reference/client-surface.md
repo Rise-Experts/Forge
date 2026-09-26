@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Client package surface
 
-`@forge/react` is the headless client: state, reducers and hooks, with no product styling and no
+`@retinue/react` is the headless client: state, reducers and hooks, with no product styling and no
 transport assumptions. The host supplies the transport by implementing one interface.
 
 Moved here from the package README, which is a front door rather than a reference.
@@ -13,7 +13,7 @@ Moved here from the package README, which is a front door rather than a referenc
 
 | Module | Contains |
 |---|---|
-| `types` | Re-exports the wire contract from `@forge/agentkit`, plus client-only view state. Type-only, erased at build time. |
+| `types` | Re-exports the wire contract from `@retinue/agentkit`, plus client-only view state. Type-only, erased at build time. |
 | `event-buffer` | **Implemented.** Orders and de-duplicates run events across a reconnect. |
 | `hooks` | **Implemented** — all ten: `useForgeClient`, `useConversations`, `useConversation`, `useRunSubscription`, `usePendingInteraction`, `useSendMessage`, `useAnswerQuestion`, `useDecideApproval`, `useCancelRun`, `useSessionContext`. |
 | `client` | The transport port the hooks take. An interface, so the host supplies fetch, SSE or WebSocket and this package assumes none of them. |
@@ -36,15 +36,15 @@ without a DOM. `ui/` renders them.
 
 ## Why the backend dependency is type-only
 
-Every import from `@forge/agentkit` is an `import type`, so nothing survives
+Every import from `@retinue/agentkit` is an `import type`, so nothing survives
 compilation. The client owns no copy of the wire contract, and the two halves cannot
 drift. TypeScript project references build the backend's declarations first.
 
 ## Scripts
 
 ```bash
-npm test -w @forge/react
-npm run build -w @forge/react   # builds @forge/agentkit first
+npm test -w @retinue/react
+npm run build -w @retinue/react   # builds @retinue/agentkit first
 ```
 
 ## Not yet here

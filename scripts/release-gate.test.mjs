@@ -17,7 +17,7 @@ import assert from "node:assert/strict";
 import { fileURLToPath } from "node:url";
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 
-// The CLI imports `@forge/agentkit`, so it needs the built dist -- and a *stale* dist is worse than a missing
+// The CLI imports `@retinue/agentkit`, so it needs the built dist -- and a *stale* dist is worse than a missing
 // one, because the tests then pass or fail against last build's logic. Named here rather than left as a
 // resolution error, which is what it cost me the first time.
 if (!existsSync(join(ROOT, "backend/dist/index.js")))
@@ -70,7 +70,7 @@ const sandbox = () => {
   cpSync(join(ROOT, "scripts/release-gate.mjs"), join(dir, "scripts/release-gate.mjs"));
   cpSync(join(ROOT, "evals/thresholds.json"), join(dir, "evals/thresholds.json"));
   cpSync(join(ROOT, "evals/trend.json"), join(dir, "evals/trend.json"));
-  // node_modules *symlinked*, not copied, so `@forge/agentkit` resolves from the sandbox. Copying it
+  // node_modules *symlinked*, not copied, so `@retinue/agentkit` resolves from the sandbox. Copying it
   // recursively silently produced a tree Node could not resolve through, and every test here failed with the
   // same exit code -- which looked like the script being broken rather than the fixture.
   symlinkSync(join(ROOT, "node_modules"), join(dir, "node_modules"), process.platform === "win32" ? "junction" : "dir");

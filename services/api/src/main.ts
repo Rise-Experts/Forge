@@ -14,8 +14,8 @@ import { createSseMiddleware, SSE_PATH } from "./runs/sse.middleware.js";
 import { FORGE_AUTHENTICATE, FORGE_RESOLVER_DEPS } from "./forge/tokens.js";
 import { loadServiceConfig } from "./forge/config.js";
 import type { NestExpressApplication } from "@nestjs/platform-express";
-import type { Authenticate } from "@forge/agentkit/server";
-import type { ResolverDeps } from "@forge/agentkit";
+import type { Authenticate } from "@retinue/agentkit/server";
+import type { ResolverDeps } from "@retinue/agentkit";
 
 export const bootstrap = async (): Promise<NestExpressApplication> => {
   const config = loadServiceConfig();

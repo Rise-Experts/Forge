@@ -10,7 +10,7 @@
 # FORGE_APP_MODULE).
 #
 # `tools/` arrived with #214 and this file did not learn about it until CI failed: the example app
-# imports `@forge/tools-github` and friends, so without them `tsc -b examples` cannot resolve its
+# imports `@retinue/tools-github` and friends, so without them `tsc -b examples` cannot resolve its
 # project references and the runtime stage cannot resolve the imports. `scripts/check-image.mjs`
 # now fails locally on a workspace this file does not carry, because the image job is one of the
 # three workflow steps `ci:local` deliberately does not run. The app layer is not decoration — the

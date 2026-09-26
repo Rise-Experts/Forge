@@ -1,5 +1,5 @@
 /**
- * `@forge/agentkit/guardrails` — checks a deployment adds, and the contract they satisfy.
+ * `@retinue/agentkit/guardrails` — checks a deployment adds, and the contract they satisfy.
  *
  * Its own subpath rather than part of `./hitl`, though both stop a run. The distinction is who decides: a
  * guardrail is an automated inspection whose verdict is final, and HITL is a person being asked. Putting them

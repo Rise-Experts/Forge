@@ -38,7 +38,7 @@
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { createMemoryKnowledgeBackend, createMemoryGraphStore } from "@forge/agentkit/persistence";
+import { createMemoryKnowledgeBackend, createMemoryGraphStore } from "@retinue/agentkit/persistence";
 import {
   createCommunityBuilder,
   createGraphGlobalSearch,
@@ -51,9 +51,9 @@ import {
   createNavigator,
   createOpenAiEmbeddings,
   createRetriever,
-} from "@forge/agentkit/knowledge";
-import { chunkDocument } from "@forge/agentkit/knowledge";
-import { asId } from "@forge/agentkit";
+} from "@retinue/agentkit/knowledge";
+import { chunkDocument } from "@retinue/agentkit/knowledge";
+import { asId } from "@retinue/agentkit";
 
 const CASES = "evals/cases/retrieval.json";
 const OUT = "evals/retrieval-quality.json";
@@ -86,8 +86,8 @@ export const corpusFiles = (dirs = CORPUS_DIRS) => {
  * every number here a number about the harness.
  */
 const blocksOf = async (path) => {
-  const { parseMarkdown } = await import("@forge/agentkit/knowledge");
-  const { DEFAULT_EXTRACTION_LIMITS } = await import("@forge/agentkit/knowledge");
+  const { parseMarkdown } = await import("@retinue/agentkit/knowledge");
+  const { DEFAULT_EXTRACTION_LIMITS } = await import("@retinue/agentkit/knowledge");
   const parsed = parseMarkdown(new Uint8Array(readFileSync(path)), {
     ...DEFAULT_EXTRACTION_LIMITS,
     // The specs are long; the default text ceiling truncates the largest of them, and a truncated corpus makes

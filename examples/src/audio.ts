@@ -20,10 +20,10 @@
  * cost the model a turn to discover and read like a broken integration.
  */
 
-import { openAiSpeech, openAiTranscription } from "@forge/agentkit/runtime";
-import type { SpeechProvider, TranscriptionProvider } from "@forge/agentkit/runtime";
-import type { ConversationId, ExecutionContext, FileId } from "@forge/agentkit";
-import type { AudioToolDeps } from "@forge/agentkit/tools";
+import { openAiSpeech, openAiTranscription } from "@retinue/agentkit/runtime";
+import type { SpeechProvider, TranscriptionProvider } from "@retinue/agentkit/runtime";
+import type { ConversationId, ExecutionContext, FileId } from "@retinue/agentkit";
+import type { AudioToolDeps } from "@retinue/agentkit/tools";
 
 /** The environment, narrowed to what this file reads. */
 export type AudioEnv = Readonly<Record<string, string | undefined>>;

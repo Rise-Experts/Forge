@@ -8,7 +8,7 @@ Forty-four tools: issues and pull requests, code and branches, Projects v2 board
 labels and milestones. Every write stops and asks a human; three are classified `destructive` and say so.
 
 ```bash
-npm i @forge/tools-github
+npm i @retinue/tools-github
 ```
 
 ## Ship the ten you use, not all forty-four
@@ -20,8 +20,8 @@ because a plausible tool that is still resident beats searching for the right on
 So selection happens at wiring time:
 
 ```ts
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { createGitHubToolkit } from "@forge/tools-github";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { createGitHubToolkit } from "@retinue/tools-github";
 
 const resolver = createStaticCredentialResolver({ github: process.env.GITHUB_TOKEN ?? "" });
 
@@ -135,7 +135,7 @@ That is the difference between a tool a model can use and one it can only attemp
 ## Wire it up
 
 ```ts
-import { createAgent } from "@forge/agentkit/providers";
+import { createAgent } from "@retinue/agentkit/providers";
 
 const agent = createAgent({
   manifest: {

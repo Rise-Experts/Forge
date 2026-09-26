@@ -30,8 +30,8 @@ import {
   readEnvelope,
   runLoadStep,
   summarizeLatency,
-} from "@forge/agentkit/observability";
-import { MIGRATIONS, migrate } from "@forge/agentkit/adapters/postgres";
+} from "@retinue/agentkit/observability";
+import { MIGRATIONS, migrate } from "@retinue/agentkit/adapters/postgres";
 
 const arg = (name, fallback) => {
   const i = process.argv.indexOf(`--${name}`);

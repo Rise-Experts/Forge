@@ -1,7 +1,7 @@
 /**
  * Deployment configuration (#110).
  *
- * Lives here rather than in `@forge/agentkit`, and that is deliberate: the library reads
+ * Lives here rather than in `@retinue/agentkit`, and that is deliberate: the library reads
  * `process.env` **zero times**, so a host can configure it however it likes — from a file, a secret
  * manager, a test fixture. A library that reads the environment cannot be configured by its host, and
  * that property erodes one convenient `process.env.DATABASE_URL` at a time, so there is a test for it.

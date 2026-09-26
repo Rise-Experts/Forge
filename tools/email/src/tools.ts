@@ -19,9 +19,9 @@
  * hundred addresses in one call is a tool that will eventually send to a hundred addresses by mistake.
  */
 
-import { defineTool, confirms, type Tool } from "@forge/agentkit/tools";
-import { buildMessage, headerOf, type Attachment, type OutgoingMessage } from "@forge/agentkit/tools";
-import { AgentPlatformError } from "@forge/agentkit";
+import { defineTool, confirms, type Tool } from "@retinue/agentkit/tools";
+import { buildMessage, headerOf, type Attachment, type OutgoingMessage } from "@retinue/agentkit/tools";
+import { AgentPlatformError } from "@retinue/agentkit";
 
 import { asPlatformError } from "./providers.js";
 import type { EmailProvider } from "./provider.js";

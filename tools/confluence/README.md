@@ -1,17 +1,17 @@
-# @forge/tools-confluence
+# @retinue/tools-confluence
 
 Confluence Cloud tools for a [Forge](https://github.com/Rise-Experts/Forge) agent: CQL search, read pages as
 markdown, and write them back — without overwriting an edit the agent never saw.
 
 ```bash
-npm i @forge/tools-confluence
+npm i @retinue/tools-confluence
 ```
 
 ## Use it
 
 ```ts
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { createConfluenceToolkit } from "@forge/tools-confluence";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { createConfluenceToolkit } from "@retinue/tools-confluence";
 
 // Basic, not bearer: Atlassian takes an account email and an API token.
 const resolver = createStaticCredentialResolver({
@@ -34,7 +34,7 @@ Pass `confluence` in an agent's `tools`. The credential is resolved **per call**
 without a restart, and nothing here reads the environment itself.
 
 Confluence and Jira share one credential and one site host, so
-[`@forge/tools-jira`](https://www.npmjs.com/package/@forge/tools-jira) wires up alongside this at no extra
+[`@retinue/tools-jira`](https://www.npmjs.com/package/@retinue/tools-jira) wires up alongside this at no extra
 cost.
 
 ## Tools
@@ -83,7 +83,7 @@ verbatim.
 ## Requirements
 
 - Node 20+
-- `@forge/agentkit` as a peer dependency
+- `@retinue/agentkit` as a peer dependency
 - An Atlassian account email and an API token from
   [id.atlassian.com](https://id.atlassian.com/manage-profile/security/api-tokens). An API token has **no
   scopes** — it carries exactly the permissions of the account that created it, so use a dedicated account

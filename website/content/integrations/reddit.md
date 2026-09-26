@@ -8,7 +8,7 @@ Search, read bounded comment trees, submit and comment. Read-heavy in practice, 
 caveat this page states plainly.
 
 ```bash
-npm i @forge/tools-reddit
+npm i @retinue/tools-reddit
 ```
 
 ## Tools
@@ -27,9 +27,9 @@ Both writes are category `publishing`.
 ## Wire it up
 
 ```ts
-import { createAgent } from "@forge/agentkit/providers";
-import { createStaticCredentialResolver } from "@forge/agentkit/tools";
-import { createRedditToolkit } from "@forge/tools-reddit";
+import { createAgent } from "@retinue/agentkit/providers";
+import { createStaticCredentialResolver } from "@retinue/agentkit/tools";
+import { createRedditToolkit } from "@retinue/tools-reddit";
 
 const agent = createAgent({
   manifest: {
